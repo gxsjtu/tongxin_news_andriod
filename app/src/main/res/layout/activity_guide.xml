@@ -6,9 +6,41 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/guide_vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
+    <Button
+        android:id="@+id/guide_btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/guide_btn_start"
+        android:text="开始使用"
+        android:textColor="@drawable/guide_btn_start_text"
+        android:visibility="invisible" />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:id="@+id/guide_ll_pointGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/guide_view_point"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/guide_red_point"></View>
+
+    </RelativeLayout>
 
 </RelativeLayout>

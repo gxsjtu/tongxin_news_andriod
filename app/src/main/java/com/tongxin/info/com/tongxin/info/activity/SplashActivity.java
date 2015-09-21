@@ -18,12 +18,13 @@ import com.tongxin.info.com.tongxin.info.utils.SharedPreUtils;
 public class SplashActivity extends AppCompatActivity {
 
     private RelativeLayout splash_rl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         splash_rl = (RelativeLayout) findViewById(R.id.splash_rl);
-        startAnim();
+        startAnim();//开始动画
     }
 
     private void startAnim() {
@@ -34,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
         scale.setFillAfter(true);
 
         //渐变动画
-        AlphaAnimation alpha = new AlphaAnimation(0,1);
+        AlphaAnimation alpha = new AlphaAnimation(0, 1);
         alpha.setDuration(2000);
         alpha.setFillAfter(true);
 
@@ -46,33 +47,31 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationStart(Animation animation) {
             }
+
             //动画结束
             @Override
             public void onAnimationEnd(Animation animation) {
                 //跳转到下一页
                 nextPage();
             }
+
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
 
         splash_rl.startAnimation(set);
     }
 
-    private void nextPage()
-    {
-        boolean userGuide = SharedPreUtils.getBoolean(this,"is_user_guide_showed",false);
-        if(!userGuide)
-        {
+    private void nextPage() {
+        //判断是否进入过新手指引页面
+        boolean userGuide = SharedPreUtils.getBoolean(this, "is_user_guide_showed", false);
+        if (!userGuide) {
             //跳的新手指引页
-            startActivity(new Intent(SplashActivity.this,GuideActivity.class));
-        }
-        else
-        {
+            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+        } else {
             //跳到主页
-
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
         }
         finish();
     }
