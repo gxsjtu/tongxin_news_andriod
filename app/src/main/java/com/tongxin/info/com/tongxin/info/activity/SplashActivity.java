@@ -1,5 +1,6 @@
-package com.tongxin.info;
+package com.tongxin.info.com.tongxin.info.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
+
+import com.tongxin.info.R;
+import com.tongxin.info.com.tongxin.info.utils.SharedPreUtils;
 
 //闪屏页,可以用来检测app的合法性和新版本的验证，以及预加载一些数据
 public class SplashActivity extends AppCompatActivity {
@@ -46,13 +50,30 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 //跳转到下一页
-
+                nextPage();
             }
             @Override
             public void onAnimationRepeat(Animation animation) {
+
             }
         });
 
         splash_rl.startAnimation(set);
+    }
+
+    private void nextPage()
+    {
+        boolean userGuide = SharedPreUtils.getBoolean(this,"is_user_guide_showed",false);
+        if(!userGuide)
+        {
+            //跳的新手指引页
+            startActivity(new Intent(SplashActivity.this,GuideActivity.class));
+        }
+        else
+        {
+            //跳到主页
+
+        }
+        finish();
     }
 }
