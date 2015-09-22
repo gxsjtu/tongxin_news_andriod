@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class GuideActivity extends Activity {
 
-    private static final int[] mImageIds = new int[]{R.mipmap.page1, R.mipmap.page2, R.mipmap.page3};
+    private static final int[] mImageIds = new int[]{R.mipmap.guide1, R.mipmap.guide2};
     private ArrayList<ImageView> mImageViewList;
     private int mPointWidth;// 圆点间的距离
 
