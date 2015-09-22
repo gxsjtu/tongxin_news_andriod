@@ -1,1 +1,1 @@
-include ':app',':extras:slidingmenulibrary'
+include ':app',':extras:slidingmenulibrary',':extras:viewpagerindicatorlibrary'
