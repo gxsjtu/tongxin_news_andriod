@@ -143,7 +143,6 @@ public class GuideActivity extends Activity {
                     // 当layout执行结束后回调此方法
                     @Override
                     public void onGlobalLayout() {
-                        System.out.println("layout 结束");
                         guide_ll_pointGroup.getViewTreeObserver()
                                 .removeGlobalOnLayoutListener(this);
                         mPointWidth = guide_ll_pointGroup.getChildAt(1).getLeft()
