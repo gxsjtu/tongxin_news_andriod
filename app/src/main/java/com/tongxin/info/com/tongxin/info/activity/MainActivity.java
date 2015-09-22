@@ -2,7 +2,6 @@ package com.tongxin.info.com.tongxin.info.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-
 import com.tongxin.info.R;
 
 /**
@@ -13,5 +12,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 }
