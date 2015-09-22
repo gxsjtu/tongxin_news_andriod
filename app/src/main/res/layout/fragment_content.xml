@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+<com.tongxin.info.com.tongxin.info.control.NoScrollViewPager
+    android:id="@+id/vp_content"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1" />
+
+
+<RadioGroup
+    android:id="@+id/rg_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/tab_background"
+    android:orientation="horizontal">
+
+<RadioButton
+    android:id="@+id/rb_inbox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/BottomMenuStyle"
+    android:drawableTop="@drawable/content_menu_inbox"
+    android:text="收件箱"/>
+
+    <RadioButton
+        android:id="@+id/rb_hq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BottomMenuStyle"
+        android:drawableTop="@drawable/content_menu_hq"
+        android:textSize="11sp"
+        android:text="行情"/>
+
+    <RadioButton
+        android:id="@+id/rb_pl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BottomMenuStyle"
+        android:drawableTop="@drawable/content_menu_pl"
+        android:text="评论"/>
+
+    <RadioButton
+        android:id="@+id/rb_sq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BottomMenuStyle"
+        android:drawableTop="@drawable/content_menu_sq"
+        android:text="商圈"/>
+
+    <RadioButton
+        android:id="@+id/rb_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BottomMenuStyle"
+        android:drawableTop="@drawable/content_menu_me"
+        android:text="我"/>
+
+</RadioGroup>
+
+</LinearLayout>
