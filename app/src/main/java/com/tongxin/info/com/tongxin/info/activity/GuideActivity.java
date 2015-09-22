@@ -147,7 +147,6 @@ public class GuideActivity extends Activity {
                                 .removeGlobalOnLayoutListener(this);
                         mPointWidth = guide_ll_pointGroup.getChildAt(1).getLeft()
                                 - guide_ll_pointGroup.getChildAt(0).getLeft();
-                        System.out.println("圆点距离:" + mPointWidth);
                     }
                 });
     }
