@@ -1,4 +1,4 @@
-package com.tongxin.info.com.tongxin.info.activity;
+package com.tongxin.info.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,8 +17,8 @@ import android.widget.RelativeLayout;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.tongxin.info.R;
-import com.tongxin.info.com.tongxin.info.utils.DensityUtils;
-import com.tongxin.info.com.tongxin.info.utils.SharedPreUtils;
+import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.SharedPreUtils;
 
 import java.util.ArrayList;
 

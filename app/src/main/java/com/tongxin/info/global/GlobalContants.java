@@ -1,4 +1,4 @@
-package com.tongxin.info.com.tongxin.info.global;
+package com.tongxin.info.global;
 
 /**
  * Created by Administrator on 2015/9/21.

@@ -1,4 +1,4 @@
-package com.tongxin.info.com.tongxin.info.base;
+package com.tongxin.info.base;
 
 import android.app.Activity;
 import android.os.Bundle;

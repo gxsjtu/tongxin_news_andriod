@@ -1,9 +1,9 @@
-package com.tongxin.info.com.tongxin.info.fragment;
+package com.tongxin.info.fragment;
 
 import android.view.View;
 
 import com.tongxin.info.R;
-import com.tongxin.info.com.tongxin.info.base.BaseFragment;
+import com.tongxin.info.base.BaseFragment;
 
 /**
  * Created by Administrator on 2015/9/22.

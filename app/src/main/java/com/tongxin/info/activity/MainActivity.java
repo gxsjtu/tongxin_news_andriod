@@ -1,17 +1,15 @@
-package com.tongxin.info.com.tongxin.info.activity;
+package com.tongxin.info.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.tongxin.info.R;
-import com.tongxin.info.com.tongxin.info.fragment.contentFragment;
-import com.tongxin.info.com.tongxin.info.fragment.leftMenuFragment;
+import com.tongxin.info.fragment.contentFragment;
+import com.tongxin.info.fragment.leftMenuFragment;
 
 /**
  * Created by Administrator on 2015/9/21.

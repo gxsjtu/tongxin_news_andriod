@@ -1,4 +1,4 @@
-package com.tongxin.info.com.tongxin.info.utils;
+package com.tongxin.info.utils;
 
 import android.view.WindowManager;
 import android.app.Activity;

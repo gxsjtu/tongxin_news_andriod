@@ -1,8 +1,8 @@
-package com.tongxin.info.com.tongxin.info.base.impl;
+package com.tongxin.info.base.impl;
 
 import android.app.Activity;
 
-import com.tongxin.info.com.tongxin.info.base.BasePager;
+import com.tongxin.info.base.BasePager;
 
 
 /**

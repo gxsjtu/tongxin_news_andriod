@@ -1,4 +1,4 @@
-package com.tongxin.info.com.tongxin.info.base;
+package com.tongxin.info.base;
 
 import android.app.Activity;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.tongxin.info.R;
-import com.tongxin.info.com.tongxin.info.activity.MainActivity;
+import com.tongxin.info.activity.MainActivity;
 
 /**
  * Created by Administrator on 2015/9/23.

@@ -1,4 +1,4 @@
-package com.tongxin.info.com.tongxin.info.fragment;
+package com.tongxin.info.fragment;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -9,13 +9,13 @@ import android.widget.RadioGroup;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.tongxin.info.R;
-import com.tongxin.info.com.tongxin.info.base.BaseFragment;
-import com.tongxin.info.com.tongxin.info.base.BasePager;
-import com.tongxin.info.com.tongxin.info.base.impl.boxPager;
-import com.tongxin.info.com.tongxin.info.base.impl.commentPager;
-import com.tongxin.info.com.tongxin.info.base.impl.futurePager;
-import com.tongxin.info.com.tongxin.info.base.impl.sqPager;
-import com.tongxin.info.com.tongxin.info.base.impl.userPager;
+import com.tongxin.info.base.BaseFragment;
+import com.tongxin.info.base.BasePager;
+import com.tongxin.info.base.impl.boxPager;
+import com.tongxin.info.base.impl.commentPager;
+import com.tongxin.info.base.impl.futurePager;
+import com.tongxin.info.base.impl.sqPager;
+import com.tongxin.info.base.impl.userPager;
 
 import java.util.ArrayList;
 
@@ -48,9 +48,6 @@ public class contentFragment extends BaseFragment {
         mPagerList.add(new commentPager(mActivity));
         mPagerList.add(new sqPager(mActivity));
         mPagerList.add(new userPager(mActivity));
-
-
-
 
         vp_content.setAdapter(new PagerAdapter() {
             @Override

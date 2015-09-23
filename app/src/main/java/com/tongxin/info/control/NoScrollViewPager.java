@@ -1,4 +1,4 @@
-package com.tongxin.info.com.tongxin.info.control;
+package com.tongxin.info.control;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
