@@ -5,9 +5,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.tongxin.info.R;
 import com.tongxin.info.base.BaseFragment;
 import com.tongxin.info.base.BasePager;
@@ -24,18 +21,15 @@ import java.util.ArrayList;
  */
 public class contentFragment extends BaseFragment {
 
-    @ViewInject(R.id.rg_group)
     private RadioGroup rgGroup;
-
-    @ViewInject(R.id.vp_content)
     private ViewPager vp_content;
-
     private ArrayList<BasePager> mPagerList;
 
     @Override
     public View initViews() {
         View view = View.inflate(mActivity, R.layout.fragment_content,null);
-        ViewUtils.inject(this,view);
+        rgGroup = (RadioGroup) view.findViewById(R.id.rg_group);
+        vp_content = (ViewPager) view.findViewById(R.id.vp_content);
         return view;
     }
 

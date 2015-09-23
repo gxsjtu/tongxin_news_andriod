@@ -13,9 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.tongxin.info.R;
 import com.tongxin.info.utils.DensityUtils;
 import com.tongxin.info.utils.SharedPreUtils;
@@ -31,13 +28,9 @@ public class GuideActivity extends Activity {
     private ArrayList<ImageView> mImageViewList;
     private int mPointWidth;// 圆点间的距离
 
-    @ViewInject(R.id.guide_vp)
     private ViewPager guide_vp;
-    @ViewInject(R.id.guide_btn_start)
     private Button guide_btn_start;
-    @ViewInject(R.id.guide_ll_pointGroup)
     private LinearLayout guide_ll_pointGroup;
-    @ViewInject(R.id.guide_view_point)
     private View guide_view_point;
 
     @Override
@@ -46,7 +39,10 @@ public class GuideActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题
         setContentView(R.layout.activity_guide);
 
-        ViewUtils.inject(this);
+        guide_vp = (ViewPager) findViewById(R.id.guide_vp);
+        guide_btn_start = (Button) findViewById(R.id.guide_btn_start);
+        guide_ll_pointGroup = (LinearLayout) findViewById(R.id.guide_ll_pointGroup);
+        guide_view_point = findViewById(R.id.guide_view_point);
 
         guide_btn_start.setOnClickListener(new View.OnClickListener() {
             @Override

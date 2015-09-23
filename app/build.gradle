@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.tongxin.info"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile project(':extras:slidingmenulibrary')
     compile project(':extras:viewpagerindicatorlibrary')
+    compile 'org.kymjs.kjframe:kjframe:2.+'
 }
