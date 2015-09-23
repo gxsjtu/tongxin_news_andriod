@@ -31,8 +31,10 @@ public abstract class BaseFragment extends Fragment {
         initData();
     }
 
+    //子类初始化界面
     public abstract View initViews();
 
+    //子类初始化数据
     public void initData(){
 
     }

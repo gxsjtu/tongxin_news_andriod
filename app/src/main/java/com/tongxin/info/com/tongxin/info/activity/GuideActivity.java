@@ -99,6 +99,7 @@ public class GuideActivity extends Activity {
             //某个页面选中
             @Override
             public void onPageSelected(int i) {
+                //显示、隐藏开始使用按钮
                 if (i == mImageIds.length - 1) {
                     guide_btn_start.setVisibility(View.VISIBLE);
                 } else {
