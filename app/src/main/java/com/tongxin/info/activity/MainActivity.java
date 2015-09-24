@@ -13,11 +13,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.tongxin.info.R;
-import com.tongxin.info.base.impl.boxFragment;
-import com.tongxin.info.base.impl.hqFragment;
-import com.tongxin.info.base.impl.meFragment;
-import com.tongxin.info.base.impl.plFragment;
-import com.tongxin.info.base.impl.sqFragment;
+import com.tongxin.info.page.boxFragment;
+import com.tongxin.info.page.hqFragment;
+import com.tongxin.info.page.meFragment;
+import com.tongxin.info.page.plFragment;
+import com.tongxin.info.page.sqFragment;
 
 /**
  * Created by Administrator on 2015/9/21.

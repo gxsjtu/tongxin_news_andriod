@@ -1,4 +1,4 @@
-package com.tongxin.info.base;
+package com.tongxin.info.page;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,14 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tongxin.info.R;
+
 /**
  * Created by Administrator on 2015/9/24.
  */
-public abstract class BaseFragment extends Fragment {
+public class boxFragment extends Fragment {
+    private Activity mActivity;
 
-    public Activity mActivity;
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
     }
@@ -23,19 +25,13 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return initViews();
+        container.removeAllViews();
+        View view = View.inflate(mActivity, R.layout.boxcontent, null);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData();
-    }
-
-    public abstract View initViews();
-
-    public void initData()
-    {
-
     }
 }

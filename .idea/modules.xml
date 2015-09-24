@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/extras/extras.iml" filepath="$PROJECT_DIR$/extras/extras.iml" />
       <module fileurl="file://$PROJECT_DIR$/tongxin_news_andriod.iml" filepath="$PROJECT_DIR$/tongxin_news_andriod.iml" />
-      <module fileurl="file://$PROJECT_DIR$/extras/viewpagerindicatorlibrary/viewpagerindicatorlibrary.iml" filepath="$PROJECT_DIR$/extras/viewpagerindicatorlibrary/viewpagerindicatorlibrary.iml" />
     </modules>
   </component>
 </project>
