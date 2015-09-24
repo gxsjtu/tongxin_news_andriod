@@ -1,8 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:id="@+id/fl_content">
+    android:orientation="vertical">
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/main_fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/main_rg_group"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/tab_background">
+
+        <RadioButton
+            android:id="@+id/main_rb_inbox"
+            style="@style/BottomMenuStyle"
+            android:drawableTop="@drawable/main_rb_inbox"
+            android:text="收件箱" />
+
+        <RadioButton
+            android:id="@+id/main_rb_hq"
+            style="@style/BottomMenuStyle"
+            android:drawableTop="@drawable/main_rb_hq"
+            android:text="行情" />
+
+        <RadioButton
+            android:id="@+id/main_rb_pl"
+            style="@style/BottomMenuStyle"
+            android:drawableTop="@drawable/main_rb_pl"
+            android:text="评论" />
+
+        <RadioButton
+            android:id="@+id/main_rb_sq"
+            style="@style/BottomMenuStyle"
+            android:drawableTop="@drawable/main_rb_sq"
+            android:text="商圈" />
+
+        <RadioButton
+            android:id="@+id/main_rb_me"
+            style="@style/BottomMenuStyle"
+            android:drawableTop="@drawable/main_rb_me"
+            android:text="我" />
+
+    </RadioGroup>
+
+</LinearLayout>

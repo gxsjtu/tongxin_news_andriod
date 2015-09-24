@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Administrator on 2015/9/22.
+ * Created by Administrator on 2015/9/24.
  */
 public abstract class BaseFragment extends Fragment {
+
     public Activity mActivity;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
     }
@@ -31,11 +32,10 @@ public abstract class BaseFragment extends Fragment {
         initData();
     }
 
-    //子类初始化界面
     public abstract View initViews();
 
-    //子类初始化数据
-    public void initData(){
+    public void initData()
+    {
 
     }
 }

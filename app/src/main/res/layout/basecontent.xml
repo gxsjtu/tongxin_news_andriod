@@ -10,21 +10,19 @@
         android:background="@mipmap/tab_background">
 
         <TextView
-            android:id="@+id/basepager_tv_title"
+            android:id="@+id/baseContent_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textSize="22sp"
-            android:text="同鑫资讯"
-            />
+            android:layout_centerInParent="true"
+            android:text="标题" />
 
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/basepager_fl_content"
+    <LinearLayout
+        android:id="@+id/baseContent_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></FrameLayout>
+        android:orientation="vertical"
+        android:layout_weight="1"></LinearLayout>
 
 </LinearLayout>

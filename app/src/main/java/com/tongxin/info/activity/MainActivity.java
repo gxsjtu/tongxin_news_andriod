@@ -1,22 +1,37 @@
 package com.tongxin.info.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.tongxin.info.R;
-import com.tongxin.info.fragment.contentFragment;
-import com.tongxin.info.fragment.leftMenuFragment;
+import com.tongxin.info.base.impl.boxFragment;
+import com.tongxin.info.base.impl.hqFragment;
+import com.tongxin.info.base.impl.meFragment;
+import com.tongxin.info.base.impl.plFragment;
+import com.tongxin.info.base.impl.sqFragment;
 
 /**
  * Created by Administrator on 2015/9/21.
  */
-public class MainActivity extends SlidingFragmentActivity {
-    private static final String FRAGMENT_LEFT_MENU = "fragment_left_menu";
-    private static final String FRAGMENT_CONTENT = "fragment_content";
+public class MainActivity extends FragmentActivity {
+    private FrameLayout main_fl_content;
+    private RadioGroup main_rg_group;
+    private RadioButton main_rb_inbox;
+    private RadioButton main_rb_hq;
+    private RadioButton main_rb_pl;
+    private RadioButton main_rb_sq;
+    private RadioButton main_rb_me;
+    private FragmentManager fragmentManager;
+    FragmentTransaction tran;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,38 +39,60 @@ public class MainActivity extends SlidingFragmentActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        setBehindContentView(R.layout.left_menu);
-        SlidingMenu slidingMenu = getSlidingMenu();
-        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        main_fl_content = (FrameLayout) findViewById(R.id.main_fl_content);
+        main_rg_group = (RadioGroup) findViewById(R.id.main_rg_group);
+        main_rb_inbox = (RadioButton) findViewById(R.id.main_rb_inbox);
+        main_rb_hq = (RadioButton) findViewById(R.id.main_rb_hq);
+        main_rb_pl = (RadioButton) findViewById(R.id.main_rb_pl);
+        main_rb_sq = (RadioButton) findViewById(R.id.main_rb_sq);
+        main_rb_me = (RadioButton) findViewById(R.id.main_rb_me);
 
-        int width  =getWindowManager().getDefaultDisplay().getWidth();
-        slidingMenu.setBehindOffset(width * 200 / 320);
-
-        initFragment();
+        initViews();
     }
 
-    private void initFragment()
+    private void initViews()
     {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.fl_left_menu,new leftMenuFragment(),FRAGMENT_LEFT_MENU);
-        transaction.replace(R.id.fl_content, new contentFragment(), FRAGMENT_CONTENT);
-        transaction.commit();
+
+        fragmentManager = getSupportFragmentManager();
+
+        main_rg_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.main_rb_inbox:
+                        //收件箱
+                        showPage(new boxFragment());
+                        break;
+                    case R.id.main_rb_hq:
+                        //行情
+                        showPage(new hqFragment());
+                        break;
+                    case R.id.main_rb_pl:
+                        //评论
+                        showPage(new plFragment());
+                        break;
+                    case R.id.main_rb_sq:
+                        //商圈
+                        showPage(new sqFragment());
+                        break;
+                    case R.id.main_rb_me:
+                        //我
+                        showPage(new meFragment());
+                        break;
+                }
+            }
+        });
+
+
+        //默认选中行情
+        main_rg_group.check(R.id.main_rb_hq);
     }
 
-    // 获取侧边栏fragment
-    public leftMenuFragment getLeftMenuFragment()
+    private void showPage(Fragment fragment)
     {
-        FragmentManager fm = getSupportFragmentManager();
-        leftMenuFragment fragment = (leftMenuFragment) fm.findFragmentByTag(FRAGMENT_LEFT_MENU);
-        return fragment;
-    }
-
-    // 获取主页面fragment
-    public contentFragment getContentMenuFragment()
-    {
-        FragmentManager fm = getSupportFragmentManager();
-        contentFragment fragment = (contentFragment) fm.findFragmentByTag(FRAGMENT_CONTENT);
-        return fragment;
+        tran = fragmentManager.beginTransaction();
+        tran.replace(R.id.main_fl_content,fragment);
+        tran.commit();
     }
 }
