@@ -108,8 +108,8 @@ public class hqFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             hq_contentFragment hq_contentFragment = new hq_contentFragment();
-            ((MainActivity)mActivity).data=marketGroups.get(position);
-            //hq_contentFragment.setMarketGroup(marketGroups.get(position));
+            //((MainActivity)mActivity).data=marketGroups.get(position);
+            hq_contentFragment.setMarketGroup(marketGroups.get(position));
 //            hq_contentFragment.initData();
             return hq_contentFragment;
         }
