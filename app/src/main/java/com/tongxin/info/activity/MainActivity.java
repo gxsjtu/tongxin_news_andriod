@@ -33,6 +33,8 @@ public class MainActivity extends FragmentActivity {
     private FragmentManager fragmentManager;
     FragmentTransaction tran;
 
+    public Object data;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

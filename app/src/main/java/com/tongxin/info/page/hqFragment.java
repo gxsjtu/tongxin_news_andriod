@@ -19,6 +19,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
+import com.tongxin.info.activity.MainActivity;
 import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.global.GlobalContants;
 
@@ -107,7 +108,8 @@ public class hqFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             hq_contentFragment hq_contentFragment = new hq_contentFragment();
-            hq_contentFragment.setMarketGroup(marketGroups.get(position));
+            ((MainActivity)mActivity).data=marketGroups.get(position);
+            //hq_contentFragment.setMarketGroup(marketGroups.get(position));
 //            hq_contentFragment.initData();
             return hq_contentFragment;
         }
