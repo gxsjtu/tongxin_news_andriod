@@ -37,7 +37,7 @@ public class hqFragment extends Fragment {
     private ViewPager hq_vp;
     private PagerSlidingTabStrip tabs;
     private ImageButton hq_tab_btn;
-    private ArrayList<MarketGroup> marketGroups;
+    public static ArrayList<MarketGroup> marketGroups;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
