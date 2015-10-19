@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="0"
+    android:padding="5dp"
+    >
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/hq_detail_item_productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="2"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:text="1" />
+
+
+        <TextView
+            android:id="@+id/hq_detail_item_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp"
+            android:text="2" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="5dp">
+        <TextView
+            android:id="@+id/hq_detail_item_Min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0f0"
+            android:text="3" />
+
+        <TextView
+            android:id="@+id/hq_detail_item_Max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:textColor="#f00"
+            android:text="4" />
+
+        <TextView
+            android:id="@+id/hq_detail_item_Change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="5555555" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="1dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0f0"
+            android:text="最低" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:textColor="#f00"
+            android:text="最高" />
+
+        <TextView
+            android:id="@+id/hq_detail_item_ChangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="8" />
+    </TableRow>
+
+</TableLayout>
