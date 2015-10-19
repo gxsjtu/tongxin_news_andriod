@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -123,9 +124,25 @@ public class HqDetailActivity extends AppCompatActivity {
                                     viewHolder.hq_detail_item_ChangeText.setText("平");
                                 }
                             }
+                            else
+                            {
+                                viewHolder.hq_detail_item_Change.setText("");
+                                viewHolder.hq_detail_item_ChangeText.setText("");
+                            }
                         }
 
                         return convertView;
+                    }
+                });
+
+                hq_detail_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ProductPrice clickItem = mProductPrices.get(position);
+                        Intent intent = new Intent(HqDetailActivity.this,HqHistoryActivity.class);
+                        intent.putExtra("productId",clickItem.ProductId);
+                        intent.putExtra("productName",clickItem.ProductName);
+                        startActivity(intent);
                     }
                 });
             }
