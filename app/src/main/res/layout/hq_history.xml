@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/header"></include>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,6 +25,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="2dp"
+                    android:layout_marginLeft="5dp"
                     android:textSize="16sp"
                     android:gravity="bottom"
                     android:paddingBottom="5dp"
@@ -48,6 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="2dp"
+                    android:layout_marginLeft="5dp"
                     android:paddingBottom="5dp"
                     android:textSize="16sp"
                     android:gravity="bottom"
@@ -69,10 +73,12 @@
         <Button
             android:id="@+id/hq_history_search"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
             android:background="@drawable/hqhistory_search"
             android:textColor="#fff"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:onClick="searchClick"
             android:text="查询"/>
 

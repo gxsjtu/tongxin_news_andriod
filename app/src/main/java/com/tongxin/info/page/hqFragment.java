@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -37,6 +40,9 @@ public class hqFragment extends Fragment {
     private ViewPager hq_vp;
     private PagerSlidingTabStrip tabs;
     private ImageButton hq_tab_btn;
+    private TextView tv_headerTitle;
+    private ImageView iv_return;
+    private ImageView iv_ref;
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,20 @@ public class hqFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container.removeAllViews();
         View view = View.inflate(mActivity, R.layout.hqcontent,null);
+        tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
+        tv_headerTitle.setText("实时行情");
+
+        iv_return = (ImageView) view.findViewById(R.id.iv_return);
+        iv_ref = (ImageView) view.findViewById(R.id.iv_ref);
+
+        iv_return.setVisibility(View.INVISIBLE);
+
+        iv_ref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //initData(id);
+            }
+        });
 
         hq_vp = (ViewPager) view.findViewById(R.id.hq_vp);
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);

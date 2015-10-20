@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,12 +44,16 @@ public class HqHistoryActivity extends Activity {
     EditText startDate;
     EditText endDate;
     ListView hq_history_lv;
+    private TextView tv_headerTitle;
+    private ImageView iv_return;
+    private ImageView iv_ref;
 
     private String mProductName;
     private int mProductId;
     private ArrayList<ProductHistoryPrice> mHistoryPrices = new ArrayList<ProductHistoryPrice>();
 
     private String getDateStr(int year, int month, int day) {
+        month++;
         StringBuffer sb = new StringBuffer();
         sb.append(year + "-");
         if (month < 10) {
@@ -69,22 +76,12 @@ public class HqHistoryActivity extends Activity {
         mProductId = intent.getIntExtra("productId", 0);
         mProductName = intent.getStringExtra("productName");
 
+        tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
+        tv_headerTitle.setText(mProductName);
+
         startDate = (EditText) findViewById(R.id.startDate);
         endDate = (EditText) findViewById(R.id.endDate);
         hq_history_lv = (ListView) findViewById(R.id.hq_history_lv);
-
-        Date myData = new Date();
-        calendar.setTime(myData);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
-        endDate.setText(getDateStr(year, month, day));
-
-        calendar.add(Calendar.DAY_OF_MONTH, -15);
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH) + 1;
-        day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
-        startDate.setText(getDateStr(year, month, day));
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +89,7 @@ public class HqHistoryActivity extends Activity {
                 String date = startDate.getText().toString();
                 String[] arrDate = date.split("-");
                 int year = Integer.parseInt(arrDate[0]);
-                int month = Integer.parseInt(arrDate[1]);
+                int month = Integer.parseInt(arrDate[1]) - 1;
                 int day = Integer.parseInt(arrDate[2]);
                 DatePickerDialog dpd = new DatePickerDialog(HqHistoryActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -111,7 +108,7 @@ public class HqHistoryActivity extends Activity {
                 String date = endDate.getText().toString();
                 String[] arrDate = date.split("-");
                 int year = Integer.parseInt(arrDate[0]);
-                int month = Integer.parseInt(arrDate[1]);
+                int month = Integer.parseInt(arrDate[1]) - 1;
                 int day = Integer.parseInt(arrDate[2]);
                 DatePickerDialog dpd = new DatePickerDialog(HqHistoryActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -124,7 +121,24 @@ public class HqHistoryActivity extends Activity {
             }
         });
 
-        search();
+        iv_return = (ImageView) findViewById(R.id.iv_return);
+        iv_ref = (ImageView) findViewById(R.id.iv_ref);
+
+        iv_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        iv_ref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initData();
+            }
+        });
+
+        initData();
     }
 
     public void searchClick(View view) {
@@ -134,6 +148,20 @@ public class HqHistoryActivity extends Activity {
     private void search() {
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date d1 = sdf.parse(start);
+            Date d2 = sdf.parse(end);
+            if(d2.getTime() - d1.getTime() < 0)
+            {
+                Toast.makeText(this,"截止日期不能小于开始日期",Toast.LENGTH_LONG).show();
+                return;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
@@ -209,6 +237,24 @@ public class HqHistoryActivity extends Activity {
                 });
             }
         });
+    }
+
+    private void initData()
+    {
+        Date myData = new Date();
+        calendar.setTime(myData);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+        endDate.setText(getDateStr(year, month, day));
+
+        calendar.add(Calendar.DAY_OF_MONTH, -15);
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+        startDate.setText(getDateStr(year, month, day));
+
+        search();
     }
 
     private static class ViewHolder {

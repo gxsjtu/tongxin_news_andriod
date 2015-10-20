@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,21 +34,41 @@ import java.util.ArrayList;
 
 public class HqDetailActivity extends AppCompatActivity {
 
-    private TextView hq_detail_title;
+    private TextView tv_headerTitle;
     private ListView hq_detail_lv;
+    private ImageView iv_return;
+    private ImageView iv_ref;
     private ArrayList<ProductPrice> mProductPrices = new ArrayList<ProductPrice>();
+    private String mMarketName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hq_detail);
         Intent intent = getIntent();
-        int id = intent.getIntExtra("marketId", 0);
-        String name = intent.getStringExtra("marketName");
-        hq_detail_title = (TextView) findViewById(R.id.hq_detail_title);
+        final int id = intent.getIntExtra("marketId", 0);
+        mMarketName = intent.getStringExtra("marketName");
+        tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         hq_detail_lv = (ListView) findViewById(R.id.hq_detail_lv);
 
-        hq_detail_title.setText(name);
+        tv_headerTitle.setText(mMarketName);
+
+        iv_return = (ImageView) findViewById(R.id.iv_return);
+        iv_ref = (ImageView) findViewById(R.id.iv_ref);
+
+        iv_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        iv_ref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initData(id);
+            }
+        });
 
         initData(id);
     }
@@ -57,7 +78,7 @@ public class HqDetailActivity extends AppCompatActivity {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=13764233669", new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=13764233669", null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(HqDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -128,9 +149,7 @@ public class HqDetailActivity extends AppCompatActivity {
                                     viewHolder.hq_detail_item_Change.setText("——");
                                     viewHolder.hq_detail_item_ChangeText.setText("平");
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 viewHolder.hq_detail_item_Change.setText("");
                                 viewHolder.hq_detail_item_ChangeText.setText("");
                             }
@@ -144,9 +163,9 @@ public class HqDetailActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         ProductPrice clickItem = mProductPrices.get(position);
-                        Intent intent = new Intent(HqDetailActivity.this,HqHistoryActivity.class);
-                        intent.putExtra("productId",clickItem.ProductId);
-                        intent.putExtra("productName",clickItem.ProductName);
+                        Intent intent = new Intent(HqDetailActivity.this, HqHistoryActivity.class);
+                        intent.putExtra("productId", clickItem.ProductId);
+                        intent.putExtra("productName", mMarketName + " - " + clickItem.ProductName);
                         startActivity(intent);
                     }
                 });
