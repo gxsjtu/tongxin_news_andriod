@@ -24,6 +24,7 @@ import com.tongxin.info.global.GlobalContants;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpConfig;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -137,10 +138,13 @@ public class HqHistoryActivity extends Activity {
         String end = endDate.getText().toString();
 
         KJHttp kjHttp = new KJHttp();
+        HttpConfig httpConfig = new HttpConfig();
+        httpConfig.TIMEOUT = 3* 60 * 1000;
+        kjHttp.setConfig(httpConfig);
         kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start="+start+"&end="+end, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(HqHistoryActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HqHistoryActivity.this, "获取数据失败"+strMsg, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -175,7 +179,7 @@ public class HqHistoryActivity extends Activity {
                             convertView = View.inflate(HqHistoryActivity.this,R.layout.hq_history_item,null);
                             viewHolder.tv_priceMin = (TextView) convertView.findViewById(R.id.tv_priceMin);
                             viewHolder.tv_priceMax = (TextView) convertView.findViewById(R.id.tv_priceMax);
-                            viewHolder.tv_priceChange = (TextView) convertView.findViewById(R.id.tv_priceChange);
+                            viewHolder.tv_priceDate = (TextView) convertView.findViewById(R.id.tv_priceDate);
                             viewHolder.tv_priceChange = (TextView) convertView.findViewById(R.id.tv_priceChange);
                             convertView.setTag(viewHolder);
                         }
