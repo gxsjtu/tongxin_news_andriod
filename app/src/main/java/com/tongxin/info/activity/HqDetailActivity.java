@@ -26,6 +26,7 @@ import com.tongxin.info.utils.ColorsUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpConfig;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -53,6 +54,9 @@ public class HqDetailActivity extends AppCompatActivity {
 
     private void initData(int id) {
         KJHttp kjHttp = new KJHttp();
+        HttpConfig httpConfig = new HttpConfig();
+        httpConfig.TIMEOUT = 3 * 60 * 1000;
+        kjHttp.setConfig(httpConfig);
         kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=13764233669", new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
