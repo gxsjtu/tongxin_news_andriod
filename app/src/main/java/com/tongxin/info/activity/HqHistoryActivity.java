@@ -43,17 +43,14 @@ public class HqHistoryActivity extends Activity {
     private int mProductId;
     private ArrayList<ProductHistoryPrice> mHistoryPrices = new ArrayList<ProductHistoryPrice>();
 
-    private String getDateStr(int year,int month,int day)
-    {
+    private String getDateStr(int year, int month, int day) {
         StringBuffer sb = new StringBuffer();
-        sb.append(year+"-");
-        if(month<10)
-        {
+        sb.append(year + "-");
+        if (month < 10) {
             sb.append("0");
         }
-        sb.append(month+"-");
-        if(day<10)
-        {
+        sb.append(month + "-");
+        if (day < 10) {
             sb.append("0");
         }
         sb.append(day);
@@ -76,15 +73,15 @@ public class HqHistoryActivity extends Activity {
         Date myData = new Date();
         calendar.setTime(myData);
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        endDate.setText(getDateStr(year,month,day));
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+        endDate.setText(getDateStr(year, month, day));
 
         calendar.add(Calendar.DAY_OF_MONTH, -15);
         year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        startDate.setText(getDateStr(year,month,day));
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+        startDate.setText(getDateStr(year, month, day));
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +94,7 @@ public class HqHistoryActivity extends Activity {
                 DatePickerDialog dpd = new DatePickerDialog(HqHistoryActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        startDate.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        startDate.setText(getDateStr(year, monthOfYear, dayOfMonth));
                     }
                 }, year, month, day);
                 dpd.show();
@@ -116,7 +113,7 @@ public class HqHistoryActivity extends Activity {
                 DatePickerDialog dpd = new DatePickerDialog(HqHistoryActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        endDate.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        endDate.setText(getDateStr(year, monthOfYear, dayOfMonth));
                     }
                 }, year, month, day);
                 dpd.show();
@@ -127,24 +124,22 @@ public class HqHistoryActivity extends Activity {
         search();
     }
 
-    public void searchClick(View view)
-    {
+    public void searchClick(View view) {
         search();
     }
 
-    private void search()
-    {
+    private void search() {
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
 
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
-        httpConfig.TIMEOUT = 3* 60 * 1000;
+        httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start="+start+"&end="+end, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start=" + start + "&end=" + end, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(HqHistoryActivity.this, "获取数据失败"+strMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(HqHistoryActivity.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -173,18 +168,15 @@ public class HqHistoryActivity extends Activity {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         ViewHolder viewHolder = null;
-                        if(convertView == null)
-                        {
+                        if (convertView == null) {
                             viewHolder = new ViewHolder();
-                            convertView = View.inflate(HqHistoryActivity.this,R.layout.hq_history_item,null);
+                            convertView = View.inflate(HqHistoryActivity.this, R.layout.hq_history_item, null);
                             viewHolder.tv_priceMin = (TextView) convertView.findViewById(R.id.tv_priceMin);
                             viewHolder.tv_priceMax = (TextView) convertView.findViewById(R.id.tv_priceMax);
                             viewHolder.tv_priceDate = (TextView) convertView.findViewById(R.id.tv_priceDate);
                             viewHolder.tv_priceChange = (TextView) convertView.findViewById(R.id.tv_priceChange);
                             convertView.setTag(viewHolder);
-                        }
-                        else
-                        {
+                        } else {
                             viewHolder = (ViewHolder) convertView.getTag();
                         }
 
@@ -193,27 +185,19 @@ public class HqHistoryActivity extends Activity {
                         viewHolder.tv_priceDate.setText(price.Date);
                         viewHolder.tv_priceMin.setText(price.LPrice);
                         viewHolder.tv_priceMax.setText(price.HPrice);
-                        if(!TextUtils.isEmpty(price.Change))
-                        {
+                        if (!TextUtils.isEmpty(price.Change)) {
                             Double change = Double.parseDouble(price.Change);
-                            if(change>0)
-                            {
-                                viewHolder.tv_priceChange.setText("涨 "+price.Change);
+                            if (change > 0) {
+                                viewHolder.tv_priceChange.setText("涨 " + price.Change);
                                 viewHolder.tv_priceChange.setTextColor(Color.RED);
-                            }
-                            else if(change<0)
-                            {
-                                viewHolder.tv_priceChange.setText("跌 "+Math.abs(change));
+                            } else if (change < 0) {
+                                viewHolder.tv_priceChange.setText("跌 " + Math.abs(change));
                                 viewHolder.tv_priceChange.setTextColor(Color.GREEN);
-                            }
-                            else
-                            {
+                            } else {
                                 viewHolder.tv_priceChange.setText("平");
                                 viewHolder.tv_priceChange.setTextColor(Color.BLACK);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             viewHolder.tv_priceChange.setText("");
                         }
                         return convertView;
