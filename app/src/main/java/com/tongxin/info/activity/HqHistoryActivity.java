@@ -3,8 +3,10 @@ package com.tongxin.info.activity;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.internal.widget.ThemeUtils;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.ProductHistoryPrice;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.ColorsUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -189,10 +192,11 @@ public class HqHistoryActivity extends Activity {
                             Double change = Double.parseDouble(price.Change);
                             if (change > 0) {
                                 viewHolder.tv_priceChange.setText("涨 " + price.Change);
-                                viewHolder.tv_priceChange.setTextColor(Color.RED);
+                                viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKRED);
                             } else if (change < 0) {
                                 viewHolder.tv_priceChange.setText("跌 " + Math.abs(change));
-                                viewHolder.tv_priceChange.setTextColor(Color.GREEN);
+                                viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKGREEN);
+
                             } else {
                                 viewHolder.tv_priceChange.setText("平");
                                 viewHolder.tv_priceChange.setTextColor(Color.BLACK);

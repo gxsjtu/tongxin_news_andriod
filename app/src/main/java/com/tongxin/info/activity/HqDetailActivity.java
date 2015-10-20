@@ -22,6 +22,7 @@ import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.domain.ProductPrice;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.hqFragment;
+import com.tongxin.info.utils.ColorsUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -110,12 +111,12 @@ public class HqDetailActivity extends AppCompatActivity {
                             if (!TextUtils.isEmpty(price.Change)) {
                                 double change = Double.parseDouble(price.Change);
                                 if (change > 0) {
-                                    viewHolder.hq_detail_item_Change.setTextColor(Color.RED);
-                                    viewHolder.hq_detail_item_ChangeText.setTextColor(Color.RED);
+                                    viewHolder.hq_detail_item_Change.setTextColor(ColorsUtils.DARKRED);
+                                    viewHolder.hq_detail_item_ChangeText.setTextColor(ColorsUtils.DARKRED);
                                     viewHolder.hq_detail_item_ChangeText.setText("涨");
                                 } else if (change < 0) {
-                                    viewHolder.hq_detail_item_Change.setTextColor(Color.GREEN);
-                                    viewHolder.hq_detail_item_ChangeText.setTextColor(Color.GREEN);
+                                    viewHolder.hq_detail_item_Change.setTextColor(ColorsUtils.DARKGREEN);
+                                    viewHolder.hq_detail_item_ChangeText.setTextColor(ColorsUtils.DARKGREEN);
                                     viewHolder.hq_detail_item_ChangeText.setText("跌");
                                 } else {
                                     viewHolder.hq_detail_item_Change.setTextColor(Color.BLACK);

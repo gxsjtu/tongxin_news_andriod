@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textColor="#0f0"
+            android:textColor="#51953E"
             android:text="3" />
 
         <TextView
@@ -41,15 +41,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:textColor="#f00"
-            android:text="4" />
+            android:textColor="#D92B19"/>
 
         <TextView
             android:id="@+id/hq_detail_item_Change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="5555555" />
+            android:layout_marginRight="10dp" />
     </TableRow>
 
     <TableRow android:layout_marginTop="1dp">
@@ -57,22 +55,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textColor="#0f0"
+            android:textColor="#51953E"
             android:text="最低" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:textColor="#f00"
+            android:textColor="#D92B19"
             android:text="最高" />
 
         <TextView
             android:id="@+id/hq_detail_item_ChangeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="8" />
+            android:layout_marginRight="10dp" />
     </TableRow>
 
 </TableLayout>
