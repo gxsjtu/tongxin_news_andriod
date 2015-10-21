@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
  * Created by Administrator on 2015/10/21.
  */
 public class SearchActivity extends Activity {
-    String str="";
+    String str = "";
     private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
     private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
 
@@ -50,7 +51,7 @@ public class SearchActivity extends Activity {
         String key = intent.getStringExtra("key");
 
         try {
-            str = URLEncoder.encode(key,"UTF-8");
+            str = URLEncoder.encode(key, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -58,8 +59,7 @@ public class SearchActivity extends Activity {
         initData();
     }
 
-    private void initViews()
-    {
+    private void initViews() {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         lv_search = (ListView) findViewById(R.id.lv_search);
         iv_return = (ImageView) findViewById(R.id.iv_return);
@@ -80,13 +80,12 @@ public class SearchActivity extends Activity {
         });
     }
 
-    private void initData()
-    {
+    private void initData() {
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.SEARCH_URL + "&searchKey=" + str + "&mobile=13764233669", null,false,new HttpCallBack() {
+        kjHttp.get(GlobalContants.SEARCH_URL + "&searchKey=" + str + "&mobile=13764233669", null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
                 super.onPreStart();
@@ -195,12 +194,22 @@ public class SearchActivity extends Activity {
                         return convertView;
                     }
                 });
+
+                lv_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        SearchItem item = searchItems.get(position);
+                        Intent intent = new Intent(SearchActivity.this, HqHistoryActivity.class);
+                        intent.putExtra("productId", item.ProductId);
+                        intent.putExtra("productName", item.MarketName + "-" + item.ProductId);
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }
 
-    public class ViewHolder
-    {
+    public class ViewHolder {
         public TextView search_MarketName;
         public TextView search_ProductName;
         public TextView search_Date;
@@ -211,22 +220,16 @@ public class SearchActivity extends Activity {
         public TextView search_ChangeText;
     }
 
-    private void convertVm2Item()
-    {
+    private void convertVm2Item() {
         searchItems.clear();
-        if(searchVMs.size()>0)
-        {
-            for (int i = 0;i<searchVMs.size();i++)
-            {
+        if (searchVMs.size() > 0) {
+            for (int i = 0; i < searchVMs.size(); i++) {
                 SearchVM vm = searchVMs.get(i);
-                if(vm.products.size()>0)
-                {
-                    for (int j = 0;j<vm.products.size();j++)
-                    {
+                if (vm.products.size() > 0) {
+                    for (int j = 0; j < vm.products.size(); j++) {
                         SearchVM.SearchPrice price = vm.products.get(j);
                         SearchItem item = new SearchItem();
-                        if(j==0)
-                        {
+                        if (j == 0) {
                             item.IsGroupHeader = true;
                         }
                         item.MarketId = vm.id;
