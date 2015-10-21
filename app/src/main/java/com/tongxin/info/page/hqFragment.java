@@ -1,6 +1,9 @@
 package com.tongxin.info.page;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +12,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,13 +30,19 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.MainActivity;
+import com.tongxin.info.activity.SearchActivity;
 import com.tongxin.info.domain.MarketGroup;
+import com.tongxin.info.domain.SearchItem;
+import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpConfig;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -43,7 +56,12 @@ public class hqFragment extends Fragment {
     private TextView tv_headerTitle;
     private ImageView iv_return;
     private ImageView iv_ref;
+    private EditText et_search;
+    private ListView lv_search;
+    private ImageView iv_search;
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
+    private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
+    private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,10 +98,83 @@ public class hqFragment extends Fragment {
                 hq_vp.setCurrentItem(++position);
             }
         });
+
+        et_search = (EditText) view.findViewById(R.id.et_search);
+//        et_search.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                Drawable drawable = et_search.getCompoundDrawables()[2];
+//                if (drawable == null)
+//                    return false;
+//                if (drawable == null)
+//                    return false;
+//                if (event.getX() > et_search.getWidth() - et_search.getPaddingRight() - drawable.getIntrinsicWidth()) {
+//                    search();
+//                }
+//                return false;
+//            }
+//        });
+
+        iv_search = (ImageView) view.findViewById(R.id.iv_search);
+        iv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search();
+            }
+        });
         initData();
+
+        lv_search = (ListView) view.findViewById(R.id.lv_search);
 
         return view;
     }
+
+    private void convertVm2Item()
+    {
+        searchItems.clear();
+        if(searchVMs.size()>0)
+        {
+            for (int i = 0;i<searchVMs.size();i++)
+            {
+//                SearchItem item = new SearchItem();
+                SearchVM vm = searchVMs.get(i);
+                  if(vm.products.size()>0)
+                  {
+                      for (int j = 0;j<vm.products.size();j++)
+                      {
+                          SearchVM.SearchPrice price = vm.products.get(j);
+                          SearchItem item = new SearchItem();
+                          if(j==0)
+                          {
+                              item.IsGroupHeader = true;
+                          }
+                          item.MarketId = vm.id;
+                          item.MarketName = vm.name;
+                          item.ProductId = price.ProductId;
+                          item.ProductName = price.ProductName;
+                          item.LPrice = price.LPrice;
+                          item.HPrice = price.HPrice;
+                          item.Change = price.Change;
+                          item.Date = price.Date;
+                          item.IsOrder = price.isOrder;
+                          searchItems.add(item);
+                      }
+                  }
+            }
+        }
+    }
+
+    private void search()
+    {
+        String key = et_search.getText().toString().trim();
+        if(TextUtils.isEmpty(key))
+            return;
+        Intent intent = new Intent(mActivity, SearchActivity.class);
+        intent.putExtra("key",key);
+        startActivity(intent);
+    }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

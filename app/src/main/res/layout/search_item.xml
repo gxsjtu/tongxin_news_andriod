@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/search_ProductName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="产品名称"/>
+
+            <TextView
+                android:id="@+id/search_Date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkyellow"
+                android:layout_weight="1"
+                android:text="2015-10-16"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/search_Min"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="@color/darkgreen"
+                android:text="200"/>
+
+            <TextView
+                android:id="@+id/search_Max"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/darkred"
+                android:text="200"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/search_Change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/darkred"
+                    android:layout_marginRight="2dp"
+                    android:text="200"/>
+                <ImageView
+                    android:id="@+id/iv_Change"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_toRightOf="@+id/search_Change"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/red"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="@color/darkgreen"
+                android:text="最低"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/darkred"
+                android:text="最高"/>
+
+            <TextView
+                android:id="@+id/search_ChangeText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/darkred"
+                android:text="涨"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="20dp"
+        android:src="@drawable/grayarr"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"/>
+
+</LinearLayout>

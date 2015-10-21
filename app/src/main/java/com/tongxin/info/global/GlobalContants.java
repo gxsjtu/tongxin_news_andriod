@@ -8,4 +8,5 @@ public class GlobalContants {
     public static final String GETMARKETS_URL = SERVER_URL + "/Handlers/XHMarketHandler.ashx?method=getmarkets";
     public static final String GETHQPRICES_URL = SERVER_URL + "/Handlers/PriceHandler.ashx?method=getPrices";
     public static final String GETHQHISTORYPRICES_URL = SERVER_URL + "/Handlers/PriceHandler.ashx?method=getHistoryPrices";
+    public static final String SEARCH_URL = SERVER_URL + "/Handlers/SearchHandler.ashx?method=getSearchResult";
 }

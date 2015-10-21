@@ -46,7 +46,7 @@ public class HqHistoryActivity extends Activity {
     ListView hq_history_lv;
     private TextView tv_headerTitle;
     private ImageView iv_return;
-    private ImageView iv_ref;
+    private TextView tv_headerChart;
 
     private String mProductName;
     private int mProductId;
@@ -122,7 +122,7 @@ public class HqHistoryActivity extends Activity {
         });
 
         iv_return = (ImageView) findViewById(R.id.iv_return);
-        iv_ref = (ImageView) findViewById(R.id.iv_ref);
+        tv_headerChart = (TextView) findViewById(R.id.tv_headerChart);
 
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,10 +131,10 @@ public class HqHistoryActivity extends Activity {
             }
         });
 
-        iv_ref.setOnClickListener(new View.OnClickListener() {
+        tv_headerChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initData();
+                //走势图
             }
         });
 

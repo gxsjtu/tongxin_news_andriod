@@ -28,10 +28,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
 
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN" />-->
-             <!--<category android:name="android.intent.category.LAUNCHER" />-->
-             <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".activity.HqDetailActivity"
@@ -40,6 +40,8 @@
             android:name=".activity.HqHistoryActivity"
             android:label="@string/title_activity_hq_history"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
+        <activity android:name=".activity.SearchActivity" >
         </activity>
     </application>
 
