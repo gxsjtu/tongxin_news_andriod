@@ -29,10 +29,12 @@ import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.DensityUtils;
 import com.tongxin.info.utils.loadingUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
+import org.kymjs.kjframe.http.HttpParams;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -52,6 +54,7 @@ public class SearchActivity extends Activity {
     private ImageView iv_return;
     private ImageView iv_ref;
     loadingUtils loadingUtils;
+    AppAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +148,7 @@ public class SearchActivity extends Activity {
                 searchVMs = gson.fromJson(t, type);
                 convertVm2Item();
 
-                final AppAdapter adapter = new AppAdapter();
+                adapter = new AppAdapter();
 
                 lv_search.setAdapter(adapter);
 
@@ -165,13 +168,65 @@ public class SearchActivity extends Activity {
                     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                         if (index == 0) {
                             //关注
-                            Toast.makeText(SearchActivity.this, "正在关注", Toast.LENGTH_LONG).show();
-//                            searchItems.get(position).IsOrder = "YES";
-//                            adapter.notifyDataSetChanged();
+                            SearchItem item = searchItems.get(position);
+                            if (item.IsOrder.equals("YES")) {
+                                //取消关注
+                                order(item.ProductId,false,position);
+                            } else {
+                                //添加关注
+                                order(item.ProductId,true,position);
+                            }
                         }
                         return false;
                     }
                 });
+            }
+        });
+    }
+    private void order(int id, final boolean isOrder, final int position)
+    {
+        KJHttp kjHttp = new KJHttp();
+        HttpConfig httpConfig = new HttpConfig();
+        httpConfig.TIMEOUT = 3 * 60 * 1000;
+        kjHttp.setConfig(httpConfig);
+        HttpParams params = new HttpParams();
+        params.put("method", "order");
+        params.put("productId", id);
+        params.put("mobile", "13764233669");
+        params.put("isOrder", isOrder?"YES":"NO");
+        kjHttp.post(GlobalContants.ORDER_URL,params,false,new HttpCallBack(){
+            @Override
+            public void onPreStart() {
+                loadingUtils.show();
+            }
+
+            @Override
+            public void onFinish() {
+                loadingUtils.close();
+            }
+
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                Toast.makeText(SearchActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(String t) {
+                try {
+                    JSONObject jsonObject = new JSONObject(t);
+                    String result = jsonObject.getString("result");
+                    if(result.equals("ok"))
+                    {
+                        searchItems.get(position).IsOrder = isOrder?"YES":"NO";
+                        adapter.notifyDataSetChanged();
+                    }
+                    else
+                    {
+                        Toast.makeText(SearchActivity.this, (isOrder?"新增":"取消")+"关注失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -295,7 +350,7 @@ public class SearchActivity extends Activity {
         @Override
         public int getItemViewType(int position) {
             if(!searchItems.get(position).IsGroupHeader) {
-                if (searchItems.get(position).IsOrder == "YES") {
+                if (searchItems.get(position).IsOrder.equals("YES")) {
                     //已经关注
                     return 1;
                 } else {

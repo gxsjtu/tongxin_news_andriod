@@ -155,7 +155,7 @@ public class hqFragment extends Fragment {
         kjHttp.get(GlobalContants.GETMARKETS_URL, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(mActivity, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "获取数据失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
