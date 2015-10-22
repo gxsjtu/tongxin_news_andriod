@@ -27,6 +27,7 @@ import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.loadingUtils;
 
 import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
@@ -50,7 +51,7 @@ public class SearchActivity extends Activity {
     private SwipeMenuListView lv_search;
     private ImageView iv_return;
     private ImageView iv_ref;
-
+    loadingUtils loadingUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,8 @@ public class SearchActivity extends Activity {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
+        loadingUtils = new loadingUtils(this);
         initViews();
         initData();
     }
@@ -97,11 +100,9 @@ public class SearchActivity extends Activity {
                 if (menu.getViewType() == 0) {
                     watchItem.setBackground(new ColorDrawable(Color.rgb(0x51, 0x95, 0x3e)));
                     watchItem.setTitle("添加关注");
-
                 } else if (menu.getViewType() == 1) {
                     watchItem.setBackground(new ColorDrawable(Color.rgb(0xd9, 0x2b, 0x19)));
                     watchItem.setTitle("取消关注");
-
                 }
                 menu.addMenuItem(watchItem);
                 if(menu.getViewType() == 2)
@@ -122,17 +123,17 @@ public class SearchActivity extends Activity {
         kjHttp.get(GlobalContants.SEARCH_URL + "&searchKey=" + str + "&mobile=13764233669", null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
-                super.onPreStart();
+                loadingUtils.show();
             }
 
             @Override
             public void onFinish() {
-                super.onFinish();
+                loadingUtils.close();
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(SearchActivity.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
