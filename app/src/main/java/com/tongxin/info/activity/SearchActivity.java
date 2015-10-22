@@ -3,6 +3,7 @@ package com.tongxin.info.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,17 +11,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.DensityUtils;
 
+import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
@@ -39,9 +47,10 @@ public class SearchActivity extends Activity {
     private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
 
     private TextView tv_headerTitle;
-    private ListView lv_search;
+    private SwipeMenuListView lv_search;
     private ImageView iv_return;
     private ImageView iv_ref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +70,9 @@ public class SearchActivity extends Activity {
 
     private void initViews() {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
-        lv_search = (ListView) findViewById(R.id.lv_search);
+        lv_search = (SwipeMenuListView) findViewById(R.id.lv_search);
         iv_return = (ImageView) findViewById(R.id.iv_return);
         iv_ref = (ImageView) findViewById(R.id.iv_ref);
-
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +86,32 @@ public class SearchActivity extends Activity {
                 initData();
             }
         });
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem watchItem = new SwipeMenuItem(SearchActivity.this);
+                watchItem.setWidth(DensityUtils.dp2px(SearchActivity.this, 90));
+                watchItem.setTitleSize(18);
+                watchItem.setTitleColor(Color.WHITE);
+                if (menu.getViewType() == 0) {
+                    watchItem.setBackground(new ColorDrawable(Color.rgb(0x51, 0x95, 0x3e)));
+                    watchItem.setTitle("添加关注");
+
+                } else if (menu.getViewType() == 1) {
+                    watchItem.setBackground(new ColorDrawable(Color.rgb(0xd9, 0x2b, 0x19)));
+                    watchItem.setTitle("取消关注");
+
+                }
+                menu.addMenuItem(watchItem);
+                if(menu.getViewType() == 2)
+                {
+                    menu.removeMenuItem(watchItem);
+                }
+            }
+        };
+
+        lv_search.setMenuCreator(creator);
     }
 
     private void initData() {
@@ -110,90 +144,9 @@ public class SearchActivity extends Activity {
                 searchVMs = gson.fromJson(t, type);
                 convertVm2Item();
 
-                lv_search.setAdapter(new BaseAdapter() {
-                    @Override
-                    public int getCount() {
-                        return searchItems.size();
-                    }
+                final AppAdapter adapter = new AppAdapter();
 
-                    @Override
-                    public SearchItem getItem(int position) {
-                        return searchItems.get(position);
-                    }
-
-                    @Override
-                    public long getItemId(int position) {
-                        return getItem(position).ProductId;
-                    }
-
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        ViewHolder viewHolder = null;
-                        SearchItem item = getItem(position);
-                        if (convertView == null) {
-                            viewHolder = new ViewHolder();
-                            convertView = View.inflate(SearchActivity.this, R.layout.search_header_item, null);
-                            viewHolder.search_MarketName = (TextView) convertView.findViewById(R.id.search_MarketName);
-                            viewHolder.search_ProductName = (TextView) convertView.findViewById(R.id.search_ProductName);
-                            viewHolder.search_Date = (TextView) convertView.findViewById(R.id.search_Date);
-                            viewHolder.search_Min = (TextView) convertView.findViewById(R.id.search_Min);
-                            viewHolder.search_Max = (TextView) convertView.findViewById(R.id.search_Max);
-                            viewHolder.search_Change = (TextView) convertView.findViewById(R.id.search_Change);
-                            viewHolder.search_ChangeText = (TextView) convertView.findViewById(R.id.search_ChangeText);
-                            viewHolder.iv_Change = (ImageView) convertView.findViewById(R.id.iv_Change);
-                            convertView.setTag(viewHolder);
-
-                        } else {
-                            viewHolder = (ViewHolder) convertView.getTag();
-                        }
-                        if (item.IsGroupHeader) {
-                            viewHolder.search_MarketName.setText(item.MarketName);
-                            viewHolder.search_MarketName.setVisibility(View.VISIBLE);
-                        } else {
-                            viewHolder.search_MarketName.setVisibility(View.GONE);
-                        }
-                        viewHolder.search_ProductName.setText(item.ProductName);
-                        viewHolder.search_Date.setText(item.Date);
-                        viewHolder.search_Min.setText(item.LPrice);
-                        viewHolder.search_Max.setText(item.HPrice);
-
-                        if (TextUtils.isEmpty(item.Change)) {
-                            viewHolder.search_Change.setText("");
-                            viewHolder.search_Change.setTextColor(Color.BLACK);
-                            viewHolder.search_ChangeText.setTextColor(Color.BLACK);
-                            viewHolder.search_ChangeText.setText("");
-                            viewHolder.iv_Change.setVisibility(View.INVISIBLE);
-                        } else {
-                            double change = Double.parseDouble(item.Change);
-                            if (change > 0) {
-                                //涨
-                                viewHolder.search_Change.setText(item.Change);
-                                viewHolder.search_Change.setTextColor(Color.BLACK);
-                                viewHolder.search_ChangeText.setTextColor(Color.BLACK);
-                                viewHolder.search_ChangeText.setText("涨");
-                                viewHolder.iv_Change.setVisibility(View.VISIBLE);
-                                viewHolder.iv_Change.setImageResource(R.drawable.red);
-                            } else if (change < 0) {
-                                //跌
-                                viewHolder.search_Change.setText(String.valueOf(Math.abs(change)));
-                                viewHolder.search_Change.setTextColor(Color.BLACK);
-                                viewHolder.search_ChangeText.setTextColor(Color.BLACK);
-                                viewHolder.search_ChangeText.setText("跌");
-                                viewHolder.iv_Change.setVisibility(View.VISIBLE);
-                                viewHolder.iv_Change.setImageResource(R.drawable.green);
-                            } else {
-                                //平
-                                viewHolder.search_Change.setText("——");
-                                viewHolder.search_Change.setTextColor(Color.BLACK);
-                                viewHolder.search_ChangeText.setTextColor(Color.BLACK);
-                                viewHolder.search_ChangeText.setText("平");
-                                viewHolder.iv_Change.setVisibility(View.INVISIBLE);
-                            }
-                        }
-
-                        return convertView;
-                    }
-                });
+                lv_search.setAdapter(adapter);
 
                 lv_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -203,6 +156,19 @@ public class SearchActivity extends Activity {
                         intent.putExtra("productId", item.ProductId);
                         intent.putExtra("productName", item.MarketName + "-" + item.ProductId);
                         startActivity(intent);
+                    }
+                });
+
+                lv_search.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                        if (index == 0) {
+                            //关注
+                            Toast.makeText(SearchActivity.this, "正在关注", Toast.LENGTH_LONG).show();
+//                            searchItems.get(position).IsOrder = "YES";
+//                            adapter.notifyDataSetChanged();
+                        }
+                        return false;
                     }
                 });
             }
@@ -218,6 +184,129 @@ public class SearchActivity extends Activity {
         public TextView search_Change;
         public ImageView iv_Change;
         public TextView search_ChangeText;
+        public LinearLayout search_ProductItem;
+    }
+
+    public class AppAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return searchItems.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return searchItems.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return searchItems.get(position).ProductId;
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+            //设置标题栏不能点击
+            SearchItem item = searchItems.get(position);
+            if (item.IsGroupHeader)
+                return false;
+            else
+                return true;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder = null;
+            SearchItem item = searchItems.get(position);
+            if (convertView == null) {
+                viewHolder = new ViewHolder();
+                convertView = View.inflate(SearchActivity.this, R.layout.search_header_item, null);
+                viewHolder.search_MarketName = (TextView) convertView.findViewById(R.id.search_MarketName);
+                viewHolder.search_ProductName = (TextView) convertView.findViewById(R.id.search_ProductName);
+                viewHolder.search_Date = (TextView) convertView.findViewById(R.id.search_Date);
+                viewHolder.search_Min = (TextView) convertView.findViewById(R.id.search_Min);
+                viewHolder.search_Max = (TextView) convertView.findViewById(R.id.search_Max);
+                viewHolder.search_Change = (TextView) convertView.findViewById(R.id.search_Change);
+                viewHolder.search_ChangeText = (TextView) convertView.findViewById(R.id.search_ChangeText);
+                viewHolder.iv_Change = (ImageView) convertView.findViewById(R.id.iv_Change);
+                viewHolder.search_ProductItem = (LinearLayout) convertView.findViewById(R.id.search_ProductItem);
+                convertView.setTag(viewHolder);
+
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            if (item.IsGroupHeader) {
+                viewHolder.search_MarketName.setText(item.MarketName);
+                viewHolder.search_MarketName.setVisibility(View.VISIBLE);
+                viewHolder.search_ProductItem.setVisibility(View.GONE);
+            } else {
+                viewHolder.search_MarketName.setVisibility(View.GONE);
+                viewHolder.search_ProductItem.setVisibility(View.VISIBLE);
+
+                viewHolder.search_ProductName.setText(item.ProductName);
+                viewHolder.search_Date.setText(item.Date);
+                viewHolder.search_Min.setText(item.LPrice);
+                viewHolder.search_Max.setText(item.HPrice);
+
+                if (TextUtils.isEmpty(item.Change)) {
+                    viewHolder.search_Change.setText("");
+                    viewHolder.search_Change.setTextColor(Color.BLACK);
+                    viewHolder.search_ChangeText.setTextColor(Color.BLACK);
+                    viewHolder.search_ChangeText.setText("");
+                    viewHolder.iv_Change.setVisibility(View.INVISIBLE);
+                } else {
+                    double change = Double.parseDouble(item.Change);
+                    if (change > 0) {
+                        //涨
+                        viewHolder.search_Change.setText(item.Change);
+                        viewHolder.search_Change.setTextColor(Color.BLACK);
+                        viewHolder.search_ChangeText.setTextColor(Color.BLACK);
+                        viewHolder.search_ChangeText.setText("涨");
+                        viewHolder.iv_Change.setVisibility(View.VISIBLE);
+                        viewHolder.iv_Change.setImageResource(R.drawable.red);
+                    } else if (change < 0) {
+                        //跌
+                        viewHolder.search_Change.setText(String.valueOf(Math.abs(change)));
+                        viewHolder.search_Change.setTextColor(Color.BLACK);
+                        viewHolder.search_ChangeText.setTextColor(Color.BLACK);
+                        viewHolder.search_ChangeText.setText("跌");
+                        viewHolder.iv_Change.setVisibility(View.VISIBLE);
+                        viewHolder.iv_Change.setImageResource(R.drawable.green);
+                    } else {
+                        //平
+                        viewHolder.search_Change.setText("——");
+                        viewHolder.search_Change.setTextColor(Color.BLACK);
+                        viewHolder.search_ChangeText.setTextColor(Color.BLACK);
+                        viewHolder.search_ChangeText.setText("平");
+                        viewHolder.iv_Change.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+
+            return convertView;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 3;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if(!searchItems.get(position).IsGroupHeader) {
+                if (searchItems.get(position).IsOrder == "YES") {
+                    //已经关注
+                    return 1;
+                } else {
+                    //没有关注
+                    return 0;
+                }
+            }
+            else
+            {
+                return 2;
+            }
+        }
     }
 
     private void convertVm2Item() {
@@ -226,12 +315,15 @@ public class SearchActivity extends Activity {
             for (int i = 0; i < searchVMs.size(); i++) {
                 SearchVM vm = searchVMs.get(i);
                 if (vm.products.size() > 0) {
+                    SearchItem header = new SearchItem();
+                    header.MarketId = vm.id;
+                    header.MarketName = vm.name;
+                    header.IsGroupHeader = true;
+                    searchItems.add(header);
                     for (int j = 0; j < vm.products.size(); j++) {
                         SearchVM.SearchPrice price = vm.products.get(j);
                         SearchItem item = new SearchItem();
-                        if (j == 0) {
-                            item.IsGroupHeader = true;
-                        }
+                        item.IsGroupHeader = false;
                         item.MarketId = vm.id;
                         item.MarketName = vm.name;
                         item.ProductId = price.ProductId;
