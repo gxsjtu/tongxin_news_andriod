@@ -1,9 +1,11 @@
 package com.tongxin.info.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2015/10/19.
  */
-public class ProductHistoryPrice {
+public class ProductHistoryPrice implements Serializable {
     public String LPrice;
     public String HPrice;
     public String Date;

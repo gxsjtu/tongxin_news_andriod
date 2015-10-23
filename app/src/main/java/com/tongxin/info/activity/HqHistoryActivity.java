@@ -31,6 +31,7 @@ import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -139,6 +140,12 @@ public class HqHistoryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //走势图
+                if (mHistoryPrices.size() > 0) {
+                    Intent chartIntent = new Intent(HqHistoryActivity.this, ChartActivity.class);
+                    chartIntent.putExtra("data", (Serializable) mHistoryPrices);
+                    chartIntent.putExtra("title",mProductName);
+                    startActivity(chartIntent);
+                }
             }
         });
 
@@ -157,15 +164,15 @@ public class HqHistoryActivity extends Activity {
         try {
             Date d1 = sdf.parse(start);
             Date d2 = sdf.parse(end);
-            if(d2.getTime() - d1.getTime() < 0)
-            {
-                Toast.makeText(this,"截止日期不能小于开始日期",Toast.LENGTH_LONG).show();
+            if (d2.getTime() - d1.getTime() < 0) {
+                Toast.makeText(this, "截止日期不能小于开始日期", Toast.LENGTH_LONG).show();
                 return;
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+        mHistoryPrices.clear();
 
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
@@ -233,7 +240,7 @@ public class HqHistoryActivity extends Activity {
                         if (!TextUtils.isEmpty(price.Change)) {
                             Double change = Double.parseDouble(price.Change);
                             if (change > 0) {
-                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.1f",change));
+                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.1f", change));
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKRED);
                             } else if (change < 0) {
                                 viewHolder.tv_priceChange.setText("跌 " + String.format("%.1f", Math.abs(change)));
@@ -253,8 +260,7 @@ public class HqHistoryActivity extends Activity {
         });
     }
 
-    private void initData()
-    {
+    private void initData() {
         Date myData = new Date();
         calendar.setTime(myData);
         int year = calendar.get(Calendar.YEAR);
