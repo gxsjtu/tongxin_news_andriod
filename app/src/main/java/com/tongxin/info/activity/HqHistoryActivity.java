@@ -25,6 +25,7 @@ import com.tongxin.info.R;
 import com.tongxin.info.domain.ProductHistoryPrice;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
+import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -47,6 +48,7 @@ public class HqHistoryActivity extends Activity {
     private TextView tv_headerTitle;
     private ImageView iv_return;
     private TextView tv_headerChart;
+    loadingUtils loadingUtils;
 
     private String mProductName;
     private int mProductId;
@@ -82,6 +84,8 @@ public class HqHistoryActivity extends Activity {
         startDate = (EditText) findViewById(R.id.startDate);
         endDate = (EditText) findViewById(R.id.endDate);
         hq_history_lv = (ListView) findViewById(R.id.hq_history_lv);
+
+        loadingUtils = new loadingUtils(this);
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +174,17 @@ public class HqHistoryActivity extends Activity {
         kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start=" + start + "&end=" + end, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(HqHistoryActivity.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(HqHistoryActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPreStart() {
+                loadingUtils.show();
+            }
+
+            @Override
+            public void onFinish() {
+                loadingUtils.close();
             }
 
             @Override

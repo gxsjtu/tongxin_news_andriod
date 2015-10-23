@@ -24,6 +24,7 @@ import com.tongxin.info.domain.ProductPrice;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.hqFragment;
 import com.tongxin.info.utils.ColorsUtils;
+import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -40,6 +41,7 @@ public class HqDetailActivity extends AppCompatActivity {
     private ImageView iv_ref;
     private ArrayList<ProductPrice> mProductPrices = new ArrayList<ProductPrice>();
     private String mMarketName;
+    loadingUtils loadingUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class HqDetailActivity extends AppCompatActivity {
 
         iv_return = (ImageView) findViewById(R.id.iv_return);
         iv_ref = (ImageView) findViewById(R.id.iv_ref);
+
+        loadingUtils = new loadingUtils(this);
 
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +86,16 @@ public class HqDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(HqDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFinish() {
+                loadingUtils.close();
+            }
+
+            @Override
+            public void onPreStart() {
+                loadingUtils.show();
             }
 
             @Override

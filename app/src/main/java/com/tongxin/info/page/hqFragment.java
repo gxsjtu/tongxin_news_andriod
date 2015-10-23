@@ -35,6 +35,7 @@ import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -59,6 +60,8 @@ public class hqFragment extends Fragment {
     private EditText et_search;
     private ListView lv_search;
     private ImageView iv_search;
+    loadingUtils loadingUtils;
+
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
     private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
     private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
@@ -75,7 +78,7 @@ public class hqFragment extends Fragment {
         View view = View.inflate(mActivity, R.layout.hqcontent,null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("实时行情");
-
+        loadingUtils = new loadingUtils(mActivity);
         iv_return = (ImageView) view.findViewById(R.id.iv_return);
         iv_ref = (ImageView) view.findViewById(R.id.iv_ref);
 
@@ -129,41 +132,6 @@ public class hqFragment extends Fragment {
         return view;
     }
 
-    private void convertVm2Item()
-    {
-        searchItems.clear();
-        if(searchVMs.size()>0)
-        {
-            for (int i = 0;i<searchVMs.size();i++)
-            {
-//                SearchItem item = new SearchItem();
-                SearchVM vm = searchVMs.get(i);
-                  if(vm.products.size()>0)
-                  {
-                      for (int j = 0;j<vm.products.size();j++)
-                      {
-                          SearchVM.SearchPrice price = vm.products.get(j);
-                          SearchItem item = new SearchItem();
-                          if(j==0)
-                          {
-                              item.IsGroupHeader = true;
-                          }
-                          item.MarketId = vm.id;
-                          item.MarketName = vm.name;
-                          item.ProductId = price.ProductId;
-                          item.ProductName = price.ProductName;
-                          item.LPrice = price.LPrice;
-                          item.HPrice = price.HPrice;
-                          item.Change = price.Change;
-                          item.Date = price.Date;
-                          item.IsOrder = price.isOrder;
-                          searchItems.add(item);
-                      }
-                  }
-            }
-        }
-    }
-
     private void search()
     {
         String key = et_search.getText().toString().trim();
@@ -187,7 +155,7 @@ public class hqFragment extends Fragment {
         kjHttp.get(GlobalContants.GETMARKETS_URL, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(mActivity, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "获取数据失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -199,6 +167,16 @@ public class hqFragment extends Fragment {
 
                 hq_vp.setAdapter(new MyPagerAdapter(mActivity.getSupportFragmentManager()));
                 tabs.setViewPager(hq_vp);
+            }
+
+            @Override
+            public void onPreStart() {
+                loadingUtils.show();
+            }
+
+            @Override
+            public void onFinish() {
+                loadingUtils.close();
             }
         });
 

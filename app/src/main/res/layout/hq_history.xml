@@ -1,126 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"
-        android:background="#23B1EF">
-
-        <TextView
-            android:id="@+id/tv_headerTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textColor="#fff"
-            android:text="标题"/>
-        <TextView
-            android:id="@+id/tv_headerChart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:textColor="#fff"
-            android:text="走势图"/>
-
-        <ImageView
-            android:id="@+id/iv_return"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ret"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            />
-
-
-    </RelativeLayout>
-
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:background="#23B1EF">
+
+            <TextView
+                android:id="@+id/tv_headerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="#fff"
+                android:text="标题"/>
+            <TextView
+                android:id="@+id/tv_headerChart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:textColor="#fff"
+                android:text="走势图"/>
+
+            <ImageView
+                android:id="@+id/iv_return"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ret"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                />
+
+
+        </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:layout_weight="1">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="16sp"
-                    android:gravity="bottom"
-                    android:paddingBottom="5dp"
-                    android:text="起始日期"/>
-
-                <EditText
-                    android:id="@+id/startDate"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="16sp"
-                    android:gravity="bottom"
-                    android:text="截止日期"/>
-
-                <EditText
-                    android:id="@+id/endDate"
-                    android:editable="false"
-                    android:focusable="false"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="16sp"
+                        android:gravity="bottom"
+                        android:paddingBottom="5dp"
+                        android:text="起始日期"/>
+
+                    <EditText
+                        android:id="@+id/startDate"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="5dp"
+                        android:paddingBottom="5dp"
+                        android:textSize="16sp"
+                        android:gravity="bottom"
+                        android:text="截止日期"/>
+
+                    <EditText
+                        android:id="@+id/endDate"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/hq_history_search"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/hqhistory_search"
+                android:textColor="#fff"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:onClick="searchClick"
+                android:text="查询"/>
+
         </LinearLayout>
-        
-        <Button
-            android:id="@+id/hq_history_search"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:background="@drawable/hqhistory_search"
-            android:textColor="#fff"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:onClick="searchClick"
-            android:text="查询"/>
+
+        <ListView
+            android:id="@+id/hq_history_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
 
     </LinearLayout>
 
-<ListView
-    android:id="@+id/hq_history_lv"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"></ListView>
+    <include layout="@layout/loading"></include>
 
-
-</LinearLayout>
+</RelativeLayout>
