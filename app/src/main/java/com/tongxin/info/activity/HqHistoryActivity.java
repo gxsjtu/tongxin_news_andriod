@@ -233,10 +233,10 @@ public class HqHistoryActivity extends Activity {
                         if (!TextUtils.isEmpty(price.Change)) {
                             Double change = Double.parseDouble(price.Change);
                             if (change > 0) {
-                                viewHolder.tv_priceChange.setText("涨 " + price.Change);
+                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.1f",change));
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKRED);
                             } else if (change < 0) {
-                                viewHolder.tv_priceChange.setText("跌 " + Math.abs(change));
+                                viewHolder.tv_priceChange.setText("跌 " + String.format("%.1f", Math.abs(change)));
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKGREEN);
 
                             } else {

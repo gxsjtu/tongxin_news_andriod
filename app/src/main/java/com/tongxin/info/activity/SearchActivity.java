@@ -79,6 +79,8 @@ public class SearchActivity extends Activity {
         lv_search = (SwipeMenuListView) findViewById(R.id.lv_search);
         iv_return = (ImageView) findViewById(R.id.iv_return);
         iv_ref = (ImageView) findViewById(R.id.iv_ref);
+        tv_headerTitle.setText("搜索结果");
+
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,7 +160,7 @@ public class SearchActivity extends Activity {
                         SearchItem item = searchItems.get(position);
                         Intent intent = new Intent(SearchActivity.this, HqHistoryActivity.class);
                         intent.putExtra("productId", item.ProductId);
-                        intent.putExtra("productName", item.MarketName + "-" + item.ProductId);
+                        intent.putExtra("productName", item.MarketName + "-" + item.ProductName);
                         startActivity(intent);
                     }
                 });
@@ -314,7 +316,7 @@ public class SearchActivity extends Activity {
                     double change = Double.parseDouble(item.Change);
                     if (change > 0) {
                         //涨
-                        viewHolder.search_Change.setText(item.Change);
+                        viewHolder.search_Change.setText(String.format("%.1f",change));
                         viewHolder.search_Change.setTextColor(Color.BLACK);
                         viewHolder.search_ChangeText.setTextColor(Color.BLACK);
                         viewHolder.search_ChangeText.setText("涨");
@@ -322,7 +324,7 @@ public class SearchActivity extends Activity {
                         viewHolder.iv_Change.setImageResource(R.drawable.red);
                     } else if (change < 0) {
                         //跌
-                        viewHolder.search_Change.setText(String.valueOf(Math.abs(change)));
+                        viewHolder.search_Change.setText(String.format("%.1f",Math.abs(change)));
                         viewHolder.search_Change.setTextColor(Color.BLACK);
                         viewHolder.search_ChangeText.setTextColor(Color.BLACK);
                         viewHolder.search_ChangeText.setText("跌");
