@@ -45,6 +45,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tongxin.info.R;
+import com.tongxin.info.page.hqFragment;
 
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 
@@ -106,6 +107,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     private int mScrollOffset;
     private int mLastScrollX = 0;
+    private hqFragment hqFragment;
 
     private int mTabBackgroundResId = R.drawable.psts_background_tab;
 
@@ -224,6 +226,11 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         pager.getAdapter().registerDataSetObserver(mAdapterObserver);
         mAdapterObserver.setAttached(true);
         notifyDataSetChanged();
+    }
+
+    public void setHqFragment(hqFragment hq)
+    {
+        hqFragment = hq;
     }
 
     public void notifyDataSetChanged() {
@@ -480,12 +487,16 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     }
 
+
+
     private void updateSelection(int position) {
         for (int i = 0; i < mTabCount; ++i) {
             View tv = mTabsContainer.getChildAt(i);
             final boolean selected = i == position;
             if (selected) {
                 select(tv);
+                    if(hqFragment!=null)
+                        hqFragment.setBtn(position != mTabCount-1);
             } else {
                 unSelect(tv);
             }

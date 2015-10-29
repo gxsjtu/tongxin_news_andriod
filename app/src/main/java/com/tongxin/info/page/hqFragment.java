@@ -100,6 +100,7 @@ public class hqFragment extends Fragment {
 
         hq_vp = (ViewPager) view.findViewById(R.id.hq_vp);
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+        tabs.setHqFragment(this);
         tabs.setIndicatorColor(Color.rgb(255,0,0));
 //        tabs.setIndicatorHeight(5);
 
@@ -109,6 +110,14 @@ public class hqFragment extends Fragment {
             public void onClick(View v) {
                 int position = hq_vp.getCurrentItem();
                 hq_vp.setCurrentItem(++position);
+//                if(marketGroups.size()-1 == position)
+//                {
+//                    hq_tab_btn.setVisibility(View.GONE);
+//                }
+//                else
+//                {
+//                    hq_tab_btn.setVisibility(View.VISIBLE);
+//                }
             }
         });
 
@@ -152,6 +161,17 @@ public class hqFragment extends Fragment {
         startActivity(intent);
     }
 
+    public void setBtn(Boolean flag)
+    {
+        if(flag)
+        {
+            hq_tab_btn.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            hq_tab_btn.setVisibility(View.INVISIBLE);
+        }
+    }
 
 
     @Override
