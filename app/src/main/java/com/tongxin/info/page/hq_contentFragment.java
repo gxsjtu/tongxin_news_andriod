@@ -28,7 +28,7 @@ public class hq_contentFragment extends Fragment {
     private Activity mActivity;
     private MarketGroup marketGroup;
     private ListView hq_lv;
-    public static int marketId;
+    public int marketId;
 
     public MarketGroup getMarketGroup() {
         return marketGroup;
@@ -43,6 +43,11 @@ public class hq_contentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
+    }
+
+    public void refLV()
+    {
+        hq_lv.setSelection(0);
     }
 
     @Nullable
@@ -62,10 +67,6 @@ public class hq_contentFragment extends Fragment {
 
     public void initData()
     {
-        if(marketGroup == null)
-        {
-            marketGroup = hqFragment.marketGroups.get(marketId);
-        }
         hq_lv.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {

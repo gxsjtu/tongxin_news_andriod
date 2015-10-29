@@ -36,12 +36,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.astuetz.PagerSlidingTabStrip
+        <!--<com.astuetz.PagerSlidingTabStrip-->
+            <!--android:id="@+id/tabs"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="8dp"></com.astuetz.PagerSlidingTabStrip>-->
+
+        <com.tongxin.info.control.PagerSlidingTabStrip
             android:id="@+id/tabs"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"></com.astuetz.PagerSlidingTabStrip>
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"></com.tongxin.info.control.PagerSlidingTabStrip>
 
         <ImageButton
             android:id="@+id/hq_tab_btn"

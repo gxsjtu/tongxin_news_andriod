@@ -25,12 +25,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.astuetz.PagerSlidingTabStrip;
+//import com.astuetz.PagerSlidingTabStrip;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.MainActivity;
 import com.tongxin.info.activity.SearchActivity;
+import com.tongxin.info.control.PagerSlidingTabStrip;
 import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.domain.SearchVM;
@@ -45,6 +46,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/9/24.
@@ -58,13 +60,14 @@ public class hqFragment extends Fragment {
     private ImageView iv_return;
     private ImageView iv_ref;
     private EditText et_search;
-    private ListView lv_search;
     private ImageView iv_search;
+    private List<hq_contentFragment> hq_frag = new ArrayList<hq_contentFragment>();
     loadingUtils loadingUtils;
 
-    public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
+    public ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
     private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
     private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
+    MyPagerAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,12 +90,19 @@ public class hqFragment extends Fragment {
         iv_ref.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //initData(id);
+                initData();
+                adapter.notifyDataSetChanged();
+                for (int i = 0; i < hq_frag.size(); i++) {
+                    hq_frag.get(i).refLV();
+                }
             }
         });
 
         hq_vp = (ViewPager) view.findViewById(R.id.hq_vp);
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+        tabs.setIndicatorColor(Color.rgb(255,0,0));
+//        tabs.setIndicatorHeight(5);
+
         hq_tab_btn = (ImageButton) view.findViewById(R.id.hq_tab_btn);
         hq_tab_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +137,7 @@ public class hqFragment extends Fragment {
         });
         initData();
 
-        lv_search = (ListView) view.findViewById(R.id.lv_search);
+        //lv_search = (ListView) view.findViewById(R.id.lv_search);
 
         return view;
     }
@@ -164,8 +174,8 @@ public class hqFragment extends Fragment {
                 Type type = new TypeToken<ArrayList<MarketGroup>>() {
                 }.getType();
                 marketGroups = gson.fromJson(t, type);
-
-                hq_vp.setAdapter(new MyPagerAdapter(mActivity.getSupportFragmentManager()));
+                adapter = new MyPagerAdapter(mActivity.getSupportFragmentManager());
+                hq_vp.setAdapter(adapter);
                 tabs.setViewPager(hq_vp);
             }
 
@@ -199,6 +209,8 @@ public class hqFragment extends Fragment {
             hq_contentFragment hq_contentFragment = new hq_contentFragment();
             //((MainActivity)mActivity).data=marketGroups.get(position);
             hq_contentFragment.setMarketGroup(marketGroups.get(position));
+            if(!hq_frag.contains(hq_contentFragment))
+                hq_frag.add(hq_contentFragment);
 //            hq_contentFragment.initData();
             return hq_contentFragment;
         }
