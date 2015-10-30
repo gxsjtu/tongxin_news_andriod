@@ -66,7 +66,6 @@ public class boxFragment extends Fragment {
     private View footerView;
     loadingUtils loadingUtils;
     private int hereIndex = 0;
-    private String refreshDate;//如果数据为空 记录上一次刷新时间 用来刷新数据
 
 
     @Override
@@ -456,7 +455,8 @@ public class boxFragment extends Fragment {
                 if (loadList != null && loadList.size() > 0) {
                     maxDateForPullDown = loadList.get(0).date;
                 }
-                else
+
+                if(msgList == null || msgList.size() <= 0)
                 {
                     maxDateForPullDown = sdfFormat.format(new Date());
                 }
