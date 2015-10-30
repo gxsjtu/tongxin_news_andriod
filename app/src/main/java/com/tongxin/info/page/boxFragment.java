@@ -65,9 +65,9 @@ public class boxFragment extends Fragment {
     private Button loadMoreBtn;
     private View footerView;
     loadingUtils loadingUtils;
-    private String msgForImgHere;//上拉标志已读的图标
-    private String msgForPullUpHere;//下拉标志已读的图标
     private int hereIndex = 0;
+    private String refreshDate;//如果数据为空 记录上一次刷新时间 用来刷新数据
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,6 @@ public class boxFragment extends Fragment {
         mActivity = getActivity();
         loadingUtils = new loadingUtils(mActivity);
         initData();
-        //loadMore();
     }
 
     @Nullable
@@ -97,15 +96,6 @@ public class boxFragment extends Fragment {
                 loadMore();
             }
         });
-//        lv_msg.setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
-//
-//            @Override
-//            public void onLoadMore() {
-////                new LoadMoreDataTask().execute();
-//                loadMore();
-//            }
-//
-//        });
 
         lv_msg.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
 
@@ -146,14 +136,6 @@ public class boxFragment extends Fragment {
             }
         }
 
-//        if(loadList == null || loadList.size() <= 0)
-//        {
-//            lv_msg.removeFooterView(footerView);
-//        }
-//        else
-//        {
-//            lv_msg.addFooterView(footerView);
-//        }
 
         adapterForData = new BaseAdapter() {
             @Override
@@ -182,7 +164,6 @@ public class boxFragment extends Fragment {
                     viewHolder.txt_msg = (TextView) convertView.findViewById(R.id.txtMsg);
                     viewHolder.txt_date = (TextView) convertView.findViewById(R.id.txtDate);
                     viewHolder.img_Msg = (ImageView) convertView.findViewById(R.id.imgMsg);
-//                                    viewHolder.msg_img = (TextView) convertView.findViewById(R.id.)
                     convertView.setTag(viewHolder);
                 } else {
                     viewHolder = (ViewHolder) convertView.getTag();
@@ -274,9 +255,10 @@ public class boxFragment extends Fragment {
                         if (loadList != null && loadList.size() > 0) {
                             minDateForPullUp = loadList.get(loadList.size() - 1).date;
                             maxDateForPullDown = loadList.get(0).date;
-                            msgForImgHere = msgList.get(0).msg + msgList.get(0).date;
-                            msgForPullUpHere = "";//第一次加载直接上拉不显示已读图标
+                        } else {
+                            maxDateForPullDown = format.format(new Date());
                         }
+
                         lv_msg.setAdapter(new BaseAdapter() {
                             @Override
                             public int getCount() {
@@ -363,7 +345,6 @@ public class boxFragment extends Fragment {
             long dFinish;
             @Override
             public void onPreStart() {
-              //  Object dStart;
                 super.onPreStart();
                 try {
                     dStart = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
@@ -456,11 +437,9 @@ public class boxFragment extends Fragment {
                             viewHolder.img_Msg.setVisibility(View.VISIBLE);
                         }
 
-//                        String str = item.msg + item.date;
                         if(item.isHereVisible)
                         {
                             viewHolder.img_Here.setVisibility(View.VISIBLE);
-                           // item.isHereVisible = false;
                         }
                         else
                         {
@@ -477,16 +456,14 @@ public class boxFragment extends Fragment {
                 if (loadList != null && loadList.size() > 0) {
                     maxDateForPullDown = loadList.get(0).date;
                 }
+                else
+                {
+                    maxDateForPullDown = sdfFormat.format(new Date());
+                }
 
                 adapterForData.notifyDataSetChanged();
                 lv_msg.setSelection(0);
                 lv_msg.onRefreshComplete();
-
-//                if(msgList != null && msgList.size() > 0)
-//                {
-//                    msgForImgHere = msgList.get(0).msg + msgList.get(0).date;
-//                    msgForPullUpHere = msgList.get(loadList.size()).msg + msgList.get(loadList.size()).date;//上拉加载更多记录上一次已读的位置 避免上拉隐藏图标
-//                }
 
                 lv_msg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -497,8 +474,8 @@ public class boxFragment extends Fragment {
                             intent.putExtra("inboxDetailUrl", item.url + "&mobile=131764233669");
                             startActivity(intent);
                         }
-                        }
-                    });
+                    }
+                });
             }
         });
     }
@@ -632,7 +609,6 @@ public class boxFragment extends Fragment {
                 adapterForData.notifyDataSetChanged();
                 lv_msg.setSelection(msgList.size() - 1);
 
-                //lv_msg.onLoadMoreComplete();
                 lv_msg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
