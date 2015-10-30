@@ -32,6 +32,7 @@ import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.hqFragment;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.json.JSONException;
@@ -54,11 +55,13 @@ public class HqDetailActivity extends AppCompatActivity {
     private String mMarketName;
     loadingUtils loadingUtils;
     AppAdapter adapter;
+    private String tel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hq_detail);
+        tel = new UserUtils(this).getTel();
         Intent intent = getIntent();
         final int id = intent.getIntExtra("marketId", 0);
         mMarketName = intent.getStringExtra("marketName");
@@ -114,7 +117,7 @@ public class HqDetailActivity extends AppCompatActivity {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=13764233669", null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile="+tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(HqDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -265,7 +268,7 @@ public class HqDetailActivity extends AppCompatActivity {
         HttpParams params = new HttpParams();
         params.put("method", "order");
         params.put("productId", id);
-        params.put("mobile", "13764233669");
+        params.put("mobile", tel);
         params.put("isOrder", isOrder?"YES":"NO");
         kjHttp.post(GlobalContants.ORDER_URL,params,false,new HttpCallBack(){
             @Override

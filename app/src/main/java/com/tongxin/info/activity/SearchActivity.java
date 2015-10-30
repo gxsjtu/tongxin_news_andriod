@@ -27,6 +27,7 @@ import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.json.JSONException;
@@ -55,11 +56,13 @@ public class SearchActivity extends Activity {
     private ImageView iv_ref;
     loadingUtils loadingUtils;
     AppAdapter adapter;
+    private String tel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        tel = new UserUtils(this).getTel();
         Intent intent = getIntent();
         String key = intent.getStringExtra("key");
 
@@ -125,7 +128,7 @@ public class SearchActivity extends Activity {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.SEARCH_URL + "&searchKey=" + str + "&mobile=13764233669", null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.SEARCH_URL + "&searchKey=" + str + "&mobile="+tel, null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
                 loadingUtils.show();
@@ -194,7 +197,7 @@ public class SearchActivity extends Activity {
         HttpParams params = new HttpParams();
         params.put("method", "order");
         params.put("productId", id);
-        params.put("mobile", "13764233669");
+        params.put("mobile", tel);
         params.put("isOrder", isOrder?"YES":"NO");
         kjHttp.post(GlobalContants.ORDER_URL,params,false,new HttpCallBack(){
             @Override
