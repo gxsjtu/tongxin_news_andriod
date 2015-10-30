@@ -5,4 +5,8 @@
     <color name="darkred">#d92b19</color>
     <color name="darkgreen">#51953e</color>
     <color name="darkyellow">#f18b26</color>
+
+    <color name="psts_background_tab_pressed">#1AFFFFFF</color>
+    <color name="psts_background_tab_pressed_ripple">#AAFFFFFF</color>
+
 </resources>
