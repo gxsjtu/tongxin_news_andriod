@@ -32,6 +32,7 @@ import com.tongxin.info.domain.InboxMsgVM;
 import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
@@ -66,12 +67,15 @@ public class boxFragment extends Fragment {
     private View footerView;
     loadingUtils loadingUtils;
     private int hereIndex = 0;
+    private String tel;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
+        UserUtils userUtils = new UserUtils(mActivity);
+        tel = userUtils.getTel();
         loadingUtils = new loadingUtils(mActivity);
         initData();
     }
@@ -216,7 +220,7 @@ public class boxFragment extends Fragment {
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
         loadingUtils.show();
-        kjHttp.get(GlobalContants.GETINBOXMSG_URL + "?method=getInboxMsg&mobile=13764233669", null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETINBOXMSG_URL + "?method=getInboxMsg&mobile=" + tel, null, false, new HttpCallBack() {
                     @Override
                     public void onPreStart() {
                         super.onPreStart();
@@ -309,7 +313,7 @@ public class boxFragment extends Fragment {
                                 InboxMsgVM item = msgList.get(position - 1);
                                 if (item.url != null && item.url != "") {
                                     Intent intent = new Intent(mActivity, InboxDetailActivity.class);
-                                    intent.putExtra("inboxDetailUrl", item.url + "&mobile=131764233669");
+                                    intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
                                     startActivity(intent);
                                 }
                             }
@@ -329,7 +333,7 @@ public class boxFragment extends Fragment {
       final  SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         HttpParams params = new HttpParams();
         params.put("method","getMsgByAction");
-        params.put("mobile","13764233669");
+        params.put("mobile",tel);
         params.put("actionStr","pullDown");
         params.put("dateStr",maxDateForPullDown);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:m:s sss");
@@ -471,7 +475,7 @@ public class boxFragment extends Fragment {
                         InboxMsgVM item = msgList.get(position - 1);
                         if (item.url != null && item.url != "") {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
-                            intent.putExtra("inboxDetailUrl", item.url + "&mobile=131764233669");
+                            intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
                             startActivity(intent);
                         }
                     }
@@ -484,7 +488,7 @@ public class boxFragment extends Fragment {
         final   SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         HttpParams params = new HttpParams();
         params.put("method","getMsgByAction");
-        params.put("mobile","13764233669");
+        params.put("mobile",tel);
         params.put("actionStr","pullUp");
         params.put("dateStr",minDateForPullUp);
         KJHttp kjHttp = new KJHttp();
@@ -615,7 +619,7 @@ public class boxFragment extends Fragment {
                         InboxMsgVM item = msgList.get(position - 1);
                         if (item.url != null && item.url != "") {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
-                            intent.putExtra("inboxDetailUrl", item.url + "&mobile=131764233669");
+                            intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
                             startActivity(intent);
                         }
                     }
