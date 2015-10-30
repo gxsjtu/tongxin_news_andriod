@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pulltorefresh-and-loadmore/pulltorefresh-and-loadmore.iml" filepath="$PROJECT_DIR$/pulltorefresh-and-loadmore/pulltorefresh-and-loadmore.iml" />
       <module fileurl="file://$PROJECT_DIR$/tongxin_news_andriod.iml" filepath="$PROJECT_DIR$/tongxin_news_andriod.iml" />
     </modules>
   </component>

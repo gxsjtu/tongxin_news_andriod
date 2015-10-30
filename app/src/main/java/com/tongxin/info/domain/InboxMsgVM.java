@@ -7,4 +7,5 @@ public class InboxMsgVM {
     public String msg;
     public String date;
     public String url;
+    public boolean isHereVisible;
 }
