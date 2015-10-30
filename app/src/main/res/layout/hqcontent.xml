@@ -9,7 +9,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
 
         <EditText
             android:id="@+id/et_search"
@@ -18,7 +19,13 @@
             android:layout_height="wrap_content"
             android:hint="请输入查询内容"
             android:imeOptions="actionDone"
-            android:drawablePadding="15dp"/>
+            android:drawablePadding="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:background="@drawable/edittext_border"/>
 
         <ImageView
             android:id="@+id/iv_search"

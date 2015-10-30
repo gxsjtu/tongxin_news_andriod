@@ -102,7 +102,6 @@ public class hqFragment extends Fragment {
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         tabs.setHqFragment(this);
         tabs.setIndicatorColor(Color.rgb(255,0,0));
-//        tabs.setIndicatorHeight(5);
 
         hq_tab_btn = (ImageButton) view.findViewById(R.id.hq_tab_btn);
         hq_tab_btn.setOnClickListener(new View.OnClickListener() {
