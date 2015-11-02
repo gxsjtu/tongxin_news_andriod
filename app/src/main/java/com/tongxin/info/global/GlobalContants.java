@@ -11,4 +11,5 @@ public class GlobalContants {
     public static final String SEARCH_URL = SERVER_URL + "/Handlers/SearchHandler.ashx?method=getSearchResult";
     public static final String GETINBOXMSG_URL = SERVER_URL + "/Handlers/InboxMsgHandler.ashx";
     public static final String ORDER_URL = SERVER_URL + "/Handlers/orderHandler.ashx";
+    public static final String CHECKVERSION_URL = SERVER_URL + "/Handlers/UpdateHandler.ashx?method=checkversion";
 }
