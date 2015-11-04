@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tongxin.info.R;
+import com.tongxin.info.activity.PingLunDetailActivity;
 import com.tongxin.info.domain.MarketGroup;
 
 /**
@@ -110,11 +111,11 @@ public class pl_contentFragment extends Fragment {
         pl_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                MarketGroup.Market market = marketGroup.markets.get(position);
-//                Intent intent = new Intent(mActivity, HqDetailActivity.class);
-//                intent.putExtra("marketId",market.id);
-//                intent.putExtra("marketName",market.name);
-//                startActivity(intent);
+                MarketGroup.Market market = marketGroup.markets.get(position);
+                Intent intent = new Intent(mActivity, PingLunDetailActivity.class);
+                intent.putExtra("marketId",market.id);
+                intent.putExtra("marketName",market.name);
+                startActivity(intent);
             }
         });
     }

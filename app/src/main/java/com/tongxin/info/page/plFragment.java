@@ -30,6 +30,7 @@ import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpConfig;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -144,6 +145,9 @@ public class plFragment extends baseFragment {
     private void initData()
     {
         KJHttp kjHttp = new KJHttp();
+        HttpConfig httpConfig = new HttpConfig();
+        httpConfig.TIMEOUT = 3 * 60 * 1000;
+        kjHttp.setConfig(httpConfig);
         kjHttp.get(GlobalContants.GETPLMARKETS_URL, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {

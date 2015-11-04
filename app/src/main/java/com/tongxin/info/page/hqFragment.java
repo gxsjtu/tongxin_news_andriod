@@ -161,6 +161,9 @@ public class hqFragment extends baseFragment {
     private void initData()
     {
         KJHttp kjHttp = new KJHttp();
+        HttpConfig httpConfig = new HttpConfig();
+        httpConfig.TIMEOUT = 3 * 60 * 1000;
+        kjHttp.setConfig(httpConfig);
         kjHttp.get(GlobalContants.GETMARKETS_URL, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
