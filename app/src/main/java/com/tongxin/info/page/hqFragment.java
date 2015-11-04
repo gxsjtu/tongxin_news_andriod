@@ -52,7 +52,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/9/24.
  */
-public class hqFragment extends Fragment {
+public class hqFragment extends baseFragment {
     private FragmentActivity mActivity;
     private ViewPager hq_vp;
     private PagerSlidingTabStrip tabs;
@@ -63,13 +63,12 @@ public class hqFragment extends Fragment {
     private EditText et_search;
     private ImageView iv_search;
     private List<hq_contentFragment> hq_frag = new ArrayList<hq_contentFragment>();
-    private List<String> tagList = new ArrayList<String>();
     loadingUtils loadingUtils;
     private FragmentManager fm;
 
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
-    private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
-    private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
+//    private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
+//    private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
     MyPagerAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -140,6 +139,7 @@ public class hqFragment extends Fragment {
         startActivity(intent);
     }
 
+    @Override
     public void setBtn(Boolean flag)
     {
         if(flag)
@@ -192,8 +192,6 @@ public class hqFragment extends Fragment {
                 loadingUtils.close();
             }
         });
-
-
     }
 
     private void initFragment()
@@ -202,7 +200,6 @@ public class hqFragment extends Fragment {
         for (int i = 0; i<marketGroups.size();i++)
         {
             hq_contentFragment hq_fragment = hq_contentFragment.newInstance(i);
-            //hq_contentFragment.setMarketGroup(marketGroups.get(i));
             hq_frag.add(hq_fragment);
         }
     }

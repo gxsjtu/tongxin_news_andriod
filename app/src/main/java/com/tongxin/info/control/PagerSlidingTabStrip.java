@@ -45,6 +45,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tongxin.info.R;
+import com.tongxin.info.page.baseFragment;
 import com.tongxin.info.page.hqFragment;
 
 public class PagerSlidingTabStrip extends HorizontalScrollView {
@@ -107,7 +108,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     private int mScrollOffset;
     private int mLastScrollX = 0;
-    private hqFragment hqFragment;
+    private baseFragment hqFragment;
 
     private int mTabBackgroundResId = R.drawable.psts_background_tab;
 
@@ -228,7 +229,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         notifyDataSetChanged();
     }
 
-    public void setHqFragment(hqFragment hq)
+    public void setHqFragment(baseFragment hq)
     {
         hqFragment = hq;
     }
