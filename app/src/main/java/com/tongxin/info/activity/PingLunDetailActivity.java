@@ -116,7 +116,7 @@ public class PingLunDetailActivity extends AppCompatActivity {
 
     private void initData() {
         KJHttp kjHttp = new KJHttp();
-        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + tel, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + tel,null,false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(PingLunDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
