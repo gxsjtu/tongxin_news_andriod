@@ -117,7 +117,8 @@ public class SplashActivity extends AppCompatActivity {
             //动画结束
             @Override
             public void onAnimationEnd(Animation animation) {
-                checkVersion();
+                //checkVersion();
+                nextPage();
             }
 
             @Override
