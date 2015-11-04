@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +40,8 @@ import java.util.ArrayList;
 
 public class PingLunDetailActivity extends AppCompatActivity {
     private TextView tv_headerTitle;
-    private ImageView iv_return;
-    private ImageView iv_ref;
+    private LinearLayout iv_return;
+    private LinearLayout iv_ref;
     private SwipeMenuListView pl_detail_lv;
     private int mMarketId;
     private String mMarketName;
@@ -64,19 +65,20 @@ public class PingLunDetailActivity extends AppCompatActivity {
         tel = userUtils.getTel();
         loadingUtils = new loadingUtils(this);
         imgWeight = DensityUtils.dp2px(this, 80);
-        imgHeight = DensityUtils.dp2px(this,80);
+        imgHeight = DensityUtils.dp2px(this, 80);
         initViews();
         initData();
     }
 
     private void initViews() {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
-        iv_return = (ImageView) findViewById(R.id.iv_return);
-        iv_ref = (ImageView) findViewById(R.id.iv_ref);
+        iv_return = (LinearLayout) findViewById(R.id.iv_return);
+        iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
         pl_detail_lv = (SwipeMenuListView) findViewById(R.id.pl_detail_lv);
 
         tv_headerTitle.setText(mMarketName);
-
+        iv_return.setVisibility(View.VISIBLE);
+        iv_ref.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +137,7 @@ public class PingLunDetailActivity extends AppCompatActivity {
                         PlProductVM clickItem = products.get(position);
                         Intent intent = new Intent(PingLunDetailActivity.this, InboxDetailActivity.class);
                         intent.putExtra("inboxDetailUrl", clickItem.url);
+                        intent.putExtra("title", mMarketName + "-" + clickItem.productname);
                         startActivity(intent);
                     }
                 });
@@ -193,22 +196,19 @@ public class PingLunDetailActivity extends AppCompatActivity {
             ViewHolder viewHolder = null;
             if (convertView == null) {
                 viewHolder = new ViewHolder();
-                convertView = View.inflate(PingLunDetailActivity.this,R.layout.pl_detail_lv_item,null);
+                convertView = View.inflate(PingLunDetailActivity.this, R.layout.pl_detail_lv_item, null);
                 viewHolder.iv_pl_detail_item = (ImageView) convertView.findViewById(R.id.iv_pl_detail_item);
                 viewHolder.tv_pl_detail_item_header = (TextView) convertView.findViewById(R.id.tv_pl_detail_item_header);
                 viewHolder.tv_pl_detail_item_name = (TextView) convertView.findViewById(R.id.tv_pl_detail_item_name);
                 viewHolder.tv_pl_detail_item_date = (TextView) convertView.findViewById(R.id.tv_pl_detail_item_date);
 
                 convertView.setTag(viewHolder);
-            }
-            else
-            {
+            } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
             PlProductVM pl = products.get(position);
-            if(pl!=null)
-            {
+            if (pl != null) {
                 viewHolder.tv_pl_detail_item_header.setText(pl.title);
                 viewHolder.tv_pl_detail_item_name.setText(pl.productname);
                 viewHolder.tv_pl_detail_item_date.setText(pl.date);

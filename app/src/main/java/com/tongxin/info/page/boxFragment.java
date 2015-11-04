@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,8 +71,7 @@ public class boxFragment extends Fragment {
     private String tel;
 
     private TextView tv_headerTitle;
-    private ImageView iv_return;
-    private ImageView iv_ref;
+    private LinearLayout iv_ref;
 
 
     @Override
@@ -91,9 +91,8 @@ public class boxFragment extends Fragment {
         View view = View.inflate(mActivity, R.layout.inboxmsg, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("收件箱");
-        iv_return = (ImageView) view.findViewById(R.id.iv_return);
-        iv_ref = (ImageView) view.findViewById(R.id.iv_ref);
-        iv_return.setVisibility(View.INVISIBLE);
+        iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
+        iv_ref.setVisibility(View.VISIBLE);
         footerView = View.inflate(mActivity, R.layout.inboxmsgfooter, null);
         lv_msg = (PullToRefreshListView) view.findViewById(R.id.lvMsg);
         lv_msg.addFooterView(footerView);
@@ -208,6 +207,7 @@ public class boxFragment extends Fragment {
                     if (item.url != null && item.url != "") {
                         Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                         intent.putExtra("inboxDetailUrl", item.url);
+                        intent.putExtra("title", "");
                         startActivity(intent);
                     }
                 }

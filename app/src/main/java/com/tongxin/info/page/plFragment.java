@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,8 +46,7 @@ public class plFragment extends baseFragment {
     private PagerSlidingTabStrip pl_tabs;
     private ImageButton pl_tab_btn;
     private TextView tv_headerTitle;
-    private ImageView iv_return;
-    private ImageView iv_ref;
+    private LinearLayout iv_ref;
     private List<pl_contentFragment> pl_frag = new ArrayList<pl_contentFragment>();
     com.tongxin.info.utils.loadingUtils loadingUtils;
     private FragmentManager fm;
@@ -68,10 +68,9 @@ public class plFragment extends baseFragment {
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("同鑫评论");
         loadingUtils = new loadingUtils(mActivity);
-        iv_return = (ImageView) view.findViewById(R.id.iv_return);
-        iv_ref = (ImageView) view.findViewById(R.id.iv_ref);
+        iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
 
-        iv_return.setVisibility(View.INVISIBLE);
+        iv_ref.setVisibility(View.VISIBLE);
 
         iv_ref.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -52,8 +52,8 @@ public class SearchActivity extends Activity {
 
     private TextView tv_headerTitle;
     private SwipeMenuListView lv_search;
-    private ImageView iv_return;
-    private ImageView iv_ref;
+    private LinearLayout iv_return;
+    private LinearLayout iv_ref;
     loadingUtils loadingUtils;
     AppAdapter adapter;
     private String tel;
@@ -80,10 +80,11 @@ public class SearchActivity extends Activity {
     private void initViews() {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         lv_search = (SwipeMenuListView) findViewById(R.id.lv_search);
-        iv_return = (ImageView) findViewById(R.id.iv_return);
-        iv_ref = (ImageView) findViewById(R.id.iv_ref);
+        iv_return = (LinearLayout) findViewById(R.id.iv_return);
+        iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
         tv_headerTitle.setText("搜索结果");
-
+        iv_return.setVisibility(View.VISIBLE);
+        iv_ref.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -80,6 +80,9 @@
         <activity android:name=".activity.ChartActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.PingLunDetailActivity"
+            android:screenOrientation="portrait"></activity>
+
 
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
