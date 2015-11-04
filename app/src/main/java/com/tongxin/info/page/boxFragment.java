@@ -69,6 +69,10 @@ public class boxFragment extends Fragment {
     private int hereIndex = 0;
     private String tel;
 
+    private TextView tv_headerTitle;
+    private ImageView iv_return;
+    private ImageView iv_ref;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,11 @@ public class boxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container.removeAllViews();
         View view = View.inflate(mActivity, R.layout.inboxmsg, null);
+        tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
+        tv_headerTitle.setText("收件箱");
+        iv_return = (ImageView) view.findViewById(R.id.iv_return);
+        iv_ref = (ImageView) view.findViewById(R.id.iv_ref);
+        iv_return.setVisibility(View.INVISIBLE);
         footerView = View.inflate(mActivity, R.layout.inboxmsgfooter, null);
         lv_msg = (PullToRefreshListView) view.findViewById(R.id.lvMsg);
         lv_msg.addFooterView(footerView);
@@ -239,9 +248,9 @@ public class boxFragment extends Fragment {
 
                     @Override
                     public void onSuccess(String t) {
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<ArrayList<InboxMsgVM>>() {
-                        }.getType();
+                            Gson gson = new Gson();
+                            Type type = new TypeToken<ArrayList<InboxMsgVM>>() {
+                            }.getType();
 
                         loadList = gson.fromJson(t, type);
                         for (int i = 0; i < loadList.size(); i++) {

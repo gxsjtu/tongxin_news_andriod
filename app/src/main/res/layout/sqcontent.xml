@@ -1,11 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical">
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    <include layout="@layout/header"></include>
 
-    <TextView
-        android:text="商圈"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp">
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgJBJS"
+        android:adjustViewBounds="false"
+        android:src="@drawable/jbjs"
+        android:background="#ffffff"
+        android:layout_weight="1"
+        />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgFJYS"
+            android:adjustViewBounds="false"
+            android:src="@drawable/fjys"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgGJS"
+            android:adjustViewBounds="false"
+            android:src="@drawable/gjs"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="30dp"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="基本金属"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="废旧有色"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="贵金属"
+            android:gravity="center"/>
+        </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="100dp"
+        android:layout_width="match_parent">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgFG"
+            android:adjustViewBounds="false"
+            android:src="@drawable/fg"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgJC"
+            android:adjustViewBounds="false"
+            android:src="@drawable/jc"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgGP"
+            android:adjustViewBounds="false"
+            android:src="@drawable/gp"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="30dp"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="废钢"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="建材"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv6"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="钢坯"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="100dp"
+        android:layout_width="match_parent">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgFBXG"
+            android:adjustViewBounds="false"
+            android:src="@drawable/fbxg"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgBXG"
+            android:adjustViewBounds="false"
+            android:src="@drawable/bxg"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgST"
+            android:adjustViewBounds="false"
+            android:src="@drawable/st"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="30dp"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/tv7"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="废不锈钢"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv8"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="不锈钢"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv9"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="生铁"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="100dp"
+        android:layout_width="match_parent">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgTKS"
+            android:adjustViewBounds="false"
+            android:src="@drawable/tks"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgTHJ"
+            android:adjustViewBounds="false"
+            android:src="@drawable/thj"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgXYXJS"
+            android:adjustViewBounds="false"
+            android:src="@drawable/xyxjs"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="30dp"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/tv10"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="铁矿石"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv11"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="铁合金"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv12"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="稀有小金属"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="100dp"
+        android:layout_width="match_parent">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgFZ"
+            android:adjustViewBounds="false"
+            android:src="@drawable/fz"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgZSSL"
+            android:adjustViewBounds="false"
+            android:src="@drawable/zssl"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgQT"
+            android:adjustViewBounds="false"
+            android:src="@drawable/qt"
+            android:background="#ffffff"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout  android:orientation="horizontal"
+        android:layout_height="30dp"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/tv13"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="废纸"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv14"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="再生塑料"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv15"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="其他"
+            android:gravity="center"/>
+    </LinearLayout>
+    </LinearLayout>
+</ScrollView>

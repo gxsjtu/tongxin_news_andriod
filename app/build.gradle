@@ -30,4 +30,5 @@ dependencies {
     compile project(':pulltorefresh-and-loadmore')
     compile files('libs/android-support-v4.jar')
     compile files('libs/GetuiExt-2.0.3.jar')
+    compile files('libs/universal-image-loader-1.9.4.jar')
 }

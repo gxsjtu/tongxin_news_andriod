@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#23B1EF"
+    >
+    <ImageView
+        android:id="@+id/sq_ivReturn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ret"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        >
+    <Button
+        android:id="@+id/bt_SqTabGY"
+        android:text="供应"
+        android:layout_width="60dp"
+        android:layout_height="38dp"
+        android:textColor="#fff" />
+    <Button
+        android:id="@+id/bt_SqlTabXQ"
+        android:text="需求"
+        android:layout_width="60dp"
+        android:layout_height="38dp"
+        android:textColor="#fff" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_ref"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ref"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true"
+        />
+</RelativeLayout>
