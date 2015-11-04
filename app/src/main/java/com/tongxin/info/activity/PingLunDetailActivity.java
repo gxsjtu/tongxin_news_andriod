@@ -133,10 +133,9 @@ public class PingLunDetailActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         PlProductVM clickItem = products.get(position);
-//                        Intent intent = new Intent(PingLunDetailActivity.this, HqHistoryActivity.class);
-//                        intent.putExtra("productId", clickItem.id);
-//                        intent.putExtra("productName", mMarketName + " - " + clickItem.productname);
-//                        startActivity(intent);
+                        Intent intent = new Intent(PingLunDetailActivity.this, InboxDetailActivity.class);
+                        intent.putExtra("inboxDetailUrl", clickItem.url);
+                        startActivity(intent);
                     }
                 });
 
