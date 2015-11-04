@@ -40,6 +40,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import com.igexin.sdk.PushManager;
+import com.tongxin.info.utils.UserUtils;
 
 //闪屏页,可以用来检测app的合法性和新版本的验证，以及预加载一些数据
 public class SplashActivity extends AppCompatActivity {
@@ -80,7 +81,11 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        PushManager.getInstance().initialize(this.getApplicationContext());
+        PushManager pushManager = PushManager.getInstance();
+        pushManager.initialize(this.getApplicationContext());
+        String clientId = pushManager.getClientid(this);
+        UserUtils userUtils = new UserUtils(this);
+        userUtils.setClientId(clientId);
 
         splash_rl = (RelativeLayout) findViewById(R.id.splash_rl);
         progress = (ProgressBar) findViewById(R.id.progress);

@@ -12,6 +12,24 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
  */
 public class MyApp extends Application {
     private String tel;
+    private String clientId;
+    private String pwd;
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
 
     public String getTel() {
         return tel;
