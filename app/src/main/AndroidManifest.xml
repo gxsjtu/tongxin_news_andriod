@@ -79,6 +79,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ChartActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".page.sqListFragment"
+            android:screenOrientation="portrait"/>
 
 
         <!-- 个推SDK配置开始 -->
