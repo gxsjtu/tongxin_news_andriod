@@ -29,6 +29,16 @@ public class hq_contentFragment extends Fragment {
     private MarketGroup marketGroup;
     private ListView hq_lv;
     public int marketId;
+    private int position;
+
+    public static hq_contentFragment newInstance(int position)
+    {
+        hq_contentFragment f = new hq_contentFragment();
+        Bundle b = new Bundle();
+        b.putInt("position", position);
+        f.setArguments(b);
+        return f;
+    }
 
     public MarketGroup getMarketGroup() {
         return marketGroup;
@@ -43,6 +53,8 @@ public class hq_contentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
+        position = getArguments().getInt("position");
+        marketGroup = hqFragment.marketGroups.get(position);
     }
 
     public void refLV()
