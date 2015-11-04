@@ -14,39 +14,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tongxin.info.R;
-import com.tongxin.info.activity.HqDetailActivity;
-import com.tongxin.info.activity.MainActivity;
+import com.tongxin.info.activity.PingLunDetailActivity;
 import com.tongxin.info.domain.MarketGroup;
-
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2015/9/24.
  */
-public class hq_contentFragment extends Fragment {
+public class pl_contentFragment extends Fragment {
 
     private Activity mActivity;
     private MarketGroup marketGroup;
-    private ListView hq_lv;
-    public int marketId;
+    private ListView pl_lv;
     private int position;
 
-    public static hq_contentFragment newInstance(int position)
+    public static pl_contentFragment newInstance(int position)
     {
-        hq_contentFragment f = new hq_contentFragment();
+        pl_contentFragment f = new pl_contentFragment();
         Bundle b = new Bundle();
         b.putInt("position", position);
         f.setArguments(b);
         return f;
-    }
-
-    public MarketGroup getMarketGroup() {
-        return marketGroup;
-    }
-
-    public void setMarketGroup(MarketGroup marketGroup) {
-        this.marketGroup = marketGroup;
-        marketId = marketGroup.id;
     }
 
     @Override
@@ -54,20 +41,19 @@ public class hq_contentFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         position = getArguments().getInt("position");
-        marketGroup = hqFragment.marketGroups.get(position);
+        marketGroup = plFragment.marketGroups.get(position);
     }
 
     public void refLV()
     {
-        //hq_lv.setSelection(0);
+        //pl_lv.setSelection(0);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hqview,null);
-        hq_lv = (ListView) view.findViewById(R.id.hq_lv);
-        //marketGroup = (MarketGroup) ((MainActivity)mActivity).data;
+        pl_lv = (ListView) view.findViewById(R.id.hq_lv);
         initData();
         return view;
     }
@@ -79,7 +65,7 @@ public class hq_contentFragment extends Fragment {
 
     public void initData()
     {
-        hq_lv.setAdapter(new BaseAdapter() {
+        pl_lv.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
                 return marketGroup.markets.size();
@@ -122,11 +108,11 @@ public class hq_contentFragment extends Fragment {
             }
         });
 
-        hq_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        pl_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MarketGroup.Market market = marketGroup.markets.get(position);
-                Intent intent = new Intent(mActivity, HqDetailActivity.class);
+                Intent intent = new Intent(mActivity, PingLunDetailActivity.class);
                 intent.putExtra("marketId",market.id);
                 intent.putExtra("marketName",market.name);
                 startActivity(intent);

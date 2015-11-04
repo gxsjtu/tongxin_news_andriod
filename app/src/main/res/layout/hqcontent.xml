@@ -35,7 +35,6 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -64,18 +63,10 @@
 
     </LinearLayout>
 
-
-
-
     <android.support.v4.view.ViewPager
         android:id="@+id/hq_vp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"></android.support.v4.view.ViewPager>
 
-    <ListView
-        android:id="@+id/lv_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"></ListView>
 </LinearLayout>

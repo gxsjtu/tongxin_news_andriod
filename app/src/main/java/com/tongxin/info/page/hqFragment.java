@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -51,7 +52,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/9/24.
  */
-public class hqFragment extends Fragment {
+public class hqFragment extends baseFragment {
     private FragmentActivity mActivity;
     private ViewPager hq_vp;
     private PagerSlidingTabStrip tabs;
@@ -63,15 +64,17 @@ public class hqFragment extends Fragment {
     private ImageView iv_search;
     private List<hq_contentFragment> hq_frag = new ArrayList<hq_contentFragment>();
     loadingUtils loadingUtils;
+    private FragmentManager fm;
 
-    public ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
-    private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
-    private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
+    public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
+//    private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
+//    private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
     MyPagerAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = (FragmentActivity)getActivity();
+        fm = mActivity.getSupportFragmentManager();
     }
 
     @Nullable
@@ -109,32 +112,10 @@ public class hqFragment extends Fragment {
             public void onClick(View v) {
                 int position = hq_vp.getCurrentItem();
                 hq_vp.setCurrentItem(++position);
-//                if(marketGroups.size()-1 == position)
-//                {
-//                    hq_tab_btn.setVisibility(View.GONE);
-//                }
-//                else
-//                {
-//                    hq_tab_btn.setVisibility(View.VISIBLE);
-//                }
             }
         });
 
         et_search = (EditText) view.findViewById(R.id.et_search);
-//        et_search.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                Drawable drawable = et_search.getCompoundDrawables()[2];
-//                if (drawable == null)
-//                    return false;
-//                if (drawable == null)
-//                    return false;
-//                if (event.getX() > et_search.getWidth() - et_search.getPaddingRight() - drawable.getIntrinsicWidth()) {
-//                    search();
-//                }
-//                return false;
-//            }
-//        });
 
         iv_search = (ImageView) view.findViewById(R.id.iv_search);
         iv_search.setOnClickListener(new View.OnClickListener() {
@@ -144,8 +125,6 @@ public class hqFragment extends Fragment {
             }
         });
         initData();
-
-        //lv_search = (ListView) view.findViewById(R.id.lv_search);
 
         return view;
     }
@@ -160,6 +139,7 @@ public class hqFragment extends Fragment {
         startActivity(intent);
     }
 
+    @Override
     public void setBtn(Boolean flag)
     {
         if(flag)
@@ -181,6 +161,9 @@ public class hqFragment extends Fragment {
     private void initData()
     {
         KJHttp kjHttp = new KJHttp();
+        HttpConfig httpConfig = new HttpConfig();
+        httpConfig.TIMEOUT = 3 * 60 * 1000;
+        kjHttp.setConfig(httpConfig);
         kjHttp.get(GlobalContants.GETMARKETS_URL, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
@@ -193,9 +176,13 @@ public class hqFragment extends Fragment {
                 Type type = new TypeToken<ArrayList<MarketGroup>>() {
                 }.getType();
                 marketGroups = gson.fromJson(t, type);
-                adapter = new MyPagerAdapter(mActivity.getSupportFragmentManager());
+                adapter = new MyPagerAdapter(fm);
+
+                initFragment();
+
                 hq_vp.setAdapter(adapter);
                 tabs.setViewPager(hq_vp);
+
             }
 
             @Override
@@ -208,11 +195,19 @@ public class hqFragment extends Fragment {
                 loadingUtils.close();
             }
         });
-
-
     }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter{
+    private void initFragment()
+    {
+        hq_frag.clear();
+        for (int i = 0; i<marketGroups.size();i++)
+        {
+            hq_contentFragment hq_fragment = hq_contentFragment.newInstance(i);
+            hq_frag.add(hq_fragment);
+        }
+    }
+
+    public class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -225,13 +220,7 @@ public class hqFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            hq_contentFragment hq_contentFragment = new hq_contentFragment();
-            //((MainActivity)mActivity).data=marketGroups.get(position);
-            hq_contentFragment.setMarketGroup(marketGroups.get(position));
-            if(!hq_frag.contains(hq_contentFragment))
-                hq_frag.add(hq_contentFragment);
-//            hq_contentFragment.initData();
-            return hq_contentFragment;
+            return hq_frag.get(position);
         }
 
         @Override
@@ -239,4 +228,5 @@ public class hqFragment extends Fragment {
             return marketGroups.size();
         }
     }
+
 }

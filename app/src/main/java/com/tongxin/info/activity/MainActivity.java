@@ -85,8 +85,8 @@ public class MainActivity extends FragmentActivity {
         });
 
 
-        //默认选中行情
-        main_rg_group.check(R.id.main_rb_hq);
+        //默认选中收件箱
+        main_rg_group.check(R.id.main_rb_inbox);
     }
 
     private void showPage(Fragment fragment)
