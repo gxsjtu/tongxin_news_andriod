@@ -5,9 +5,19 @@
     android:layout_height="match_parent"
 
     tools:context="com.tongxin.info.activity.InboxDetailActivity">
-    <WebView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/inboxDetailView"
-        />
+        android:orientation="vertical">
+
+        <include layout="@layout/header"></include>
+
+        <WebView
+            android:id="@+id/inboxDetailView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
 </RelativeLayout>

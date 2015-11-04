@@ -3,9 +3,13 @@ package com.tongxin.info.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.tongxin.info.R;
 
@@ -14,12 +18,32 @@ import com.tongxin.info.R;
  */
 public class InboxDetailActivity extends Activity {
     private WebView webView;
+    private LinearLayout iv_return;
+    private TextView tv_headerTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox_detail);
+        iv_return = (LinearLayout) findViewById(R.id.iv_return);
+        tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
+        iv_return.setVisibility(View.VISIBLE);
+        iv_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         Intent intent = getIntent();
         String url = intent.getStringExtra("inboxDetailUrl");
+        String title = intent.getStringExtra("title");
+        if(TextUtils.isEmpty(title))
+        {
+            tv_headerTitle.setText("");
+        }
+        else
+        {
+            tv_headerTitle.setText(title);
+        }
         loadUrl(url);
     }
 

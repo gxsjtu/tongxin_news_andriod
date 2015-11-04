@@ -22,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,8 +59,8 @@ public class hqFragment extends baseFragment {
     private PagerSlidingTabStrip tabs;
     private ImageButton hq_tab_btn;
     private TextView tv_headerTitle;
-    private ImageView iv_return;
-    private ImageView iv_ref;
+    private LinearLayout iv_user;
+    private LinearLayout iv_ref;
     private EditText et_search;
     private ImageView iv_search;
     private List<hq_contentFragment> hq_frag = new ArrayList<hq_contentFragment>();
@@ -67,8 +68,6 @@ public class hqFragment extends baseFragment {
     private FragmentManager fm;
 
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
-//    private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
-//    private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();
     MyPagerAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,10 +84,11 @@ public class hqFragment extends baseFragment {
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("实时行情");
         loadingUtils = new loadingUtils(mActivity);
-        iv_return = (ImageView) view.findViewById(R.id.iv_return);
-        iv_ref = (ImageView) view.findViewById(R.id.iv_ref);
+        iv_user = (LinearLayout) view.findViewById(R.id.iv_user);
+        iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
 
-        iv_return.setVisibility(View.INVISIBLE);
+        iv_user.setVisibility(View.VISIBLE);
+        iv_ref.setVisibility(View.VISIBLE);
 
         iv_ref.setOnClickListener(new View.OnClickListener() {
             @Override

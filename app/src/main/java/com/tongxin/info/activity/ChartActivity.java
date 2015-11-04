@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +34,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class ChartActivity extends Activity {
     LineChartView chart;
     private TextView tv_headerTitle;
-    private ImageView iv_return;
-    private ImageView iv_ref;
+    private LinearLayout iv_return;
     private String mTitle;
     private TextView tv_priceMin;
     private TextView tv_priceMax;
@@ -58,22 +58,20 @@ public class ChartActivity extends Activity {
     private void initViews() {
         chart = (LineChartView) findViewById(R.id.chart);
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
-        iv_return = (ImageView) findViewById(R.id.iv_return);
-        iv_ref = (ImageView) findViewById(R.id.iv_ref);
+        iv_return = (LinearLayout) findViewById(R.id.iv_return);
         tv_priceMin = (TextView) findViewById(R.id.tv_priceMin);
         tv_priceMax = (TextView) findViewById(R.id.tv_priceMax);
         tv_priceDate = (TextView) findViewById(R.id.tv_priceDate);
 
         tv_headerTitle.setText(mTitle);
 
+        iv_return.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
-        iv_ref.setVisibility(View.GONE);
     }
 
 

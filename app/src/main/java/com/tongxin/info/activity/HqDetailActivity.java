@@ -49,8 +49,8 @@ public class HqDetailActivity extends AppCompatActivity {
 
     private TextView tv_headerTitle;
     private SwipeMenuListView hq_detail_lv;
-    private ImageView iv_return;
-    private ImageView iv_ref;
+    private LinearLayout iv_return;
+    private LinearLayout iv_ref;
     private ArrayList<ProductPrice> mProductPrices = new ArrayList<ProductPrice>();
     private String mMarketName;
     loadingUtils loadingUtils;
@@ -70,11 +70,12 @@ public class HqDetailActivity extends AppCompatActivity {
 
         tv_headerTitle.setText(mMarketName);
 
-        iv_return = (ImageView) findViewById(R.id.iv_return);
-        iv_ref = (ImageView) findViewById(R.id.iv_ref);
+        iv_return = (LinearLayout) findViewById(R.id.iv_return);
+        iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
 
         loadingUtils = new loadingUtils(this);
-
+        iv_return.setVisibility(View.VISIBLE);
+        iv_ref.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
