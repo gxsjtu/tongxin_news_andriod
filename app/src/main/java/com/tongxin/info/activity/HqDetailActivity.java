@@ -1,20 +1,16 @@
 package com.tongxin.info.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +21,8 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
-import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.domain.ProductPrice;
-import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.global.GlobalContants;
-import com.tongxin.info.page.hqFragment;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.DensityUtils;
 import com.tongxin.info.utils.UserUtils;
@@ -45,7 +38,7 @@ import org.kymjs.kjframe.http.HttpParams;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class HqDetailActivity extends AppCompatActivity {
+public class HqDetailActivity extends BaseActivity {
 
     private TextView tv_headerTitle;
     private SwipeMenuListView hq_detail_lv;

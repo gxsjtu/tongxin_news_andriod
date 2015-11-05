@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2015/9/21.
  */
-public class GuideActivity extends Activity {
+public class GuideActivity extends BaseActivity {
 
     private static final int[] mImageIds = new int[]{R.mipmap.guide1, R.mipmap.guide2};
     private ArrayList<ImageView> mImageViewList;

@@ -1,5 +1,6 @@
 package com.tongxin.info.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +10,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.tongxin.info.R;
+import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.SharedPreUtils;
 
@@ -43,7 +44,7 @@ import com.igexin.sdk.PushManager;
 import com.tongxin.info.utils.UserUtils;
 
 //闪屏页,可以用来检测app的合法性和新版本的验证，以及预加载一些数据
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     private RelativeLayout splash_rl;
     private ProgressBar progress;
@@ -81,11 +82,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        PushManager pushManager = PushManager.getInstance();
-        pushManager.initialize(this.getApplicationContext());
-        String clientId = pushManager.getClientid(this);
-        UserUtils userUtils = new UserUtils(this);
-        userUtils.setClientId(clientId);
+
+
+        ((MyApp)getApplication()).startCheckUser();
 
         splash_rl = (RelativeLayout) findViewById(R.id.splash_rl);
         progress = (ProgressBar) findViewById(R.id.progress);

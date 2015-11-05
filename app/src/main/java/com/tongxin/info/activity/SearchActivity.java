@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +44,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2015/10/21.
  */
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseActivity {
     String str = "";
     private ArrayList<SearchVM> searchVMs = new ArrayList<SearchVM>();
     private ArrayList<SearchItem> searchItems = new ArrayList<SearchItem>();

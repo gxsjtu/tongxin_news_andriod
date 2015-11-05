@@ -48,4 +48,9 @@ public class UserUtils {
         MyApp myApp = (MyApp) mActivity.getApplication();
         return myApp.getClientId();
     }
+
+//    public boolean isUserValid()
+//    {
+//        String
+//    }
 }

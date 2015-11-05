@@ -15,4 +15,5 @@ public class GlobalContants {
     public static final String GETPLMARKETS_URL = SERVER_URL + "/Handlers/PLHandler.ashx?method=getmarkets";
     public static final String GETPLPRODUCTS_URL = SERVER_URL + "/Handlers/PLHandler.ashx?method=getproducts";
     public static final String GETSPLIST_URL = SERVER_URL + "/Handlers/SupplyHandler.ashx";
+    public static final String Login_URL = SERVER_URL + "/Handlers/LoginHandler.ashx";
 }
