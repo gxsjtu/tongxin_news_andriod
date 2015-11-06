@@ -80,6 +80,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myApp.setSplashActivity(this);
         setContentView(R.layout.activity_splash);
 
 
@@ -90,6 +91,12 @@ public class SplashActivity extends BaseActivity {
         progress = (ProgressBar) findViewById(R.id.progress);
         startAnim();//开始动画
         //checkVersion();
+    }
+
+    @Override
+    protected void onDestroy() {
+        myApp.setSplashActivity(null);
+        super.onDestroy();
     }
 
     private void startAnim() {

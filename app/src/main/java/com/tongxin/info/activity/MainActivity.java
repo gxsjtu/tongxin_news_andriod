@@ -34,6 +34,7 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myApp.setMainActivity(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         ((MyApp)getApplication()).getActivityList().add(this);
@@ -47,6 +48,12 @@ public class MainActivity extends BaseFragmentActivity {
         main_rb_me = (RadioButton) findViewById(R.id.main_rb_me);
 
         initViews();
+    }
+
+    @Override
+    protected void onDestroy() {
+        myApp.setMainActivity(null);
+        super.onDestroy();
     }
 
     private void initViews()

@@ -1,6 +1,7 @@
 package com.tongxin.info.activity;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.igexin.sdk.PushManager;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.MarketGroup;
+import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.UserUtils;
@@ -34,11 +36,16 @@ public class LoginActivity extends Activity {
     private EditText et_pwd;
     private String clientId;
     UserUtils userUtils;
+    boolean mustLogin = false;
+    MyApp application;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        application = (MyApp) getApplication();
+        application.setLoginActivity(this);
+
         //初始化个推
         PushManager pushManager = PushManager.getInstance();
         pushManager.initialize(this.getApplicationContext());
@@ -46,15 +53,16 @@ public class LoginActivity extends Activity {
         userUtils = new UserUtils(this);
         userUtils.setClientId(clientId);
 
-        String name = SharedPreUtils.getString(LoginActivity.this,"name","");
-        String pwd = SharedPreUtils.getString(LoginActivity.this, "pwd", "");
-        if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd))
-        {
-            login(name,pwd,clientId);
+        String name = SharedPreUtils.getString(this, "name", "");
+        String pwd = SharedPreUtils.getString(this, "pwd", "");
+        mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
+        if (!mustLogin) {
+            if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
+                login(name, pwd, clientId);
+            }
         }
 
         initViews();
-
     }
 
     private void initViews() {
@@ -74,7 +82,7 @@ public class LoginActivity extends Activity {
             hasPwd = false;
         }
         if (hasName && hasPwd) {
-            login(name,pwd,clientId);
+            login(name, pwd, clientId);
         } else {
             if (!hasName && !hasPwd) {
                 Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
@@ -88,8 +96,7 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private void login(final String name, final String pwd,String clientId)
-    {
+    private void login(final String name, final String pwd, String clientId) {
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -106,20 +113,19 @@ public class LoginActivity extends Activity {
                         try {
                             JSONObject jsonObject = new JSONObject(t);
                             String result = jsonObject.getString("result");
-                            if(result.equals("ok"))
-                            {
+                            if (result.equals("ok")) {
                                 //登陆成功
                                 userUtils.setTel(name);
                                 userUtils.setPwd(pwd);
                                 SharedPreUtils.setString(LoginActivity.this, "name", name);
-                                SharedPreUtils.setString(LoginActivity.this,"pwd",pwd);
-                                Intent intent = new Intent(LoginActivity.this,SplashActivity.class);
+                                SharedPreUtils.setString(LoginActivity.this, "pwd", pwd);
+                                SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", false);
+                                Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
                                 startActivity(intent);
                                 finish();
-                            }
-                            else
-                            {
-                                Toast.makeText(LoginActivity.this,"登陆失败",Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (JSONException e) {
@@ -139,5 +145,11 @@ public class LoginActivity extends Activity {
 
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        application.setLoginActivity(null);
+        super.onDestroy();
     }
 }

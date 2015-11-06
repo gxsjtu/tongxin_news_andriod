@@ -60,6 +60,7 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myApp.setSearchActivity(this);
         setContentView(R.layout.activity_search);
         tel = new UserUtils(this).getTel();
         Intent intent = getIntent();
@@ -74,6 +75,12 @@ public class SearchActivity extends BaseActivity {
         loadingUtils = new loadingUtils(this);
         initViews();
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        myApp.setSearchActivity(null);
+        super.onDestroy();
     }
 
     private void initViews() {

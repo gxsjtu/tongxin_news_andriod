@@ -57,6 +57,7 @@ public class PingLunDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myApp.setPingLunDetailActivity(this);
         setContentView(R.layout.activity_pl_detail);
         Intent intent = getIntent();
         mMarketId = intent.getIntExtra("marketId", 0);
@@ -68,6 +69,12 @@ public class PingLunDetailActivity extends BaseActivity {
         imgHeight = DensityUtils.dp2px(this, 80);
         initViews();
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        myApp.setPingLunDetailActivity(null);
+        super.onDestroy();
     }
 
     private void initViews() {

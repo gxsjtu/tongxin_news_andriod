@@ -3,8 +3,11 @@ package com.tongxin.info.activity;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.tongxin.info.domain.MyApp;
+import com.tongxin.info.utils.SharedPreUtils;
 
 import java.util.List;
 
@@ -12,13 +15,26 @@ import java.util.List;
  * Created by Administrator on 2015/11/5.
  */
 public class BaseActivity extends Activity {
+    protected MyApp myApp;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        myApp = (MyApp)getApplication();
+    }
+
     @Override
     protected void onResume() {
-        if (!((MyApp) getApplication()).isActive()) {
+        //if (!myApp.isActive()) {
             //app 从后台唤醒，进入前台
-
-            ((MyApp) getApplication()).setIsActive(true);
-        }
+            boolean mustLogin = SharedPreUtils.getBoolean(this,"mustLogin",true);
+            if(mustLogin) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                this.startActivity(intent);
+                myApp.finishAll();
+            }
+            //myApp.setIsActive(true);
+        //}
         super.onResume();
 
     }
@@ -26,15 +42,12 @@ public class BaseActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (isAppOnForeground()) {
-            ((MyApp) getApplication()).setIsActive(false);
-        }
+//        if (isAppOnForeground()) {
+//            myApp.setIsActive(false);
+//        }
     }
 
     public boolean isAppOnForeground() {
-        // Returns a list of application processes that are running on the
-        // device
-
         ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
         String packageName = getApplicationContext().getPackageName();
 
@@ -53,4 +66,6 @@ public class BaseActivity extends Activity {
 
         return false;
     }
+
+
 }

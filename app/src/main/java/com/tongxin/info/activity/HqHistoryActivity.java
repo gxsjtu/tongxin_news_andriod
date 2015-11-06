@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
+import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.domain.ProductHistoryPrice;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
@@ -70,6 +71,7 @@ public class HqHistoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myApp.setHqHistoryActivity(this);
         setContentView(R.layout.hq_history);
 
         Intent intent = getIntent();
@@ -147,6 +149,12 @@ public class HqHistoryActivity extends BaseActivity {
         });
 
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        myApp.setHqHistoryActivity(null);
+        super.onDestroy();
     }
 
     public void searchClick(View view) {

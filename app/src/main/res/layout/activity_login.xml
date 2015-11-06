@@ -22,8 +22,8 @@
             android:background="@drawable/edittext_border"
             android:drawableLeft="@drawable/mobile"
             android:hint="请输入用户名"
-
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:text="13764233669" />
 
         <com.tongxin.info.control.EditTextWithDel
             android:id="@+id/et_pwd"
@@ -36,7 +36,8 @@
             android:background="@drawable/edittext_border"
             android:hint="请输入密码"
             android:inputType="textPassword"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:text="1995" />
 
 
     </LinearLayout>
@@ -47,11 +48,10 @@
         android:layout_below="@+id/login"
         android:layout_margin="15dp"
         android:background="@drawable/loginbtn"
+        android:onClick="login"
         android:text="登陆"
         android:textColor="#fff"
-        android:textSize="18sp"
-        android:onClick="login"
-        />
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="忘记密码?"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,7 +87,7 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="联系客服"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +102,7 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="申请试用"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
         </LinearLayout>
 
     </LinearLayout>
