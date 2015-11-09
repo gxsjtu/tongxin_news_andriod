@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.igexin.sdk.PushManager;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 public class LoginActivity extends Activity {
     private EditText et_name;
     private EditText et_pwd;
+    private ActionProcessButton btn_login;
     private String clientId;
     UserUtils userUtils;
     boolean mustLogin = false;
@@ -68,6 +70,8 @@ public class LoginActivity extends Activity {
     private void initViews() {
         et_name = (EditText) findViewById(R.id.et_name);
         et_pwd = (EditText) findViewById(R.id.et_pwd);
+        btn_login = (ActionProcessButton) findViewById(R.id.btn_login);
+        btn_login.setMode(ActionProcessButton.Mode.ENDLESS);
     }
 
     public void login(View view) {
@@ -82,6 +86,9 @@ public class LoginActivity extends Activity {
             hasPwd = false;
         }
         if (hasName && hasPwd) {
+            et_name.setEnabled(false);
+            et_pwd.setEnabled(false);
+            btn_login.setEnabled(false);
             login(name, pwd, clientId);
         } else {
             if (!hasName && !hasPwd) {
@@ -131,18 +138,19 @@ public class LoginActivity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
 
                     @Override
                     public void onPreStart() {
-
+                        btn_login.setProgress(50);
                     }
 
                     @Override
                     public void onFinish() {
-
+                        et_name.setEnabled(true);
+                        et_pwd.setEnabled(true);
+                        btn_login.setEnabled(true);
+                        btn_login.setProgress(100);
                     }
                 });
     }

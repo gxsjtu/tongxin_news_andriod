@@ -41,7 +41,7 @@ public class MyApp extends Application {
 
     private Timer checkUserTimer;
     private TimerTask checkUserTimerTask;
-    private final long checkTime = 1000 * 120;
+    private final long checkTime = 1000 * 20;
     private Context context;
 
     private LoginActivity loginActivity;
@@ -179,7 +179,7 @@ public class MyApp extends Application {
                 //}
             }
         };
-        checkUserTimer.schedule(checkUserTimerTask, 10000, 30000);
+        checkUserTimer.schedule(checkUserTimerTask, 10000, checkTime);
     }
 
 
