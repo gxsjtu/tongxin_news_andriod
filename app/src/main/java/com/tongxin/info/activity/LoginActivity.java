@@ -112,6 +112,7 @@ public class LoginActivity extends Activity {
                 new HttpCallBack() {
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
+                        btn_login.setProgress(-1);
                         Toast.makeText(LoginActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
                     }
 
@@ -127,6 +128,7 @@ public class LoginActivity extends Activity {
                                 SharedPreUtils.setString(LoginActivity.this, "name", name);
                                 SharedPreUtils.setString(LoginActivity.this, "pwd", pwd);
                                 SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", false);
+                                btn_login.setProgress(100);
                                 Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -150,7 +152,7 @@ public class LoginActivity extends Activity {
                         et_name.setEnabled(true);
                         et_pwd.setEnabled(true);
                         btn_login.setEnabled(true);
-                        btn_login.setProgress(100);
+
                     }
                 });
     }
