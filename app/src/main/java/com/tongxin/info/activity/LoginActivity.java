@@ -86,6 +86,7 @@ public class LoginActivity extends Activity {
     }
 
     public void login(View view) {
+        showLogin = true;
         boolean hasName = true;
         boolean hasPwd = true;
         final String name = et_name.getText().toString();
@@ -97,7 +98,6 @@ public class LoginActivity extends Activity {
             hasPwd = false;
         }
         if (hasName && hasPwd) {
-            showLogin = true;
             login(name, pwd, clientId, 0);
         } else {
             if (!hasName && !hasPwd) {
