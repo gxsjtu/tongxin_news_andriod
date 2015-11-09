@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
-        <com.tongxin.info.control.EditTextWithDel
+        <com.tongxin.info.control.MobileEditTextWithDel
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,12 +21,12 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/edittext_border"
-            android:drawableLeft="@drawable/mobile"
             android:hint="请输入用户名"
             android:padding="10dp"
+            android:inputType="phone"
             android:text="13524259846" />
 
-        <com.tongxin.info.control.EditTextWithDel
+        <com.tongxin.info.control.PwdEditTextWithDel
             android:id="@+id/et_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

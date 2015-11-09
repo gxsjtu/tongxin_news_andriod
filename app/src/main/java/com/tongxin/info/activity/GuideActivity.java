@@ -38,7 +38,6 @@ public class GuideActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题
         setContentView(R.layout.activity_guide);
-        myApp.setGuideActivity(this);
         guide_vp = (ViewPager) findViewById(R.id.guide_vp);
         guide_btn_start = (Button) findViewById(R.id.guide_btn_start);
         guide_ll_pointGroup = (LinearLayout) findViewById(R.id.guide_ll_pointGroup);
@@ -107,12 +106,6 @@ public class GuideActivity extends BaseActivity {
             public void onPageScrollStateChanged(int i) {
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        myApp.setGuideActivity(null);
-        super.onDestroy();
     }
 
     private void initViews() {

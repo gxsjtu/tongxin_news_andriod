@@ -23,7 +23,6 @@ public class InboxDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myApp.setInboxDetailActivity(this);
         setContentView(R.layout.activity_inbox_detail);
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
@@ -46,12 +45,6 @@ public class InboxDetailActivity extends BaseActivity {
             tv_headerTitle.setText(title);
         }
         loadUrl(url);
-    }
-
-    @Override
-    protected void onDestroy() {
-        myApp.setInboxDetailActivity(null);
-        super.onDestroy();
     }
 
     private void loadUrl(String url) {

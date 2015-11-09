@@ -50,89 +50,10 @@ public class MyApp extends Application {
         this.loginActivity = loginActivity;
     }
 
-    private ChartActivity chartActivity;
-    private GuideActivity guideActivity;
-    private HqDetailActivity hqDetailActivity;
-    private HqHistoryActivity hqHistoryActivity;
-    private InboxDetailActivity inboxDetailActivity;
-    private MainActivity mainActivity;
-    private PingLunDetailActivity pingLunDetailActivity;
-    private SearchActivity searchActivity;
-    private SplashActivity splashActivity;
 
-    public void setChartActivity(ChartActivity chartActivity) {
-        this.chartActivity = chartActivity;
-    }
 
-    public void setGuideActivity(GuideActivity guideActivity) {
-        this.guideActivity = guideActivity;
-    }
-
-    public void setHqDetailActivity(HqDetailActivity hqDetailActivity) {
-        this.hqDetailActivity = hqDetailActivity;
-    }
-
-    public void setHqHistoryActivity(HqHistoryActivity hqHistoryActivity) {
-        this.hqHistoryActivity = hqHistoryActivity;
-    }
-
-    public void setInboxDetailActivity(InboxDetailActivity inboxDetailActivity) {
-        this.inboxDetailActivity = inboxDetailActivity;
-    }
-
-    public void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-    }
-
-    public void setPingLunDetailActivity(PingLunDetailActivity pingLunDetailActivity) {
-        this.pingLunDetailActivity = pingLunDetailActivity;
-    }
-
-    public void setSearchActivity(SearchActivity searchActivity) {
-        this.searchActivity = searchActivity;
-    }
-
-    public void setSplashActivity(SplashActivity splashActivity) {
-        this.splashActivity = splashActivity;
-    }
-
-    public void finishAll() {
-        if (chartActivity != null) {
-            chartActivity.finish();
-            chartActivity = null;
-        }
-        if (guideActivity != null) {
-            guideActivity.finish();
-            guideActivity = null;
-        }
-        if (hqDetailActivity != null) {
-            hqDetailActivity.finish();
-            hqDetailActivity = null;
-        }
-        if (hqHistoryActivity != null) {
-            hqHistoryActivity.finish();
-            hqHistoryActivity = null;
-        }
-        if (inboxDetailActivity != null) {
-            inboxDetailActivity.finish();
-            inboxDetailActivity = null;
-        }
-        if (mainActivity != null) {
-            mainActivity.finish();
-            mainActivity = null;
-        }
-        if (pingLunDetailActivity != null) {
-            pingLunDetailActivity.finish();
-            pingLunDetailActivity = null;
-        }
-        if (searchActivity != null) {
-            searchActivity.finish();
-            searchActivity = null;
-        }
-        if (splashActivity != null) {
-            splashActivity.finish();
-            splashActivity = null;
-        }
+    public MyApp() {
+        super();
     }
 
     List<Activity> activityList = new ArrayList<Activity>();
@@ -158,7 +79,6 @@ public class MyApp extends Application {
                             Intent intent = new Intent(context, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
-                            finishAll();
                         }
                     }
                 }

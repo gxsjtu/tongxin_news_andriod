@@ -31,7 +31,6 @@ public class BaseActivity extends Activity {
             if(mustLogin) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 this.startActivity(intent);
-                myApp.finishAll();
             }
             //myApp.setIsActive(true);
         //}

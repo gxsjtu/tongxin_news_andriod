@@ -71,7 +71,6 @@ public class HqHistoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myApp.setHqHistoryActivity(this);
         setContentView(R.layout.hq_history);
 
         Intent intent = getIntent();
@@ -149,12 +148,6 @@ public class HqHistoryActivity extends BaseActivity {
         });
 
         initData();
-    }
-
-    @Override
-    protected void onDestroy() {
-        myApp.setHqHistoryActivity(null);
-        super.onDestroy();
     }
 
     public void searchClick(View view) {

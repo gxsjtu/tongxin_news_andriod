@@ -14,25 +14,26 @@ import com.tongxin.info.R;
 /**
  * Created by Administrator on 2015/10/30.
  */
-public class EditTextWithDel extends EditText {
+public class MobileEditTextWithDel extends EditText {
     private final static String TAG = "EditTextWithDel";
     private Drawable imgInable;
     private Drawable imgAble;
+    private Drawable imgMobile;
     private Context mContext;
 
-    public EditTextWithDel(Context context) {
+    public MobileEditTextWithDel(Context context) {
         super(context);
         mContext = context;
         init();
     }
 
-    public EditTextWithDel(Context context, AttributeSet attrs, int defStyle) {
+    public MobileEditTextWithDel(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
         init();
     }
 
-    public EditTextWithDel(Context context, AttributeSet attrs) {
+    public MobileEditTextWithDel(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         init();
@@ -41,7 +42,7 @@ public class EditTextWithDel extends EditText {
     private void init() {
         imgInable = mContext.getResources().getDrawable(R.drawable.delete_gray);
         imgAble = mContext.getResources().getDrawable(R.drawable.delete);
-
+        imgMobile = mContext.getResources().getDrawable(R.drawable.mobile);
         addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -62,9 +63,9 @@ public class EditTextWithDel extends EditText {
     //设置删除图片
     private void setDrawable() {
         if(length() < 1)
-            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            setCompoundDrawablesWithIntrinsicBounds(imgMobile, null, null, null);
         else {
-            setCompoundDrawablesWithIntrinsicBounds(null, null, imgInable, null);
+            setCompoundDrawablesWithIntrinsicBounds(imgMobile, null, imgInable, null);
         }
     }
 

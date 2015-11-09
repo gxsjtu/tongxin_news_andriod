@@ -38,7 +38,6 @@ public class ChartActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
-        myApp.setChartActivity(this);
         Intent intent = getIntent();
         mTitle = intent.getStringExtra("title");
         data = (ArrayList<ProductHistoryPrice>) intent.getSerializableExtra("data");
@@ -46,12 +45,6 @@ public class ChartActivity extends BaseActivity {
         initViews();
 
         initData();
-    }
-
-    @Override
-    protected void onDestroy() {
-        myApp.setChartActivity(null);
-        super.onDestroy();
     }
 
     private void initViews() {

@@ -41,11 +41,16 @@ public class LoginActivity extends Activity {
     UserUtils userUtils;
     boolean mustLogin = false;
     MyApp application;
+    boolean showLogin = true;
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         application = (MyApp) getApplication();
         application.setLoginActivity(this);
 
@@ -56,16 +61,20 @@ public class LoginActivity extends Activity {
         userUtils = new UserUtils(this);
         userUtils.setClientId(clientId);
 
-        initViews();
-
         String name = SharedPreUtils.getString(this, "name", "");
         String pwd = SharedPreUtils.getString(this, "pwd", "");
         mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
 
         if (!mustLogin) {
             if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
+                showLogin = false;
                 login(name, pwd, clientId, 1);
             }
+        }
+        else {
+            setContentView(R.layout.activity_login);
+
+            initViews();
         }
     }
 
@@ -88,6 +97,7 @@ public class LoginActivity extends Activity {
             hasPwd = false;
         }
         if (hasName && hasPwd) {
+            showLogin = true;
             login(name, pwd, clientId, 0);
         } else {
             if (!hasName && !hasPwd) {
@@ -132,13 +142,20 @@ public class LoginActivity extends Activity {
                         SharedPreUtils.setString(LoginActivity.this, "name", name);
                         SharedPreUtils.setString(LoginActivity.this, "pwd", pwd);
                         SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", false);
-                        btn_login.setProgress(100);
+                        if(showLogin)
+                            btn_login.setProgress(100);
                         Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
                         startActivity(intent);
                         finish();
 
                     } else {
                         btn_login.setProgress(0);
+                        if(!showLogin)
+                        {
+                            showLogin = true;
+                            setContentView(R.layout.activity_login);
+                            initViews();
+                        }
                         //Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
                     }
 
@@ -149,18 +166,21 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onPreStart() {
-                et_name.setEnabled(false);
-                et_pwd.setEnabled(false);
-                btn_login.setEnabled(false);
-                btn_login.setProgress(50);
+                if(showLogin) {
+                    et_name.setEnabled(false);
+                    et_pwd.setEnabled(false);
+                    btn_login.setEnabled(false);
+                    btn_login.setProgress(50);
+                }
             }
 
             @Override
             public void onFinish() {
-                et_name.setEnabled(true);
-                et_pwd.setEnabled(true);
-                btn_login.setEnabled(true);
-
+                if(showLogin) {
+                    et_name.setEnabled(true);
+                    et_pwd.setEnabled(true);
+                    btn_login.setEnabled(true);
+                }
             }
         });
     }

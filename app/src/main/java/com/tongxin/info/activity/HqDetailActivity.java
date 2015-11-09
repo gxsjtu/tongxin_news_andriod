@@ -53,7 +53,6 @@ public class HqDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myApp.setHqDetailActivity(this);
         setContentView(R.layout.activity_hq_detail);
         tel = new UserUtils(this).getTel();
         Intent intent = getIntent();
@@ -105,12 +104,6 @@ public class HqDetailActivity extends BaseActivity {
         hq_detail_lv.setMenuCreator(creator);
 
         initData(id);
-    }
-
-    @Override
-    protected void onDestroy() {
-        myApp.setHqDetailActivity(null);
-        super.onDestroy();
     }
 
     private void initData(int id) {
