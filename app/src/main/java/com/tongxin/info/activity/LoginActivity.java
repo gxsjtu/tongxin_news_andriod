@@ -149,7 +149,8 @@ public class LoginActivity extends Activity {
                         finish();
 
                     } else {
-                        btn_login.setProgress(0);
+                        if(showLogin)
+                            btn_login.setProgress(0);
                         if(!showLogin)
                         {
                             showLogin = true;
