@@ -3,6 +3,7 @@ package com.tongxin.info.activity;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -55,16 +56,17 @@ public class LoginActivity extends Activity {
         userUtils = new UserUtils(this);
         userUtils.setClientId(clientId);
 
+        initViews();
+
         String name = SharedPreUtils.getString(this, "name", "");
         String pwd = SharedPreUtils.getString(this, "pwd", "");
         mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
+
         if (!mustLogin) {
             if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
-                login(name, pwd, clientId);
+                login(name, pwd, clientId, 1);
             }
         }
-
-        initViews();
     }
 
     private void initViews() {
@@ -86,10 +88,7 @@ public class LoginActivity extends Activity {
             hasPwd = false;
         }
         if (hasName && hasPwd) {
-            et_name.setEnabled(false);
-            et_pwd.setEnabled(false);
-            btn_login.setEnabled(false);
-            login(name, pwd, clientId);
+            login(name, pwd, clientId, 0);
         } else {
             if (!hasName && !hasPwd) {
                 Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
@@ -103,63 +102,93 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private void login(final String name, final String pwd, String clientId) {
+    private void login(final String name, final String pwd, String clientId, int type) {
+        String Url = "";
+        if (type == 0) {
+            Url = GlobalContants.Login_URL + "?method=signin&mobile=" + name + "&password=" + pwd + "&token=" + clientId + "&phoneType=1";
+        } else {
+            Url = GlobalContants.Login_URL + "?method=checkuser&mobile=" + name + "&password=" + pwd + "&token=" + clientId;
+        }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.Login_URL + "?method=signin&mobile=" + name + "&password=" + pwd + "&token=" + clientId + "&phoneType=1",
-                new HttpCallBack() {
-                    @Override
-                    public void onFailure(int errorNo, String strMsg) {
-                        btn_login.setProgress(-1);
-                        Toast.makeText(LoginActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
+        kjHttp.get(Url, null, false, new HttpCallBack() {
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                btn_login.setProgress(-1);
+                Toast.makeText(LoginActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(String t) {
+                try {
+                    JSONObject jsonObject = new JSONObject(t);
+                    String result = jsonObject.getString("result");
+                    if (result.equals("ok")) {
+                        //登陆成功
+                        userUtils.setTel(name);
+                        userUtils.setPwd(pwd);
+                        SharedPreUtils.setString(LoginActivity.this, "name", name);
+                        SharedPreUtils.setString(LoginActivity.this, "pwd", pwd);
+                        SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", false);
+                        btn_login.setProgress(100);
+                        Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    } else {
+                        btn_login.setProgress(0);
+                        //Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
                     }
 
-                    @Override
-                    public void onSuccess(String t) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(t);
-                            String result = jsonObject.getString("result");
-                            if (result.equals("ok")) {
-                                //登陆成功
-                                userUtils.setTel(name);
-                                userUtils.setPwd(pwd);
-                                SharedPreUtils.setString(LoginActivity.this, "name", name);
-                                SharedPreUtils.setString(LoginActivity.this, "pwd", pwd);
-                                SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", false);
-                                btn_login.setProgress(100);
-                                Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
-                                startActivity(intent);
-                                finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
-                            } else {
-                                Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
-                            }
+            @Override
+            public void onPreStart() {
+                et_name.setEnabled(false);
+                et_pwd.setEnabled(false);
+                btn_login.setEnabled(false);
+                btn_login.setProgress(50);
+            }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            @Override
+            public void onFinish() {
+                et_name.setEnabled(true);
+                et_pwd.setEnabled(true);
+                btn_login.setEnabled(true);
 
-                    @Override
-                    public void onPreStart() {
-                        btn_login.setProgress(50);
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        et_name.setEnabled(true);
-                        et_pwd.setEnabled(true);
-                        btn_login.setEnabled(true);
-
-                    }
-                });
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         application.setLoginActivity(null);
         super.onDestroy();
+    }
+
+    /*忘记密码*/
+    public void forgetPwd(View view) {
+        Intent intent = new Intent(this,TrialActivity.class);
+        intent.putExtra("Type","forgetPwd");
+        startActivity(intent);
+    }
+
+    /*联系客服*/
+    public void Contact(View view) {
+        String tel = "4008720588";//客服电话
+        Intent phoneIntent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + tel));
+        startActivity(phoneIntent);
+    }
+
+    /*申请试用*/
+    public void Require(View view) {
+        Intent intent = new Intent(this,TrialActivity.class);
+        intent.putExtra("Type","trial");
+        startActivity(intent);
     }
 }

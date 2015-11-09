@@ -81,7 +81,8 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="忘记密码?"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                android:onClick="forgetPwd"/>
         </LinearLayout>
 
         <LinearLayout
@@ -96,7 +97,8 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="联系客服"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                android:onClick="Contact"/>
         </LinearLayout>
 
         <LinearLayout
@@ -111,7 +113,8 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="申请试用"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                android:onClick="Require"/>
         </LinearLayout>
 
     </LinearLayout>
