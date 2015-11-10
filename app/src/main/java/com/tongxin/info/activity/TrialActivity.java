@@ -37,7 +37,7 @@ public class TrialActivity extends Activity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         view_type = intent.getStringExtra("Type");
-        if (view_type == "trial") {
+        if (view_type.equals("trial")) {
             //申请试用
             setContentView(R.layout.activity_trial);
             title = "申请试用";

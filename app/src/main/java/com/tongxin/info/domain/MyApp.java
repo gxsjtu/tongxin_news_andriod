@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.igexin.sdk.PushManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -43,14 +44,23 @@ public class MyApp extends Application {
     private TimerTask checkUserTimerTask;
     private final long checkTime = 1000 * 20;
     private Context context;
+    private PushManager pushManager;
+
 
     private LoginActivity loginActivity;
+
 
     public void setLoginActivity(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
     }
 
+    public PushManager getPushManager() {
+        return pushManager;
+    }
 
+    public void setPushManager(PushManager pushManager) {
+        this.pushManager = pushManager;
+    }
 
     public MyApp() {
         super();
@@ -82,21 +92,6 @@ public class MyApp extends Application {
                         }
                     }
                 }
-
-                //startActivityCount++;
-                //if(startActivityCount==3)
-                //{
-//                    Intent intent = new Intent(Intent.ACTION_MAIN);
-//                    intent.addCategory(Intent.CATEGORY_HOME);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(intent);
-//                    android.os.Process.killProcess(android.os.Process.myPid());
-                //System.exit(0);
-
-
-//                    activityList.get(0).finish();
-//                    android.os.Process.killProcess(android.os.Process.myPid());
-                //}
             }
         };
         checkUserTimer.schedule(checkUserTimerTask, 10000, checkTime);

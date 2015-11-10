@@ -42,6 +42,7 @@ public class LoginActivity extends Activity {
     boolean mustLogin = false;
     MyApp application;
     boolean showLogin = true;
+    PushManager pushManager;
 
     @Override
     public void onBackPressed() {
@@ -53,22 +54,23 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         application = (MyApp) getApplication();
         application.setLoginActivity(this);
-
-        //初始化个推
-        PushManager pushManager = PushManager.getInstance();
-        pushManager.initialize(this.getApplicationContext());
-        clientId = pushManager.getClientid(this);
+        pushManager = application.getPushManager();
         userUtils = new UserUtils(this);
-        userUtils.setClientId(clientId);
+
+//        clientId = pushManager.getClientid(this);
+//        userUtils = new UserUtils(this);
+//        userUtils.setClientId(clientId);
 
         String name = SharedPreUtils.getString(this, "name", "");
         String pwd = SharedPreUtils.getString(this, "pwd", "");
+
         mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
 
         if (!mustLogin) {
             if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
+                String token = SharedPreUtils.getString(this, "token", "");
                 showLogin = false;
-                login(name, pwd, clientId, 1);
+                login(name, pwd, token, 1);
             }
         }
         else {
@@ -87,6 +89,16 @@ public class LoginActivity extends Activity {
 
     public void login(View view) {
         showLogin = true;
+        clientId = pushManager.getClientid(this);
+        if(TextUtils.isEmpty(clientId))
+        {
+            Toast.makeText(this,"获取设备号失败，请稍后重新登录",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        userUtils = new UserUtils(this);
+        userUtils.setClientId(clientId);
+        SharedPreUtils.setString(this,"token",clientId);
         boolean hasName = true;
         boolean hasPwd = true;
         final String name = et_name.getText().toString();
@@ -144,9 +156,12 @@ public class LoginActivity extends Activity {
                         SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", false);
                         if(showLogin)
                             btn_login.setProgress(100);
-                        Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
-                        startActivity(intent);
-                        finish();
+//                        Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+//                        startActivity(intent);
+//                        finish();
+                        application.startCheckUser();
+                        nextPage();
+
 
                     } else {
                         if(showLogin)
@@ -195,7 +210,7 @@ public class LoginActivity extends Activity {
     /*忘记密码*/
     public void forgetPwd(View view) {
         Intent intent = new Intent(this,TrialActivity.class);
-        intent.putExtra("Type","forgetPwd");
+        intent.putExtra("Type", "forgetPwd");
         startActivity(intent);
     }
 
@@ -211,5 +226,19 @@ public class LoginActivity extends Activity {
         Intent intent = new Intent(this,TrialActivity.class);
         intent.putExtra("Type","trial");
         startActivity(intent);
+    }
+
+
+    private void nextPage() {
+        //判断是否进入过新手指引页面
+        boolean userGuide = SharedPreUtils.getBoolean(this, "is_user_guide_showed", false);
+        if (!userGuide) {
+            //跳的新手指引页
+            startActivity(new Intent(LoginActivity.this, GuideActivity.class));
+        } else {
+            //跳到主页
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        }
+        finish();
     }
 }

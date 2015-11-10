@@ -3,7 +3,15 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/loginbg">
+    android:background="@mipmap/loginback">
+
+<ImageView
+    android:layout_width="180dp"
+    android:layout_height="180dp"
+    android:layout_centerHorizontal="true"
+    android:layout_above="@+id/login"
+    android:layout_marginBottom="20dp"
+    android:src="@mipmap/loginlogo"/>
 
     <LinearLayout
         android:id="@+id/login"
@@ -23,8 +31,7 @@
             android:background="@drawable/edittext_border"
             android:hint="请输入用户名"
             android:padding="10dp"
-            android:inputType="phone"
-            android:text="13524259846" />
+            android:inputType="phone" />
 
         <com.tongxin.info.control.PwdEditTextWithDel
             android:id="@+id/et_pwd"
@@ -37,8 +44,7 @@
             android:background="@drawable/edittext_border"
             android:hint="请输入密码"
             android:inputType="textPassword"
-            android:padding="10dp"
-            android:text="4743" />
+            android:padding="10dp" />
 
 
     </LinearLayout>

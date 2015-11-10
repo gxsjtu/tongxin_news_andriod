@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -44,7 +45,7 @@ import com.igexin.sdk.PushManager;
 import com.tongxin.info.utils.UserUtils;
 
 //闪屏页,可以用来检测app的合法性和新版本的验证，以及预加载一些数据
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends Activity {
 
     private RelativeLayout splash_rl;
     private ProgressBar progress;
@@ -58,6 +59,9 @@ public class SplashActivity extends BaseActivity {
     private String mDesc;
     private String mDownloadUrl;
     private String err;
+    private PushManager pushManager;
+    MyApp myApp;
+    private String token="";
 
     private Handler mHandler = new Handler() {
         @Override
@@ -68,10 +72,10 @@ public class SplashActivity extends BaseActivity {
                     break;
                 case UPDATE_ERROR:
                     Toast.makeText(SplashActivity.this, "检查版本更新失败"+err, Toast.LENGTH_SHORT).show();
-                    nextPage();
+                    //nextPage();
                     break;
                 case UPDATE_GOHOME:
-                    nextPage();
+                    //nextPage();
                     break;
             }
         }
@@ -81,7 +85,27 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        ((MyApp)getApplication()).startCheckUser();
+        myApp = ((MyApp)getApplication());
+        pushManager = myApp.getPushManager();
+        pushManager = PushManager.getInstance();
+        pushManager.initialize(this.getApplicationContext());
+        myApp.setPushManager(pushManager);
+        String clientId = pushManager.getClientid(this);
+        token = SharedPreUtils.getString(this,"token","");
+        if(TextUtils.isEmpty(token))
+        {
+            //登录
+
+        }
+        else
+        {
+            //跳过登录
+
+        }
+        if(!TextUtils.isEmpty(clientId))
+        {
+            SharedPreUtils.setString(this,"token",clientId);
+        }
 
         splash_rl = (RelativeLayout) findViewById(R.id.splash_rl);
         progress = (ProgressBar) findViewById(R.id.progress);
@@ -114,7 +138,10 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 //checkVersion();
-                nextPage();
+                //nextPage();
+                Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -125,18 +152,6 @@ public class SplashActivity extends BaseActivity {
         splash_rl.startAnimation(set);
     }
 
-    private void nextPage() {
-        //判断是否进入过新手指引页面
-        boolean userGuide = SharedPreUtils.getBoolean(this, "is_user_guide_showed", false);
-        if (!userGuide) {
-            //跳的新手指引页
-            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-        } else {
-            //跳到主页
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-        }
-        finish();
-    }
 
     /**
      * 获取本地app的版本号
@@ -216,18 +231,18 @@ public class SplashActivity extends BaseActivity {
                 download();
             }
         });
-        builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                nextPage();
-            }
-        });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                nextPage();
-            }
-        });
+//        builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                nextPage();
+//            }
+//        });
+//        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//            @Override
+//            public void onCancel(DialogInterface dialog) {
+//                nextPage();
+//            }
+//        });
         builder.show();
     }
 
@@ -308,7 +323,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        nextPage();
+        //nextPage();
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
