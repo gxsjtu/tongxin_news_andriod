@@ -76,6 +76,7 @@ public class TrialActivity extends Activity {
             } else if (title.equals("发送密码")) {
                 url += "send";
             }
+            url+="&mobile="+mobile;
 
             KJHttp kjHttp = new KJHttp();
             HttpConfig httpConfig = new HttpConfig();
@@ -100,7 +101,14 @@ public class TrialActivity extends Activity {
 
                         } else {
                             btn_submit.setProgress(0);
-                            Toast.makeText(TrialActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                            if(title.equals("申请试用"))
+                            {
+                                Toast.makeText(TrialActivity.this, result, Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(TrialActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                     } catch (JSONException e) {
