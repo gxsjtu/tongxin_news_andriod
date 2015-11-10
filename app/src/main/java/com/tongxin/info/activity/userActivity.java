@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.tongxin.info.R;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.DensityUtils;
 import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -60,6 +61,7 @@ public class userActivity extends BaseActivity {
         sw = (Switch) findViewById(R.id.sw);
         loadingUtils = new loadingUtils(this);
         tv_headerTitle.setText("用户设置");
+        tv_headerTitle.setPadding(0,0,DensityUtils.dp2px(this,60),0);
         iv_return.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override

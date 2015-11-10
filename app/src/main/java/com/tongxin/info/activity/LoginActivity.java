@@ -57,10 +57,6 @@ public class LoginActivity extends Activity {
         pushManager = application.getPushManager();
         userUtils = new UserUtils(this);
 
-//        clientId = pushManager.getClientid(this);
-//        userUtils = new UserUtils(this);
-//        userUtils.setClientId(clientId);
-
         String name = SharedPreUtils.getString(this, "name", "");
         String pwd = SharedPreUtils.getString(this, "pwd", "");
 

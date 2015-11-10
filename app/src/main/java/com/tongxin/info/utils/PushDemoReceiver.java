@@ -38,31 +38,12 @@ public class PushDemoReceiver extends BroadcastReceiver {
 
                 if (payload != null) {
                     String data = new String(payload);
-                    if(data.equals("退出")) {
-                        SharedPreUtils.setBoolean(context,"mustLogin",true);
-//                        Toast.makeText(context,"用户登录信息已失效",Toast.LENGTH_SHORT).show();
-//                        Intent intent1 = new Intent(context, LoginActivity.class);
-//                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        context.startActivity(intent1);
-//                        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-//                        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
-//                        if (!tasks.isEmpty()) {
-//                            ComponentName topActivity = tasks.get(0).topActivity;
-//                            if (topActivity.getPackageName().equals(context.getPackageName())) {
-//                                SharedPreUtils.setBoolean(context,"mustLogin",true);
-//                                //在前台运行着
-////                                Toast.makeText(context,"用户登录信息已失效",Toast.LENGTH_SHORT).show();
-////                                Intent intent1 = new Intent(context, LoginActivity.class);
-////                                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////                                context.startActivity(intent1);
-//                            }
-//                            else
-//                            {
-//                                //在后台或未启动
-//                                SharedPreUtils.setBoolean(context,"mustLogin",true);
-//                            }
-//                        }
-
+                    if (data.equals("退出")) {
+                        SharedPreUtils.setBoolean(context, "mustLogin", true);
+                        Toast.makeText(context, "您已被强制退出", Toast.LENGTH_SHORT).show();
+                        Intent intent1 = new Intent(context, LoginActivity.class);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent1);
                     }
                 }
                 break;

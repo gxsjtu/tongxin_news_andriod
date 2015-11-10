@@ -86,6 +86,7 @@ public class MyApp extends Application {
                     int isBack = isBackGroundRunning();
                     if (isBack == 1) {
                         if (loginActivity == null) {
+                            Toast.makeText(getApplicationContext(),"您已被强制退出",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(context, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
