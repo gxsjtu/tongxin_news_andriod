@@ -33,6 +33,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.MainActivity;
 import com.tongxin.info.activity.SearchActivity;
+import com.tongxin.info.activity.userActivity;
 import com.tongxin.info.control.PagerSlidingTabStrip;
 import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.domain.SearchItem;
@@ -98,6 +99,14 @@ public class hqFragment extends baseFragment {
                 for (int i = 0; i < hq_frag.size(); i++) {
                     hq_frag.get(i).refLV();
                 }
+            }
+        });
+
+        iv_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity,userActivity.class);
+                startActivity(intent);
             }
         });
 
