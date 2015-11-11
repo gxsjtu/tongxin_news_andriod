@@ -53,7 +53,7 @@
                 android:id="@+id/main_rb_me"
                 style="@style/BottomMenuStyle"
                 android:drawableTop="@drawable/main_rb_me"
-                android:text="我" />
+                android:text="期货" />
 
         </RadioGroup>
 

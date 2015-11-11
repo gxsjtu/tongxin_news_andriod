@@ -3,8 +3,11 @@ package com.tongxin.info.activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.utils.SharedPreUtils;
@@ -21,6 +24,23 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myApp = (MyApp)getApplication();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            //4.4以下
+            if (Build.VERSION.SDK_INT < 16) {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            } else {
+                View decorView = getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
+            }
+        } else {
+            //4.4及以上
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
     @Override

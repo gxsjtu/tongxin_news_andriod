@@ -30,6 +30,7 @@
             android:background="@drawable/edittext_border"
             android:hint="请输入用户名"
             android:textSize="16sp"
+            android:textColor="#000"
             android:padding="10dp"
             android:inputType="phone" />
 
@@ -42,6 +43,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
             android:textSize="16sp"
+            android:textColor="#000"
             android:background="@drawable/edittext_border"
             android:hint="请输入密码"
             android:inputType="numberPassword"
