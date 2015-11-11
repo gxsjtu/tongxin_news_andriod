@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.utils.SharedPreUtils;
@@ -20,19 +23,36 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myApp = (MyApp)getApplication();
+        myApp = (MyApp) getApplication();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            //4.4以下
+            if (Build.VERSION.SDK_INT < 16) {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            } else {
+                View decorView = getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
+            }
+        } else {
+            //4.4及以上
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
     @Override
     protected void onResume() {
         //if (!myApp.isActive()) {
-            //app 从后台唤醒，进入前台
-            boolean mustLogin = SharedPreUtils.getBoolean(this,"mustLogin",true);
-            if(mustLogin) {
-                Intent intent = new Intent(this, LoginActivity.class);
-                this.startActivity(intent);
-            }
-            //myApp.setIsActive(true);
+        //app 从后台唤醒，进入前台
+        boolean mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
+        if (mustLogin) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            this.startActivity(intent);
+        }
+        //myApp.setIsActive(true);
         //}
         super.onResume();
 

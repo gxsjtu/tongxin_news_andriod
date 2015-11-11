@@ -20,7 +20,7 @@
                 android:id="@+id/iv_return"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ret"
+                android:src="@mipmap/retwhite"
                 android:layout_marginLeft="20dp"
                 />
 
