@@ -1,18 +1,16 @@
 package com.tongxin.info.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import com.tongxin.info.R;
+import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.page.boxFragment;
 import com.tongxin.info.page.hqFragment;
 import com.tongxin.info.page.meFragment;
@@ -22,7 +20,7 @@ import com.tongxin.info.page.sqFragment;
 /**
  * Created by Administrator on 2015/9/21.
  */
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseFragmentActivity {
     private FrameLayout main_fl_content;
     private RadioGroup main_rg_group;
     private RadioButton main_rb_inbox;
@@ -38,6 +36,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        ((MyApp)getApplication()).getActivityList().add(this);
 
         main_fl_content = (FrameLayout) findViewById(R.id.main_fl_content);
         main_rg_group = (RadioGroup) findViewById(R.id.main_rg_group);

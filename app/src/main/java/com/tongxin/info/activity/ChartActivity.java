@@ -2,22 +2,16 @@ package com.tongxin.info.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.tongxin.info.R;
 import com.tongxin.info.domain.ProductHistoryPrice;
 import com.tongxin.info.utils.ColorsUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
@@ -25,13 +19,12 @@ import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
 /**
  * Created by Administrator on 2015/10/23.
  */
-public class ChartActivity extends Activity {
+public class ChartActivity extends BaseActivity {
     LineChartView chart;
     private TextView tv_headerTitle;
     private LinearLayout iv_return;
@@ -45,7 +38,6 @@ public class ChartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
-
         Intent intent = getIntent();
         mTitle = intent.getStringExtra("title");
         data = (ArrayList<ProductHistoryPrice>) intent.getSerializableExtra("data");

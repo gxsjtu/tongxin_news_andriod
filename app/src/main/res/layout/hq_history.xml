@@ -8,40 +8,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
+            android:orientation="horizontal"
             android:paddingBottom="10dp"
             android:background="#23B1EF">
-
-            <TextView
-                android:id="@+id/tv_headerTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textColor="#fff"
-                android:text="标题"/>
-            <TextView
-                android:id="@+id/tv_headerChart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:textColor="#fff"
-                android:text="走势图"/>
 
             <ImageView
                 android:id="@+id/iv_return"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ret"
-                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="20dp"
                 />
 
+            <TextView
+                android:id="@+id/tv_headerTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:singleLine="true"
+                android:text="标题"/>
+            <TextView
+                android:id="@+id/tv_headerChart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:textColor="#fff"
+                android:text="走势图"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,7 +125,6 @@
             android:id="@+id/hq_history_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
-
 
     </LinearLayout>
 

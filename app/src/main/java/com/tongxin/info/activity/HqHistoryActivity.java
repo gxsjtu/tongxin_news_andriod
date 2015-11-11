@@ -3,19 +3,15 @@ package com.tongxin.info.activity;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.internal.widget.ThemeUtils;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +19,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
+import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.domain.ProductHistoryPrice;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
@@ -41,7 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class HqHistoryActivity extends Activity {
+public class HqHistoryActivity extends BaseActivity {
 
     Calendar calendar = Calendar.getInstance(Locale.CHINA);
     EditText startDate;
@@ -179,7 +176,7 @@ public class HqHistoryActivity extends Activity {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start=" + start + "&end=" + end, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start=" + start + "&end=" + end,null,false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(HqHistoryActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -241,10 +238,10 @@ public class HqHistoryActivity extends Activity {
                         if (!TextUtils.isEmpty(price.Change)) {
                             Double change = Double.parseDouble(price.Change);
                             if (change > 0) {
-                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.1f", change));
+                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.2f", change));
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKRED);
                             } else if (change < 0) {
-                                viewHolder.tv_priceChange.setText("跌 " + String.format("%.1f", Math.abs(change)));
+                                viewHolder.tv_priceChange.setText("跌 " + String.format("%.2f", Math.abs(change)));
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKGREEN);
 
                             } else {

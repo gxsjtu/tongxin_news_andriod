@@ -16,7 +16,7 @@ import com.tongxin.info.R;
 /**
  * Created by cc on 2015/10/22.
  */
-public class InboxDetailActivity extends Activity {
+public class InboxDetailActivity extends BaseActivity {
     private WebView webView;
     private LinearLayout iv_return;
     private TextView tv_headerTitle;

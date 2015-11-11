@@ -24,4 +24,33 @@ public class UserUtils {
         MyApp myApp = (MyApp) mActivity.getApplication();
         return myApp.getTel();
     }
+
+    public void setPwd(String pwd)
+    {
+        MyApp myApp = (MyApp) mActivity.getApplication();
+        myApp.setPwd(pwd);
+    }
+
+    public String getPwd()
+    {
+        MyApp myApp = (MyApp) mActivity.getApplication();
+        return myApp.getPwd();
+    }
+
+    public void setClientId(String clientId)
+    {
+        MyApp myApp = (MyApp) mActivity.getApplication();
+        myApp.setClientId(clientId);
+    }
+
+    public String getClientId()
+    {
+        MyApp myApp = (MyApp) mActivity.getApplication();
+        return myApp.getClientId();
+    }
+
+//    public boolean isUserValid()
+//    {
+//        String
+//    }
 }

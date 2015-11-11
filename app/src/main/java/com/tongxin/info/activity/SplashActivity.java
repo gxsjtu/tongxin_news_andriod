@@ -1,5 +1,6 @@
 package com.tongxin.info.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,8 +10,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -21,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.tongxin.info.R;
+import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.SharedPreUtils;
 
@@ -40,9 +42,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import com.igexin.sdk.PushManager;
+import com.tongxin.info.utils.UserUtils;
 
 //闪屏页,可以用来检测app的合法性和新版本的验证，以及预加载一些数据
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends Activity {
 
     private RelativeLayout splash_rl;
     private ProgressBar progress;
@@ -56,6 +59,9 @@ public class SplashActivity extends AppCompatActivity {
     private String mDesc;
     private String mDownloadUrl;
     private String err;
+    private PushManager pushManager;
+    MyApp myApp;
+    private String token="";
 
     private Handler mHandler = new Handler() {
         @Override
@@ -66,10 +72,10 @@ public class SplashActivity extends AppCompatActivity {
                     break;
                 case UPDATE_ERROR:
                     Toast.makeText(SplashActivity.this, "检查版本更新失败"+err, Toast.LENGTH_SHORT).show();
-                    nextPage();
+                    //nextPage();
                     break;
                 case UPDATE_GOHOME:
-                    nextPage();
+                    //nextPage();
                     break;
             }
         }
@@ -79,8 +85,27 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        myApp = ((MyApp)getApplication());
+        pushManager = myApp.getPushManager();
+        pushManager = PushManager.getInstance();
+        pushManager.initialize(this.getApplicationContext());
+        myApp.setPushManager(pushManager);
+        String clientId = pushManager.getClientid(this);
+        token = SharedPreUtils.getString(this,"token","");
+        if(TextUtils.isEmpty(token))
+        {
+            //登录
 
-        PushManager.getInstance().initialize(this.getApplicationContext());
+        }
+        else
+        {
+            //跳过登录
+
+        }
+        if(!TextUtils.isEmpty(clientId))
+        {
+            SharedPreUtils.setString(this,"token",clientId);
+        }
 
         splash_rl = (RelativeLayout) findViewById(R.id.splash_rl);
         progress = (ProgressBar) findViewById(R.id.progress);
@@ -112,7 +137,11 @@ public class SplashActivity extends AppCompatActivity {
             //动画结束
             @Override
             public void onAnimationEnd(Animation animation) {
-                checkVersion();
+                //checkVersion();
+                //nextPage();
+                Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -123,18 +152,6 @@ public class SplashActivity extends AppCompatActivity {
         splash_rl.startAnimation(set);
     }
 
-    private void nextPage() {
-        //判断是否进入过新手指引页面
-        boolean userGuide = SharedPreUtils.getBoolean(this, "is_user_guide_showed", false);
-        if (!userGuide) {
-            //跳的新手指引页
-            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-        } else {
-            //跳到主页
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-        }
-        finish();
-    }
 
     /**
      * 获取本地app的版本号
@@ -214,18 +231,18 @@ public class SplashActivity extends AppCompatActivity {
                 download();
             }
         });
-        builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                nextPage();
-            }
-        });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                nextPage();
-            }
-        });
+//        builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                nextPage();
+//            }
+//        });
+//        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//            @Override
+//            public void onCancel(DialogInterface dialog) {
+//                nextPage();
+//            }
+//        });
         builder.show();
     }
 
@@ -306,7 +323,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        nextPage();
+        //nextPage();
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

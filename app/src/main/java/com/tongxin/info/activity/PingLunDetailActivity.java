@@ -1,9 +1,9 @@
 package com.tongxin.info.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +38,7 @@ import org.kymjs.kjframe.http.HttpParams;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class PingLunDetailActivity extends AppCompatActivity {
+public class PingLunDetailActivity extends BaseActivity {
     private TextView tv_headerTitle;
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
@@ -69,7 +69,6 @@ public class PingLunDetailActivity extends AppCompatActivity {
         initViews();
         initData();
     }
-
     private void initViews() {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
@@ -116,7 +115,7 @@ public class PingLunDetailActivity extends AppCompatActivity {
 
     private void initData() {
         KJHttp kjHttp = new KJHttp();
-        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + tel, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + tel,null,false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(PingLunDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
