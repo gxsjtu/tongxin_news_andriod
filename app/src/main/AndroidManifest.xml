@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tongxin.info">
+    package="com.tongxin.info" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -38,44 +38,49 @@
         android:icon="@mipmap/applogo"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <!-- android:theme="@style/Theme.AppCompat.NoActionBar"> -->
         <activity
             android:name=".activity.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.GuideActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".activity.GuideActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
+
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".activity.HqDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.HqHistoryActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activity.SearchActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activity.InboxDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ChartActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.PingLunDetailActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.InboxDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ChartActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".page.sqFragment"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".page.sqListFragment"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PingLunDetailActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.TrialActivity"
@@ -88,7 +93,12 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.CitiesActivity"
             android:screenOrientation="portrait"></activity>
-
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.MySupplyActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.userActivity"
             android:screenOrientation="portrait"></activity>
@@ -110,7 +120,7 @@
         <!-- 配置第三方Receiver -->
         <receiver
             android:name="com.tongxin.info.utils.PushDemoReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.jpl7N75LufA7GlS1LKv7Z1" />
             </intent-filter>
@@ -120,14 +130,15 @@
             android:name="com.igexin.sdk.PushService"
             android:exported="true"
             android:label="NotificationCenter"
-            android:process=":pushservice"></service>
+            android:process=":pushservice" >
+        </service>
         <!-- SDK　2.6.1.0版本新增配置项 -->
         <service
             android:name="com.igexin.sdk.PushServiceUser"
             android:exported="true"
-            android:label="NotificationCenterUser"></service>
-
-        <receiver android:name="com.igexin.sdk.PushReceiver">
+            android:label="NotificationCenterUser" >
+        </service>
+        <receiver android:name="com.igexin.sdk.PushReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -141,31 +152,31 @@
         </receiver>
         <receiver
             android:name="com.igexin.sdk.PushManagerReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.pushmanager" />
             </intent-filter>
         </receiver>
-
         <activity
             android:name="com.igexin.sdk.PushActivity"
             android:excludeFromRecents="true"
             android:exported="false"
             android:process=":pushservice"
             android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
         <service
             android:name="com.igexin.download.DownloadService"
             android:process=":pushservice" />
-        <receiver android:name="com.igexin.download.DownloadReceiver">
+        <receiver android:name="com.igexin.download.DownloadReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
         <provider
             android:name="com.igexin.download.DownloadProvider"
-            android:authorities="downloads.com.tongxin.info"
             android:exported="true"
+            android:authorities="downloads.com.tongxin.info"
             android:process=":pushservice" />
         <activity
             android:name="com.igexin.getuiext.activity.GetuiExtActivity"
@@ -177,7 +188,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <receiver
             android:name="com.igexin.getuiext.service.PayloadReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4" />
                 <action android:name="com.igexin.sdk.action.jpl7N75LufA7GlS1LKv7Z1" />

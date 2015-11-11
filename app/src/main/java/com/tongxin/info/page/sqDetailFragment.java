@@ -79,8 +79,15 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
         mDemoSlider = (SliderLayout)findViewById(R.id.sq_imgSlider);
         tv_headerTitle = (TextView)findViewById(R.id.tv_headerTitle);
         Intent intent  = getIntent();
-        tv_headerTitle.setText(intent.getStringExtra("SQDETAIL_CHANNELNAME"));
         sq_channelID = intent.getIntExtra("SQDETAIL_CHANNELID",0);
+        if(sq_channelID > 0)
+        {
+            tv_headerTitle.setText(intent.getStringExtra("SQDETAIL_CHANNELNAME"));
+        }
+        else
+        {
+            tv_headerTitle.setText("我的发布");
+        }
         initData();
     }
 
