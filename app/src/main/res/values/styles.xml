@@ -8,11 +8,11 @@
     <style name="BottomMenuStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_gravity">bottom</item>
         <item name="android:button">@null</item>
         <item name="android:drawablePadding">3dp</item>
-        <item name="android:padding">9dp</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:textSize">9sp</item>
         <item name="android:textColor">@drawable/main_rb_textcolor</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
