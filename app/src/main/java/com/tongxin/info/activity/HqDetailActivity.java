@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -198,6 +199,8 @@ public class HqDetailActivity extends BaseActivity {
                 viewHolder.hq_detail_item_Change = (TextView) convertView.findViewById(R.id.hq_detail_item_Change);
 
                 viewHolder.hq_detail_item_ChangeText = (TextView) convertView.findViewById(R.id.hq_detail_item_ChangeText);
+                viewHolder.iv_green = (ImageView) convertView.findViewById(R.id.iv_green);
+                viewHolder.iv_red = (ImageView) convertView.findViewById(R.id.iv_red);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -209,27 +212,36 @@ public class HqDetailActivity extends BaseActivity {
                 viewHolder.hq_detail_item_Date.setText(price.Date);
                 viewHolder.hq_detail_item_Min.setText(price.LPrice);
                 viewHolder.hq_detail_item_Max.setText(price.HPrice);
-                viewHolder.hq_detail_item_Change.setText(price.Change);
+
 
                 if (!TextUtils.isEmpty(price.Change)) {
                     double change = Double.parseDouble(price.Change);
+                    viewHolder.hq_detail_item_Change.setText(String.format("%.2f", Math.abs(change)));
                     if (change > 0) {
                         viewHolder.hq_detail_item_Change.setTextColor(ColorsUtils.DARKRED);
                         viewHolder.hq_detail_item_ChangeText.setTextColor(ColorsUtils.DARKRED);
                         viewHolder.hq_detail_item_ChangeText.setText("涨");
+                        viewHolder.iv_green.setVisibility(View.GONE);
+                        viewHolder.iv_red.setVisibility(View.VISIBLE);
                     } else if (change < 0) {
                         viewHolder.hq_detail_item_Change.setTextColor(ColorsUtils.DARKGREEN);
                         viewHolder.hq_detail_item_ChangeText.setTextColor(ColorsUtils.DARKGREEN);
                         viewHolder.hq_detail_item_ChangeText.setText("跌");
+                        viewHolder.iv_green.setVisibility(View.VISIBLE);
+                        viewHolder.iv_red.setVisibility(View.GONE);
                     } else {
                         viewHolder.hq_detail_item_Change.setTextColor(Color.BLACK);
                         viewHolder.hq_detail_item_ChangeText.setTextColor(Color.BLACK);
                         viewHolder.hq_detail_item_Change.setText("——");
                         viewHolder.hq_detail_item_ChangeText.setText("平");
+                        viewHolder.iv_green.setVisibility(View.GONE);
+                        viewHolder.iv_red.setVisibility(View.GONE);
                     }
+
                 } else {
                     viewHolder.hq_detail_item_Change.setText("");
                     viewHolder.hq_detail_item_ChangeText.setText("");
+                    viewHolder.hq_detail_item_Change.setText("");
                 }
             }
 
@@ -308,6 +320,8 @@ public class HqDetailActivity extends BaseActivity {
         TextView hq_detail_item_Max;
         TextView hq_detail_item_Change;
         TextView hq_detail_item_ChangeText;
+        ImageView iv_red;
+        ImageView iv_green;
     }
 
 }
