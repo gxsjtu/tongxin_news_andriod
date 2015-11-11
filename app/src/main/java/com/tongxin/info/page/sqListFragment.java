@@ -15,22 +15,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.actionsheet.ActionSheet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tongxin.info.R;
+import com.tongxin.info.activity.InboxDetailActivity;
+import com.tongxin.info.activity.SqCatalogActivity;
+import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
+import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
@@ -48,7 +55,7 @@ import java.util.ArrayList;
 /**
  * Created by cc on 2015/11/3.
  */
-public class sqListFragment extends Activity {
+public class sqListFragment extends FragmentActivity {
     private String tv_Name;
     private int tv_ID;
     loadingUtils loadingUtils;
@@ -56,48 +63,86 @@ public class sqListFragment extends Activity {
     private ArrayList<SqListVM> sqList = new ArrayList<SqListVM>();
     private ArrayList<SqListVM> resList = new ArrayList<SqListVM>();
     private ListView lv_sqList;
-    private Button btn_GY;
-    private Button btn_XQ;
+    private RadioButton btn_GY;
+    private RadioButton btn_XQ;
     private ImageView iv_sqReturn;
+    private ImageView iv_sqMenu;
+    private Button btn_headerSure;
+    private TextView tv_headerText;
+    private String typeForRefresh;
+    private FragmentManager fragmentManager;
+    FragmentTransaction tran;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_list);
+        typeForRefresh = "false";
         Intent intent = getIntent();
         tv_Name = intent.getStringExtra("CHANNEL_NAME");
         tv_ID = intent.getIntExtra("CHANNEL_ID", 0);
         UserUtils userUtils = new UserUtils(this);
         tel = userUtils.getTel();
         lv_sqList = (ListView) findViewById(R.id.sq_lvData);
-        final GradientDrawable drawable = new GradientDrawable();
-        drawable.setStroke(1, Color.WHITE); // 边框粗细及颜色
-        drawable.setColor(0x23B1EF); // 边框内部颜色
+
+
+        tv_headerText = (TextView)findViewById(R.id.sq_HeaderText);
+        tv_headerText.setVisibility(View.GONE);
+        btn_headerSure = (Button)findViewById(R.id.btn_spHeaderSure);
+        btn_headerSure.setVisibility(View.GONE);
+        fragmentManager = getSupportFragmentManager();
         iv_sqReturn = (ImageView)findViewById(R.id.sq_ivReturn);
         iv_sqReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+//                tran = fragmentManager.beginTransaction();
+//                tran.replace(R.id.main_fl_content,new sqFragment());
+//                tran.commit();
+            }
+        });
+        iv_sqMenu = (ImageView)findViewById(R.id.iv_sqMenu);
+        iv_sqMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActionSheet.createBuilder(sqListFragment.this, getSupportFragmentManager())
+                        .setCancelButtonTitle("取消")
+                        .setOtherButtonTitles("刷新供需列表", "发布供需")
+                        .setCancelableOnTouchOutside(true)
+                        .setListener(new ActionSheet.ActionSheetListener() {
+                            @Override
+                            public void onDismiss(ActionSheet actionSheet, boolean isCancel) {
+                               // Toast.makeText(sqListFragment.this, "取消", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onOtherButtonClick(ActionSheet actionSheet, int index) {
+                            if(index == 0) {
+                                initData(typeForRefresh);
+                            }
+                                else if(index == 1) {
+                                Intent intent = new Intent(sqListFragment.this,SqCatalogActivity.class);
+                                intent.putExtra("CATALOGCHANNEL_ID",tv_ID);
+                                intent.putExtra("CATALOGCAHNNEL_NAME", tv_Name);
+                                startActivity(intent);
+                            }
+                            }
+                        }).show();
             }
         });
 
-        final GradientDrawable drawableClick = new GradientDrawable();
-        drawableClick.setColor(Color.WHITE); // 边框内部颜色
+        SegmentedGroup segmented2 = (SegmentedGroup) findViewById(R.id.sq_segmented1);
+        segmented2.setTintColor(Color.WHITE,Color.parseColor("#23B1EF"));
 
-        btn_GY = (Button)findViewById(R.id.bt_SqTabGY);
-        btn_GY.setBackgroundDrawable(drawableClick);
-        btn_GY.setTextColor(Color.parseColor("#23B1EF"));
-        btn_XQ = (Button)findViewById(R.id.bt_SqlTabXQ);
-        btn_XQ.setBackgroundDrawable(drawable);
+        btn_GY = (RadioButton)findViewById(R.id.bt_SqTabGY);
+        btn_XQ = (RadioButton)findViewById(R.id.bt_SqlTabXQ);
+        btn_GY.setChecked(true);
+
         btn_GY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sqList.clear();
                 resList.clear();
-                btn_GY.setBackgroundDrawable(drawableClick);
-                btn_GY.setTextColor(Color.parseColor("#23B1EF"));
-                btn_XQ.setBackgroundDrawable(drawable);
-                btn_XQ.setTextColor(Color.WHITE);
-                initData("true");
+                typeForRefresh ="false";
+                initData(typeForRefresh);
             }
         });
         btn_XQ.setOnClickListener(new View.OnClickListener() {
@@ -105,15 +150,12 @@ public class sqListFragment extends Activity {
             public void onClick(View v) {
                 sqList.clear();
                 resList.clear();
-                btn_XQ.setBackgroundDrawable(drawableClick);
-                btn_XQ.setTextColor(Color.parseColor("#23B1EF"));
-                btn_GY.setBackgroundDrawable(drawable);
-                btn_GY.setTextColor(Color.WHITE);
-                initData("false");
+                typeForRefresh = "true";
+                initData(typeForRefresh);
             }
         });
-//        loadingUtils = new loadingUtils(this);
-        initData("true");
+
+        initData(typeForRefresh);
     }
 
     private void initData(final String dataType) {
@@ -121,7 +163,6 @@ public class sqListFragment extends Activity {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-//        loadingUtils.show();
         kjHttp.get(GlobalContants.GETSPLIST_URL + "?method=getsupply&createBy=" + tel + "&channel=" + tv_ID, null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
@@ -135,7 +176,6 @@ public class sqListFragment extends Activity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-//                loadingUtils.close();
                 Toast.makeText(sqListFragment.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
             }
 
@@ -185,17 +225,15 @@ public class sqListFragment extends Activity {
                             viewHolder.txt_sqLocation = (TextView)convertView.findViewById(R.id.tv_sqLocation);
                             viewHolder.txt_sqDate = (TextView) convertView.findViewById(R.id.tv_sqDate);
                             viewHolder.txt_sqIsChecked = (TextView) convertView.findViewById(R.id.tv_sqIsChecked);
+                            convertView.setTag(viewHolder);
                         }
                         else
                         {
                             viewHolder = (ViewHolder) convertView.getTag();
                         }
 
-                       // Bitmap bitmap = getHttpBitmap(item.avatar);
-
-                        //显示
-//                        viewHolder.imgSqList.setImageBitmap(bitmap);
                         ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
+//                        kjb.display(viewHolder.imgSqList, item.avatar);
                         viewHolder.sqName.setText(item.name);
                         viewHolder.txt_sqDate.setText(item.date);
                         viewHolder.txt_sqContact.setText(item.contact);
@@ -216,6 +254,17 @@ public class sqListFragment extends Activity {
                         }
 
                         return convertView;
+                    }
+                });
+
+                lv_sqList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        SqListVM item = resList.get(position);
+                        Intent intent = new Intent(sqListFragment.this,sqDetailFragment.class);
+                        intent.putExtra("SQDETAIL_CHANNELNAME", "商圈 - " + tv_Name);
+                        intent.putExtra("SQDETAIL_CHANNELID",item.id);
+                        startActivity(intent);
                     }
                 });
             }

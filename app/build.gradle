@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        encoding "UTF-8"
+    }
 }
 
 dependencies {
@@ -31,4 +35,13 @@ dependencies {
     compile files('libs/android-support-v4.jar')
     compile files('libs/GetuiExt-2.0.3.jar')
     compile files('libs/universal-image-loader-1.9.4.jar')
+    compile 'info.hoang8f:android-segmented:1.0.6'
+    compile "com.android.support:support-v4:+"
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile 'com.baoyz.actionsheet:library:1.1.3'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.squareup.picasso:picasso:2.4.0'
 }

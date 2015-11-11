@@ -8,5 +8,8 @@
 
     <color name="psts_background_tab_pressed">#1AFFFFFF</color>
     <color name="psts_background_tab_pressed_ripple">#AAFFFFFF</color>
+    <!--#ff33b5e5-->
+    <color name="radio_button_selected_color">#ff33b5e5</color>
+    <color name="radio_button_unselected_color">@android:color/transparent</color>
 
 </resources>

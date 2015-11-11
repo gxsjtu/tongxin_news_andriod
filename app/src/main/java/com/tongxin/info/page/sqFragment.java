@@ -40,20 +40,18 @@ public class sqFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         mActivity = getActivity();
+//        setContentView(R.layout.sqcontent);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         container.removeAllViews();
-        View view = View.inflate(mActivity, R.layout.sqcontent,null);
+        View view = View.inflate(mActivity, R.layout.sqcontent, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("商圈频道");
-        iv_return = (ImageView) view.findViewById(R.id.iv_return);
-        iv_ref = (ImageView) view.findViewById(R.id.iv_ref);
-        iv_return.setVisibility(View.GONE);
-        iv_ref.setVisibility(View.GONE);
 
         ib_jbjs = (ImageButton)view.findViewById(R.id.imgJBJS);
         ib_jbjs.setOnClickListener(new View.OnClickListener() {
