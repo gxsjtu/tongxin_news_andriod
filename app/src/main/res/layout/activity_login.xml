@@ -6,11 +6,10 @@
     android:background="@mipmap/loginback">
 
 <ImageView
-    android:layout_width="180dp"
-    android:layout_height="180dp"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
     android:layout_centerHorizontal="true"
     android:layout_above="@+id/login"
-    android:layout_marginBottom="20dp"
     android:src="@mipmap/loginlogo"/>
 
     <LinearLayout
@@ -23,56 +22,62 @@
         <com.tongxin.info.control.MobileEditTextWithDel
             android:id="@+id/et_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/edittext_border"
             android:hint="请输入用户名"
+            android:textSize="16sp"
             android:padding="10dp"
             android:inputType="phone" />
 
         <com.tongxin.info.control.PwdEditTextWithDel
             android:id="@+id/et_pwd"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
             android:background="@drawable/edittext_border"
             android:hint="请输入密码"
             android:inputType="numberPassword"
             android:padding="10dp" />
 
-
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/login"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/loginbtn"
+            android:onClick="login"
+            android:text="登陆"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            custom:pb_colorComplete="@color/green_complete"
+            custom:pb_colorNormal="@color/blue_normal"
+            custom:pb_colorPressed="@color/blue_pressed"
+            custom:pb_colorProgress="@color/purple_progress"
+            custom:pb_textComplete="登陆成功"
+            custom:pb_textError="登陆失败"
+            custom:pb_textProgress="提交中" />
     </LinearLayout>
 
-    <com.dd.processbutton.iml.ActionProcessButton
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login"
-        android:layout_margin="15dp"
-        android:background="@drawable/loginbtn"
-        android:onClick="login"
-        android:text="登陆"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        custom:pb_colorComplete="@color/green_complete"
-        custom:pb_colorNormal="@color/blue_normal"
-        custom:pb_colorPressed="@color/blue_pressed"
-        custom:pb_colorProgress="@color/purple_progress"
-        custom:pb_textComplete="登陆成功"
-        custom:pb_textError="登陆失败"
-        custom:pb_textProgress="提交中" />
+
 
     <LinearLayout
+        android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="80dp"
+        android:layout_above="@+id/copy"
+
         android:orientation="horizontal">
 
         <LinearLayout
@@ -87,6 +92,7 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="忘记密码?"
+                android:textSize="15sp"
                 android:textColor="#fff"
                 android:onClick="forgetPwd"/>
         </LinearLayout>
@@ -103,6 +109,7 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="联系客服"
+                android:textSize="15sp"
                 android:textColor="#fff"
                 android:onClick="Contact"/>
         </LinearLayout>
@@ -119,11 +126,22 @@
                 android:background="@android:color/transparent"
                 android:padding="15dp"
                 android:text="申请试用"
+                android:textSize="15sp"
                 android:textColor="#fff"
                 android:onClick="Require"/>
         </LinearLayout>
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/copy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上海同鑫 版权所有"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

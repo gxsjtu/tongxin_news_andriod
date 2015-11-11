@@ -3,37 +3,38 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/loginbg">
+    android:background="@mipmap/loginback">
 
     <include layout="@layout/login_header"></include>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
         <com.tongxin.info.control.MobileEditTextWithDel
             android:id="@+id/et_mobile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/edittext_border"
-            android:inputType="phone"
             android:hint="必填 : 手机号码"
-            android:padding="10dp"></com.tongxin.info.control.MobileEditTextWithDel>
+            android:inputType="phone"
+            android:padding="10dp"
+            android:textSize="16sp"></com.tongxin.info.control.MobileEditTextWithDel>
 
         <com.dd.processbutton.iml.ActionProcessButton
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@+id/login"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/loginbtn"
             android:onClick="submit"
             android:text="确定"
@@ -53,24 +54,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="#fff"
             android:gravity="center_horizontal"
-            android:text="申请成功后，账号即时生效，请返回登陆页面输入注册"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_marginTop="4dp"
-            android:textColor="#fff"
-            android:gravity="center_horizontal"
-            android:text="手机的短信密码进行登陆"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="申请成功后，账号即时生效，请返回登陆页面输入注册手机的短信密码进行登陆"
+            android:textColor="#fff" />
     </LinearLayout>
 
 
