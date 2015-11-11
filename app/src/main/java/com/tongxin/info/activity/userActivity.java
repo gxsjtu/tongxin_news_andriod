@@ -164,5 +164,7 @@ public class userActivity extends BaseActivity {
 
     public void mySupply(View view) {
         //我的供求
+        Intent intent = new Intent(userActivity.this, MySupplyActivity.class);
+        startActivity(intent);
     }
 }

@@ -79,8 +79,6 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ChartActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".page.sqFragment"
-            android:screenOrientation="portrait"/>
         <activity android:name=".page.sqListFragment"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PingLunDetailActivity"
@@ -96,7 +94,12 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.CitiesActivity"
             android:screenOrientation="portrait"></activity>
-
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.MySupplyActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.userActivity"
             android:screenOrientation="portrait"></activity>
