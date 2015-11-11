@@ -3,6 +3,7 @@ package com.tongxin.info.activity;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,38 +56,24 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-//            //4.4以下
-//            if (Build.VERSION.SDK_INT < 16) {
-//                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            } else {
-//                View decorView = getWindow().getDecorView();
-//                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-//                decorView.setSystemUiVisibility(uiOptions);
-//            }
-//        } else {
-//            //4.4及以上
-//            //透明状态栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            //透明导航栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
 
-
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
-//        {
-//            //4.4以下
-//
-//        }
-//        else
-//        {
-//            //4.4及以上
-//            //透明状态栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            //透明导航栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            //4.4及以下
+            if (Build.VERSION.SDK_INT < 16) {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            } else {
+                View decorView = getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
+            }
+        } else {
+            //4.4以上
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         application = (MyApp) getApplication();
         application.setLoginActivity(this);
         pushManager = application.getPushManager();
@@ -106,8 +93,6 @@ public class LoginActivity extends Activity {
         }
         else {
             setContentView(R.layout.activity_login);
-
-
             initViews();
         }
     }
