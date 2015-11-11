@@ -22,26 +22,56 @@
         android:paddingBottom="2dp"
         android:paddingTop="2dp"
         >
-    <Button
-        android:id="@+id/bt_SqTabGY"
-        android:text="供应"
-        android:layout_width="60dp"
-        android:layout_height="38dp"
-        android:textColor="#fff" />
-    <Button
-        android:id="@+id/bt_SqlTabXQ"
-        android:text="需求"
-        android:layout_width="60dp"
-        android:layout_height="38dp"
-        android:textColor="#fff" />
+        <com.tongxin.info.control.SegmentedGroup
+            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/sq_segmented1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            segmentedgroup:sc_border_width="2dp"
+            segmentedgroup:sc_corner_radius="10dp">
+
+            <RadioButton
+                android:id="@+id/bt_SqTabGY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="供应"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/bt_SqlTabXQ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="采购"
+                style="@style/RadioButton" />
+        </com.tongxin.info.control.SegmentedGroup>
+        <TextView
+            android:id="@+id/sq_HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:layout_margin="10dp"
+            />
     </LinearLayout>
     <ImageView
-        android:id="@+id/iv_ref"
+        android:id="@+id/iv_sqMenu"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/ref"
+        android:src="@drawable/sqmenu"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:layout_centerVertical="true"
         />
+    <Button
+        android:id="@+id/btn_spHeaderSure"
+        android:text="确定"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:textColor="@color/white"/>
 </RelativeLayout>

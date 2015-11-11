@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <!-- 个推SDK权限配置开始 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -80,6 +80,15 @@
         <activity
             android:name=".activity.TrialActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".page.sqDetailFragment"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SqCatalogActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.SqCatalogItemAdd"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.CitiesActivity"
+            android:screenOrientation="portrait"></activity>
+
         <activity
             android:name=".activity.userActivity"
             android:screenOrientation="portrait"></activity>
