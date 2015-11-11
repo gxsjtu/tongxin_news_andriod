@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:padding="7dp"
         />
 

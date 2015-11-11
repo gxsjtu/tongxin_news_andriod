@@ -510,7 +510,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             if (tab_title != null) {
                 tab_title.setSelected(false);
                 tab_title.setTextColor(Color.rgb(0, 0, 0));
-                tab_title.setTextSize(15);
+                tab_title.setTextSize(14);
             }
             if (isCustomTabs) ((CustomTabProvider) mPager.getAdapter()).tabUnselected(tab);
         }
@@ -522,7 +522,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             if (tab_title != null) {
                 tab_title.setSelected(true);
                 tab_title.setTextColor(Color.rgb(255, 0, 0));
-                tab_title.setTextSize(18);
+                tab_title.setTextSize(16);
             }
             if (isCustomTabs) ((CustomTabProvider) mPager.getAdapter()).tabSelected(tab);
         }
