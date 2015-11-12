@@ -36,7 +36,7 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题
         setContentView(R.layout.activity_guide);
         guide_vp = (ViewPager) findViewById(R.id.guide_vp);
         guide_btn_start = (Button) findViewById(R.id.guide_btn_start);
