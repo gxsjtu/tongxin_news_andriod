@@ -23,7 +23,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/tab_background">
+            android:paddingTop="2dp"
+            android:background="@drawable/tab_bg">
 
             <RadioButton
                 android:id="@+id/main_rb_inbox"

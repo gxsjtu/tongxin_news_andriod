@@ -9,8 +9,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:textSize="24sp"
-        android:padding="8dp"
+        android:textSize="15sp"
+        android:padding="7dp"
         />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="2dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/more"/>
 
 </RelativeLayout>

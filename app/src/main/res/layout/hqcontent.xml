@@ -9,23 +9,27 @@
     <include layout="@layout/header"></include>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:orientation="horizontal"
+        android:background="#c9c9ce"
+        android:gravity="center_vertical">
 
         <com.tongxin.info.control.EditTextWithDel
             android:id="@+id/et_search"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="请输入查询内容"
-            android:imeOptions="actionDone"
-            android:drawablePadding="15dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:padding="5dp"
-            android:background="@drawable/edittext_border"/>
+            android:layout_weight="1"
+            android:background="@drawable/edittext_border"
+            android:drawablePadding="15dp"
+            android:hint="请输入查询内容"
+            android:imeOptions="actionDone"
+            android:textSize="14sp"
+            android:padding="5dp" />
 
         <ImageView
             android:id="@+id/iv_search"
@@ -33,35 +37,29 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:src="@drawable/searchpic"/>
+            android:src="@drawable/searchpic" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!--<com.astuetz.PagerSlidingTabStrip-->
-            <!--android:id="@+id/tabs"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="8dp"></com.astuetz.PagerSlidingTabStrip>-->
+        android:layout_height="wrap_content"
+        android:background="#efeff4"
+        android:orientation="horizontal">
 
         <com.tongxin.info.control.PagerSlidingTabStrip
             android:id="@+id/tabs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="8dp"></com.tongxin.info.control.PagerSlidingTabStrip>
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"></com.tongxin.info.control.PagerSlidingTabStrip>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/hq_tab_btn"
-            android:src="@mipmap/arr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/more" />
 
     </LinearLayout>
 

@@ -24,8 +24,8 @@ public class BaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myApp = (MyApp) getApplication();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            //4.4以下
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            //4.4及以下
             if (Build.VERSION.SDK_INT < 16) {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                         WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -35,7 +35,7 @@ public class BaseActivity extends Activity {
                 decorView.setSystemUiVisibility(uiOptions);
             }
         } else {
-            //4.4及以上
+            //4.4以上
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏

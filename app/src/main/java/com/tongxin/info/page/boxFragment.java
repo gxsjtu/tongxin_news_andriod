@@ -98,6 +98,7 @@ public class boxFragment extends Fragment {
         lv_msg.addFooterView(footerView);
         lv_searchRes = (ListView)view.findViewById(R.id.lv_searchRes);
         lv_searchRes.setVisibility(View.GONE);
+
         msg_searchImg = (ImageView)view.findViewById(R.id.ivMsg_search);
         msg_searchTxt = (EditText)view.findViewById(R.id.msg_search);
         loadMoreBtn = (Button)footerView.findViewById(R.id.msg_loadMoreBtn);
