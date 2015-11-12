@@ -76,6 +76,7 @@
             android:layout_height="wrap_content"
             android:hint="联系方式（必填），如：15866666666"
             android:textSize="16dp"
+            android:inputType="number"
             android:layout_margin="5dp"
             />
         <EditText

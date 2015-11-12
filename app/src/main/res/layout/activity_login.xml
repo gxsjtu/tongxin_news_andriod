@@ -32,7 +32,7 @@
             android:textSize="16sp"
             android:textColor="#000"
             android:padding="10dp"
-            android:inputType="phone" />
+            android:inputType="number" />
 
         <com.tongxin.info.control.PwdEditTextWithDel
             android:id="@+id/et_pwd"
