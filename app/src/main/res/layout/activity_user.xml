@@ -39,14 +39,14 @@
                         android:layout_weight="1"
                         android:text="注册手机号码"
                         android:textColor="#000"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_userMobile"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:textColor="#000"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <TextView
@@ -67,14 +67,14 @@
                         android:layout_weight="1"
                         android:text="服务截止日期"
                         android:textColor="#000"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_userEndDate"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:textColor="#000"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <TextView
@@ -108,7 +108,7 @@
                         android:layout_weight="1"
                         android:text="信息免打扰"
                         android:textColor="#000"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Switch
                         android:id="@+id/sw"
@@ -146,7 +146,7 @@
                         android:layout_weight="1"
                         android:text="我的关注"
                         android:textColor="#000"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -182,7 +182,7 @@
                         android:layout_weight="1"
                         android:text="我的供求"
                         android:textColor="#000"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -206,7 +206,7 @@
                     android:onClick="loginout"
                     android:text="退出"
                     android:textColor="#fff"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </ScrollView>
