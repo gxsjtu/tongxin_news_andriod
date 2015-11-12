@@ -44,7 +44,7 @@ public class plFragment extends baseFragment {
     private FragmentActivity mActivity;
     private ViewPager pl_vp;
     private PagerSlidingTabStrip pl_tabs;
-    private ImageButton pl_tab_btn;
+    private ImageView pl_tab_btn;
     private TextView tv_headerTitle;
     private LinearLayout iv_ref;
     private List<pl_contentFragment> pl_frag = new ArrayList<pl_contentFragment>();
@@ -88,7 +88,7 @@ public class plFragment extends baseFragment {
         pl_tabs.setHqFragment(this);
         pl_tabs.setIndicatorColor(Color.rgb(255, 0, 0));
 
-        pl_tab_btn = (ImageButton) view.findViewById(R.id.pl_tab_btn);
+        pl_tab_btn = (ImageView) view.findViewById(R.id.pl_tab_btn);
         pl_tab_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

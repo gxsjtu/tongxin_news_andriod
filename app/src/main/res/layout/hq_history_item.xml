@@ -9,34 +9,35 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:textSize="16sp"
-        android:textColor="#51953E"
+        android:textSize="14sp"
+        android:textColor="@color/low"
         android:text="最低"/>
 
     <TextView
         android:id="@+id/tv_priceMin"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#51953E"/>
+        android:textSize="14sp"
+        android:textColor="@color/low"/>
 
     <TextView
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#D92B19"
+        android:textSize="14sp"
+        android:textColor="@color/high"
         android:text="最高"/>
 
     <TextView
         android:id="@+id/tv_priceMax"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#D92B19"/>
+        android:textSize="14sp"
+        android:textColor="@color/high"/>
 
     <TextView
         android:id="@+id/tv_priceChange"
         android:layout_width="80dp"
+        android:textSize="14sp"
         android:layout_height="wrap_content"
         />
 </TableRow>
@@ -48,7 +49,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:textColor="#df8034"
+        android:textColor="@color/nochange"
+        android:textSize="13sp"
         />
 </TableRow>
 

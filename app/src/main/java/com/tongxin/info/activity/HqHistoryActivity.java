@@ -238,15 +238,15 @@ public class HqHistoryActivity extends BaseActivity {
                         if (!TextUtils.isEmpty(price.Change)) {
                             Double change = Double.parseDouble(price.Change);
                             if (change > 0) {
-                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.2f", change));
-                                viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKRED);
+                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.2f", change)+"▲");
+                                viewHolder.tv_priceChange.setTextColor(ColorsUtils.HIGH);
                             } else if (change < 0) {
-                                viewHolder.tv_priceChange.setText("跌 " + String.format("%.2f", Math.abs(change)));
-                                viewHolder.tv_priceChange.setTextColor(ColorsUtils.DARKGREEN);
+                                viewHolder.tv_priceChange.setText("跌 " + String.format("%.2f", Math.abs(change))+"▼");
+                                viewHolder.tv_priceChange.setTextColor(ColorsUtils.LOW);
 
                             } else {
                                 viewHolder.tv_priceChange.setText("平");
-                                viewHolder.tv_priceChange.setTextColor(Color.BLACK);
+                                viewHolder.tv_priceChange.setTextColor(ColorsUtils.NOCHANGE);
                             }
                         } else {
                             viewHolder.tv_priceChange.setText("");
