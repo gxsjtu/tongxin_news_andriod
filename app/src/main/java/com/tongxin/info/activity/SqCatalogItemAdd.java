@@ -15,7 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
@@ -40,7 +42,11 @@ import com.squareup.picasso.Target;
 import com.tongxin.info.R;
 import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.page.sqListFragment;
 import com.tongxin.info.utils.UserUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -79,17 +85,33 @@ public class SqCatalogItemAdd extends Activity  {
     private String tel;
     private String location_Country;
     private String location_City;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(SqCatalogItemAdd.this, "新增成功！", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(SqCatalogItemAdd.this, "新增失败！", Toast.LENGTH_SHORT).show();
+                    //nextPage();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_channelitemadd);
+
         UserUtils userUtils = new UserUtils(SqCatalogItemAdd.this);
         tel = userUtils.getTel();
         Intent intent = getIntent();
         channelID = intent.getIntExtra("CATALOGCHANNEL_ID", 0);
         channelName = intent.getStringExtra("CATALOGCHANNEL_NAME");
         productName = intent.getStringExtra("PRODUCT_NAME");
+
 
         tv_ChannelName = (EditText)findViewById(R.id.tv_addChannelName);
         tv_ChannelQty = (EditText)findViewById(R.id.tv_addChannelQty);
@@ -112,7 +134,21 @@ public class SqCatalogItemAdd extends Activity  {
                     new Thread() {
                         @Override
                         public void run() {
-                            AddItemData();
+                            final Message msg = Message.obtain();
+                          String result =  AddItemData();
+                            if("ok".equals(result))
+                            {
+                                msg.what = 0;
+                                Intent intent = new Intent(SqCatalogItemAdd.this, sqListFragment.class);
+                                intent.putExtra("CHANNEL_ID",channelID);
+                                intent.putExtra("CHANNEL_NAME",channelName);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                msg.what = 1;
+                            }
+                            mHandler.sendMessage(msg);
                         }
                     }.start();
                 }
@@ -135,6 +171,8 @@ public class SqCatalogItemAdd extends Activity  {
         rb_ItemCG = (RadioButton) findViewById(R.id.rb_addChannelCG);
         rb_ItemZT = (RadioButton) findViewById(R.id.rb_addChannelZT);
         rb_ItemFH = (RadioButton) findViewById(R.id.rb_addChannelFH);
+        rb_ItemGY.setChecked(true);
+        rb_ItemZT.setChecked(true);
         btn_ItemLocation = (Button) findViewById(R.id.btn_addChannelLocation);
 
         timer1 = new CountDownTimer(600000, 2000) {
@@ -290,8 +328,9 @@ public class SqCatalogItemAdd extends Activity  {
         }
     }
 
-    private void AddItemData()
+    private String AddItemData()
     {
+        String res = "error";
         String sOrP = "1";
         String sOro = "1";
 
@@ -342,7 +381,7 @@ public class SqCatalogItemAdd extends Activity  {
                         RequestBody.create(null, tv_ChannelMobile.getText().toString()))
                 .addPart(Headers.of(
                                 "Content-Disposition",
-                                "form-data; name=\"createBy\""),
+                                "form-data; name=\"createdBy\""),
                         RequestBody.create(null, tel))
                 .addPart(Headers.of(
                                 "Content-Disposition",
@@ -386,11 +425,13 @@ public class SqCatalogItemAdd extends Activity  {
         Call call = mOkHttpClient.newCall(request);
 
         try {
-            String res = call.execute().body().string();
-        }catch (IOException ex)
+           JSONObject json = new JSONObject(call.execute().body().string());
+            res = json.getString("result");
+        }catch (Exception ex)
         {
 
         }
+        return res;
     }
 
     private boolean checkData()

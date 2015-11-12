@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +22,7 @@ import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.sqDetailFragment;
 import com.tongxin.info.utils.UserUtils;
+import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -39,11 +41,14 @@ public class MySupplyActivity extends Activity {
     private ArrayList<SqListVM> mySupplyList = new ArrayList<SqListVM>();
     private TextView tv_headerTitle;
     private LinearLayout iv_return;
+    private LinearLayout iv_ref;
+    loadingUtils loadingUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mysupply);
 
+        loadingUtils = new loadingUtils(this);
         lv_mySupply = (ListView)findViewById(R.id.lv_mySupply);
         UserUtils userUtils = new UserUtils(this);
         tel = userUtils.getTel();
@@ -57,11 +62,20 @@ public class MySupplyActivity extends Activity {
                 finish();
             }
         });
+        iv_ref =(LinearLayout)findViewById(R.id.iv_ref);
+        iv_ref.setVisibility(View.VISIBLE);
+        iv_ref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initData();
+            }
+        });
         initData();
     }
 
     private void initData()
     {
+        loadingUtils.show();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -79,7 +93,9 @@ public class MySupplyActivity extends Activity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                super.onFailure(errorNo, strMsg);
+
+                loadingUtils.close();
+                Toast.makeText(MySupplyActivity.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -143,7 +159,7 @@ public class MySupplyActivity extends Activity {
                         else
                         {
                             viewHolder.tv_Type.setText("采购");
-                            viewHolder.tv_Type.setTextColor(Color.GREEN);
+                            viewHolder.tv_Type.setTextColor(Color.parseColor("#006400"));
                         }
 
                         if("".equals(item.ischecked))
@@ -154,6 +170,7 @@ public class MySupplyActivity extends Activity {
                         else if("true".equals(item.ischecked))
                         {
                             viewHolder.txt_sqIsChecked.setText("已审核");
+                            viewHolder.txt_sqIsChecked.setTextColor(Color.parseColor("#006400"));
                         }
                         else
                         {
@@ -164,14 +181,14 @@ public class MySupplyActivity extends Activity {
                         return convertView;
                     }
                 });
-
+                loadingUtils.close();
                 lv_mySupply.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         SqListVM item = mySupplyList.get(position);
                         Intent intent = new Intent(MySupplyActivity.this, sqDetailFragment.class);
 //                        intent.putExtra("SQDETAIL_CHANNELNAME", "商圈 - " + tv_Name);
-                        intent.putExtra("SQDETAIL_CHANNELID", 0);
+                        intent.putExtra("SQDETAIL_CHANNELID", item.id);
                         startActivity(intent);
                     }
                 });

@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.SQDetailVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
@@ -46,11 +47,14 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
     private TextView tv_sqDetailDesc;
     private String mobile;
     private LinearLayout iv_return;
+    loadingUtils loadingUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_itemdetail);
+
+        loadingUtils = new loadingUtils(this);
         tv_sqDetailName = (TextView)findViewById(R.id.sq_detailName);
         tv_sqDetailQty = (TextView)findViewById(R.id.sq_detailQty);
         tv_sqDetailPrice = (TextView)findViewById(R.id.sq_detailPrice);
@@ -80,9 +84,10 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
         tv_headerTitle = (TextView)findViewById(R.id.tv_headerTitle);
         Intent intent  = getIntent();
         sq_channelID = intent.getIntExtra("SQDETAIL_CHANNELID",0);
-        if(sq_channelID > 0)
+        String title = intent.getStringExtra("SQDETAIL_CHANNELNAME");
+        if(!"".equals(title) && title != null)
         {
-            tv_headerTitle.setText(intent.getStringExtra("SQDETAIL_CHANNELNAME"));
+            tv_headerTitle.setText(title);
         }
         else
         {
@@ -93,6 +98,7 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
 
     private void initData()
     {
+        loadingUtils.show();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -110,6 +116,7 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
+                loadingUtils.close();
                 Toast.makeText(sqDetailFragment.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
             }
 
@@ -143,8 +150,6 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
                 for (int i = 0; i < detail.avatars.size();i++)
                 {
                     url_maps.put(String.valueOf(i + 1),detail.avatars.get(i).avatar);
-//                    String aa = detail.avatars.get(i).ava
-//
                 }
 
                 for(String name : url_maps.keySet()) {
@@ -165,6 +170,8 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
                     mDemoSlider.setDuration(4000);
                     mDemoSlider.addOnPageChangeListener(sqDetailFragment.this);
                 }
+
+                loadingUtils.close();
             }
         });
     }

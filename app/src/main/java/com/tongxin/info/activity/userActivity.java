@@ -161,7 +161,7 @@ public class userActivity extends BaseActivity {
     public void myOrder(View view) {
         //我的关注
         Intent intent = new Intent(this,MyOrderActivity.class);
-        intent.putExtra("mobile",mobile);
+//        intent.putExtra("mobile",mobile);
         startActivity(intent);
     }
 

@@ -76,8 +76,6 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ChartActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".page.sqFragment"
-            android:screenOrientation="portrait"/>
         <activity android:name=".page.sqListFragment"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PingLunDetailActivity"

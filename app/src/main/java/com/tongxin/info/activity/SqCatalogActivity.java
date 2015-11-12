@@ -20,6 +20,7 @@ import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.domain.SqCatalogVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.sqListFragment;
+import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.*;
 import org.kymjs.kjframe.http.*;
@@ -40,16 +41,17 @@ public class SqCatalogActivity extends Activity {
     private ImageView iv_sqMenu;
     private Button btn_headerSure;
     private TextView tv_headerText;
+    loadingUtils loadingUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_cataloglist);
 
+        loadingUtils = new loadingUtils(this);
         Intent intent = getIntent();
         channelID = intent.getIntExtra("CATALOGCHANNEL_ID",0);
         channelName = intent.getStringExtra("CATALOGCAHNNEL_NAME");
         tv_headerText = (TextView)findViewById(R.id.sq_HeaderText);
-//        tv_headerText.setVisibility(View.GONE);
         btn_headerSure = (Button)findViewById(R.id.btn_spHeaderSure);
         btn_headerSure.setVisibility(View.GONE);
         iv_sqReturn = (ImageView)findViewById(R.id.sq_ivReturn);
@@ -74,6 +76,7 @@ public class SqCatalogActivity extends Activity {
     }
 
     private void initData() {
+        loadingUtils.show();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -91,6 +94,7 @@ public class SqCatalogActivity extends Activity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
+                loadingUtils.close();
                 Toast.makeText(SqCatalogActivity.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
             }
 
@@ -123,17 +127,14 @@ public class SqCatalogActivity extends Activity {
                         ViewHolder viewHolder = null;
                         SqCatalogVM item = getItem(position);
 
-                        if(convertView == null)
-                        {
+                        if (convertView == null) {
                             viewHolder = new ViewHolder();
-                            convertView = View.inflate(SqCatalogActivity.this,R.layout.sq_catalogcell,null);
-                            viewHolder.tv_catalogName = (TextView)convertView.findViewById(R.id.tv_sqCatalogName);
-                            viewHolder.tv_catalogDesc = (TextView)convertView.findViewById(R.id.tv_sqCatalogDesc);
+                            convertView = View.inflate(SqCatalogActivity.this, R.layout.sq_catalogcell, null);
+                            viewHolder.tv_catalogName = (TextView) convertView.findViewById(R.id.tv_sqCatalogName);
+                            viewHolder.tv_catalogDesc = (TextView) convertView.findViewById(R.id.tv_sqCatalogDesc);
                             convertView.setTag(viewHolder);
-                        }
-                        else
-                        {
-                            viewHolder = (ViewHolder)convertView.getTag();
+                        } else {
+                            viewHolder = (ViewHolder) convertView.getTag();
                         }
 
                         viewHolder.tv_catalogName.setText(item.Name);
@@ -141,16 +142,16 @@ public class SqCatalogActivity extends Activity {
                         return convertView;
                     }
                 });
-
+                loadingUtils.close();
                 lv_catalog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         SqCatalogVM item = sqCataLogList.get(position);
                         if (item.id > 0) {
                             Intent intent = new Intent(SqCatalogActivity.this, SqCatalogItemAdd.class);
-                            intent.putExtra("CATALOGCHANNEL_ID",channelID);
-                            intent.putExtra("CATALOGCHANNEL_NAME",channelName);
-                            intent.putExtra("PRODUCT_NAME",item.Name);
+                            intent.putExtra("CATALOGCHANNEL_ID", channelID);
+                            intent.putExtra("CATALOGCHANNEL_NAME", channelName);
+                            intent.putExtra("PRODUCT_NAME", item.Name);
                             startActivity(intent);
                         }
                     }

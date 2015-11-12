@@ -76,6 +76,8 @@ public class sqListFragment extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_list);
+
+        loadingUtils = new loadingUtils(this);
         typeForRefresh = "false";
         Intent intent = getIntent();
         tv_Name = intent.getStringExtra("CHANNEL_NAME");
@@ -116,9 +118,14 @@ public class sqListFragment extends FragmentActivity {
                             @Override
                             public void onOtherButtonClick(ActionSheet actionSheet, int index) {
                             if(index == 0) {
+                                if(sqList != null && sqList.size() > 0)
+                                {
+                                    sqList.clear();
+                                    resList.clear();
+                                }
                                 initData(typeForRefresh);
                             }
-                                else if(index == 1) {
+                            else if(index == 1) {
                                 Intent intent = new Intent(sqListFragment.this,SqCatalogActivity.class);
                                 intent.putExtra("CATALOGCHANNEL_ID",tv_ID);
                                 intent.putExtra("CATALOGCAHNNEL_NAME", tv_Name);
@@ -159,6 +166,7 @@ public class sqListFragment extends FragmentActivity {
     }
 
     private void initData(final String dataType) {
+        loadingUtils.show();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -176,6 +184,7 @@ public class sqListFragment extends FragmentActivity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
+                loadingUtils.close();
                 Toast.makeText(sqListFragment.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
             }
 
@@ -233,7 +242,6 @@ public class sqListFragment extends FragmentActivity {
                         }
 
                         ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
-//                        kjb.display(viewHolder.imgSqList, item.avatar);
                         viewHolder.sqName.setText(item.name);
                         viewHolder.txt_sqDate.setText(item.date);
                         viewHolder.txt_sqContact.setText(item.contact);
@@ -243,20 +251,23 @@ public class sqListFragment extends FragmentActivity {
                         if("".equals(item.ischecked))
                         {
                             viewHolder.txt_sqIsChecked.setText("待审核");
+                            viewHolder.txt_sqIsChecked.setTextColor(Color.BLACK);
                         }
                         else if("true".equals(item.ischecked))
                         {
                             viewHolder.txt_sqIsChecked.setText("已审核");
+                            viewHolder.txt_sqIsChecked.setTextColor(Color.parseColor("#006400"));
                         }
                         else
                         {
                             viewHolder.txt_sqIsChecked.setText("已拒绝");
+                            viewHolder.txt_sqIsChecked.setTextColor(Color.RED);
                         }
 
                         return convertView;
                     }
                 });
-
+                loadingUtils.close();
                 lv_sqList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
