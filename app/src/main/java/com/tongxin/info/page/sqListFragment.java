@@ -106,9 +106,7 @@ public class sqListFragment extends FragmentActivity {
         iv_sqReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                tran = fragmentManager.beginTransaction();
-//                tran.replace(R.id.main_fl_content,new sqFragment());
-//                tran.commit();
+                finish();
             }
         });
         iv_sqMenu = (ImageView)findViewById(R.id.iv_sqMenu);
@@ -330,6 +328,15 @@ public class sqListFragment extends FragmentActivity {
             }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 3)
+        {
+            tv_Name = data.getStringExtra("CHANNEL_NAME");
+            tv_ID = data.getIntExtra("CHANNEL_ID", 0);
+            initData(typeForRefresh);
+        }
+    }
 
     public class ViewHolder
     {

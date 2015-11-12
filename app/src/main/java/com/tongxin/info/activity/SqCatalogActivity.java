@@ -60,8 +60,11 @@ public class SqCatalogActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(SqCatalogActivity.this, sqListFragment.class);
                 intent.putExtra("CHANNEL_ID",channelID);
-                intent.putExtra("CHANNEL_NAME",channelName);
-                startActivity(intent);
+                intent.putExtra("CHANNEL_NAME", channelName);
+//                startActivity(intent);
+                setResult(3,intent);
+                finish();
+
             }
         });
         iv_sqMenu = (ImageView)findViewById(R.id.iv_sqMenu);
@@ -158,6 +161,16 @@ public class SqCatalogActivity extends Activity {
                 });
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 4)
+        {
+            channelID = data.getIntExtra("CATALOGCHANNEL_ID",0);
+            channelName = data.getStringExtra("CATALOGCAHNNEL_NAME");
+            initData();
+        }
     }
 
     public class ViewHolder

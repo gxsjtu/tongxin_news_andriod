@@ -163,7 +163,9 @@ public class SqCatalogItemAdd extends Activity  {
                 Intent intent = new Intent(SqCatalogItemAdd.this, SqCatalogActivity.class);
                 intent.putExtra("CATALOGCHANNEL_ID", channelID);
                 intent.putExtra("CATALOGCAHNNEL_NAME",channelName);
-                startActivity(intent);
+//                startActivity(intent);
+                setResult(4,intent);
+                finish();
             }
         });
 
