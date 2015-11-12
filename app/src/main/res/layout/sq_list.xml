@@ -7,6 +7,36 @@
     android:layout_height="match_parent">
 
 <include layout="@layout/sq_header"></include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#c9c9ce"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp">
+
+        <com.tongxin.info.control.EditTextWithDel
+            android:id="@+id/msg_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_border"
+            android:drawablePadding="15dp"
+            android:hint="请输入查询内容"
+            android:padding="5dp"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivMsg_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/searchpic" />
+    </LinearLayout>
     <ListView
         android:id="@+id/sq_lvData"
         android:layout_width="match_parent"

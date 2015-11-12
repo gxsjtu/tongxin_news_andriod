@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -62,6 +63,7 @@ public class sqListFragment extends FragmentActivity {
     private String tel;
     private ArrayList<SqListVM> sqList = new ArrayList<SqListVM>();
     private ArrayList<SqListVM> resList = new ArrayList<SqListVM>();
+    private ArrayList<SqListVM> searchList = new ArrayList<SqListVM>();
     private ListView lv_sqList;
     private RadioButton btn_GY;
     private RadioButton btn_XQ;
@@ -70,8 +72,9 @@ public class sqListFragment extends FragmentActivity {
     private Button btn_headerSure;
     private TextView tv_headerText;
     private String typeForRefresh;
-    private FragmentManager fragmentManager;
-    FragmentTransaction tran;
+    private EditText name_searchTxt;
+    private ImageView sq_searchImg;
+    AppAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +94,14 @@ public class sqListFragment extends FragmentActivity {
         tv_headerText.setVisibility(View.GONE);
         btn_headerSure = (Button)findViewById(R.id.btn_spHeaderSure);
         btn_headerSure.setVisibility(View.GONE);
-        fragmentManager = getSupportFragmentManager();
+        sq_searchImg = (ImageView)findViewById(R.id.ivMsg_search);
+        name_searchTxt = (EditText)findViewById(R.id.msg_search);
+        sq_searchImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search();
+            }
+        });
         iv_sqReturn = (ImageView)findViewById(R.id.sq_ivReturn);
         iv_sqReturn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,6 +175,41 @@ public class sqListFragment extends FragmentActivity {
         initData(typeForRefresh);
     }
 
+    private void search()
+    {
+        loadingUtils.show();
+        searchList.clear();
+
+        String searchKey = name_searchTxt.getText().toString();
+        String res = "";
+        if(searchKey != null) {
+            res = searchKey.replace(" ", "");
+        }
+        if("".equals(res))
+        {
+            //searchList.addAll(resList);
+            sqList.clear();
+            resList.clear();
+            initData(typeForRefresh);
+        }
+        else
+        {
+            for(int i = 0; i< resList.size();i++)
+            {
+                if(resList.get(i).name.contains(searchKey))
+                {
+                    searchList.add(resList.get(i));
+                }
+            }
+        }
+        resList.clear();
+        resList.addAll(searchList);
+
+        adapter = new AppAdapter();
+        lv_sqList.setAdapter(adapter);
+        loadingUtils.close();
+    }
+
     private void initData(final String dataType) {
         loadingUtils.show();
         KJHttp kjHttp = new KJHttp();
@@ -203,70 +248,8 @@ public class sqListFragment extends FragmentActivity {
                         }
                     }
                 }
-                lv_sqList.setAdapter(new BaseAdapter() {
-                    @Override
-                    public int getCount() {
-                        return resList.size();
-                    }
-
-                    @Override
-                    public SqListVM getItem(int position) {
-                        return resList.get(position);
-                    }
-
-                    @Override
-                    public long getItemId(int position) {
-                        return position;
-                    }
-
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        ViewHolder viewHolder = null;
-                        SqListVM item = getItem(position);
-
-                        if(convertView == null)
-                        {
-                            viewHolder = new ViewHolder();
-                            convertView = View.inflate(sqListFragment.this,R.layout.sq_listcontent,null);
-                            viewHolder.imgSqList = (ImageView) convertView.findViewById(R.id.img_sqList);
-                            viewHolder.sqName = (TextView) convertView.findViewById(R.id.tv_ChannelName);
-                            viewHolder.txt_sqContact = (TextView)convertView.findViewById(R.id.tv_sqContact);
-                            viewHolder.txt_sqLocation = (TextView)convertView.findViewById(R.id.tv_sqLocation);
-                            viewHolder.txt_sqDate = (TextView) convertView.findViewById(R.id.tv_sqDate);
-                            viewHolder.txt_sqIsChecked = (TextView) convertView.findViewById(R.id.tv_sqIsChecked);
-                            convertView.setTag(viewHolder);
-                        }
-                        else
-                        {
-                            viewHolder = (ViewHolder) convertView.getTag();
-                        }
-
-                        ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
-                        viewHolder.sqName.setText(item.name);
-                        viewHolder.txt_sqDate.setText(item.date);
-                        viewHolder.txt_sqContact.setText(item.contact);
-                        viewHolder.txt_sqIsChecked.setText(item.ischecked);
-                        viewHolder.txt_sqLocation.setText(item.location);
-
-                        if("".equals(item.ischecked))
-                        {
-                            viewHolder.txt_sqIsChecked.setText("待审核");
-                            viewHolder.txt_sqIsChecked.setTextColor(Color.BLACK);
-                        }
-                        else if("true".equals(item.ischecked))
-                        {
-                            viewHolder.txt_sqIsChecked.setText("已审核");
-                            viewHolder.txt_sqIsChecked.setTextColor(Color.parseColor("#006400"));
-                        }
-                        else
-                        {
-                            viewHolder.txt_sqIsChecked.setText("已拒绝");
-                            viewHolder.txt_sqIsChecked.setTextColor(Color.RED);
-                        }
-
-                        return convertView;
-                    }
-                });
+                adapter = new AppAdapter();
+                lv_sqList.setAdapter(adapter);
                 loadingUtils.close();
                 lv_sqList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -281,6 +264,72 @@ public class sqListFragment extends FragmentActivity {
             }
         });
     }
+
+    public class AppAdapter extends BaseAdapter {
+            @Override
+            public int getCount() {
+                return resList.size();
+            }
+
+            @Override
+            public SqListVM getItem(int position) {
+                return resList.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                ViewHolder viewHolder = null;
+                SqListVM item = getItem(position);
+
+                if(convertView == null)
+                {
+                    viewHolder = new ViewHolder();
+                    convertView = View.inflate(sqListFragment.this,R.layout.sq_listcontent,null);
+                    viewHolder.imgSqList = (ImageView) convertView.findViewById(R.id.img_sqList);
+                    viewHolder.sqName = (TextView) convertView.findViewById(R.id.tv_ChannelName);
+                    viewHolder.txt_sqContact = (TextView)convertView.findViewById(R.id.tv_sqContact);
+                    viewHolder.txt_sqLocation = (TextView)convertView.findViewById(R.id.tv_sqLocation);
+                    viewHolder.txt_sqDate = (TextView) convertView.findViewById(R.id.tv_sqDate);
+                    viewHolder.txt_sqIsChecked = (TextView) convertView.findViewById(R.id.tv_sqIsChecked);
+                    convertView.setTag(viewHolder);
+                }
+                else
+                {
+                    viewHolder = (ViewHolder) convertView.getTag();
+                }
+
+                ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
+                viewHolder.sqName.setText(item.name);
+                viewHolder.txt_sqDate.setText(item.date);
+                viewHolder.txt_sqContact.setText(item.contact);
+                viewHolder.txt_sqIsChecked.setText(item.ischecked);
+                viewHolder.txt_sqLocation.setText(item.location);
+
+                if("".equals(item.ischecked))
+                {
+                    viewHolder.txt_sqIsChecked.setText("待审核");
+                    viewHolder.txt_sqIsChecked.setTextColor(Color.BLACK);
+                }
+                else if("true".equals(item.ischecked))
+                {
+                    viewHolder.txt_sqIsChecked.setText("已审核");
+                    viewHolder.txt_sqIsChecked.setTextColor(Color.parseColor("#006400"));
+                }
+                else
+                {
+                    viewHolder.txt_sqIsChecked.setText("已拒绝");
+                    viewHolder.txt_sqIsChecked.setTextColor(Color.RED);
+                }
+
+                return convertView;
+            }
+    }
+
 
     public class ViewHolder
     {
