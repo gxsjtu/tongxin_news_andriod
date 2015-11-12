@@ -10,10 +10,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
+            android:layout_height="50dp"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
+            android:gravity="center_vertical"
             android:background="#23B1EF">
 
             <ImageView

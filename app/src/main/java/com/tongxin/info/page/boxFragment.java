@@ -1,6 +1,9 @@
 package com.tongxin.info.page;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -96,7 +99,7 @@ public class boxFragment extends Fragment {
         iv_ref.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(loadList != null && msgList != null) {
+                if (loadList != null && msgList != null) {
                     loadList.clear();
                     msgList.clear();
                 }
@@ -108,6 +111,38 @@ public class boxFragment extends Fragment {
         lv_msg.addFooterView(footerView);
         lv_searchRes = (ListView)view.findViewById(R.id.lv_searchRes);
         lv_searchRes.setVisibility(View.GONE);
+
+        lv_msg.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                InboxMsgVM msg = loadList.get(position - 1);
+                Copy(msg.msg.trim());
+                Toast.makeText(mActivity, "内容已复制", Toast.LENGTH_SHORT).show();
+//                new AlertDialog.Builder(mActivity).setItems(new String[]{"复制"}, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        InboxMsgVM msg = loadList.get(position-1);
+//                        Copy(msg.msg.trim());
+//                    }
+//                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                }).show();
+                return true;
+            }
+        });
+
+        lv_searchRes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                InboxMsgVM msg = msgList.get(position-1);
+                Copy(msg.msg.trim());
+                Toast.makeText(mActivity,"内容已复制",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
 
         msg_searchImg = (ImageView)view.findViewById(R.id.ivMsg_search);
         msg_searchTxt = (EditText)view.findViewById(R.id.msg_search);
@@ -522,13 +557,13 @@ public class boxFragment extends Fragment {
         kjHttp.post(GlobalContants.GETINBOXMSG_URL, params, false, new HttpCallBack() {
             long dStart;
             long dFinish;
+
             @Override
             public void onPreStart() {
                 super.onPreStart();
                 try {
                     dStart = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
-                }catch (Exception ex)
-                {
+                } catch (Exception ex) {
                 }
             }
 
@@ -537,12 +572,10 @@ public class boxFragment extends Fragment {
                 super.onFinish();
                 try {
                     dFinish = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
-                    if((dFinish - dStart) / 1000 < 1)
-                    {
+                    if ((dFinish - dStart) / 1000 < 1) {
                         Thread.sleep(1000);
                     }
-                }catch (Exception ex)
-                {
+                } catch (Exception ex) {
                 }
             }
 
@@ -561,18 +594,16 @@ public class boxFragment extends Fragment {
                 loadList.clear();
                 loadList = gson.fromJson(t, type);
 
-                for (int i = 0; i < loadList.size();i++)
-                {
+                for (int i = 0; i < loadList.size(); i++) {
                     InboxMsgVM inbox = new InboxMsgVM();
                     inbox.msg = loadList.get(i).msg;
-                    inbox.url = loadList.get(i).url ;
+                    inbox.url = loadList.get(i).url;
                     try {
                         inbox.date = sdfFormat.format(sdfFormat.parse(loadList.get(i).date)).toString();
-                    }catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
 
                     }
-                    msgList.add(msgList.size(),inbox);
+                    msgList.add(msgList.size(), inbox);
                 }
                 adapterForData = new BaseAdapter() {
                     @Override
@@ -615,12 +646,9 @@ public class boxFragment extends Fragment {
                             viewHolder.img_Msg.setVisibility(View.VISIBLE);
                         }
 
-                        if(item.isHereVisible)
-                        {
+                        if (item.isHereVisible) {
                             viewHolder.img_Here.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
+                        } else {
                             viewHolder.img_Here.setVisibility(View.GONE);
                         }
 
@@ -630,11 +658,9 @@ public class boxFragment extends Fragment {
                 };
                 lv_msg.setAdapter(adapterForData);
                 loadingUtils.close();
-                if(loadList != null && loadList.size() > 0) {
+                if (loadList != null && loadList.size() > 0) {
                     minDateForPullUp = loadList.get(loadList.size() - 1).date;
-                }
-                else
-                {
+                } else {
                     minDateForPullUp = format.format(new Date());
                 }
                 adapterForData.notifyDataSetChanged();
@@ -661,6 +687,13 @@ public class boxFragment extends Fragment {
         public TextView txt_date;
         public ImageView img_Msg;
         public ImageView img_Here;
+    }
+
+    private void Copy(String text)
+    {
+        ClipboardManager cbm = (ClipboardManager)mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData myClip = ClipData.newPlainText("text", text);
+        cbm.setPrimaryClip(myClip);
     }
 
 }
