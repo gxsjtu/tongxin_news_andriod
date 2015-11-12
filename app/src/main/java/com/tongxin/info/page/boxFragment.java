@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Telephony;
@@ -29,12 +30,14 @@ import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullToRefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.InboxDetailActivity;
 import com.tongxin.info.activity.MainActivity;
 import com.tongxin.info.domain.InboxMsgVM;
 import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.domain.SearchVM;
+import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -75,6 +78,7 @@ public class boxFragment extends Fragment {
 
     private TextView tv_headerTitle;
     private LinearLayout iv_ref;
+    private Button btn_clear;
 
 
     @Override
@@ -104,6 +108,18 @@ public class boxFragment extends Fragment {
                     msgList.clear();
                 }
                 initData();
+            }
+        });
+        btn_clear = (Button)view.findViewById(R.id.btn_clearMsg);
+        btn_clear.setVisibility(View.VISIBLE);
+        btn_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                msgList.clear();
+                loadList.clear();
+                adapterForData = new AppAdapter();
+//                adapterForData.notifyDataSetChanged();
+                lv_msg.setAdapter(adapterForData);
             }
         });
         footerView = View.inflate(mActivity, R.layout.inboxmsgfooter, null);
@@ -137,9 +153,9 @@ public class boxFragment extends Fragment {
         lv_searchRes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                InboxMsgVM msg = msgList.get(position-1);
+                InboxMsgVM msg = msgList.get(position - 1);
                 Copy(msg.msg.trim());
-                Toast.makeText(mActivity,"内容已复制",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "内容已复制", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -319,50 +335,8 @@ public class boxFragment extends Fragment {
                             minDateForPullUp = formatForDataNull.format(new Date());
                         }
 
-                        lv_msg.setAdapter(new BaseAdapter() {
-                            @Override
-                            public int getCount() {
-                                return msgList.size();
-                            }
-
-                            @Override
-                            public InboxMsgVM getItem(int position) {
-                                return msgList.get(position);
-                            }
-
-                            @Override
-                            public long getItemId(int position) {
-                                return position;
-                            }
-
-                            @Override
-                            public View getView(int position, View convertView, ViewGroup parent) {
-                                ViewHolder viewHolder = null;
-                                InboxMsgVM item = getItem(position);
-
-                                if (convertView == null) {
-                                    viewHolder = new ViewHolder();
-                                    convertView = View.inflate(mActivity, R.layout.boxcontent, null);
-                                    viewHolder.txt_msg = (TextView) convertView.findViewById(R.id.txtMsg);
-                                    viewHolder.txt_date = (TextView) convertView.findViewById(R.id.txtDate);
-                                    viewHolder.img_Msg = (ImageView) convertView.findViewById(R.id.imgMsg);
-                                    viewHolder.img_Here = (ImageView) convertView.findViewById(R.id.img_here);
-                                    convertView.setTag(viewHolder);
-                                } else {
-                                    viewHolder = (ViewHolder) convertView.getTag();
-                                }
-
-                                viewHolder.txt_msg.setText(item.msg);
-                                viewHolder.txt_date.setText(item.date);
-                                if (item.url == null || item.url == "") {
-                                    viewHolder.img_Msg.setVisibility(View.GONE);
-                                } else {
-                                    viewHolder.img_Msg.setVisibility(View.VISIBLE);
-                                }
-
-                                return convertView;
-                            }
-                        });
+                        adapterForData = new AppAdapter();
+                        lv_msg.setAdapter(adapterForData);
                         loadingUtils.close();
                         lv_msg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -456,61 +430,7 @@ public class boxFragment extends Fragment {
                     }
                     msgList.add(i, inbox);
                 }
-                adapterForData = new BaseAdapter() {
-                    @Override
-                    public int getCount() {
-                        return msgList.size();
-                    }
-
-                    @Override
-                    public InboxMsgVM getItem(int position) {
-                        return msgList.get(position);
-                    }
-
-                    @Override
-                    public long getItemId(int position) {
-                        return position;
-                    }
-
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        ViewHolder viewHolder = null;
-                        InboxMsgVM item = getItem(position);
-
-                        if (convertView == null) {
-                            viewHolder = new ViewHolder();
-                            convertView = View.inflate(mActivity, R.layout.boxcontent, null);
-                            viewHolder.txt_msg = (TextView) convertView.findViewById(R.id.txtMsg);
-                            viewHolder.txt_date = (TextView) convertView.findViewById(R.id.txtDate);
-                            viewHolder.img_Msg = (ImageView) convertView.findViewById(R.id.imgMsg);
-                            viewHolder.img_Here = (ImageView) convertView.findViewById(R.id.img_here);
-                            convertView.setTag(viewHolder);
-                        } else {
-                            viewHolder = (ViewHolder) convertView.getTag();
-                        }
-
-                        viewHolder.txt_msg.setText(item.msg);
-                        viewHolder.txt_date.setText(item.date);
-                        if (item.url == null || item.url == "") {
-                            viewHolder.img_Msg.setVisibility(View.GONE);
-                        } else {
-                            viewHolder.img_Msg.setVisibility(View.VISIBLE);
-                        }
-
-                        if(item.isHereVisible)
-                        {
-                            viewHolder.img_Here.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
-                            viewHolder.img_Here.setVisibility(View.GONE);
-                            item.isHereVisible = false;
-                        }
-
-
-                        return convertView;
-                    }
-                };
+                adapterForData = new AppAdapter();
                 lv_msg.setAdapter(adapterForData);
                 loadingUtils.close();
                 if (loadList != null && loadList.size() > 0) {
@@ -605,57 +525,7 @@ public class boxFragment extends Fragment {
                     }
                     msgList.add(msgList.size(), inbox);
                 }
-                adapterForData = new BaseAdapter() {
-                    @Override
-                    public int getCount() {
-                        return msgList.size();
-                    }
-
-                    @Override
-                    public InboxMsgVM getItem(int position) {
-                        return msgList.get(position);
-                    }
-
-                    @Override
-                    public long getItemId(int position) {
-                        return position;
-                    }
-
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        ViewHolder viewHolder = null;
-                        InboxMsgVM item = getItem(position);
-
-                        if (convertView == null) {
-                            viewHolder = new ViewHolder();
-                            convertView = View.inflate(mActivity, R.layout.boxcontent, null);
-                            viewHolder.txt_msg = (TextView) convertView.findViewById(R.id.txtMsg);
-                            viewHolder.txt_date = (TextView) convertView.findViewById(R.id.txtDate);
-                            viewHolder.img_Msg = (ImageView) convertView.findViewById(R.id.imgMsg);
-                            viewHolder.img_Here = (ImageView) convertView.findViewById(R.id.img_here);
-                            convertView.setTag(viewHolder);
-                        } else {
-                            viewHolder = (ViewHolder) convertView.getTag();
-                        }
-
-                        viewHolder.txt_msg.setText(item.msg);
-                        viewHolder.txt_date.setText(item.date);
-                        if (item.url == null || item.url == "") {
-                            viewHolder.img_Msg.setVisibility(View.GONE);
-                        } else {
-                            viewHolder.img_Msg.setVisibility(View.VISIBLE);
-                        }
-
-                        if (item.isHereVisible) {
-                            viewHolder.img_Here.setVisibility(View.VISIBLE);
-                        } else {
-                            viewHolder.img_Here.setVisibility(View.GONE);
-                        }
-
-
-                        return convertView;
-                    }
-                };
+                adapterForData = new AppAdapter();
                 lv_msg.setAdapter(adapterForData);
                 loadingUtils.close();
                 if (loadList != null && loadList.size() > 0) {
@@ -679,6 +549,59 @@ public class boxFragment extends Fragment {
                 });
             }
         });
+    }
+
+    public class AppAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return msgList.size();
+        }
+
+        @Override
+        public InboxMsgVM getItem(int position) {
+            return msgList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder = null;
+            InboxMsgVM item = getItem(position);
+
+            if (convertView == null) {
+                viewHolder = new ViewHolder();
+                convertView = View.inflate(mActivity, R.layout.boxcontent, null);
+                viewHolder.txt_msg = (TextView) convertView.findViewById(R.id.txtMsg);
+                viewHolder.txt_date = (TextView) convertView.findViewById(R.id.txtDate);
+                viewHolder.img_Msg = (ImageView) convertView.findViewById(R.id.imgMsg);
+                viewHolder.img_Here = (ImageView) convertView.findViewById(R.id.img_here);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            viewHolder.txt_msg.setText(item.msg);
+            viewHolder.txt_date.setText(item.date);
+            if (item.url == null || item.url == "") {
+                viewHolder.img_Msg.setVisibility(View.GONE);
+            } else {
+                viewHolder.img_Msg.setVisibility(View.VISIBLE);
+            }
+
+            if (item.isHereVisible) {
+                viewHolder.img_Here.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.img_Here.setVisibility(View.GONE);
+                item.isHereVisible = false;
+            }
+
+
+            return convertView;
+        }
     }
 
     public class ViewHolder
