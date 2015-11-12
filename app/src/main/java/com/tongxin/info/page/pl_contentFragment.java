@@ -114,6 +114,7 @@ public class pl_contentFragment extends Fragment {
                 MarketGroup.Market market = marketGroup.markets.get(position);
                 Intent intent = new Intent(mActivity, PingLunDetailActivity.class);
                 intent.putExtra("marketId",market.id);
+                intent.putExtra("groupName",marketGroup.name);
                 intent.putExtra("marketName",market.name);
                 startActivity(intent);
             }

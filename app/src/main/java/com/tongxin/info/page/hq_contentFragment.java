@@ -31,8 +31,7 @@ public class hq_contentFragment extends Fragment {
     public int marketId;
     private int position;
 
-    public static hq_contentFragment newInstance(int position)
-    {
+    public static hq_contentFragment newInstance(int position) {
         hq_contentFragment f = new hq_contentFragment();
         Bundle b = new Bundle();
         b.putInt("position", position);
@@ -57,15 +56,14 @@ public class hq_contentFragment extends Fragment {
         marketGroup = hqFragment.marketGroups.get(position);
     }
 
-    public void refLV()
-    {
+    public void refLV() {
         //hq_lv.setSelection(0);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.hqview,null);
+        View view = inflater.inflate(R.layout.hqview, null);
         hq_lv = (ListView) view.findViewById(R.id.hq_lv);
         //marketGroup = (MarketGroup) ((MainActivity)mActivity).data;
         initData();
@@ -77,8 +75,7 @@ public class hq_contentFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public void initData()
-    {
+    public void initData() {
         hq_lv.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
@@ -99,21 +96,17 @@ public class hq_contentFragment extends Fragment {
             public View getView(int position, View convertView, ViewGroup parent) {
 
                 ViewHolder viewHolder = null;
-                if(convertView == null)
-                {
+                if (convertView == null) {
                     viewHolder = new ViewHolder();
-                    convertView = View.inflate(mActivity,R.layout.hq_lv_item,null);
+                    convertView = View.inflate(mActivity, R.layout.hq_lv_item, null);
                     viewHolder.hq_lv_item_tv = (TextView) convertView.findViewById(R.id.hq_lv_item_tv);
                     convertView.setTag(viewHolder);
-                }
-                else
-                {
+                } else {
                     viewHolder = (ViewHolder) convertView.getTag();
                 }
 
                 MarketGroup.Market market = getItem(position);
-                if(market !=null)
-                {
+                if (market != null) {
                     viewHolder.hq_lv_item_tv.setText(market.name);
 
                 }
@@ -126,16 +119,17 @@ public class hq_contentFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MarketGroup.Market market = marketGroup.markets.get(position);
+
                 Intent intent = new Intent(mActivity, HqDetailActivity.class);
-                intent.putExtra("marketId",market.id);
-                intent.putExtra("marketName",market.name);
+                intent.putExtra("marketId", market.id);
+                intent.putExtra("groupName", marketGroup.name);
+                intent.putExtra("marketName", market.name);
                 startActivity(intent);
             }
         });
     }
 
-    private static class ViewHolder
-    {
+    private static class ViewHolder {
         TextView hq_lv_item_tv;
     }
 }

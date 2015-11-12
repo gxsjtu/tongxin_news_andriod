@@ -47,6 +47,7 @@ public class HqDetailActivity extends BaseActivity {
     private LinearLayout iv_ref;
     private ArrayList<ProductPrice> mProductPrices = new ArrayList<ProductPrice>();
     private String mMarketName;
+    private String mGroupName;
     loadingUtils loadingUtils;
     AppAdapter adapter;
     private String tel;
@@ -59,10 +60,11 @@ public class HqDetailActivity extends BaseActivity {
         Intent intent = getIntent();
         final int id = intent.getIntExtra("marketId", 0);
         mMarketName = intent.getStringExtra("marketName");
+        mGroupName = intent.getStringExtra("groupName");
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         hq_detail_lv = (SwipeMenuListView) findViewById(R.id.hq_detail_lv);
 
-        tv_headerTitle.setText(mMarketName);
+        tv_headerTitle.setText(mGroupName + "-" + mMarketName);
 
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
@@ -112,7 +114,7 @@ public class HqDetailActivity extends BaseActivity {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile="+tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=" + tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(HqDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -218,7 +220,7 @@ public class HqDetailActivity extends BaseActivity {
                     if (change > 0) {
                         viewHolder.hq_detail_item_Change.setTextColor(ColorsUtils.HIGH);
                         viewHolder.hq_detail_item_ChangeText.setTextColor(ColorsUtils.HIGH);
-                        viewHolder.hq_detail_item_Change.setText(String.format("%.2f", Math.abs(change))+"▲");
+                        viewHolder.hq_detail_item_Change.setText(String.format("%.2f", Math.abs(change)) + "▲");
                         viewHolder.hq_detail_item_ChangeText.setText("涨");
                     } else if (change < 0) {
                         viewHolder.hq_detail_item_Change.setTextColor(ColorsUtils.LOW);
@@ -228,7 +230,7 @@ public class HqDetailActivity extends BaseActivity {
                     } else {
                         viewHolder.hq_detail_item_Change.setTextColor(ColorsUtils.NOCHANGE);
                         viewHolder.hq_detail_item_ChangeText.setTextColor(ColorsUtils.NOCHANGE);
-                        viewHolder.hq_detail_item_Change.setText("——");
+                        viewHolder.hq_detail_item_Change.setText("一");
                         viewHolder.hq_detail_item_ChangeText.setText("平");
                     }
 
@@ -259,8 +261,7 @@ public class HqDetailActivity extends BaseActivity {
         }
     }
 
-    private void order(int id, final boolean isOrder, final int position)
-    {
+    private void order(int id, final boolean isOrder, final int position) {
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -269,8 +270,8 @@ public class HqDetailActivity extends BaseActivity {
         params.put("method", "order");
         params.put("productId", id);
         params.put("mobile", tel);
-        params.put("isOrder", isOrder?"YES":"NO");
-        kjHttp.post(GlobalContants.ORDER_URL,params,false,new HttpCallBack(){
+        params.put("isOrder", isOrder ? "YES" : "NO");
+        kjHttp.post(GlobalContants.ORDER_URL, params, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
                 loadingUtils.show();
@@ -291,14 +292,11 @@ public class HqDetailActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(t);
                     String result = jsonObject.getString("result");
-                    if(result.equals("ok"))
-                    {
-                        mProductPrices.get(position).isOrder = isOrder?"YES":"NO";
+                    if (result.equals("ok")) {
+                        mProductPrices.get(position).isOrder = isOrder ? "YES" : "NO";
                         adapter.notifyDataSetChanged();
-                    }
-                    else
-                    {
-                        Toast.makeText(HqDetailActivity.this, (isOrder?"新增":"取消")+"关注失败", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(HqDetailActivity.this, (isOrder ? "新增" : "取消") + "关注失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
