@@ -39,6 +39,28 @@
             android:layout_height="20dp"
             android:src="@drawable/userwhite" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/iv_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        >
+      <Button
+          android:id="@+id/btn_clearMsg"
+          android:text="清空"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/white"
+          android:background="@android:color/transparent"
+          android:textSize="16dp"
+          android:visibility="gone"
+          />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_headerTitle"

@@ -162,7 +162,7 @@ public class SqCatalogItemAdd extends Activity  {
             public void onClick(View v) {
                 Intent intent = new Intent(SqCatalogItemAdd.this, SqCatalogActivity.class);
                 intent.putExtra("CATALOGCHANNEL_ID", channelID);
-                intent.putExtra("CATALOGCAHNNEL_NAME",channelName);
+                intent.putExtra("CATALOGCAHNNEL_NAME", channelName);
 //                startActivity(intent);
                 setResult(4,intent);
                 finish();
@@ -318,10 +318,10 @@ public class SqCatalogItemAdd extends Activity  {
                 btn_ItemLocation.setText(location_Country + " " + location_City);
             }
         }
-        else
-        {
-            Toast.makeText(SqCatalogItemAdd.this, "bbbbb", Toast.LENGTH_LONG).show();
-        }
+//        else
+//        {
+//            Toast.makeText(SqCatalogItemAdd.this, "bbbbb", Toast.LENGTH_LONG).show();
+//        }
 
     }
     public static void MyRecycle(Bitmap bmp){
@@ -439,30 +439,34 @@ public class SqCatalogItemAdd extends Activity  {
     private boolean checkData()
     {
         boolean result = true;
-        if("".equals(tv_ChannelName.getText().toString()))
+        if("".equals(tv_ChannelName.getText().toString()) || "".equals(tv_ChannelName.getText().toString().replace(" ", "")))
         {
             result = false;
             Toast.makeText(SqCatalogItemAdd.this, "货物内容不能为空！", Toast.LENGTH_SHORT).show();
+            return result;
         }
-
-        if("".equals(tv_ChannelQty.getText().toString()))
+        else if("".equals(tv_ChannelQty.getText().toString()) || "".equals(tv_ChannelQty.getText().toString().replace(" ","")))
         {
             result = false;
             Toast.makeText(SqCatalogItemAdd.this, "供需数量不能为空！", Toast.LENGTH_SHORT).show();
+            return result;
         }
-
-        if("".equals(tv_ChannelMobile.getText().toString()))
+        else if("".equals(tv_ChannelMobile.getText().toString()) || "".equals(tv_ChannelMobile.getText().toString().replace(" ","")))
         {
             result = false;
             Toast.makeText(SqCatalogItemAdd.this, "联系方式不能为空！", Toast.LENGTH_SHORT).show();
-        }
-
-        if("".equals(btn_ItemLocation.getText().toString()) || "选择交货地".equals(btn_ItemLocation.getText().toString()))
+            return result;
+        }else  if("".equals(btn_ItemLocation.getText().toString()) || "选择交货地".equals(btn_ItemLocation.getText().toString()))
         {
             result = false;
             Toast.makeText(SqCatalogItemAdd.this, "发货地不能为空！", Toast.LENGTH_SHORT).show();
+            return result;
         }
-        return result;
+        else
+        {
+            return result;
+        }
+//        return result;
     }
 
 }
