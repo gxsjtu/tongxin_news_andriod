@@ -92,10 +92,10 @@ public class HqDetailActivity extends BaseActivity {
                 watchItem.setTitleSize(18);
                 watchItem.setTitleColor(Color.WHITE);
                 if (menu.getViewType() == 0) {
-                    watchItem.setBackground(new ColorDrawable(Color.rgb(0x51, 0x95, 0x3e)));
+                    watchItem.setBackground(new ColorDrawable(Color.rgb(35, 124, 2)));
                     watchItem.setTitle("添加关注");
                 } else if (menu.getViewType() == 1) {
-                    watchItem.setBackground(new ColorDrawable(Color.rgb(0xd9, 0x2b, 0x19)));
+                    watchItem.setBackground(new ColorDrawable(Color.rgb(0xff, 0x00, 0x00)));
                     watchItem.setTitle("取消关注");
                 }
                 menu.addMenuItem(watchItem);

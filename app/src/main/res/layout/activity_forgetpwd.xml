@@ -23,7 +23,7 @@
             android:textSize="16sp"
             android:background="@drawable/edittext_border"
             android:hint="必填 : 注册手机号"
-            android:inputType="phone"
+            android:inputType="number"
             android:padding="10dp"></com.tongxin.info.control.MobileEditTextWithDel>
 
         <com.dd.processbutton.iml.ActionProcessButton

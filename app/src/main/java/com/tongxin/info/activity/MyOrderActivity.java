@@ -84,7 +84,7 @@ public class MyOrderActivity extends Activity {
                 watchItem.setWidth(DensityUtils.dp2px(MyOrderActivity.this, 90));
                 watchItem.setTitleSize(18);
                 watchItem.setTitleColor(Color.WHITE);
-                watchItem.setBackground(new ColorDrawable(Color.rgb(0xd9, 0x2b, 0x19)));
+                watchItem.setBackground(new ColorDrawable(Color.rgb(0xff, 0x0, 0x0)));
                 watchItem.setTitle("取消关注");
                 menu.addMenuItem(watchItem);
             }

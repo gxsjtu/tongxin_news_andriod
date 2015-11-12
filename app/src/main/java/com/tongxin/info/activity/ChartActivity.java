@@ -49,6 +49,7 @@ public class ChartActivity extends BaseActivity {
 
     private void initViews() {
         chart = (LineChartView) findViewById(R.id.chart);
+
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         tv_priceMin = (TextView) findViewById(R.id.tv_priceMin);
