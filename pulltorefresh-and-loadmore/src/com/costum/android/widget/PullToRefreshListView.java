@@ -20,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /*Copyright (C) 2011 Johan Nilsson <http://markupartist.com>
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -70,6 +73,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	private int mLastMotionY;
 
 	private boolean mBounceHack;
+	private SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+	private String pullDate = "";
 
 	public PullToRefreshListView(Context context) {
 		super(context);
@@ -294,6 +299,10 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
+		if("".equals(pullDate))
+		{
+			pullDate = format.format(new Date());
+		}
 		// When the refresh view is completely visible, change the text to say
 		// "Release to refresh..." and flip the arrow drawable.
 		if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL
@@ -304,7 +313,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 				if ((mRefreshView.getBottom() >= mRefreshViewHeight + 20 || mRefreshView
 						.getTop() >= 0) && mRefreshState != RELEASE_TO_REFRESH) {
 					mRefreshViewText
-							.setText(R.string.pull_to_refresh_release_label);
+							.setText("松开加载数据...\n最后更新  " + pullDate);
 					mRefreshViewImage.clearAnimation();
 					mRefreshViewImage.startAnimation(mFlipAnimation);
 					mRefreshState = RELEASE_TO_REFRESH;
@@ -334,6 +343,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 			mOnScrollListener.onScroll(view, firstVisibleItem,
 					visibleItemCount, totalItemCount);
 		}
+		pullDate = format.format(new Date());
 	}
 
 	public void onScrollStateChanged(AbsListView view, int scrollState) {

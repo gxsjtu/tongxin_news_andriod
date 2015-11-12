@@ -93,6 +93,16 @@ public class boxFragment extends Fragment {
         tv_headerTitle.setText("收件箱");
         iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
         iv_ref.setVisibility(View.VISIBLE);
+        iv_ref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(loadList != null && msgList != null) {
+                    loadList.clear();
+                    msgList.clear();
+                }
+                initData();
+            }
+        });
         footerView = View.inflate(mActivity, R.layout.inboxmsgfooter, null);
         lv_msg = (PullToRefreshListView) view.findViewById(R.id.lvMsg);
         lv_msg.addFooterView(footerView);
@@ -224,6 +234,7 @@ public class boxFragment extends Fragment {
     private void initData()
     {
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final SimpleDateFormat formatForDataNull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
 
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
@@ -249,9 +260,9 @@ public class boxFragment extends Fragment {
 
                     @Override
                     public void onSuccess(String t) {
-                            Gson gson = new Gson();
-                            Type type = new TypeToken<ArrayList<InboxMsgVM>>() {
-                            }.getType();
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<ArrayList<InboxMsgVM>>() {
+                        }.getType();
 
                         loadList = gson.fromJson(t, type);
                         for (int i = 0; i < loadList.size(); i++) {
@@ -269,7 +280,8 @@ public class boxFragment extends Fragment {
                             minDateForPullUp = loadList.get(loadList.size() - 1).date;
                             maxDateForPullDown = loadList.get(0).date;
                         } else {
-                            maxDateForPullDown = format.format(new Date());
+                            maxDateForPullDown = formatForDataNull.format(new Date());
+                            minDateForPullUp = formatForDataNull.format(new Date());
                         }
 
                         lv_msg.setAdapter(new BaseAdapter() {
@@ -346,7 +358,7 @@ public class boxFragment extends Fragment {
         params.put("mobile",tel);
         params.put("actionStr","pullDown");
         params.put("dateStr",maxDateForPullDown);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd H:m:s sss");
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         //format.parse()
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
@@ -469,6 +481,10 @@ public class boxFragment extends Fragment {
                 if (loadList != null && loadList.size() > 0) {
                     maxDateForPullDown = loadList.get(0).date;
                 }
+                else
+                {
+                    maxDateForPullDown = format.format(new Date());
+                }
 
                 if(msgList == null || msgList.size() <= 0)
                 {
@@ -496,6 +512,7 @@ public class boxFragment extends Fragment {
 
     private void loadMore() {
         final   SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         HttpParams params = new HttpParams();
         params.put("method","getMsgByAction");
         params.put("mobile",tel);
@@ -536,7 +553,7 @@ public class boxFragment extends Fragment {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                Toast.makeText(mActivity, "上拉加载数据失败" + strMsg, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, "加载数据失败" + strMsg, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -619,6 +636,10 @@ public class boxFragment extends Fragment {
                 loadingUtils.close();
                 if(loadList != null && loadList.size() > 0) {
                     minDateForPullUp = loadList.get(loadList.size() - 1).date;
+                }
+                else
+                {
+                    minDateForPullUp = format.format(new Date());
                 }
                 adapterForData.notifyDataSetChanged();
                 lv_msg.setSelection(msgList.size() - 1);

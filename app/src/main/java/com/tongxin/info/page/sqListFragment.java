@@ -118,7 +118,7 @@ public class sqListFragment extends FragmentActivity {
                             @Override
                             public void onOtherButtonClick(ActionSheet actionSheet, int index) {
                             if(index == 0) {
-                                if(sqList != null && sqList.size() > 0)
+                                if(sqList != null && resList != null)
                                 {
                                     sqList.clear();
                                     resList.clear();
