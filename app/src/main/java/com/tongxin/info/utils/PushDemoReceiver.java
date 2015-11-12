@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 import com.tongxin.info.activity.LoginActivity;
+import com.tongxin.info.activity.MainActivity;
 import com.tongxin.info.domain.MyApp;
 
 import java.util.List;
@@ -40,8 +41,14 @@ public class PushDemoReceiver extends BroadcastReceiver {
                     String data = new String(payload);
                     if (data.equals("退出")) {
                         SharedPreUtils.setBoolean(context, "mustLogin", true);
-                        Toast.makeText(context, "您已被强制退出", Toast.LENGTH_SHORT).show();
-                        Intent intent1 = new Intent(context, LoginActivity.class);
+//                        Toast.makeText(context, "您已被强制退出", Toast.LENGTH_SHORT).show();
+//                        Intent intent1 = new Intent(context, LoginActivity.class);
+//                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        context.startActivity(intent1);
+                    }
+                    else
+                    {
+                        Intent intent1 = new Intent(context, MainActivity.class);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent1);
                     }
