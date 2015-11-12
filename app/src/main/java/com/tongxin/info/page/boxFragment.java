@@ -481,14 +481,10 @@ public class boxFragment extends Fragment {
                 if (loadList != null && loadList.size() > 0) {
                     maxDateForPullDown = loadList.get(0).date;
                 }
-                else
-                {
-                    maxDateForPullDown = format.format(new Date());
-                }
 
                 if(msgList == null || msgList.size() <= 0)
                 {
-                    maxDateForPullDown = sdfFormat.format(new Date());
+                    maxDateForPullDown = format.format(new Date());
                 }
 
                 adapterForData.notifyDataSetChanged();
