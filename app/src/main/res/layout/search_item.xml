@@ -23,6 +23,7 @@
                 android:id="@+id/search_ProductName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:layout_weight="3"
                 android:text="产品名称"/>
 
@@ -30,7 +31,8 @@
                 android:id="@+id/search_Date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darkyellow"
+                android:textColor="@color/nochange"
+                android:textSize="14sp"
                 android:layout_weight="1"
                 android:text="2015-10-16"/>
 
@@ -46,8 +48,9 @@
                 android:id="@+id/search_Min"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textSize="13sp"
                 android:layout_weight="2"
-                android:textColor="@color/darkgreen"
+                android:textColor="@color/low"
                 android:text="200"/>
 
             <TextView
@@ -55,7 +58,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/darkred"
+                android:textSize="13sp"
+                android:textColor="@color/high"
                 android:text="200"/>
 
             <RelativeLayout
@@ -66,16 +70,9 @@
                     android:id="@+id/search_Change"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/darkred"
+                    android:textSize="13sp"
                     android:layout_marginRight="2dp"
                     android:text="200"/>
-                <ImageView
-                    android:id="@+id/iv_Change"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_toRightOf="@+id/search_Change"
-                    android:layout_marginTop="4dp"
-                    android:src="@drawable/red"/>
             </RelativeLayout>
 
         </LinearLayout>
@@ -90,14 +87,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textColor="@color/darkgreen"
+                android:textColor="@color/low"
+                android:textSize="13sp"
                 android:text="最低"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/darkred"
+                android:textColor="@color/high"
+                android:textSize="13sp"
                 android:text="最高"/>
 
             <TextView
@@ -105,7 +104,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/darkred"
+                android:textSize="13sp"
                 android:text="涨"/>
 
         </LinearLayout>
@@ -113,9 +112,9 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="15dp"
+        android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/grayarr"
+        android:src="@drawable/more"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="10dp"/>
 

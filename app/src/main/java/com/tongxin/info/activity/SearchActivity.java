@@ -25,6 +25,7 @@ import com.tongxin.info.R;
 import com.tongxin.info.domain.SearchItem;
 import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.DensityUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -243,7 +244,6 @@ public class SearchActivity extends BaseActivity {
         public TextView search_Min;
         public TextView search_Max;
         public TextView search_Change;
-        public ImageView iv_Change;
         public TextView search_ChangeText;
         public LinearLayout search_ProductItem;
     }
@@ -289,7 +289,6 @@ public class SearchActivity extends BaseActivity {
                 viewHolder.search_Max = (TextView) convertView.findViewById(R.id.search_Max);
                 viewHolder.search_Change = (TextView) convertView.findViewById(R.id.search_Change);
                 viewHolder.search_ChangeText = (TextView) convertView.findViewById(R.id.search_ChangeText);
-                viewHolder.iv_Change = (ImageView) convertView.findViewById(R.id.iv_Change);
                 viewHolder.search_ProductItem = (LinearLayout) convertView.findViewById(R.id.search_ProductItem);
                 convertView.setTag(viewHolder);
 
@@ -314,32 +313,26 @@ public class SearchActivity extends BaseActivity {
                     viewHolder.search_Change.setTextColor(Color.BLACK);
                     viewHolder.search_ChangeText.setTextColor(Color.BLACK);
                     viewHolder.search_ChangeText.setText("");
-                    viewHolder.iv_Change.setVisibility(View.INVISIBLE);
                 } else {
                     double change = Double.parseDouble(item.Change);
                     if (change > 0) {
                         //涨
-                        viewHolder.search_Change.setText(String.format("%.1f",change));
-                        viewHolder.search_Change.setTextColor(Color.BLACK);
-                        viewHolder.search_ChangeText.setTextColor(Color.BLACK);
+                        viewHolder.search_Change.setText(String.format("%.2f", change)+"▲");
+                        viewHolder.search_Change.setTextColor(ColorsUtils.HIGH);
+                        viewHolder.search_ChangeText.setTextColor(ColorsUtils.HIGH);
                         viewHolder.search_ChangeText.setText("涨");
-                        viewHolder.iv_Change.setVisibility(View.VISIBLE);
-                        viewHolder.iv_Change.setImageResource(R.drawable.red);
                     } else if (change < 0) {
                         //跌
-                        viewHolder.search_Change.setText(String.format("%.1f",Math.abs(change)));
-                        viewHolder.search_Change.setTextColor(Color.BLACK);
-                        viewHolder.search_ChangeText.setTextColor(Color.BLACK);
+                        viewHolder.search_Change.setText(String.format("%.2f", Math.abs(change))+"▼");
+                        viewHolder.search_Change.setTextColor(ColorsUtils.LOW);
+                        viewHolder.search_ChangeText.setTextColor(ColorsUtils.LOW);
                         viewHolder.search_ChangeText.setText("跌");
-                        viewHolder.iv_Change.setVisibility(View.VISIBLE);
-                        viewHolder.iv_Change.setImageResource(R.drawable.green);
                     } else {
                         //平
-                        viewHolder.search_Change.setText("——");
-                        viewHolder.search_Change.setTextColor(Color.BLACK);
-                        viewHolder.search_ChangeText.setTextColor(Color.BLACK);
+                        viewHolder.search_Change.setText("一");
+                        viewHolder.search_Change.setTextColor(ColorsUtils.NOCHANGE);
+                        viewHolder.search_ChangeText.setTextColor(ColorsUtils.NOCHANGE);
                         viewHolder.search_ChangeText.setText("平");
-                        viewHolder.iv_Change.setVisibility(View.INVISIBLE);
                     }
                 }
             }

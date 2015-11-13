@@ -162,6 +162,22 @@ public class HqHistoryActivity extends BaseActivity {
         try {
             Date d1 = sdf.parse(start);
             Date d2 = sdf.parse(end);
+
+//            Calendar temp = Calendar.getInstance(Locale.CHINA);
+//            temp.setTime(d2);
+//            temp.add(Calendar.DAY_OF_YEAR,1);
+//            d2 = temp.getTime();
+//
+//
+//            int year = temp.get(Calendar.YEAR);
+//            int month = temp.get(Calendar.MONTH);
+//            int day = temp.get(Calendar.DAY_OF_MONTH);
+//            end = getDateStr(year, month, day);
+
+//            Calendar now = Calendar.getInstance();
+//            now.add(Calendar.DAY_OF_YEAR, value);
+//            return now.getTime();
+
             if (d2.getTime() - d1.getTime() < 0) {
                 Toast.makeText(this, "截止日期不能小于开始日期", Toast.LENGTH_LONG).show();
                 return;
@@ -198,6 +214,11 @@ public class HqHistoryActivity extends BaseActivity {
                 Type type = new TypeToken<ArrayList<ProductHistoryPrice>>() {
                 }.getType();
                 mHistoryPrices = gson.fromJson(t, type);
+
+                if(mHistoryPrices.size() == 0)
+                {
+                    tv_headerChart.setVisibility(View.INVISIBLE);
+                }
 
                 hq_history_lv.setAdapter(new BaseAdapter() {
                     @Override
@@ -263,7 +284,7 @@ public class HqHistoryActivity extends BaseActivity {
         calendar.setTime(myData);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
         endDate.setText(getDateStr(year, month, day));
 
         calendar.add(Calendar.DAY_OF_MONTH, -15);

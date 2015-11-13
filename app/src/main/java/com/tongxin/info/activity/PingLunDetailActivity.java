@@ -45,6 +45,7 @@ public class PingLunDetailActivity extends BaseActivity {
     private SwipeMenuListView pl_detail_lv;
     private int mMarketId;
     private String mMarketName;
+    private String mGroupName;
     private KJBitmap kjb = new KJBitmap();
     private com.tongxin.info.utils.loadingUtils loadingUtils;
     private String tel;
@@ -61,6 +62,7 @@ public class PingLunDetailActivity extends BaseActivity {
         Intent intent = getIntent();
         mMarketId = intent.getIntExtra("marketId", 0);
         mMarketName = intent.getStringExtra("marketName");
+        mGroupName = intent.getStringExtra("groupName");
         UserUtils userUtils = new UserUtils(this);
         tel = userUtils.getTel();
         loadingUtils = new loadingUtils(this);
@@ -69,13 +71,14 @@ public class PingLunDetailActivity extends BaseActivity {
         initViews();
         initData();
     }
+
     private void initViews() {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
         pl_detail_lv = (SwipeMenuListView) findViewById(R.id.pl_detail_lv);
 
-        tv_headerTitle.setText(mMarketName);
+        tv_headerTitle.setText(mGroupName + "-" + mMarketName);
         iv_return.setVisibility(View.VISIBLE);
         iv_ref.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +118,7 @@ public class PingLunDetailActivity extends BaseActivity {
 
     private void initData() {
         KJHttp kjHttp = new KJHttp();
-        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + tel,null,false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(PingLunDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
