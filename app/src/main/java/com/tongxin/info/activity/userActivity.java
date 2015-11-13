@@ -61,7 +61,6 @@ public class userActivity extends BaseActivity {
         sw = (Switch) findViewById(R.id.sw);
         loadingUtils = new loadingUtils(this);
         tv_headerTitle.setText("用户设置");
-        tv_headerTitle.setPadding(0,0,DensityUtils.dp2px(this,60),0);
         iv_return.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,5 +168,11 @@ public class userActivity extends BaseActivity {
         //我的供求
         Intent intent = new Intent(userActivity.this, MySupplyActivity.class);
         startActivity(intent);
+    }
+
+    public void myUpdate(View view)
+    {
+        //版本更新
+
     }
 }
