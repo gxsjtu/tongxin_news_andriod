@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -74,7 +75,7 @@ public class TrialActivity extends Activity {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         et_mobile = (MobileEditTextWithDel) findViewById(R.id.et_mobile);
         btn_submit = (ActionProcessButton) findViewById(R.id.btn_submit);
-
+        et_mobile.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         tv_headerTitle.setText(title);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,9 +87,15 @@ public class TrialActivity extends Activity {
 
     public void submit(View view) {
         String mobile = et_mobile.getText().toString().trim();
+
         if (TextUtils.isEmpty(mobile)) {
             Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
         } else {
+            if(mobile.length() < 11)
+            {
+                Toast.makeText(this, "手机号码不合法，请重新输入!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             String url = GlobalContants.Trial_URL + "?method=";
             if (title.equals("申请试用")) {
                 url += "trial";
@@ -126,7 +133,7 @@ public class TrialActivity extends Activity {
                             }
                             else
                             {
-                                Toast.makeText(TrialActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TrialActivity.this, "该手机号码尚未注册,请使用有效手机号码", Toast.LENGTH_SHORT).show();
                             }
                         }
 

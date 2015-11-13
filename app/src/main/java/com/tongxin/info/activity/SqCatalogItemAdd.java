@@ -56,7 +56,7 @@ import java.util.ArrayList;
 /**
  * Created by cc on 2015/11/9.
  */
-public class SqCatalogItemAdd extends Activity  {
+public class SqCatalogItemAdd extends BaseActivity  {
     private EditText tv_ChannelName;
     private EditText tv_ChannelQty;
     private EditText tv_ChannelPrice;

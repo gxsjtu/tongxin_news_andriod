@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class CitiesActivity extends Activity {
+public class CitiesActivity extends BaseActivity {
 	// Scrolling flag
 	private boolean scrolling = false;
     private Button btn_Sure;

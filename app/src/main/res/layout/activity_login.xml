@@ -32,6 +32,7 @@
             android:textSize="16sp"
             android:textColor="#000"
             android:padding="10dp"
+            android:maxLength="11"
             android:inputType="number" />
 
         <com.tongxin.info.control.PwdEditTextWithDel

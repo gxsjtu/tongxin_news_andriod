@@ -6,6 +6,8 @@ import android.app.Application;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Toast;
 
 import com.igexin.sdk.PushManager;
@@ -45,13 +47,21 @@ public class MyApp extends Application {
     private final long checkTime = 1000 * 20;
     private Context context;
     private PushManager pushManager;
+    private boolean showLogin = false;
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 999:
+                    Toast.makeText(getApplicationContext(), "您已被强制退出", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
-    private LoginActivity loginActivity;
-
-
-    public void setLoginActivity(LoginActivity loginActivity) {
-        this.loginActivity = loginActivity;
+    public void setShowLogin(boolean showLogin) {
+        this.showLogin = showLogin;
     }
 
     public PushManager getPushManager() {
@@ -66,45 +76,26 @@ public class MyApp extends Application {
         super();
     }
 
-    List<Activity> activityList = new ArrayList<Activity>();
-
-    public List<Activity> getActivityList() {
-        return activityList;
-    }
-
-    public void setActivityList(List<Activity> activityList) {
-        this.activityList = activityList;
-    }
-
     public void startCheckUser() {
         this.checkUserTimer = new Timer();
         this.checkUserTimerTask = new TimerTask() {
             @Override
             public void run() {
                 boolean mustLogin = SharedPreUtils.getBoolean(context, "mustLogin", true);
-                if (mustLogin) {
+                if (mustLogin && !showLogin) {
                     int isBack = isBackGroundRunning();
                     if (isBack == 1) {
-                        if (loginActivity == null) {
-                            Toast.makeText(getApplicationContext(),"您已被强制退出",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(context, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        }
+                        final Message msg = Message.obtain();
+                        msg.what = 999;
+                        mHandler.sendMessage(msg);
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                     }
                 }
             }
         };
         checkUserTimer.schedule(checkUserTimerTask, 10000, checkTime);
-    }
-
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
     }
 
     public String getClientId() {
@@ -131,19 +122,10 @@ public class MyApp extends Application {
         this.tel = tel;
     }
 
-    public int getStartActivityCount() {
-        return startActivityCount;
-    }
-
-    public void setStartActivityCount(int startActivityCount) {
-        this.startActivityCount = startActivityCount;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-//        setTel("13764233669");
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)  //1.8.6包使用时候，括号里面传入参数true
                 .cacheOnDisc(true)    //同上
@@ -156,25 +138,25 @@ public class MyApp extends Application {
         ImageLoader.getInstance().init(config);
     }
 
-    public boolean isAppOnForeground() {
-        ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
-        String packageName = getApplicationContext().getPackageName();
-
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
-                .getRunningAppProcesses();
-        if (appProcesses == null)
-            return false;
-
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-            // The name of the process that this object is associated with.
-            if (appProcess.processName.equals(packageName)
-                    && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+//    public boolean isAppOnForeground() {
+//        ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+//        String packageName = getApplicationContext().getPackageName();
+//
+//        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+//                .getRunningAppProcesses();
+//        if (appProcesses == null)
+//            return false;
+//
+//        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+//            // The name of the process that this object is associated with.
+//            if (appProcess.processName.equals(packageName)
+//                    && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
     /*
     * -1后台运行
@@ -200,8 +182,5 @@ public class MyApp extends Application {
             }
         }
         return 0;
-
     }
-
-
 }
