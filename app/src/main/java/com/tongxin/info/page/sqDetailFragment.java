@@ -164,11 +164,15 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
                             .putString("extra", name);
 
                     mDemoSlider.addSlider(textSliderView);
-                    mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-                    mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-                    mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-                    mDemoSlider.setDuration(4000);
-                    mDemoSlider.addOnPageChangeListener(sqDetailFragment.this);
+                }
+                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                mDemoSlider.setDuration(4000);
+                mDemoSlider.addOnPageChangeListener(sqDetailFragment.this);
+                if(url_maps.size() == 1)
+                {
+                    mDemoSlider.stopAutoCycle();
                 }
 
                 loadingUtils.close();

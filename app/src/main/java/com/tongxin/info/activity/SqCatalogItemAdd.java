@@ -215,6 +215,11 @@ public class SqCatalogItemAdd extends Activity  {
                 Intent intent = new Intent(SqCatalogItemAdd.this, CitiesActivity.class);
 //                startActivity(intent);
                 startActivityForResult(intent,0);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(SqCatalogItemAdd.this);
+//                View view = View.inflate(SqCatalogItemAdd.this,R.layout.cities_layout,null);
+//                builder.setView(view);
+//                builder.show();
+
             }
         });
         btn_ItemLocation.setText("选择交货地");

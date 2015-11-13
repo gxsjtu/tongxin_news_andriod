@@ -12,7 +12,8 @@
 	  android:background="#F000"
 	  android:padding="1dp"
 	  android:scaleType="fitXY"
-	  android:cropToPadding="true"/>
+	  android:cropToPadding="true"
+	  android:visibility="gone"/>
     
   <TextView android:id="@+id/country_name"
       android:layout_gravity="center_vertical"
