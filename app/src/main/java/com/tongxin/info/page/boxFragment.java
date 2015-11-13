@@ -534,7 +534,7 @@ public class boxFragment extends Fragment {
                     minDateForPullUp = format.format(new Date());
                 }
                 adapterForData.notifyDataSetChanged();
-//                lv_msg.setSelection(msgList.size() - 1);
+                lv_msg.setSelection(msgList.size() - loadList.size());
 
                 lv_msg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

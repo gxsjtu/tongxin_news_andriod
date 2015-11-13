@@ -464,7 +464,7 @@ public class SqCatalogItemAdd extends Activity  {
         }else  if("".equals(btn_ItemLocation.getText().toString()) || "选择交货地".equals(btn_ItemLocation.getText().toString()))
         {
             result = false;
-            Toast.makeText(SqCatalogItemAdd.this, "发货地不能为空！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SqCatalogItemAdd.this, "交货地不能为空！", Toast.LENGTH_SHORT).show();
             return result;
         }
         else

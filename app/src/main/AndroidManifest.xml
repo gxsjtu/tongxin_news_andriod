@@ -94,6 +94,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.CitiesActivity"
             android:screenOrientation="portrait" android:theme="@style/Base.Theme.AppCompat.Light.Dialog"></activity>
+        <activity android:name=".activity.DetailForShowImg"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"></activity>

@@ -19,6 +19,8 @@
         android:id="@+id/sq_imgSlider"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         />
     <LinearLayout
         android:orientation="horizontal"
@@ -30,13 +32,14 @@
             android:layout_height="20dp"
             android:src="@drawable/sq_name"
             android:layout_marginLeft="15dp"/>
-    <TextView
+    <EditText
         android:id="@+id/sq_detailName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"
         android:textColor="#000"
+        android:enabled="false"
         />
     </LinearLayout>
     <LinearLayout
@@ -49,13 +52,14 @@
             android:layout_height="20dp"
             android:src="@drawable/sq_qty"
             android:layout_marginLeft="15dp"/>
-    <TextView
+    <EditText
         android:id="@+id/sq_detailQty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"
         android:textColor="#000"
+        android:enabled="false"
         />
         </LinearLayout>
     <LinearLayout
@@ -68,13 +72,14 @@
             android:layout_height="20dp"
             android:src="@drawable/sq_price"
             android:layout_marginLeft="15dp"/>
-    <TextView
+    <EditText
         android:id="@+id/sq_detailPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"
         android:textColor="#000"
+        android:enabled="false"
         />
         </LinearLayout>
     <LinearLayout
@@ -87,13 +92,14 @@
             android:layout_height="20dp"
             android:src="@drawable/sq_contact"
             android:layout_marginLeft="15dp"/>
-    <TextView
+    <EditText
         android:id="@+id/sq_detailContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"
         android:textColor="#000"
+        android:enabled="false"
         />
         </LinearLayout>
     <LinearLayout
@@ -109,13 +115,14 @@
 
     <Button
         android:id="@+id/sq_detailMobile"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:textSize="18sp"
-        android:background="@android:color/transparent"
+        android:textColor="@color/white"
         android:layout_marginLeft="10dp"
         android:singleLine="true"
-        android:gravity="left"/>
+        android:gravity="left"
+        android:background="@drawable/sq_btncallstyle"/>
         </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -127,13 +134,14 @@
             android:layout_height="20dp"
             android:src="@drawable/sq_location"
             android:layout_marginLeft="15dp"/>
-    <TextView
+    <EditText
         android:id="@+id/sq_detailLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"
         android:textColor="#000"
+        android:enabled="false"
         />
         </LinearLayout>
     <LinearLayout
@@ -146,13 +154,14 @@
             android:layout_height="20dp"
             android:src="@drawable/sq_deliver"
             android:layout_marginLeft="15dp"/>
-    <TextView
+    <EditText
         android:id="@+id/sq_detailDeliver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"
         android:textColor="#000"
+        android:enabled="false"
         />
         </LinearLayout>
 
@@ -169,13 +178,15 @@
             android:src="@drawable/sq_desc"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"/>
-        <TextView
+        <EditText
             android:id="@+id/sq_detailDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:layout_marginLeft="10dp"
             android:textColor="#000"
+            android:enabled="false"
+            android:padding="5dp"
             />
         </LinearLayout>
     </LinearLayout>
