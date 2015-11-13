@@ -244,7 +244,9 @@
                     android:onClick="loginout"
                     android:text="退出"
                     android:textColor="#fff"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="50dp"/>
             </LinearLayout>
 
         </ScrollView>
