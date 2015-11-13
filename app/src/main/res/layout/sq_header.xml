@@ -8,7 +8,7 @@
         android:id="@+id/sq_ivReturn"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/ret"
+        android:src="@mipmap/retwhite"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="20dp"
         android:layout_centerVertical="true"
@@ -44,7 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="采购"
-                style="@style/RadioButton" />
+                style="@style/RadioButton"
+                android:longClickable="false"
+                android:nestedScrollingEnabled="false" />
         </com.tongxin.info.control.SegmentedGroup>
         <TextView
             android:id="@+id/sq_HeaderText"
@@ -59,10 +61,11 @@
         android:id="@+id/iv_sqMenu"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/sqmenu"
+        android:src="@drawable/optionwhite"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:layout_centerVertical="true"
+        android:backgroundTint="@color/white"
         />
     <Button
         android:id="@+id/btn_spHeaderSure"
@@ -73,5 +76,6 @@
         android:textSize="18dp"
         android:layout_centerVertical="true"
         android:background="@android:color/transparent"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        />
 </RelativeLayout>

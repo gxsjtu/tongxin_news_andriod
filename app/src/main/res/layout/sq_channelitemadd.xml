@@ -5,7 +5,9 @@
     android:scrollbars="vertical">
     <LinearLayout android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
     <include layout="@layout/sq_header"></include>
         <!--<com.daimajia.slider.library.SliderLayout-->
             <!--android:id="@+id/sq_itemAddImgSlider"-->

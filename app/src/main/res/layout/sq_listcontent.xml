@@ -5,7 +5,10 @@
     <ImageView
         android:id="@+id/img_sqList"
         android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:layout_height="60dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="3dp"/>
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -15,7 +18,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_margin="2dp">
             <TextView
                 android:id="@+id/tv_sqGQ"
                 android:text="供    应："
@@ -29,7 +33,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_margin="2dp">
             <TextView
                 android:text="交货地："
                 android:layout_width="60dp"
@@ -44,14 +49,15 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:paddingRight="5dp"
-                android:gravity="center"
+                android:gravity="left"
                 android:textColor="@color/darkgreen"
                 />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp">
             <TextView
                 android:text="联系人："
                 android:layout_width="60dp"
@@ -69,14 +75,14 @@
                 android:paddingRight="5dp"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffbb33"
-                android:gravity="center"/>
+                android:gravity="left"/>
         </LinearLayout>
     </LinearLayout>
     <ImageView
         android:id="@+id/imgMsg"
         android:layout_width="15dp"
         android:layout_height="20dp"
-        android:src="@drawable/grayarr"
+        android:src="@drawable/more"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="10dp"/>
 </LinearLayout>
