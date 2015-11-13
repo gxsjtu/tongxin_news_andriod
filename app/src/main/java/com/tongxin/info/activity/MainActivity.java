@@ -36,8 +36,6 @@ public class MainActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        ((MyApp)getApplication()).getActivityList().add(this);
-
         main_fl_content = (FrameLayout) findViewById(R.id.main_fl_content);
         main_rg_group = (RadioGroup) findViewById(R.id.main_rg_group);
         main_rb_inbox = (RadioButton) findViewById(R.id.main_rb_inbox);

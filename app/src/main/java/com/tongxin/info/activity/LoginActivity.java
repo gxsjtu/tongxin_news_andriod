@@ -55,33 +55,12 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-//            //4.4及以下
-//            if (Build.VERSION.SDK_INT < 16) {
-//                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            } else {
-//                View decorView = getWindow().getDecorView();
-//                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-//                decorView.setSystemUiVisibility(uiOptions);
-//            }
-//        } else {
-//            //4.4以上
-//            //透明状态栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            //透明导航栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
         application = (MyApp) getApplication();
-        application.setLoginActivity(this);
         pushManager = application.getPushManager();
         userUtils = new UserUtils(this);
 
         String name = SharedPreUtils.getString(this, "name", "");
         String pwd = SharedPreUtils.getString(this, "pwd", "");
-
         mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
 
         if (!mustLogin) {
@@ -92,6 +71,7 @@ public class LoginActivity extends Activity {
             }
         }
         else {
+            application.setShowLogin(true);
             setContentView(R.layout.activity_login);
             initViews();
         }
@@ -171,27 +151,29 @@ public class LoginActivity extends Activity {
                         SharedPreUtils.setString(LoginActivity.this, "name", name);
                         SharedPreUtils.setString(LoginActivity.this, "pwd", pwd);
                         SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", false);
-                        if(showLogin)
+                        application.setShowLogin(false);
+                        if (showLogin)
                             btn_login.setProgress(100);
-//                        Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
-//                        startActivity(intent);
-//                        finish();
                         application.startCheckUser();
                         nextPage();
-
-
                     } else {
-                        if(showLogin)
+                        if (showLogin)
                             btn_login.setProgress(0);
-                        if(!showLogin)
-                        {
+                        if (!showLogin) {
                             showLogin = true;
                             setContentView(R.layout.activity_login);
                             initViews();
                         }
-                        //Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
+                        if(!mustLogin)
+                        {
+                            application.setShowLogin(true);
+                            setContentView(R.layout.activity_login);
+                            initViews();
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -199,7 +181,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onPreStart() {
-                if(showLogin) {
+                if (showLogin) {
                     et_name.setEnabled(false);
                     et_pwd.setEnabled(false);
                     btn_login.setEnabled(false);
@@ -209,19 +191,13 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onFinish() {
-                if(showLogin) {
+                if (showLogin) {
                     et_name.setEnabled(true);
                     et_pwd.setEnabled(true);
                     btn_login.setEnabled(true);
                 }
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        application.setLoginActivity(null);
-        super.onDestroy();
     }
 
     /*忘记密码*/
@@ -245,17 +221,16 @@ public class LoginActivity extends Activity {
         startActivity(intent);
     }
 
-
     private void nextPage() {
         //判断是否进入过新手指引页面
-        boolean userGuide = SharedPreUtils.getBoolean(this, "is_user_guide_showed", false);
-        if (!userGuide) {
+        //boolean userGuide = SharedPreUtils.getBoolean(this, "is_user_guide_showed", false);
+        //if (!userGuide) {
             //跳的新手指引页
-            startActivity(new Intent(LoginActivity.this, GuideActivity.class));
-        } else {
+            //startActivity(new Intent(LoginActivity.this, GuideActivity.class));
+        //} else {
             //跳到主页
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        }
+        //}
         finish();
     }
 }

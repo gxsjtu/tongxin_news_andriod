@@ -42,7 +42,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2015/11/11.
  */
-public class MyOrderActivity extends Activity {
+public class MyOrderActivity extends BaseActivity {
     private ArrayList<MyOrderVM> orderList = new ArrayList<MyOrderVM>();
     private SwipeMenuListView lv_MyOrder;
     private String tel;

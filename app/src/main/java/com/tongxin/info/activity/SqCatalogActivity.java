@@ -32,7 +32,7 @@ import java.util.ArrayList;
 /**
  * Created by cc on 2015/11/6.
  */
-public class SqCatalogActivity extends Activity {
+public class SqCatalogActivity extends BaseActivity {
     private ListView lv_catalog;
     private int channelID;
     private String channelName;

@@ -92,7 +92,7 @@
                     android:padding="10dp"
                     android:text="您的注册信息"
                     android:textColor="#76767b"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                     android:padding="10dp"
                     android:text="您可以设置是否需要声音提醒"
                     android:textColor="#76767b"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -156,6 +156,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/more" />
 
                 </LinearLayout>
@@ -166,7 +167,7 @@
                     android:padding="10dp"
                     android:text="您可以在这里管理已订阅的产品"
                     android:textColor="#76767b"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -193,6 +194,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/more" />
 
                 </LinearLayout>
@@ -203,7 +205,37 @@
                     android:padding="10dp"
                     android:text="您可以在这里管理已提交的供求信息"
                     android:textColor="#76767b"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#d5d4d8"></TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#fff"
+                    android:onClick="myUpdate"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:text="版本更新"
+                        android:gravity="center_vertical"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/more" />
+
+                </LinearLayout>
 
                 <Button
                     android:layout_width="match_parent"
@@ -212,7 +244,9 @@
                     android:onClick="loginout"
                     android:text="退出"
                     android:textColor="#fff"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="50dp"/>
             </LinearLayout>
 
         </ScrollView>

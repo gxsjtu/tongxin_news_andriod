@@ -35,7 +35,7 @@ import java.util.ArrayList;
 /**
  * Created by cc on 2015/11/11.
  */
-public class MySupplyActivity extends Activity {
+public class MySupplyActivity extends BaseActivity {
     private String tel;
     private ListView lv_mySupply;
     private ArrayList<SqListVM> mySupplyList = new ArrayList<SqListVM>();

@@ -208,10 +208,10 @@ public class HqDetailActivity extends BaseActivity {
 
             ProductPrice price = mProductPrices.get(position);
             if (price != null) {
-                viewHolder.hq_detail_item_productName.setText(price.ProductName);
-                viewHolder.hq_detail_item_Date.setText(price.Date);
-                viewHolder.hq_detail_item_Min.setText(price.LPrice);
-                viewHolder.hq_detail_item_Max.setText(price.HPrice);
+                viewHolder.hq_detail_item_productName.setText(price.ProductName.trim());
+                viewHolder.hq_detail_item_Date.setText(price.Date.trim());
+                viewHolder.hq_detail_item_Min.setText(price.LPrice.trim());
+                viewHolder.hq_detail_item_Max.setText(price.HPrice.trim());
 
 
                 if (!TextUtils.isEmpty(price.Change)) {
