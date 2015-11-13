@@ -52,10 +52,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.GuideActivity"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
 
@@ -66,44 +68,60 @@
         </activity>
         <activity
             android:name=".activity.HqDetailActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.HqHistoryActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.SearchActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.InboxDetailActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ChartActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity android:name=".page.sqListFragment"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PingLunDetailActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.TrialActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".page.sqDetailFragment"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.SqCatalogActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.SqCatalogItemAdd"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.CitiesActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" android:theme="@style/Base.Theme.AppCompat.Light.Dialog"></activity>
         <activity
             android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.MySupplyActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.userActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.MyOrderActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
 
         <!-- 个推SDK配置开始 -->
