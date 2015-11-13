@@ -1,9 +1,15 @@
 package com.tongxin.info.page;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +25,7 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
+import com.tongxin.info.activity.DetailForShowImg;
 import com.tongxin.info.domain.SQDetailVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.loadingUtils;
@@ -27,8 +34,14 @@ import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
+import android.os.Handler;
 
 /**
  * Created by cc on 2015/11/5.
@@ -48,6 +61,12 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
     private String mobile;
     private LinearLayout iv_return;
     loadingUtils loadingUtils;
+    private ImageView img_ForShow;
+    private String url;
+    private Button btn_CloseImg;
+//    private static final int COMPLETED = 0;
+//    private Handler handler;
+//    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +74,12 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
         setContentView(R.layout.sq_itemdetail);
 
         loadingUtils = new loadingUtils(this);
-        tv_sqDetailName = (TextView)findViewById(R.id.sq_detailName);
-        tv_sqDetailQty = (TextView)findViewById(R.id.sq_detailQty);
-        tv_sqDetailPrice = (TextView)findViewById(R.id.sq_detailPrice);
-        tv_sqDetailContact = (TextView)findViewById(R.id.sq_detailContact);
-        btn_sqDetailMobile = (Button)findViewById(R.id.sq_detailMobile);
-        iv_return = (LinearLayout)findViewById(R.id.iv_return);
+        tv_sqDetailName = (TextView) findViewById(R.id.sq_detailName);
+        tv_sqDetailQty = (TextView) findViewById(R.id.sq_detailQty);
+        tv_sqDetailPrice = (TextView) findViewById(R.id.sq_detailPrice);
+        tv_sqDetailContact = (TextView) findViewById(R.id.sq_detailContact);
+        btn_sqDetailMobile = (Button) findViewById(R.id.sq_detailMobile);
+        iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_return.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,33 +90,28 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
         btn_sqDetailMobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!"".equals(mobile))
-                {
+                if (!"".equals(mobile)) {
                     callMoile(mobile);
                 }
             }
         });
-        tv_sqDetailLocation = (TextView)findViewById(R.id.sq_detailLocation);
-        tv_sqDetailDeliver = (TextView)findViewById(R.id.sq_detailDeliver);
-        tv_sqDetailDesc = (TextView)findViewById(R.id.sq_detailDesc);
-        mDemoSlider = (SliderLayout)findViewById(R.id.sq_imgSlider);
-        tv_headerTitle = (TextView)findViewById(R.id.tv_headerTitle);
-        Intent intent  = getIntent();
-        sq_channelID = intent.getIntExtra("SQDETAIL_CHANNELID",0);
+        tv_sqDetailLocation = (TextView) findViewById(R.id.sq_detailLocation);
+        tv_sqDetailDeliver = (TextView) findViewById(R.id.sq_detailDeliver);
+        tv_sqDetailDesc = (TextView) findViewById(R.id.sq_detailDesc);
+        mDemoSlider = (SliderLayout) findViewById(R.id.sq_imgSlider);
+        tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
+        Intent intent = getIntent();
+        sq_channelID = intent.getIntExtra("SQDETAIL_CHANNELID", 0);
         String title = intent.getStringExtra("SQDETAIL_CHANNELNAME");
-        if(!"".equals(title) && title != null)
-        {
+        if (!"".equals(title) && title != null) {
             tv_headerTitle.setText(title);
-        }
-        else
-        {
+        } else {
             tv_headerTitle.setText("我的发布");
         }
         initData();
     }
 
-    private void initData()
-    {
+    private void initData() {
         loadingUtils.show();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
@@ -137,25 +151,21 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
                 mobile = detail.mobile;
                 btn_sqDetailMobile.setText(detail.mobile + " （点击拨打）");
                 tv_sqDetailDesc.setText(detail.description);
-                if("true".equals(detail.deliver))
-                {
+                if ("true".equals(detail.deliver)) {
                     tv_sqDetailDeliver.setText("自提");
-                }
-                else
-                {
+                } else {
                     tv_sqDetailDeliver.setText("发货");
                 }
 
-                HashMap<String,String> url_maps = new HashMap<String, String>();
-                for (int i = 0; i < detail.avatars.size();i++)
-                {
-                    url_maps.put(String.valueOf(i + 1),detail.avatars.get(i).avatar);
+                HashMap<String, String> url_maps = new HashMap<String, String>();
+                for (int i = 0; i < detail.avatars.size(); i++) {
+                    url_maps.put(String.valueOf(i + 1), detail.avatars.get(i).avatar);
                 }
 
-                for(String name : url_maps.keySet()) {
+                for (String name : url_maps.keySet()) {
                     TextSliderView textSliderView = new TextSliderView(sqDetailFragment.this);
 
-                    textSliderView .image(url_maps.get(name)) .setOnSliderClickListener(sqDetailFragment.this);
+                    textSliderView.image(url_maps.get(name)).setOnSliderClickListener(sqDetailFragment.this);
 
 
                     //add your extra information
@@ -165,13 +175,12 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
 
                     mDemoSlider.addSlider(textSliderView);
                 }
-                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+//                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+//                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
                 mDemoSlider.setCustomAnimation(new DescriptionAnimation());
                 mDemoSlider.setDuration(4000);
                 mDemoSlider.addOnPageChangeListener(sqDetailFragment.this);
-                if(url_maps.size() == 1)
-                {
+                if (url_maps.size() == 1) {
                     mDemoSlider.stopAutoCycle();
                 }
 
@@ -180,10 +189,8 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
         });
     }
 
-    private void callMoile(String tel)
-    {
-        if(tel != null && !"".equals(tel))
-        {
+    private void callMoile(String tel) {
+        if (tel != null && !"".equals(tel)) {
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel));
             startActivity(intent);
         }
@@ -198,8 +205,13 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-//        Toast.makeText(this,slider.getBundle().get("extra") + "",Toast.LENGTH_SHORT).show();
+//        img_ForShow.set
+        url = slider.getUrl();
+        Intent intent = new Intent(sqDetailFragment.this, DetailForShowImg.class);
+        intent.putExtra("IMGURLFORSHOW",url);
+        startActivity(intent);
     }
+
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -211,4 +223,5 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
 
     @Override
     public void onPageScrollStateChanged(int state) {}
+
 }
