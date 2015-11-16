@@ -165,11 +165,15 @@ public class SqCatalogActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 4)
+//        if(resultCode == 4)
+//        {
+//            channelID = data.getIntExtra("CATALOGCHANNEL_ID",0);
+//            channelName = data.getStringExtra("CATALOGCAHNNEL_NAME");
+//            initData();
+       // }
+        if(resultCode == 6)
         {
-            channelID = data.getIntExtra("CATALOGCHANNEL_ID",0);
-            channelName = data.getStringExtra("CATALOGCAHNNEL_NAME");
-            initData();
+            finish();
         }
     }
 

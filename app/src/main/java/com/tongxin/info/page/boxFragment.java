@@ -12,9 +12,12 @@ import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -69,7 +72,7 @@ public class boxFragment extends Fragment {
     private String maxDateForPullDown;
     private BaseAdapter adapterForData;
     private EditText msg_searchTxt;
-    private ImageView msg_searchImg;
+//    private ImageView msg_searchImg;
     private Button loadMoreBtn;
     private View footerView;
     loadingUtils loadingUtils;
@@ -95,7 +98,7 @@ public class boxFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container.removeAllViews();
-        View view = View.inflate(mActivity, R.layout.inboxmsg, null);
+      final  View view = View.inflate(mActivity, R.layout.inboxmsg, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("收件箱");
         iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
@@ -160,8 +163,20 @@ public class boxFragment extends Fragment {
             }
         });
 
-        msg_searchImg = (ImageView)view.findViewById(R.id.ivMsg_search);
+//        msg_searchImg = (ImageView)view.findViewById(R.id.ivMsg_search);
         msg_searchTxt = (EditText)view.findViewById(R.id.msg_search);
+        msg_searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)  {
+
+                if ((actionId== EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) && event.getAction()==KeyEvent.ACTION_DOWN) {
+                    search();
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        });
         loadMoreBtn = (Button)footerView.findViewById(R.id.msg_loadMoreBtn);
         loadMoreBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -177,12 +192,15 @@ public class boxFragment extends Fragment {
                 pullRefresh();
             }
         });
-        msg_searchImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                search();
-            }
-        });
+//        msg_searchImg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+////                imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+//                imm.hideSoftInputFromInputMethod(view.getWindowToken(),0);
+//                search();
+//            }
+//        });
         return view;
     }
 
@@ -453,6 +471,7 @@ public class boxFragment extends Fragment {
                         if (item.url != null && item.url != "") {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                             intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
+                            //intent.putExtra("title", item.)
                             startActivity(intent);
                         }
                     }

@@ -12,9 +12,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -94,14 +96,26 @@ public class sqListFragment extends FragmentActivity {
         tv_headerText.setVisibility(View.GONE);
         btn_headerSure = (Button)findViewById(R.id.btn_spHeaderSure);
         btn_headerSure.setVisibility(View.GONE);
-        sq_searchImg = (ImageView)findViewById(R.id.ivMsg_search);
+//        sq_searchImg = (ImageView)findViewById(R.id.ivMsg_search);
         name_searchTxt = (EditText)findViewById(R.id.msg_search);
-        sq_searchImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                search();
+        name_searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)  {
+
+                if ((actionId== EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) && event.getAction()==KeyEvent.ACTION_DOWN){
+                    search();
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         });
+//        sq_searchImg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                search();
+//            }
+//        });
         iv_sqReturn = (ImageView)findViewById(R.id.sq_ivReturn);
         iv_sqReturn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,12 +214,75 @@ public class sqListFragment extends FragmentActivity {
                 }
             }
         }
-        resList.clear();
-        resList.addAll(searchList);
+//        resList.clear();
+//        resList.addAll(searchList);
+        lv_sqList.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return searchList.size();
+            }
 
-        adapter = new AppAdapter();
-        lv_sqList.setAdapter(adapter);
+            @Override
+            public SqListVM getItem(int position) {
+                return searchList.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                ViewHolder viewHolder = null;
+                SqListVM item = getItem(position);
+
+                if (convertView == null) {
+                    viewHolder = new ViewHolder();
+                    convertView = View.inflate(sqListFragment.this, R.layout.sq_listcontent, null);
+                    viewHolder.imgSqList = (ImageView) convertView.findViewById(R.id.img_sqList);
+                    viewHolder.sqName = (TextView) convertView.findViewById(R.id.tv_ChannelName);
+                    viewHolder.txt_sqContact = (TextView) convertView.findViewById(R.id.tv_sqContact);
+                    viewHolder.txt_sqLocation = (TextView) convertView.findViewById(R.id.tv_sqLocation);
+                    viewHolder.txt_sqDate = (TextView) convertView.findViewById(R.id.tv_sqDate);
+                    viewHolder.txt_sqIsChecked = (TextView) convertView.findViewById(R.id.tv_sqIsChecked);
+                    convertView.setTag(viewHolder);
+                } else {
+                    viewHolder = (ViewHolder) convertView.getTag();
+                }
+
+                ImageLoader.getInstance().displayImage(item.avatar, viewHolder.imgSqList);
+                viewHolder.sqName.setText(item.name);
+                viewHolder.txt_sqDate.setText(item.date);
+                viewHolder.txt_sqContact.setText(item.contact);
+                viewHolder.txt_sqIsChecked.setText(item.ischecked);
+                viewHolder.txt_sqLocation.setText(item.location);
+
+                if ("".equals(item.ischecked)) {
+                    viewHolder.txt_sqIsChecked.setText("待审核");
+                    viewHolder.txt_sqIsChecked.setTextColor(Color.BLACK);
+                } else if ("true".equals(item.ischecked)) {
+                    viewHolder.txt_sqIsChecked.setText("已审核");
+                    viewHolder.txt_sqIsChecked.setTextColor(Color.parseColor("#006400"));
+                } else {
+                    viewHolder.txt_sqIsChecked.setText("已拒绝");
+                    viewHolder.txt_sqIsChecked.setTextColor(Color.RED);
+                }
+                return convertView;
+            }
+
+        });
         loadingUtils.close();
+        lv_sqList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SqListVM item = searchList.get(position);
+                Intent intent = new Intent(sqListFragment.this, sqDetailFragment.class);
+                intent.putExtra("SQDETAIL_CHANNELNAME", "商圈 - " + tv_Name);
+                intent.putExtra("SQDETAIL_CHANNELID", item.id);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData(final String dataType) {
@@ -330,12 +407,12 @@ public class sqListFragment extends FragmentActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 3)
-        {
-            tv_Name = data.getStringExtra("CHANNEL_NAME");
-            tv_ID = data.getIntExtra("CHANNEL_ID", 0);
-            initData(typeForRefresh);
-        }
+//        if(requestCode == 3)
+//        {
+//            tv_Name = data.getStringExtra("CHANNEL_NAME");
+//            tv_ID = data.getIntExtra("CHANNEL_ID", 0);
+//            initData(typeForRefresh);
+//        }
     }
 
     public class ViewHolder

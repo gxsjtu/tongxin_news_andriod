@@ -29,15 +29,17 @@
             android:drawablePadding="15dp"
             android:hint="请输入查询内容"
             android:padding="5dp"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"/>
 
-        <ImageView
-            android:id="@+id/ivMsg_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/searchpic" />
+        <!--<ImageView-->
+            <!--android:id="@+id/ivMsg_search"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:src="@drawable/searchpic" />-->
     </LinearLayout>
     <ListView
         android:id="@+id/sq_lvData"

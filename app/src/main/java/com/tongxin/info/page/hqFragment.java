@@ -14,10 +14,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -113,7 +115,7 @@ public class hqFragment extends baseFragment {
         hq_vp = (ViewPager) view.findViewById(R.id.hq_vp);
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         tabs.setHqFragment(this);
-        tabs.setIndicatorColor(Color.rgb(255,0,0));
+        tabs.setIndicatorColor(Color.rgb(255, 0, 0));
 
         hq_tab_btn = (ImageView) view.findViewById(R.id.hq_tab_btn);
         hq_tab_btn.setOnClickListener(new View.OnClickListener() {
@@ -126,13 +128,26 @@ public class hqFragment extends baseFragment {
 
         et_search = (EditText) view.findViewById(R.id.et_search);
 
-        iv_search = (ImageView) view.findViewById(R.id.iv_search);
-        iv_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                search();
+        et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)  {
+
+                if ((actionId== EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) && event.getAction()==KeyEvent.ACTION_DOWN) {
+                    search();
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         });
+
+//        iv_search = (ImageView) view.findViewById(R.id.iv_search);
+//        iv_search.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                search();
+//            }
+//        });
         initData();
 
         return view;

@@ -139,10 +139,17 @@ public class SqCatalogItemAdd extends BaseActivity  {
                             if("ok".equals(result))
                             {
                                 msg.what = 0;
-                                Intent intent = new Intent(SqCatalogItemAdd.this, sqListFragment.class);
-                                intent.putExtra("CHANNEL_ID",channelID);
-                                intent.putExtra("CHANNEL_NAME",channelName);
-                                startActivity(intent);
+//                                Intent intent = new Intent(SqCatalogItemAdd.this, sqListFragment.class);
+//                                intent.putExtra("CHANNEL_ID",channelID);
+//                                intent.putExtra("CHANNEL_NAME",channelName);
+//                                startActivity(intent);
+
+                               // Intent intent = new Intent();
+//                                intent.putExtra("CHANNEL_ID", channelID);
+//                                intent.putExtra("CHANNEL_NAME", channelName);
+                               // setResult(6, intent);
+                                setResult(6);
+                                finish();
                             }
                             else
                             {
@@ -160,11 +167,12 @@ public class SqCatalogItemAdd extends BaseActivity  {
         img_Return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SqCatalogItemAdd.this, SqCatalogActivity.class);
-                intent.putExtra("CATALOGCHANNEL_ID", channelID);
-                intent.putExtra("CATALOGCAHNNEL_NAME", channelName);
-//                startActivity(intent);
-                setResult(4,intent);
+                //Intent intent = new Intent();
+//                intent.putExtra("CATALOGCHANNEL_ID", channelID);
+//                intent.putExtra("CATALOGCAHNNEL_NAME", channelName);
+//                setResult(4,intent);
+
+                setResult(4);
                 finish();
             }
         });

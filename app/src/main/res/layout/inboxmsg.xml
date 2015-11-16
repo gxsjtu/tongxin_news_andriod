@@ -33,21 +33,24 @@
                 android:drawablePadding="15dp"
                 android:hint="请输入查询内容"
                 android:padding="5dp"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"/>
 
-            <ImageView
-                android:id="@+id/ivMsg_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/searchpic" />
+            <!--<ImageView-->
+                <!--android:id="@+id/ivMsg_search"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@drawable/searchpic" />-->
         </LinearLayout>
 
         <com.costum.android.widget.PullToRefreshListView
             android:id="@+id/lvMsg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:divider="@null"
             android:cacheColorHint="#fff"></com.costum.android.widget.PullToRefreshListView>
 
@@ -58,7 +61,8 @@
             android:divider="#00000000"
             android:dividerHeight="0dip"
             android:listSelector="@android:color/transparent"
-            android:cacheColorHint="#fff"></ListView>
+            android:cacheColorHint="#fff"
+            android:visibility="gone"></ListView>
     </LinearLayout>
 
     <include layout="@layout/loading"></include>

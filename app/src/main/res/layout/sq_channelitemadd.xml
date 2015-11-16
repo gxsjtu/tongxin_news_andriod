@@ -57,7 +57,8 @@
             android:layout_height="wrap_content"
             android:hint="货物名称（必填），如：冲花边料，船板料"
             android:textSize="16dp"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            />
         <EditText
             android:id="@+id/tv_addChannelQty"
             android:layout_width="match_parent"

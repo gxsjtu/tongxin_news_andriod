@@ -19,6 +19,7 @@ public class EditTextWithDel extends EditText {
     private Drawable imgInable;
     private Drawable imgAble;
     private Context mContext;
+    private Drawable imgSearch;
 
     public EditTextWithDel(Context context) {
         super(context);
@@ -41,6 +42,7 @@ public class EditTextWithDel extends EditText {
     private void init() {
         imgInable = mContext.getResources().getDrawable(R.drawable.delete_gray);
         imgAble = mContext.getResources().getDrawable(R.drawable.delete);
+        imgSearch = mContext.getResources().getDrawable(R.drawable.searchpic);
 
         addTextChangedListener(new TextWatcher() {
             @Override
@@ -62,7 +64,7 @@ public class EditTextWithDel extends EditText {
     //设置删除图片
     private void setDrawable() {
         if(length() < 1)
-            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            setCompoundDrawablesWithIntrinsicBounds(imgSearch, null, null, null);
         else {
             setCompoundDrawablesWithIntrinsicBounds(null, null, imgInable, null);
         }

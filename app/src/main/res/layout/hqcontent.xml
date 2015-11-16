@@ -27,17 +27,18 @@
             android:background="@drawable/edittext_border"
             android:drawablePadding="15dp"
             android:hint="请输入查询内容"
-            android:imeOptions="actionDone"
             android:textSize="14sp"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"/>
 
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/searchpic" />
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_search"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:src="@drawable/searchpic" />-->
 
     </LinearLayout>
 
