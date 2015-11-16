@@ -137,18 +137,6 @@ public class boxFragment extends Fragment {
                 InboxMsgVM msg = loadList.get(position - 1);
                 Copy(msg.msg.trim());
                 Toast.makeText(mActivity, "内容已复制", Toast.LENGTH_SHORT).show();
-//                new AlertDialog.Builder(mActivity).setItems(new String[]{"复制"}, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        InboxMsgVM msg = loadList.get(position-1);
-//                        Copy(msg.msg.trim());
-//                    }
-//                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                }).show();
                 return true;
             }
         });
@@ -163,7 +151,6 @@ public class boxFragment extends Fragment {
             }
         });
 
-//        msg_searchImg = (ImageView)view.findViewById(R.id.ivMsg_search);
         msg_searchTxt = (EditText)view.findViewById(R.id.msg_search);
         msg_searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event)  {
@@ -190,17 +177,11 @@ public class boxFragment extends Fragment {
             @Override
             public void onRefresh() {
                 pullRefresh();
+                Intent intentCount = new Intent("com.tongxin.badge");
+                intentCount.putExtra("count", 0);
+                mActivity.sendBroadcast(intentCount);
             }
         });
-//        msg_searchImg.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-////                imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
-//                imm.hideSoftInputFromInputMethod(view.getWindowToken(),0);
-//                search();
-//            }
-//        });
         return view;
     }
 

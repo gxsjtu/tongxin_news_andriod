@@ -48,6 +48,15 @@ public class MyApp extends Application {
     private Context context;
     private PushManager pushManager;
     private boolean showLogin = false;
+    private int badgeCount = 0;
+
+    public int getBadgeCount() {
+        return badgeCount;
+    }
+
+    public void setBadgeCount(int badgeCount) {
+        this.badgeCount = badgeCount;
+    }
 
     private Handler mHandler = new Handler() {
         @Override

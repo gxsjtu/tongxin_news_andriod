@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,45 +17,179 @@
 
         </FrameLayout>
 
-        <RadioGroup
-            android:id="@+id/main_rg_group"
-            android:orientation="horizontal"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="2dp"
-            android:background="@drawable/tab_bg">
+            android:background="@drawable/tab_bg"
+            android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/main_rb_inbox"
-                style="@style/BottomMenuStyle"
-                android:drawableTop="@drawable/main_rb_inbox"
-                android:text="收件箱" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
 
-            <RadioButton
-                android:id="@+id/main_rb_hq"
-                style="@style/BottomMenuStyle"
-                android:drawableTop="@drawable/main_rb_hq"
-                android:text="行情" />
+                <LinearLayout
+                    android:id="@+id/ll_inbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
-            <RadioButton
-                android:id="@+id/main_rb_pl"
-                style="@style/BottomMenuStyle"
-                android:drawableTop="@drawable/main_rb_pl"
-                android:text="评论" />
+                    <ImageView
+                        android:id="@+id/iv_inbox"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/box_gray" />
 
-            <RadioButton
-                android:id="@+id/main_rb_sq"
-                style="@style/BottomMenuStyle"
-                android:drawableTop="@drawable/main_rb_sq"
-                android:text="商圈" />
+                    <TextView
+                        android:id="@+id/tv_inbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收件箱"
+                        android:textColor="#929292"
+                        android:textSize="8sp" />
 
-            <RadioButton
-                android:id="@+id/main_rb_me"
-                style="@style/BottomMenuStyle"
-                android:drawableTop="@drawable/main_rb_me"
-                android:text="期货" />
+                </LinearLayout>
 
-        </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_hq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_hq"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/future_gray" />
+
+                    <TextView
+                        android:id="@+id/tv_hq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="行情"
+                        android:textColor="#929292"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_pl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_pl"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/comment_gray" />
+
+                    <TextView
+                        android:id="@+id/tv_pl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="评论"
+                        android:textColor="#929292"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_sq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_sq"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/sq_gray" />
+
+                    <TextView
+                        android:id="@+id/tv_sq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商圈"
+                        android:textColor="#929292"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_qh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_qh"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/user_gray" />
+
+                    <TextView
+                        android:id="@+id/tv_qh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="期货"
+                        android:textColor="#929292"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
