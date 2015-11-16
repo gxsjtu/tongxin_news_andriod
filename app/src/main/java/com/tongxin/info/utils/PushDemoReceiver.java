@@ -101,6 +101,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         mNotificationManager.notify(909, notify);
 
 
+                        SharedPreUtils.setString(context, "badgecount", String.valueOf(badge));
                         Intent intentCount = new Intent("com.tongxin.badge");
                         intentCount.putExtra("count", badge);
                         context.sendBroadcast(intentCount);

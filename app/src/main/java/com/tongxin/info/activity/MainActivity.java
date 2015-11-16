@@ -71,9 +71,6 @@ public class MainActivity extends BaseFragmentActivity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-
-
-
         main_fl_content = (FrameLayout) findViewById(R.id.main_fl_content);
         ll_inbox = (LinearLayout) findViewById(R.id.ll_inbox);
         ll_hq = (LinearLayout) findViewById(R.id.ll_hq);
@@ -101,8 +98,6 @@ public class MainActivity extends BaseFragmentActivity {
 
         badge = new BadgeView(this, ll_inbox);
         badge.setTextSize(10);
-
-        //setMessageBadge(3);
     }
 
     private void initViews() {
@@ -263,7 +258,7 @@ public class MainActivity extends BaseFragmentActivity {
             badge.setVisibility(View.VISIBLE);
             badge.show();
         } else {
-            //SharedPreUtils.setString(this, "badgecount", "0");
+            SharedPreUtils.setString(this, "badgecount", "0");
             NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancel(909);
             badge.setVisibility(View.GONE);
@@ -289,36 +284,9 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void onResume() {
-
-
-
-
-        Intent intent2 = getIntent();
-        if(intent2!=null)
-        {
-            boolean move = intent2.getBooleanExtra("move",false);
-            if(move)
-            {
-                iv_inbox.setImageResource(R.mipmap.box);
-                tv_inbox.setTextColor(select);
-
-                iv_hq.setImageResource(R.mipmap.future_gray);
-                tv_hq.setTextColor(unselect);
-
-                iv_pl.setImageResource(R.mipmap.comment_gray);
-                tv_pl.setTextColor(unselect);
-
-                iv_sq.setImageResource(R.mipmap.sq_gray);
-                tv_sq.setTextColor(unselect);
-
-                iv_qh.setImageResource(R.mipmap.user_gray);
-                tv_qh.setTextColor(unselect);
-
-
-                showPage(new boxFragment());
-            }
-        }
-
+        String count = SharedPreUtils.getString(this, "badgecount", "0");
+        int badgeCount = Integer.parseInt(count);
+        setMessageBadge(badgeCount);
         super.onResume();
     }
 }
