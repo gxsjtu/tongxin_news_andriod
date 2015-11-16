@@ -1,9 +1,14 @@
 package com.tongxin.info.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -35,14 +40,19 @@ public class userActivity extends BaseActivity {
     private TextView tv_headerTitle;
     private String mobile;
     private Switch sw;
-
+    private int mVersionCode;
+    private TextView tv_CheckVersion;
+    private ImageView img_CheckVersion;
     loadingUtils loadingUtils;
+    private int currentVersion;
+    private boolean isCanUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         initViews();
+        checkVersion();
         initData();
     }
 
@@ -58,6 +68,8 @@ public class userActivity extends BaseActivity {
         tv_userMobile = (TextView) findViewById(R.id.tv_userMobile);
         tv_userEndDate = (TextView) findViewById(R.id.tv_userEndDate);
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
+        tv_CheckVersion = (TextView)findViewById(R.id.tv_CheckVersion);
+        img_CheckVersion = (ImageView)findViewById(R.id.img_CheckVersion);
         sw = (Switch) findViewById(R.id.sw);
         loadingUtils = new loadingUtils(this);
         tv_headerTitle.setText("用户设置");
@@ -159,7 +171,7 @@ public class userActivity extends BaseActivity {
 
     public void myOrder(View view) {
         //我的关注
-        Intent intent = new Intent(this,MyOrderActivity.class);
+        Intent intent = new Intent(this, MyOrderActivity.class);
 //        intent.putExtra("mobile",mobile);
         startActivity(intent);
     }
@@ -170,9 +182,69 @@ public class userActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    public void myUpdate(View view)
-    {
+    public void myUpdate(View view) {
         //版本更新
+        if(isCanUpdate)//有可更新的版本
+        {
 
+        }
+        else//没有版本可更新 不做跳转更新操作
+        {
+
+        }
+
+    }
+
+    private int getVersionCode() {
+        PackageManager packageManager = getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            int versionCode = packageInfo.versionCode;
+            return versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    private void checkVersion() {
+
+        final long startTime = System.currentTimeMillis();
+        KJHttp kjHttp = new KJHttp();
+        HttpConfig httpConfig = new HttpConfig();
+        httpConfig.TIMEOUT = 3 * 60 * 1000;
+        kjHttp.setConfig(httpConfig);
+
+        final Message msg = Message.obtain();
+
+        kjHttp.get(GlobalContants.CHECKVERSION_URL, null, false, new HttpCallBack() {
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                Toast.makeText(userActivity.this, "获取更新版本失败！", Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onSuccess(String t) {
+                try {
+                    JSONObject json = new JSONObject(t);
+                    mVersionCode = json.getInt("versioncode");
+                    currentVersion = getVersionCode();
+                    if (mVersionCode > currentVersion) {
+                        isCanUpdate = true;
+                        tv_CheckVersion.setText("有新的版本可更新");
+                        tv_CheckVersion.setTextColor(Color.BLACK);
+                        img_CheckVersion.setVisibility(View.VISIBLE);
+                    } else {
+                        isCanUpdate = false;
+                        tv_CheckVersion.setText("当前是最新版本（v" + currentVersion + "）");
+                        tv_CheckVersion.setTextColor(Color.GRAY);
+                        img_CheckVersion.setVisibility(View.GONE);
+                    }
+                } catch (JSONException e) {
+//                    err = "";
+//                    msg.what = UPDATE_ERROR;
+                }
+            }
+        });
     }
 }

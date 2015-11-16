@@ -45,12 +45,15 @@
                 <!--android:layout_marginRight="10dp"-->
                 <!--android:src="@drawable/searchpic" />-->
         </LinearLayout>
-
+<LinearLayout
+    android:id="@+id/ll_ForHeight"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
         <com.costum.android.widget.PullToRefreshListView
             android:id="@+id/lvMsg"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:divider="@null"
             android:cacheColorHint="#fff"></com.costum.android.widget.PullToRefreshListView>
 
@@ -63,6 +66,7 @@
             android:listSelector="@android:color/transparent"
             android:cacheColorHint="#fff"
             android:visibility="gone"></ListView>
+</LinearLayout>
     </LinearLayout>
 
     <include layout="@layout/loading"></include>
