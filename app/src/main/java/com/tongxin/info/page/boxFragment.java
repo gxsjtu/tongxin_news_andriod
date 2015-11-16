@@ -45,6 +45,8 @@ import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
@@ -82,6 +84,8 @@ public class boxFragment extends Fragment {
     private TextView tv_headerTitle;
     private LinearLayout iv_ref;
     private Button btn_clear;
+    private ArrayList<InboxMsgVM> resList = new ArrayList<InboxMsgVM>();//数据不够一页放入空白数据
+    private LinearLayout ll_ForHeight;
 
 
     @Override
@@ -99,6 +103,7 @@ public class boxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container.removeAllViews();
       final  View view = View.inflate(mActivity, R.layout.inboxmsg, null);
+        ll_ForHeight = (LinearLayout)view.findViewById(R.id.ll_ForHeight);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("收件箱");
         iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
@@ -128,6 +133,7 @@ public class boxFragment extends Fragment {
         footerView = View.inflate(mActivity, R.layout.inboxmsgfooter, null);
         lv_msg = (PullToRefreshListView) view.findViewById(R.id.lvMsg);
         lv_msg.addFooterView(footerView);
+        lv_msg.setMinimumHeight(ll_ForHeight.getHeight());
         lv_searchRes = (ListView)view.findViewById(R.id.lv_searchRes);
         lv_searchRes.setVisibility(View.GONE);
 
@@ -157,6 +163,8 @@ public class boxFragment extends Fragment {
 
                 if ((actionId== EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) && event.getAction()==KeyEvent.ACTION_DOWN) {
                     search();
+                    InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(msg_searchTxt.getWindowToken(),0);
                     return true;
                 }
                 else {
@@ -165,7 +173,7 @@ public class boxFragment extends Fragment {
             }
         });
         loadMoreBtn = (Button)footerView.findViewById(R.id.msg_loadMoreBtn);
-        loadMoreBtn.setOnClickListener(new View.OnClickListener(){
+        loadMoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadMore();
@@ -201,8 +209,9 @@ public class boxFragment extends Fragment {
         }
         else
         {
+//            res.toLowerCase();
             for(int i = 0; i < msgList.size();i++) {
-                if (msgList.get(i).msg.contains(searchKey)) {
+                if (msgList.get(i).msg.toLowerCase().contains(searchKey.toLowerCase())) {
                     loadList.add(msgList.get(i));
                 }
             }
@@ -268,7 +277,7 @@ public class boxFragment extends Fragment {
                     if (item.url != null && item.url != "") {
                         Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                         intent.putExtra("inboxDetailUrl", item.url);
-                        intent.putExtra("title", "");
+                        intent.putExtra("title", "同鑫评论");
                         startActivity(intent);
                     }
                 }
@@ -286,7 +295,7 @@ public class boxFragment extends Fragment {
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final SimpleDateFormat formatForDataNull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
 
-        KJHttp kjHttp = new KJHttp();
+        final KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
@@ -305,7 +314,7 @@ public class boxFragment extends Fragment {
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
                         loadingUtils.close();
-                        Toast.makeText(mActivity, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "获取数据失败，请稍后再试！", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -333,7 +342,7 @@ public class boxFragment extends Fragment {
                             maxDateForPullDown = formatForDataNull.format(new Date());
                             minDateForPullUp = formatForDataNull.format(new Date());
                         }
-
+//                        SetLVHeight();
                         adapterForData = new AppAdapter();
                         lv_msg.setAdapter(adapterForData);
                         loadingUtils.close();
@@ -344,8 +353,41 @@ public class boxFragment extends Fragment {
                                 if (item.url != null && item.url != "") {
                                     Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                                     intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
+                                    intent.putExtra("title", "同鑫评论");
                                     startActivity(intent);
                                 }
+                            }
+                        });
+                        kjHttp.get(GlobalContants.MessageInfo_URL + "?method=clearMessage&mobile=" + tel, null, false, new HttpCallBack() {
+                            @Override
+                            public void onPreStart() {
+                                super.onPreStart();
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                super.onFinish();
+                            }
+
+                            @Override
+                            public void onFailure(int errorNo, String strMsg) {
+                                Toast.makeText(mActivity, "消息清零失败！", Toast.LENGTH_SHORT);
+                            }
+
+                            @Override
+                            public void onSuccess(String t) {
+                                try {
+                                    JSONObject json = new JSONObject(t);
+                                    String result = json.getString("result");
+                                    if (result.equals("ok")) {
+//                                        Toast.makeText(mActivity, "消息清零成功！", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(mActivity, "消息清零失败！", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                         });
                     }
@@ -368,7 +410,7 @@ public class boxFragment extends Fragment {
         params.put("dateStr",maxDateForPullDown);
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         //format.parse()
-        KJHttp kjHttp = new KJHttp();
+        final KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
@@ -376,13 +418,13 @@ public class boxFragment extends Fragment {
         kjHttp.post(GlobalContants.GETINBOXMSG_URL, params, false, new HttpCallBack() {
             long dStart;
             long dFinish;
+
             @Override
             public void onPreStart() {
                 super.onPreStart();
                 try {
                     dStart = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
-                }catch (Exception ex)
-                {
+                } catch (Exception ex) {
                 }
             }
 
@@ -391,12 +433,10 @@ public class boxFragment extends Fragment {
                 super.onFinish();
                 try {
                     dFinish = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
-                    if((dFinish - dStart) / 1000 < 1)
-                    {
+                    if ((dFinish - dStart) / 1000 < 1) {
                         Thread.sleep(1000);
                     }
-                }catch (Exception ex)
-                {
+                } catch (Exception ex) {
                 }
             }
 
@@ -404,7 +444,7 @@ public class boxFragment extends Fragment {
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
                 lv_msg.onRefreshComplete();
-                Toast.makeText(mActivity, "下拉加载数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "下拉加载数据失败，请稍后再试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -416,15 +456,13 @@ public class boxFragment extends Fragment {
                 loadList.clear();
                 loadList = gson.fromJson(t, type);
                 hereIndex = loadList.size();
-                for (int i = 0; i < loadList.size();i++)
-                {
+                for (int i = 0; i < loadList.size(); i++) {
                     InboxMsgVM inbox = new InboxMsgVM();
                     inbox.msg = loadList.get(i).msg;
                     inbox.url = loadList.get(i).url;
                     try {
                         inbox.date = sdfFormat.format(sdfFormat.parse(loadList.get(i).date)).toString();
-                    }catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
 
                     }
                     msgList.add(i, inbox);
@@ -436,8 +474,7 @@ public class boxFragment extends Fragment {
                     maxDateForPullDown = loadList.get(0).date;
                 }
 
-                if(msgList == null || msgList.size() <= 0)
-                {
+                if (msgList == null || msgList.size() <= 0) {
                     maxDateForPullDown = format.format(new Date());
                 }
 
@@ -452,9 +489,42 @@ public class boxFragment extends Fragment {
                         if (item.url != null && item.url != "") {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                             intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
-                            //intent.putExtra("title", item.)
+                            intent.putExtra("title", "同鑫评论");
                             startActivity(intent);
                         }
+                    }
+                });
+
+                kjHttp.get(GlobalContants.MessageInfo_URL + "?method=clearMessage&mobile=" + tel, null, false, new HttpCallBack() {
+                    @Override
+                    public void onPreStart() {
+                        super.onPreStart();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                    }
+
+                    @Override
+                    public void onFailure(int errorNo, String strMsg) {
+                        Toast.makeText(mActivity,"消息清零失败！",Toast.LENGTH_SHORT);
+                    }
+
+                    @Override
+                    public void onSuccess(String t) {
+                        try {
+                            JSONObject json = new JSONObject(t);
+                            String result = json.getString("result");
+                            if (result.equals("ok")) {
+//                                Toast.makeText(mActivity, "消息清零成功！", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mActivity, "消息清零失败！", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
             }
@@ -502,7 +572,7 @@ public class boxFragment extends Fragment {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                Toast.makeText(mActivity, "加载数据失败" + strMsg, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, "加载数据失败，请稍后再试！", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -530,9 +600,10 @@ public class boxFragment extends Fragment {
                 loadingUtils.close();
                 if (loadList != null && loadList.size() > 0) {
                     minDateForPullUp = loadList.get(loadList.size() - 1).date;
-                } else {
-                    minDateForPullUp = format.format(new Date());
                 }
+//                else {
+//                    minDateForPullUp = format.format(new Date());
+//                }
                 adapterForData.notifyDataSetChanged();
                 lv_msg.setSelection(msgList.size() - loadList.size());
 
@@ -543,12 +614,30 @@ public class boxFragment extends Fragment {
                         if (item.url != null && item.url != "") {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                             intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
+                            intent.putExtra("title","同鑫评论");
                             startActivity(intent);
                         }
                     }
                 });
             }
         });
+    }
+
+    public void SetLVHeight()
+    {
+//        if(msgList == null || msgList.size() < 20)
+//        {
+//            resList.clear();
+//            resList.addAll(msgList);
+//            for(int i =0; i <(20 - msgList.size()); i ++)
+//            {
+//                InboxMsgVM vm = new InboxMsgVM();
+//                vm.msg = "";
+//                vm.date = "";
+//                vm.url = "";
+//                resList.add(vm);
+//            }
+//        }
     }
 
     public class AppAdapter extends BaseAdapter {
@@ -618,5 +707,6 @@ public class boxFragment extends Fragment {
         ClipData myClip = ClipData.newPlainText("text", text);
         cbm.setPrimaryClip(myClip);
     }
+
 
 }

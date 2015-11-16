@@ -45,12 +45,13 @@
                 <ImageView
                     android:id="@+id/img_here"
                     android:layout_width="115dp"
-                    android:layout_height="36dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
                     android:paddingTop="5dp"
                     android:src="@drawable/here"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                     />
             </LinearLayout>
         </LinearLayout>
 

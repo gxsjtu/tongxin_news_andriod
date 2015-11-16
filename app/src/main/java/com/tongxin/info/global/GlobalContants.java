@@ -19,4 +19,5 @@ public class GlobalContants {
     public static final String Login_URL = SERVER_URL + "/Handlers/LoginHandler.ashx";
     public static final String Trial_URL = SERVER_URL + "/Handlers/CustomerHandler.ashx";
     public static final String UserInfo_URL = SERVER_URL + "/Handlers/UserInfoHandler.ashx";
+    public static final String MessageInfo_URL = SERVER_URL + "/Handlers/MessageHandler.ashx";
 }

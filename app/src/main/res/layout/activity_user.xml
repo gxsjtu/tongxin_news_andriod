@@ -221,15 +221,23 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:layout_weight="1"
                         android:text="版本更新"
                         android:gravity="center_vertical"
                         android:textColor="#000"
                         android:textSize="16sp" />
-
+                    <TextView
+                        android:id="@+id/tv_CheckVersion"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:textSize="14dp"
+                        android:gravity="right"
+                        android:layout_marginRight="5dp"
+                        />
                     <ImageView
+                        android:id="@+id/img_CheckVersion"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical"
