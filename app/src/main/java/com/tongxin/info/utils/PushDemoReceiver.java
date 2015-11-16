@@ -93,9 +93,9 @@ public class PushDemoReceiver extends BroadcastReceiver {
                                 .setSmallIcon(R.drawable.push);//设置通知小ICON
 
 
-                        if (badge > 1) {
-                            mBuilder.setNumber(badge);
-                        }
+//                        if (badge > 1) {
+//                            mBuilder.setNumber(badge);
+//                        }
 
                         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                         Notification notify = mBuilder.build();
