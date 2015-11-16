@@ -61,6 +61,8 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         if (recs.length >= 2) {
                             badge = Integer.parseInt(recs[recs.length - 1].trim());
                         }
+                        if(badge == 0)
+                            badge++;
 
                         //JSONObject jsonObject = new JSONObject(data);
                         //badge = Integer.parseInt(recs[1]);
@@ -75,7 +77,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
 
                         Intent intent2 = new Intent(context, MainActivity.class);
-                        intent2.putExtra("move",true);
+//                        intent2.putExtra("move",true);
                         PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent2, 0);
 
                         mBuilder.setContentTitle("同鑫资讯")//设置通知栏标题

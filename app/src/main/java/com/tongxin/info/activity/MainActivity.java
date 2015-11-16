@@ -272,7 +272,7 @@ public class MainActivity extends BaseFragmentActivity {
         public void onReceive(Context context, Intent intent) {
             int count = intent.getIntExtra("count",0);
             setMessageBadge(count);
-            abortBroadcast();
+            //abortBroadcast();
         }
     }
 
@@ -288,5 +288,31 @@ public class MainActivity extends BaseFragmentActivity {
         int badgeCount = Integer.parseInt(count);
         setMessageBadge(badgeCount);
         super.onResume();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        iv_inbox.setImageResource(R.mipmap.box);
+        tv_inbox.setTextColor(select);
+
+        iv_hq.setImageResource(R.mipmap.future_gray);
+        tv_hq.setTextColor(unselect);
+
+        iv_pl.setImageResource(R.mipmap.comment_gray);
+        tv_pl.setTextColor(unselect);
+
+        iv_sq.setImageResource(R.mipmap.sq_gray);
+        tv_sq.setTextColor(unselect);
+
+        iv_qh.setImageResource(R.mipmap.user_gray);
+        tv_qh.setTextColor(unselect);
+
+        tran = fragmentManager.beginTransaction();
+        tran.replace(R.id.main_fl_content, new boxFragment());
+        tran.commitAllowingStateLoss();
+
+        setMessageBadge(0);
+
+        super.onNewIntent(intent);
     }
 }
