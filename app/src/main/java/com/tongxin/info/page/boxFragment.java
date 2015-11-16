@@ -140,7 +140,7 @@ public class boxFragment extends Fragment {
         lv_msg.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                InboxMsgVM msg = loadList.get(position - 1);
+                InboxMsgVM msg = msgList.get(position - 1);
                 Copy(msg.msg.trim());
                 Toast.makeText(mActivity, "内容已复制", Toast.LENGTH_SHORT).show();
                 return true;
