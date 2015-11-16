@@ -34,6 +34,8 @@ import com.tongxin.info.utils.SharedPreUtils;
 
 import org.w3c.dom.Text;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 /**
  * Created by Administrator on 2015/9/21.
  */
@@ -263,6 +265,7 @@ public class MainActivity extends BaseFragmentActivity {
             mNotificationManager.cancel(909);
             badge.setVisibility(View.GONE);
             badge.setText("");
+            ShortcutBadger.with(this).remove();
         }
     }
 

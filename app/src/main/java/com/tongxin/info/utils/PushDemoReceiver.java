@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 /**
  * Created by Administrator on 2015/11/2.
  */
@@ -102,6 +104,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         notify.flags = Notification.FLAG_AUTO_CANCEL;
                         mNotificationManager.notify(909, notify);
 
+                        ShortcutBadger.with(context).count(badge);
 
                         SharedPreUtils.setString(context, "badgecount", String.valueOf(badge));
                         Intent intentCount = new Intent("com.tongxin.badge");
