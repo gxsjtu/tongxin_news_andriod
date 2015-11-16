@@ -206,8 +206,9 @@ public class boxFragment extends Fragment {
         }
         else
         {
+//            res.toLowerCase();
             for(int i = 0; i < msgList.size();i++) {
-                if (msgList.get(i).msg.contains(searchKey)) {
+                if (msgList.get(i).msg.toLowerCase().contains(searchKey.toLowerCase())) {
                     loadList.add(msgList.get(i));
                 }
             }
