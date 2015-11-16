@@ -185,6 +185,9 @@ public class boxFragment extends Fragment {
             @Override
             public void onRefresh() {
                 pullRefresh();
+                Intent intentCount = new Intent("com.tongxin.badge");
+                intentCount.putExtra("count", 0);
+                mActivity.sendBroadcast(intentCount);
             }
         });
         return view;
