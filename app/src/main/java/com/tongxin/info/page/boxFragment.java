@@ -163,6 +163,8 @@ public class boxFragment extends Fragment {
 
                 if ((actionId== EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) && event.getAction()==KeyEvent.ACTION_DOWN) {
                     search();
+                    InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(msg_searchTxt.getWindowToken(),0);
                     return true;
                 }
                 else {
