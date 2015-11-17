@@ -54,7 +54,7 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
     private TextView tv_sqDetailQty;
     private TextView tv_sqDetailPrice;
     private TextView tv_sqDetailContact;
-    private Button btn_sqDetailMobile;
+    private TextView btn_sqDetailMobile;
     private TextView tv_sqDetailLocation;
     private TextView tv_sqDetailDeliver;
     private TextView tv_sqDetailDesc;
@@ -78,7 +78,7 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
         tv_sqDetailQty = (TextView) findViewById(R.id.sq_detailQty);
         tv_sqDetailPrice = (TextView) findViewById(R.id.sq_detailPrice);
         tv_sqDetailContact = (TextView) findViewById(R.id.sq_detailContact);
-        btn_sqDetailMobile = (Button) findViewById(R.id.sq_detailMobile);
+        btn_sqDetailMobile = (TextView) findViewById(R.id.sq_detailMobile);
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_return.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
