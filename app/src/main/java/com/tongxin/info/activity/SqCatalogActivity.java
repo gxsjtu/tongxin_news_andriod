@@ -156,7 +156,10 @@ public class SqCatalogActivity extends BaseActivity {
                             intent.putExtra("CATALOGCHANNEL_ID", channelID);
                             intent.putExtra("CATALOGCHANNEL_NAME", channelName);
                             intent.putExtra("PRODUCT_NAME", item.Name);
-                            startActivity(intent);
+//                            startActivity(intent);
+//                            setResult(10,intent);
+                            startActivityForResult(intent,10);
+                            finish();
                         }
                     }
                 });
@@ -172,7 +175,7 @@ public class SqCatalogActivity extends BaseActivity {
 //            channelName = data.getStringExtra("CATALOGCAHNNEL_NAME");
 //            initData();
        // }
-        if(resultCode == 6)
+        if(resultCode == 10)
         {
             finish();
         }

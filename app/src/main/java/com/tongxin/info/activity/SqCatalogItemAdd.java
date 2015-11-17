@@ -149,7 +149,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
 //                                intent.putExtra("CHANNEL_ID", channelID);
 //                                intent.putExtra("CHANNEL_NAME", channelName);
                                // setResult(6, intent);
-                                setResult(6);
+                                setResult(10);
                                 finish();
                             }
                             else
@@ -168,13 +168,13 @@ public class SqCatalogItemAdd extends BaseActivity  {
         img_Return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent();
-//                intent.putExtra("CATALOGCHANNEL_ID", channelID);
-//                intent.putExtra("CATALOGCAHNNEL_NAME", channelName);
-//                setResult(4,intent);
-
-                setResult(4);
+                Intent intent = new Intent(SqCatalogItemAdd.this,SqCatalogActivity.class);
+                intent.putExtra("CATALOGCHANNEL_ID", channelID);
+                intent.putExtra("CATALOGCAHNNEL_NAME", channelName);
+                startActivityForResult(intent,4);
+//                setResult(4, intent);
                 finish();
+//                startActivity(intent);
             }
         });
 
@@ -222,13 +222,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SqCatalogItemAdd.this, CitiesActivity.class);
-//                startActivity(intent);
                 startActivityForResult(intent,0);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(SqCatalogItemAdd.this);
-//                View view = View.inflate(SqCatalogItemAdd.this,R.layout.cities_layout,null);
-//                builder.setView(view);
-//                builder.show();
-
             }
         });
         btn_ItemLocation.setText("选择交货地");
@@ -331,6 +325,11 @@ public class SqCatalogItemAdd extends BaseActivity  {
             if (!"".equals(location_Country) && location_Country != null) {
                 btn_ItemLocation.setText(location_Country + " " + location_City);
             }
+        }else if(resultCode == 10 && data != null)
+        {
+            channelID = data.getIntExtra("CATALOGCHANNEL_ID", 0);
+            channelName = data.getStringExtra("CATALOGCHANNEL_NAME");
+            productName = data.getStringExtra("PRODUCT_NAME");
         }
 //        else
 //        {
