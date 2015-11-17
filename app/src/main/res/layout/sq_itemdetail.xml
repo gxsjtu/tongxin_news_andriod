@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#c9c9ce">
 <ScrollView
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -10,11 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
     <include layout="@layout/header"></include>
-        <!--<TableLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-            <!--<TableRow></TableRow>-->
-        <!--</TableLayout>-->
+
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/sq_imgSlider"
         android:layout_width="match_parent"
@@ -23,16 +20,21 @@
         android:focusableInTouchMode="true"
         />
     <LinearLayout
+        android:background="@drawable/linearlayoutconer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:padding="5dp"
+        >
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/sq_name"
-            android:layout_marginLeft="15dp"/>
-    <EditText
+            android:layout_marginLeft="15dp"
+            />
+    <TextView
         android:id="@+id/sq_detailName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,16 +45,19 @@
         />
     </LinearLayout>
     <LinearLayout
+        android:padding="5dp"
+        android:background="@drawable/linearlayoutconer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center">
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/sq_qty"
             android:layout_marginLeft="15dp"/>
-    <EditText
+    <TextView
         android:id="@+id/sq_detailQty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,16 +68,19 @@
         />
         </LinearLayout>
     <LinearLayout
+        android:padding="5dp"
+        android:background="@drawable/linearlayoutconer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center">
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/sq_price"
             android:layout_marginLeft="15dp"/>
-    <EditText
+    <TextView
         android:id="@+id/sq_detailPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,16 +91,19 @@
         />
         </LinearLayout>
     <LinearLayout
+        android:padding="5dp"
+        android:background="@drawable/linearlayoutconer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center">
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/sq_contact"
             android:layout_marginLeft="15dp"/>
-    <EditText
+    <TextView
         android:id="@+id/sq_detailContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,38 +114,43 @@
         />
         </LinearLayout>
     <LinearLayout
+        android:padding="5dp"
+        android:background="@drawable/linearlayoutconer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center">
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/sq_mobile"
             android:layout_marginLeft="15dp"/>
 
-    <Button
+    <TextView
         android:id="@+id/sq_detailMobile"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:textColor="@color/white"
+        android:textColor="#000"
         android:layout_marginLeft="10dp"
-        android:singleLine="true"
         android:gravity="left"
-        android:background="@drawable/sq_btncallstyle"/>
+        />
         </LinearLayout>
     <LinearLayout
+        android:padding="5dp"
+        android:background="@drawable/linearlayoutconer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center">
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/sq_location"
             android:layout_marginLeft="15dp"/>
-    <EditText
+    <TextView
         android:id="@+id/sq_detailLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -145,16 +161,19 @@
         />
         </LinearLayout>
     <LinearLayout
+        android:padding="5dp"
+        android:background="@drawable/linearlayoutconer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_margin="10dp"
+        android:gravity="center">
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/sq_deliver"
             android:layout_marginLeft="15dp"/>
-    <EditText
+    <TextView
         android:id="@+id/sq_detailDeliver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -164,12 +183,13 @@
         android:enabled="false"
         />
         </LinearLayout>
-
     <LinearLayout
+        android:padding="5dp"
+        android:background="@drawable/linearlayoutconer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true">
         <ImageView
@@ -178,7 +198,7 @@
             android:src="@drawable/sq_desc"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"/>
-        <EditText
+        <TextView
             android:id="@+id/sq_detailDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -186,10 +206,9 @@
             android:layout_marginLeft="10dp"
             android:textColor="#000"
             android:enabled="false"
-            android:padding="5dp"
             />
         </LinearLayout>
-    </LinearLayout>
+        </LinearLayout>
 </ScrollView>
     <include layout="@layout/loading"></include>
 </RelativeLayout>

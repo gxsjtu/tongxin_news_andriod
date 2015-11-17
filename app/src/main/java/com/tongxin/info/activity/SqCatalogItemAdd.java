@@ -324,7 +324,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
                     e.printStackTrace();
                 }
         }
-        else if(requestCode == 0 && data != null)
+        else if(resultCode == 0 && data != null)
         {
             location_Country = data.getStringExtra("SQ_ITEMCOUNTRY");
             location_City = data.getStringExtra("SQ_ITEMCITY");
