@@ -24,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -71,8 +72,8 @@ public class sqListFragment extends FragmentActivity {
     private ListView lv_sqList;
     private RadioButton btn_GY;
     private RadioButton btn_XQ;
-    private ImageView iv_sqReturn;
-    private ImageView iv_sqMenu;
+    private LinearLayout iv_sqReturn;
+    private LinearLayout iv_sqMenu;
     private Button btn_headerSure;
     private TextView tv_headerText;
     private String typeForRefresh;
@@ -120,14 +121,14 @@ public class sqListFragment extends FragmentActivity {
 //                search();
 //            }
 //        });
-        iv_sqReturn = (ImageView)findViewById(R.id.sq_ivReturn);
+        iv_sqReturn = (LinearLayout) findViewById(R.id.sq_ivReturn);
         iv_sqReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        iv_sqMenu = (ImageView)findViewById(R.id.iv_sqMenu);
+        iv_sqMenu = (LinearLayout) findViewById(R.id.iv_sqMenu);
         iv_sqMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

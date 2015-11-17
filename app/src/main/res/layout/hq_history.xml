@@ -4,24 +4,31 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
+            android:layout_height="44dp"
+            android:background="#23B1EF"
             android:gravity="center_vertical"
-            android:background="#23B1EF">
+            android:orientation="horizontal">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/iv_return"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/retwhite"
-                android:layout_marginLeft="20dp"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/retwhite" />
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_headerTitle"
@@ -29,16 +36,26 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="#fff"
                 android:singleLine="true"
-                android:text="标题"/>
-            <TextView
+                android:text="标题"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+
+            <LinearLayout
                 android:id="@+id/tv_headerChart"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:textColor="#fff"
-                android:text="走势图"/>
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="走势图"
+                    android:textColor="#fff"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -50,8 +67,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -61,22 +78,22 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="2dp"
                         android:layout_marginLeft="5dp"
-                        android:textSize="14sp"
+                        android:layout_marginRight="2dp"
                         android:gravity="bottom"
                         android:paddingBottom="5dp"
+                        android:text="起始日期"
                         android:textColor="@color/low"
-                        android:text="起始日期"/>
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/startDate"
-                        android:editable="false"
-                        android:focusable="false"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -88,22 +105,22 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="2dp"
                         android:layout_marginLeft="5dp"
-                        android:textColor="@color/high"
-                        android:paddingBottom="5dp"
-                        android:textSize="14sp"
+                        android:layout_marginRight="2dp"
                         android:gravity="bottom"
-                        android:text="截止日期"/>
+                        android:paddingBottom="5dp"
+                        android:text="截止日期"
+                        android:textColor="@color/high"
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/endDate"
-                        android:editable="false"
-                        android:focusable="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -114,12 +131,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
-                android:background="@drawable/hqhistory_search"
-                android:textColor="#fff"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/hqhistory_search"
                 android:onClick="searchClick"
-                android:text="查询"/>
+                android:text="查询"
+                android:textColor="#fff" />
 
         </LinearLayout>
 
