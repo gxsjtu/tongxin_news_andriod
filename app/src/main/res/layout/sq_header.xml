@@ -31,8 +31,10 @@
         <com.tongxin.info.control.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
             android:id="@+id/sq_segmented1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal"
             segmentedgroup:sc_border_width="2dp"
             segmentedgroup:sc_corner_radius="10dp">
@@ -41,14 +43,16 @@
                 android:id="@+id/bt_SqTabGY"
                 style="@style/RadioButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:text="供应" />
 
             <RadioButton
                 android:id="@+id/bt_SqlTabXQ"
                 style="@style/RadioButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:longClickable="false"
                 android:nestedScrollingEnabled="false"
                 android:text="采购" />
