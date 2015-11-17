@@ -144,7 +144,16 @@ public class CitiesActivity extends BaseActivity {
         city.setCurrentItem(0);
 	}
 
-	/**
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == 6)
+        {
+            setResult(resultCode);
+            finish();
+        }
+    }
+
+    /**
 	 * Adapter for countries
 	 */
 	private class CountryAdapter extends AbstractWheelTextAdapter {
@@ -181,5 +190,6 @@ public class CitiesActivity extends BaseActivity {
 //            countryText = countries[index];
 			return countries[index];
 		}
+
 	}
 }
