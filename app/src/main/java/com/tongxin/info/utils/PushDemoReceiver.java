@@ -54,15 +54,17 @@ public class PushDemoReceiver extends BroadcastReceiver {
 
                     String data = new String(payload);
                     String msg="";
+                    String exit="";
                     int badge = 0;
                     try {
                         JSONObject jsonObject = new JSONObject(data);
-                        msg = jsonObject.getString("appdata");
+                        msg = jsonObject.getString("msg");
                         badge = jsonObject.getInt("badge");
+                        exit = jsonObject.getString("exit");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if (msg.equals("退出")) {
+                    if (exit.equals("退出")) {
                         SharedPreUtils.setBoolean(context, "mustLogin", true);
                     } else {
                         if(badge == 0)
