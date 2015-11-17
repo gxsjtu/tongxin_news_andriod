@@ -46,7 +46,7 @@ public class userActivity extends BaseActivity {
     loadingUtils loadingUtils;
     private int currentVersion;
     private boolean isCanUpdate;
-
+    private String versionName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,6 +200,7 @@ public class userActivity extends BaseActivity {
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
             int versionCode = packageInfo.versionCode;
+            versionName = packageInfo.versionName;
             return versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -236,7 +237,7 @@ public class userActivity extends BaseActivity {
                         img_CheckVersion.setVisibility(View.VISIBLE);
                     } else {
                         isCanUpdate = false;
-                        tv_CheckVersion.setText("当前是最新版本（v" + currentVersion + "）");
+                        tv_CheckVersion.setText("当前是最新版本（v" + versionName + "）");
                         tv_CheckVersion.setTextColor(Color.GRAY);
                         img_CheckVersion.setVisibility(View.GONE);
                     }

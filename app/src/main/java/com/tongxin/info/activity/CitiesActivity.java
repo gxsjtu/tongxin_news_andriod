@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -24,8 +25,8 @@ public class CitiesActivity extends BaseActivity {
 	// Scrolling flag
 	private boolean scrolling = false;
     private Button btn_Sure;
-    private ImageView img_Return;
-    private ImageView img_Options;
+    private LinearLayout img_Return;
+    private LinearLayout img_Options;
     private TextView tv_HeaderText;
 
 	@Override
@@ -38,8 +39,8 @@ public class CitiesActivity extends BaseActivity {
         tv_HeaderText.setText("请选择交货地");
         segmented2.setVisibility(View.GONE);
         btn_Sure = (Button)findViewById(R.id.btn_spHeaderSure);
-        img_Return = (ImageView)findViewById(R.id.sq_ivReturn);
-        img_Options = (ImageView)findViewById(R.id.iv_sqMenu);
+        img_Return = (LinearLayout)findViewById(R.id.sq_ivReturn);
+        img_Options = (LinearLayout)findViewById(R.id.iv_sqMenu);
         img_Options.setVisibility(View.GONE);
         img_Return.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +122,7 @@ public class CitiesActivity extends BaseActivity {
         btn_Sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CitiesActivity.this, SqCatalogItemAdd.class);
+                Intent intent = new Intent();
                 intent.putExtra("SQ_ITEMCOUNTRY", new CountryAdapter(CitiesActivity.this).getItemText(country.getCurrentItem()));
                 intent.putExtra("SQ_ITEMCITY",cities[country.getCurrentItem()][city.getCurrentItem()]);
 //                startActivity(intent);
