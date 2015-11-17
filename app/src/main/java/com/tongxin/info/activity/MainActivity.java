@@ -100,6 +100,7 @@ public class MainActivity extends BaseFragmentActivity {
 
         badge = new BadgeView(this, ll_inbox);
         badge.setTextSize(10);
+        setMessageBadge(0);
     }
 
     private void initViews() {
@@ -317,5 +318,10 @@ public class MainActivity extends BaseFragmentActivity {
         setMessageBadge(0);
 
         super.onNewIntent(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

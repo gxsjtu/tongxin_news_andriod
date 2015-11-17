@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,8 +70,8 @@ public class SqCatalogItemAdd extends BaseActivity  {
     private RadioButton rb_ItemZT;
     private RadioButton rb_ItemFH;
     private Button btn_Sure;
-    private ImageView img_Return;
-    private ImageView img_Options;
+    private LinearLayout img_Return;
+    private LinearLayout img_Options;
     private TextView tv_HeaderText;
     private int channelID;
     private String channelName;
@@ -161,8 +162,8 @@ public class SqCatalogItemAdd extends BaseActivity  {
                 }
             }
         });
-        img_Return = (ImageView) findViewById(R.id.sq_ivReturn);
-        img_Options = (ImageView) findViewById(R.id.iv_sqMenu);
+        img_Return = (LinearLayout) findViewById(R.id.sq_ivReturn);
+        img_Options = (LinearLayout) findViewById(R.id.iv_sqMenu);
         img_Options.setVisibility(View.GONE);
         img_Return.setOnClickListener(new View.OnClickListener() {
             @Override

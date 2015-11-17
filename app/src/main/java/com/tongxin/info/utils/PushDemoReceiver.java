@@ -1,6 +1,7 @@
 package com.tongxin.info.utils;
 
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -52,27 +53,24 @@ public class PushDemoReceiver extends BroadcastReceiver {
                 if (payload != null) {
 
                     String data = new String(payload);
-                    if (data.equals("退出")) {
+                    String msg="";
+                    int badge = 0;
+                    try {
+                        JSONObject jsonObject = new JSONObject(data);
+                        msg = jsonObject.getString("appdata");
+                        badge = jsonObject.getInt("badge");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (msg.equals("退出")) {
                         SharedPreUtils.setBoolean(context, "mustLogin", true);
                     } else {
-                        int badge = 0;
-                        String msg = "";
-
-                        String[] recs = data.split("<>");
-
-                        if (recs.length >= 2) {
-                            badge = Integer.parseInt(recs[recs.length - 1].trim());
-                        }
                         if(badge == 0)
                             badge++;
 
-                        //JSONObject jsonObject = new JSONObject(data);
-                        //badge = Integer.parseInt(recs[1]);
                         if (badge > 1) {
                             //多条
                             msg = "您有" + badge + "条未读消息";
-                        } else {
-                            msg = data.replace("<>" + recs[recs.length - 1] + "<>", "");
                         }
 
 
@@ -104,7 +102,9 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         notify.flags = Notification.FLAG_AUTO_CANCEL;
                         mNotificationManager.notify(909, notify);
 
-                        ShortcutBadger.with(context).count(badge);
+                        if(isBackGroundRunning(context)!=1) {
+                            ShortcutBadger.with(context).count(badge);
+                        }
 
                         SharedPreUtils.setString(context, "badgecount", String.valueOf(badge));
                         Intent intentCount = new Intent("com.tongxin.badge");
@@ -145,5 +145,31 @@ public class PushDemoReceiver extends BroadcastReceiver {
             return false;
         }
         return true;
+    }
+
+    /*
+* -1后台运行
+* 1前台运行
+* 0没有运行
+* */
+    public int isBackGroundRunning(Context context) {
+        String packageName = context.getPackageName();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            String processName = appProcess.processName;
+            if (processName.equals(packageName)) {
+                //100   200
+                boolean isBackground = appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+                        && appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
+                boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
+                if (isBackground || isLockedState)
+                    return -1;
+                else
+                    return 1;
+            }
+        }
+        return 0;
     }
 }

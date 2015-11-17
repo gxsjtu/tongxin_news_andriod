@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +46,8 @@ public class HqHistoryActivity extends BaseActivity {
     EditText endDate;
     ListView hq_history_lv;
     private TextView tv_headerTitle;
-    private ImageView iv_return;
-    private TextView tv_headerChart;
+    private LinearLayout iv_return;
+    private LinearLayout tv_headerChart;
     loadingUtils loadingUtils;
 
     private String mProductName;
@@ -124,8 +125,8 @@ public class HqHistoryActivity extends BaseActivity {
             }
         });
 
-        iv_return = (ImageView) findViewById(R.id.iv_return);
-        tv_headerChart = (TextView) findViewById(R.id.tv_headerChart);
+        iv_return = (LinearLayout) findViewById(R.id.iv_return);
+        tv_headerChart = (LinearLayout) findViewById(R.id.tv_headerChart);
 
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +38,8 @@ public class SqCatalogActivity extends BaseActivity {
     private int channelID;
     private String channelName;
     private ArrayList<SqCatalogVM> sqCataLogList = new ArrayList<SqCatalogVM>();
-    private ImageView iv_sqReturn;
-    private ImageView iv_sqMenu;
+    private LinearLayout iv_sqReturn;
+    private LinearLayout iv_sqMenu;
     private Button btn_headerSure;
     private TextView tv_headerText;
     loadingUtils loadingUtils;
@@ -54,7 +55,7 @@ public class SqCatalogActivity extends BaseActivity {
         tv_headerText = (TextView)findViewById(R.id.sq_HeaderText);
         btn_headerSure = (Button)findViewById(R.id.btn_spHeaderSure);
         btn_headerSure.setVisibility(View.GONE);
-        iv_sqReturn = (ImageView)findViewById(R.id.sq_ivReturn);
+        iv_sqReturn = (LinearLayout) findViewById(R.id.sq_ivReturn);
         iv_sqReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +68,7 @@ public class SqCatalogActivity extends BaseActivity {
 
             }
         });
-        iv_sqMenu = (ImageView)findViewById(R.id.iv_sqMenu);
+        iv_sqMenu = (LinearLayout) findViewById(R.id.iv_sqMenu);
         iv_sqMenu.setVisibility(View.GONE);
         SegmentedGroup segmented2 = (SegmentedGroup) findViewById(R.id.sq_segmented1);
         segmented2.setVisibility(View.GONE);
