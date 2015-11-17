@@ -142,7 +142,7 @@ public class HqHistoryActivity extends BaseActivity {
                 if (mHistoryPrices.size() > 0) {
                     Intent chartIntent = new Intent(HqHistoryActivity.this, ChartActivity.class);
                     chartIntent.putExtra("data", (Serializable) mHistoryPrices);
-                    chartIntent.putExtra("title",mProductName);
+                    chartIntent.putExtra("title", mProductName);
                     startActivity(chartIntent);
                 }
             }
@@ -183,6 +183,12 @@ public class HqHistoryActivity extends BaseActivity {
                 Toast.makeText(this, "截止日期不能小于开始日期", Toast.LENGTH_LONG).show();
                 return;
             }
+
+            if ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24.0) > 90) {
+                Toast.makeText(this, "查询日期不能超过90天", Toast.LENGTH_LONG).show();
+                return;
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -193,7 +199,7 @@ public class HqHistoryActivity extends BaseActivity {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start=" + start + "&end=" + end,null,false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start=" + start + "&end=" + end, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 Toast.makeText(HqHistoryActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -216,8 +222,7 @@ public class HqHistoryActivity extends BaseActivity {
                 }.getType();
                 mHistoryPrices = gson.fromJson(t, type);
 
-                if(mHistoryPrices.size() == 0)
-                {
+                if (mHistoryPrices.size() == 0) {
                     tv_headerChart.setVisibility(View.INVISIBLE);
                 }
 
@@ -260,10 +265,10 @@ public class HqHistoryActivity extends BaseActivity {
                         if (!TextUtils.isEmpty(price.Change)) {
                             Double change = Double.parseDouble(price.Change);
                             if (change > 0) {
-                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.2f", change)+"▲");
+                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.2f", change) + "▲");
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.HIGH);
                             } else if (change < 0) {
-                                viewHolder.tv_priceChange.setText("跌 " + String.format("%.2f", Math.abs(change))+"▼");
+                                viewHolder.tv_priceChange.setText("跌 " + String.format("%.2f", Math.abs(change)) + "▼");
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.LOW);
 
                             } else {

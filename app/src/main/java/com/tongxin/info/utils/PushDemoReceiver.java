@@ -37,7 +37,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-
+        //int recivebadge = Integer.parseInt(SharedPreUtils.getString(context, "badgecount","0"));
         switch (bundle.getInt(PushConsts.CMD_ACTION)) {
             case PushConsts.GET_MSG_DATA:
                 // 获取透传数据
@@ -67,6 +67,8 @@ public class PushDemoReceiver extends BroadcastReceiver {
                     if (exit.equals("退出")) {
                         SharedPreUtils.setBoolean(context, "mustLogin", true);
                     } else {
+                        //recivebadge++;
+                        //Toast.makeText(context,"收到"+msg+"badge:"+badge,Toast.LENGTH_SHORT).show();
                         if(badge == 0)
                             badge++;
 
@@ -105,7 +107,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         mNotificationManager.notify(909, notify);
 
                         if(isBackGroundRunning(context)!=1) {
-                            ShortcutBadger.with(context).count(badge);
+                            //ShortcutBadger.with(context).count(badge);
                         }
 
                         SharedPreUtils.setString(context, "badgecount", String.valueOf(badge));
