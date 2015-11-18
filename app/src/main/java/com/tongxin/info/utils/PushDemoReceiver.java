@@ -101,9 +101,8 @@ public class PushDemoReceiver extends BroadcastReceiver {
 
                         if(isBackGroundRunning(context)!=1) {
                             //ShortcutBadger.with(context).count(badge);
+                            BadgeUtils.setBadgeCount(context, badge,msg,mNotificationManager,notify);
                         }
-
-                        BadgeUtils.setBadgeCount(context, badge,msg,mNotificationManager,notify);
 
                         SharedPreUtils.setString(context, "badgecount", String.valueOf(badge));
                         Intent intentCount = new Intent("com.tongxin.badge");
