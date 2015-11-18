@@ -9,16 +9,17 @@
         android:padding="10dp">
 <TextView
     android:id="@+id/tv_MyOrderName"
-    android:layout_weight="0.7"
+    android:layout_weight="0.6"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:textSize="18dp"/>
     <TextView
         android:id="@+id/tv_MyOrderMarket"
         android:layout_marginLeft="20dp"
-        android:layout_weight="0.3"
+        android:layout_weight="0.4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="left"
         android:textSize="14dp"/>
     </LinearLayout>
 </LinearLayout>

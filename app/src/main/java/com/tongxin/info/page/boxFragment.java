@@ -231,7 +231,7 @@ public class boxFragment extends Fragment {
     private void search()
     {
         loadingUtils.show();
-        lv_msg.setVisibility(View.GONE);
+//        lv_msg.setVisibility(View.GONE);
         String searchKey = msg_searchTxt.getText().toString();
         loadList.clear();
         String res = "";
@@ -296,16 +296,8 @@ public class boxFragment extends Fragment {
                 return convertView;
             }
         };
-        if("".equals(res)) {
-            lv_searchRes.setVisibility(View.GONE);
-            lv_msg.setVisibility(View.VISIBLE);
-            lv_msg.setAdapter(adapterForData);
-        }
-        else {
-            lv_searchRes.setVisibility(View.VISIBLE);
-            lv_msg.setVisibility(View.GONE);
-            lv_searchRes.setAdapter(adapterForData);
-            lv_searchRes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        actualListView.setAdapter(adapterForData);
+        actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     InboxMsgVM item = loadList.get(position);
@@ -317,7 +309,28 @@ public class boxFragment extends Fragment {
                     }
                 }
             });
-        }
+//        if("".equals(res)) {
+//            lv_searchRes.setVisibility(View.GONE);
+//            lv_msg.setVisibility(View.VISIBLE);
+//            lv_msg.setAdapter(adapterForData);
+//        }
+//        else {
+//            lv_searchRes.setVisibility(View.VISIBLE);
+//            lv_msg.setVisibility(View.GONE);
+//            lv_searchRes.setAdapter(adapterForData);
+//            lv_searchRes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    InboxMsgVM item = loadList.get(position);
+//                    if (item.url != null && item.url != "") {
+//                        Intent intent = new Intent(mActivity, InboxDetailActivity.class);
+//                        intent.putExtra("inboxDetailUrl", item.url);
+//                        intent.putExtra("title", "同鑫评论");
+//                        startActivity(intent);
+//                    }
+//                }
+//            });
+//        }
         loadingUtils.close();
     }
     @Override
@@ -607,7 +620,7 @@ public class boxFragment extends Fragment {
                     minDateForPullUp = loadList.get(loadList.size() - 1).date;
                 }
                 adapterForData.notifyDataSetChanged();
-
+                actualListView.setSelection(msgList.size() - loadList.size());
                 actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
