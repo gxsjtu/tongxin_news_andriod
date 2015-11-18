@@ -48,6 +48,7 @@ public class userActivity extends BaseActivity {
     private int currentVersion;
     private boolean isCanUpdate;
     private String versionName;
+    private ImageView img_ForNewVersion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +72,7 @@ public class userActivity extends BaseActivity {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         tv_CheckVersion = (TextView)findViewById(R.id.tv_CheckVersion);
         img_CheckVersion = (ImageView)findViewById(R.id.img_CheckVersion);
+        img_ForNewVersion = (ImageView)findViewById(R.id.img_ForNewVersion);
         sw = (Switch) findViewById(R.id.sw);
         loadingUtils = new loadingUtils(this);
         tv_headerTitle.setText("用户设置");
@@ -234,12 +236,14 @@ public class userActivity extends BaseActivity {
                     currentVersion = getVersionCode();
                     if (mVersionCode > currentVersion) {
                         isCanUpdate = true;
-                        tv_CheckVersion.setText("有新的版本可更新");
-                        tv_CheckVersion.setTextColor(Color.BLACK);
+                        tv_CheckVersion.setText("有新的版本");
+                        img_ForNewVersion.setVisibility(View.VISIBLE);
+                        tv_CheckVersion.setTextColor(Color.RED);
                         img_CheckVersion.setVisibility(View.VISIBLE);
                     } else {
                         isCanUpdate = false;
                         tv_CheckVersion.setText("当前是最新版本（v" + versionName + "）");
+                        img_ForNewVersion.setVisibility(View.GONE);
                         tv_CheckVersion.setTextColor(Color.GRAY);
                         img_CheckVersion.setVisibility(View.GONE);
                     }
