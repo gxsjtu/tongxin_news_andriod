@@ -29,6 +29,7 @@ import com.tongxin.info.page.hqFragment;
 import com.tongxin.info.page.meFragment;
 import com.tongxin.info.page.plFragment;
 import com.tongxin.info.page.sqFragment;
+import com.tongxin.info.utils.BadgeUtils;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.SharedPreUtils;
 
@@ -266,7 +267,7 @@ public class MainActivity extends BaseFragmentActivity {
             mNotificationManager.cancel(909);
             badge.setVisibility(View.GONE);
             badge.setText("");
-            ShortcutBadger.with(this).remove();
+            BadgeUtils.resetBadgeCount(this);
         }
     }
 
