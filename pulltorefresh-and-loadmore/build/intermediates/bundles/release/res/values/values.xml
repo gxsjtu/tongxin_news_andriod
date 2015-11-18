@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/D:/as/tongxin_news_andriod/pulltorefresh-and-loadmore/res/values/colors.xml -->
+    <!-- From: file:/E:/AndroidAPP/tongxin_news_andriod/pulltorefresh-and-loadmore/res/values/colors.xml -->
     <eat-comment/>
     <color name="black">#000</color>
     <color name="dark_slate_gray">#2F4F4F</color>
     <color name="gray_1">#C0C0C0</color>
     <color name="gray_2">#AFAFAF</color>
-    <!-- From: file:/D:/as/tongxin_news_andriod/pulltorefresh-and-loadmore/res/values/strings.xml -->
+    <!-- From: file:/E:/AndroidAPP/tongxin_news_andriod/pulltorefresh-and-loadmore/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_name">Loadmore</string>
     <string name="hello">Hello World, LoadMoreListView!</string>
