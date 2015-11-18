@@ -55,12 +55,14 @@ public class PushDemoReceiver extends BroadcastReceiver {
                     String data = new String(payload);
                     String msg="";
                     String exit="";
+                    int sound = 0;
                     int badge = 0;
                     try {
                         JSONObject jsonObject = new JSONObject(data);
                         msg = jsonObject.getString("msg");
                         badge = jsonObject.getInt("badge");
                         exit = jsonObject.getString("exit");
+                        sound = jsonObject.getInt("sound");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -92,11 +94,14 @@ public class PushDemoReceiver extends BroadcastReceiver {
                                 .setPriority(Notification.PRIORITY_DEFAULT)
                                 .setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
                                 .setOngoing(false)//ture，
-                                .setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
+                                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
                                         //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
                                 .setSmallIcon(R.drawable.push);//设置通知小ICON
 
-
+                            if(sound == 1)
+                            {
+                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                            }
 //                        if (badge > 1) {
 //                            mBuilder.setNumber(badge);
 //                        }
