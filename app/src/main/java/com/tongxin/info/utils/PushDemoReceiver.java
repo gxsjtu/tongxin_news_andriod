@@ -6,29 +6,19 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 import com.tongxin.info.R;
-import com.tongxin.info.activity.LoginActivity;
 import com.tongxin.info.activity.MainActivity;
-import com.tongxin.info.domain.MyApp;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
  * Created by Administrator on 2015/11/2.

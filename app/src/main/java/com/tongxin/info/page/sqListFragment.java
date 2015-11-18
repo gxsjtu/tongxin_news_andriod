@@ -1,20 +1,11 @@
 package com.tongxin.info.page;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -28,34 +19,22 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.baoyz.actionsheet.ActionSheet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tongxin.info.R;
-import com.tongxin.info.activity.InboxDetailActivity;
 import com.tongxin.info.activity.SqCatalogActivity;
 import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
-
-import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.SQLClientInfoException;
 import java.util.ArrayList;
 
 /**
@@ -139,7 +118,7 @@ public class sqListFragment extends FragmentActivity {
                         .setListener(new ActionSheet.ActionSheetListener() {
                             @Override
                             public void onDismiss(ActionSheet actionSheet, boolean isCancel) {
-                               // Toast.makeText(sqListFragment.this, "取消", Toast.LENGTH_SHORT).show();
+
                             }
 
                             @Override
@@ -310,7 +289,7 @@ public class sqListFragment extends FragmentActivity {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                Toast.makeText(sqListFragment.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(sqListFragment.this, "获取数据失败" + strMsg);
             }
 
             @Override

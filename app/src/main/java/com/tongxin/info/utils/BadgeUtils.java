@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
-import android.widget.Toast;
-
 import com.tongxin.info.activity.MainActivity;
 
 /**
@@ -168,6 +166,13 @@ public class BadgeUtils {
     {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(909);
+        if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
+            //sendToXiaoMi(context, 0,nm,notify,"");
+        } else if (Build.MANUFACTURER.equalsIgnoreCase("sony")) {
+            sendToSony(context, 0);
+        } else if (Build.MANUFACTURER.toLowerCase().contains("samsung")) {
+            sendToSamsumg(context, 0);
+        }
     }
 
 }

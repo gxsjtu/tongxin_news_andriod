@@ -1,55 +1,38 @@
 package com.tongxin.info.page;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-//import com.astuetz.PagerSlidingTabStrip;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
-import com.tongxin.info.activity.MainActivity;
 import com.tongxin.info.activity.SearchActivity;
 import com.tongxin.info.activity.userActivity;
 import com.tongxin.info.control.PagerSlidingTabStrip;
 import com.tongxin.info.domain.MarketGroup;
-import com.tongxin.info.domain.SearchItem;
-import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
-
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +62,6 @@ public class hqFragment extends baseFragment {
         fm = mActivity.getSupportFragmentManager();
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container.removeAllViews();
@@ -178,7 +160,7 @@ public class hqFragment extends baseFragment {
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -191,7 +173,7 @@ public class hqFragment extends baseFragment {
         kjHttp.get(GlobalContants.GETMARKETS_URL, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(mActivity, "获取数据失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(mActivity, "获取数据失败");
             }
 
             @Override

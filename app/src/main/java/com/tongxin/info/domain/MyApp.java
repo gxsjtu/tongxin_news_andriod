@@ -1,6 +1,5 @@
 package com.tongxin.info.domain;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.app.KeyguardManager;
@@ -8,26 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
-
 import com.igexin.sdk.PushManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.tongxin.info.activity.ChartActivity;
-import com.tongxin.info.activity.GuideActivity;
-import com.tongxin.info.activity.HqDetailActivity;
-import com.tongxin.info.activity.HqHistoryActivity;
-import com.tongxin.info.activity.InboxDetailActivity;
 import com.tongxin.info.activity.LoginActivity;
-import com.tongxin.info.activity.MainActivity;
-import com.tongxin.info.activity.PingLunDetailActivity;
-import com.tongxin.info.activity.SearchActivity;
-import com.tongxin.info.activity.SplashActivity;
 import com.tongxin.info.utils.SharedPreUtils;
-
-import java.util.ArrayList;
+import com.tongxin.info.utils.ToastUtils;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -63,7 +50,7 @@ public class MyApp extends Application {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 999:
-                    Toast.makeText(getApplicationContext(), "您已被强制退出", Toast.LENGTH_SHORT).show();
+                    ToastUtils.Show(getApplicationContext(), "您已被强制退出");
                     break;
             }
         }

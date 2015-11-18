@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.utils.SharedPreUtils;
+import com.tongxin.info.utils.ToastUtils;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class BaseActivity extends Activity {
         //app 从后台唤醒，进入前台
         boolean mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
         if (mustLogin) {
-            Toast.makeText(this, "您已被强制退出", Toast.LENGTH_SHORT).show();
+            ToastUtils.Show(this,"您已被强制退出");
             Intent intent = new Intent(this, LoginActivity.class);
             this.startActivity(intent);
         }

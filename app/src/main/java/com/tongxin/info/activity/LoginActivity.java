@@ -22,6 +22,7 @@ import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.SharedPreUtils;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 
 import org.json.JSONException;
@@ -89,7 +90,7 @@ public class LoginActivity extends Activity {
         clientId = pushManager.getClientid(this);
         if(TextUtils.isEmpty(clientId))
         {
-            Toast.makeText(this,"获取设备号失败，请稍后重新登录",Toast.LENGTH_SHORT).show();
+            ToastUtils.Show(this, "获取设备号失败，请稍后重新登录");
             return;
         }
 
@@ -110,12 +111,12 @@ public class LoginActivity extends Activity {
             login(name, pwd, clientId, 0);
         } else {
             if (!hasName && !hasPwd) {
-                Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(this, "请输入用户名和密码");
             } else {
                 if (!hasName) {
-                    Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                    ToastUtils.Show(this, "请输入用户名");
                 } else if (!hasPwd) {
-                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                    ToastUtils.Show(this, "请输入密码");
                 }
             }
         }
@@ -136,7 +137,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 btn_login.setProgress(-1);
-                Toast.makeText(LoginActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(LoginActivity.this, "访问网络失败");
             }
 
             @Override
@@ -171,7 +172,7 @@ public class LoginActivity extends Activity {
                             initViews();
                         }
                         else {
-                            Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
+                            ToastUtils.Show(LoginActivity.this, "登陆失败");
                         }
                     }
                 } catch (JSONException e) {

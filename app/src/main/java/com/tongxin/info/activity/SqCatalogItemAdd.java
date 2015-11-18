@@ -1,11 +1,7 @@
 package com.tongxin.info.activity;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,12 +10,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -28,30 +21,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-import com.squareup.picasso.Target;
 import com.tongxin.info.R;
 import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.global.GlobalContants;
-import com.tongxin.info.page.sqListFragment;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
-
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -91,11 +75,10 @@ public class SqCatalogItemAdd extends BaseActivity  {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    Toast.makeText(SqCatalogItemAdd.this, "新增成功！", Toast.LENGTH_SHORT).show();
+                    ToastUtils.Show(SqCatalogItemAdd.this, "新增成功！");
                     break;
                 case 1:
-                    Toast.makeText(SqCatalogItemAdd.this, "新增失败！", Toast.LENGTH_SHORT).show();
-                    //nextPage();
+                    ToastUtils.Show(SqCatalogItemAdd.this, "新增失败！");
                     break;
             }
         }
@@ -302,7 +285,6 @@ public class SqCatalogItemAdd extends BaseActivity  {
             String path = cursor.getString(column_index);
 
                 File file = new File(path);
-//            Toast.makeText(SqCatalogItemAdd.this, path, Toast.LENGTH_LONG).show();
             files.add(file);
                 ContentResolver cr = this.getContentResolver();
                 try {
@@ -331,10 +313,6 @@ public class SqCatalogItemAdd extends BaseActivity  {
             channelName = data.getStringExtra("CATALOGCHANNEL_NAME");
             productName = data.getStringExtra("PRODUCT_NAME");
         }
-//        else
-//        {
-//            Toast.makeText(SqCatalogItemAdd.this, "bbbbb", Toast.LENGTH_LONG).show();
-//        }
 
     }
     public static void MyRecycle(Bitmap bmp){
@@ -455,24 +433,24 @@ public class SqCatalogItemAdd extends BaseActivity  {
         if("".equals(tv_ChannelName.getText().toString()) || "".equals(tv_ChannelName.getText().toString().replace(" ", "")))
         {
             result = false;
-            Toast.makeText(SqCatalogItemAdd.this, "货物内容不能为空！", Toast.LENGTH_SHORT).show();
+            ToastUtils.Show(SqCatalogItemAdd.this, "货物内容不能为空！");
             return result;
         }
         else if("".equals(tv_ChannelQty.getText().toString()) || "".equals(tv_ChannelQty.getText().toString().replace(" ","")))
         {
             result = false;
-            Toast.makeText(SqCatalogItemAdd.this, "供需数量不能为空！", Toast.LENGTH_SHORT).show();
+            ToastUtils.Show(SqCatalogItemAdd.this, "供需数量不能为空！");
             return result;
         }
         else if("".equals(tv_ChannelMobile.getText().toString()) || "".equals(tv_ChannelMobile.getText().toString().replace(" ","")))
         {
             result = false;
-            Toast.makeText(SqCatalogItemAdd.this, "联系方式不能为空！", Toast.LENGTH_SHORT).show();
+            ToastUtils.Show(SqCatalogItemAdd.this, "联系方式不能为空！");
             return result;
         }else  if("".equals(btn_ItemLocation.getText().toString()) || "选择交货地".equals(btn_ItemLocation.getText().toString()))
         {
             result = false;
-            Toast.makeText(SqCatalogItemAdd.this, "交货地不能为空！", Toast.LENGTH_SHORT).show();
+            ToastUtils.Show(SqCatalogItemAdd.this, "交货地不能为空！");
             return result;
         }
         else

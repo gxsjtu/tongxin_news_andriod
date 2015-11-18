@@ -12,7 +12,6 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.tongxin.info.R;
 import com.tongxin.info.utils.loadingUtils;

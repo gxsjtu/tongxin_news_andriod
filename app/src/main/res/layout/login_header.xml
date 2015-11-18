@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#23B0EE"
-    android:orientation="horizontal">
+    android:layout_height="44dp"
+    android:background="#23B0EE">
 
     <LinearLayout
         android:id="@+id/iv_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="44dp"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp">
+        android:layout_alignParentLeft="true"
+        android:gravity="left"
+        android:paddingLeft="10dp">
 
         <ImageView
             android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
             android:src="@mipmap/retwhite" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_headerTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="60dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
         android:singleLine="true"
         android:text="标题"
         android:textColor="#fff"
         android:textSize="16sp" />
 
-</LinearLayout>
+</RelativeLayout>

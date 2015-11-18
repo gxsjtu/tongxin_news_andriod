@@ -26,6 +26,7 @@ import com.tongxin.info.domain.ProductPrice;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
@@ -284,7 +285,7 @@ public class HqDetailActivity extends BaseActivity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(HqDetailActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(HqDetailActivity.this, "访问网络失败");
             }
 
             @Override
@@ -296,7 +297,7 @@ public class HqDetailActivity extends BaseActivity {
                         mProductPrices.get(position).isOrder = isOrder ? "YES" : "NO";
                         adapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(HqDetailActivity.this, (isOrder ? "新增" : "取消") + "关注失败", Toast.LENGTH_SHORT).show();
+                        ToastUtils.Show(HqDetailActivity.this, (isOrder ? "新增" : "取消") + "关注失败");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -5,14 +5,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -21,53 +16,35 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.costum.android.widget.LoadMoreListView;
-import com.costum.android.widget.PullAndLoadListView;
-//import com.costum.android.widget.PullToRefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.InboxDetailActivity;
-import com.tongxin.info.activity.MainActivity;
 import com.tongxin.info.domain.InboxMsgVM;
-import com.tongxin.info.domain.SearchItem;
-import com.tongxin.info.domain.SearchVM;
-import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
 import org.kymjs.kjframe.http.HttpParams;
-import org.w3c.dom.Text;
-
 import java.lang.reflect.Type;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/9/24.
@@ -180,7 +157,7 @@ public class boxFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 InboxMsgVM msg = msgList.get(position - 1);
                 Copy(msg.msg.trim());
-                Toast.makeText(mActivity, "内容已复制", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(mActivity, "内容已复制");
                 return true;
             }
         });
@@ -190,7 +167,7 @@ public class boxFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 InboxMsgVM msg = msgList.get(position - 1);
                 Copy(msg.msg.trim());
-                Toast.makeText(mActivity, "内容已复制", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(mActivity, "内容已复制");
                 return true;
             }
         });
@@ -366,7 +343,7 @@ public class boxFragment extends Fragment {
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
                         loadingUtils.close();
-                        Toast.makeText(mActivity, "获取数据失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.Show(mActivity, "获取数据失败，请稍后再试！");
                     }
 
                     @Override
@@ -423,7 +400,7 @@ public class boxFragment extends Fragment {
 
                             @Override
                             public void onFailure(int errorNo, String strMsg) {
-                                Toast.makeText(mActivity, "消息清零失败！", Toast.LENGTH_SHORT);
+                                ToastUtils.Show(mActivity, "消息清零失败！");
                             }
 
                             @Override
@@ -434,7 +411,7 @@ public class boxFragment extends Fragment {
                                     if (result.equals("ok")) {
 //                                        Toast.makeText(mActivity, "消息清零成功！", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(mActivity, "消息清零失败！", Toast.LENGTH_SHORT).show();
+                                        ToastUtils.Show(mActivity, "消息清零失败！");
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -482,7 +459,7 @@ public class boxFragment extends Fragment {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 lv_msg.onRefreshComplete();
-                Toast.makeText(mActivity, "下拉加载数据失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(mActivity, "下拉加载数据失败，请稍后再试！");
             }
 
             @Override
@@ -544,7 +521,7 @@ public class boxFragment extends Fragment {
 
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
-                        Toast.makeText(mActivity, "消息清零失败！", Toast.LENGTH_SHORT);
+                        ToastUtils.Show(mActivity, "消息清零失败！");
                     }
 
                     @Override
@@ -555,7 +532,7 @@ public class boxFragment extends Fragment {
                             if (result.equals("ok")) {
 //                                Toast.makeText(mActivity, "消息清零成功！", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(mActivity, "消息清零失败！", Toast.LENGTH_SHORT).show();
+                                ToastUtils.Show(mActivity, "消息清零失败！");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -594,7 +571,7 @@ public class boxFragment extends Fragment {
             @Override
             public void onFailure(int errorNo, String strMsg) {
 //                loadingUtils.close();
-                Toast.makeText(mActivity, "加载数据失败，请稍后再试！", Toast.LENGTH_LONG).show();
+                ToastUtils.Show(mActivity, "加载数据失败，请稍后再试！");
             }
 
             @Override

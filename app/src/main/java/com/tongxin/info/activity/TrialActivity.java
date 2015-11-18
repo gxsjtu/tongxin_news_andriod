@@ -2,12 +2,16 @@ package com.tongxin.info.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +21,7 @@ import com.tongxin.info.R;
 import com.tongxin.info.control.MobileEditTextWithDel;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.SharedPreUtils;
+import com.tongxin.info.utils.ToastUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,30 +36,21 @@ public class TrialActivity extends Activity {
     private LinearLayout iv_return;
     private TextView tv_headerTitle;
     private MobileEditTextWithDel et_mobile;
-    private ActionProcessButton btn_submit;
+    private Button btn_submit;
     private String view_type;
     String title;
 
     @Override
+    protected void onDestroy() {
+        time.cancel();
+        super.onDestroy();
+    }
+
+    TimeCount time = new TimeCount(60000, 1000);
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-//            //4.4及以下
-//            if (Build.VERSION.SDK_INT < 16) {
-//                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            } else {
-//                View decorView = getWindow().getDecorView();
-//                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-//                decorView.setSystemUiVisibility(uiOptions);
-//            }
-//        } else {
-//            //4.4以上
-//            //透明状态栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            //透明导航栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
         Intent intent = getIntent();
         view_type = intent.getStringExtra("Type");
         if (view_type.equals("trial")) {
@@ -74,7 +70,7 @@ public class TrialActivity extends Activity {
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         et_mobile = (MobileEditTextWithDel) findViewById(R.id.et_mobile);
-        btn_submit = (ActionProcessButton) findViewById(R.id.btn_submit);
+        btn_submit = (Button) findViewById(R.id.btn_submit);
         et_mobile.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         tv_headerTitle.setText(title);
         iv_return.setOnClickListener(new View.OnClickListener() {
@@ -89,20 +85,21 @@ public class TrialActivity extends Activity {
         String mobile = et_mobile.getText().toString().trim();
 
         if (TextUtils.isEmpty(mobile)) {
-            Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
+            ToastUtils.Show(this, "请输入手机号码");
         } else {
-            if(mobile.length() < 11)
-            {
-                Toast.makeText(this, "手机号码不合法，请重新输入!", Toast.LENGTH_SHORT).show();
+            if (mobile.length() < 11) {
+                ToastUtils.Show(this, "手机号码不合法，请重新输入!");
                 return;
             }
+
+
             String url = GlobalContants.Trial_URL + "?method=";
             if (title.equals("申请试用")) {
                 url += "trial";
             } else if (title.equals("发送密码")) {
                 url += "send";
             }
-            url+="&mobile="+mobile;
+            url += "&mobile=" + mobile;
 
             KJHttp kjHttp = new KJHttp();
             HttpConfig httpConfig = new HttpConfig();
@@ -111,8 +108,8 @@ public class TrialActivity extends Activity {
             kjHttp.get(url, null, false, new HttpCallBack() {
                 @Override
                 public void onFailure(int errorNo, String strMsg) {
-                    btn_submit.setProgress(-1);
-                    Toast.makeText(TrialActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
+                    ToastUtils.Show(TrialActivity.this, "访问网络失败");
+                    setBtnStatus(btn_submit, true);
                 }
 
                 @Override
@@ -121,20 +118,22 @@ public class TrialActivity extends Activity {
                         JSONObject jsonObject = new JSONObject(t);
                         String result = jsonObject.getString("result");
                         if (result.equals("ok")) {
-                            //登陆成功
-                            btn_submit.setProgress(100);
-                            finish();
-
+                            ToastUtils.Show(TrialActivity.this, "密码已发送到该手机，请查收！");
+                            if (title.equals("申请试用")) {
+                                setBtnStatus(btn_submit, true);
+                                finish();
+                            } else if (title.equals("发送密码")) {
+                                time = new TimeCount(60000, 1000);
+                                time.start();
+                            }
                         } else {
-                            btn_submit.setProgress(0);
-                            if(title.equals("申请试用"))
-                            {
-                                Toast.makeText(TrialActivity.this, result, Toast.LENGTH_SHORT).show();
+                            if (title.equals("申请试用")) {
+                                ToastUtils.Show(TrialActivity.this, result);
+                            } else {
+                                ToastUtils.Show(TrialActivity.this, "该手机号码尚未注册,请使用有效手机号码");
+                                time.cancel();
                             }
-                            else
-                            {
-                                Toast.makeText(TrialActivity.this, "该手机号码尚未注册,请使用有效手机号码", Toast.LENGTH_SHORT).show();
-                            }
+                            setBtnStatus(btn_submit, true);
                         }
 
                     } catch (JSONException e) {
@@ -144,15 +143,54 @@ public class TrialActivity extends Activity {
 
                 @Override
                 public void onPreStart() {
-                    btn_submit.setEnabled(false);
-                    btn_submit.setProgress(50);
+                    setBtnStatus(btn_submit, false);
                 }
 
                 @Override
                 public void onFinish() {
-                    btn_submit.setEnabled(true);
+
                 }
             });
+        }
+    }
+
+    private void setBtnStatus(Button button, boolean flag) {
+        if (!flag) {
+            button.setEnabled(false);
+            button.setClickable(false);
+            button.setBackgroundColor(Color.rgb(204, 206, 208));
+            button.setTextColor(Color.BLACK);
+            button.setText("确定");
+        } else {
+            button.setEnabled(true);
+            button.setClickable(true);//ff33b5e5
+            button.setBackgroundColor(Color.argb(0xff, 0x33, 0xb5, 0xe5));
+            button.setTextColor(Color.WHITE);
+        }
+    }
+
+    class TimeCount extends CountDownTimer {
+
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            btn_submit.setText(millisUntilFinished / 1000 + "秒");
+        }
+
+        @Override
+        public void onFinish() {
+            btn_submit.setText("确定");
+            setBtnStatus(btn_submit, true);
         }
     }
 }

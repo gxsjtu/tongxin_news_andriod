@@ -26,27 +26,19 @@
             android:padding="10dp"
             android:textSize="16sp"></com.tongxin.info.control.MobileEditTextWithDel>
 
-        <com.dd.processbutton.iml.ActionProcessButton
+        <Button
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/login"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/loginbtn"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="#ff33b5e5"
             android:onClick="submit"
             android:text="确定"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            custom:pb_colorComplete="@color/green_complete"
-            custom:pb_colorNormal="@color/blue_normal"
-            custom:pb_colorPressed="@color/blue_pressed"
-            custom:pb_colorProgress="@color/purple_progress"
-            custom:pb_textComplete="提交成功"
-            custom:pb_textError="提交失败"
-            custom:pb_textProgress="提交中" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 

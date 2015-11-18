@@ -1,6 +1,5 @@
 package com.tongxin.info.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -27,6 +24,7 @@ import com.tongxin.info.domain.SearchVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
@@ -142,7 +140,7 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(SearchActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(SearchActivity.this, "获取数据失败");
             }
 
             @Override
@@ -213,7 +211,7 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(SearchActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(SearchActivity.this, "访问网络失败");
             }
 
             @Override
@@ -228,7 +226,7 @@ public class SearchActivity extends BaseActivity {
                     }
                     else
                     {
-                        Toast.makeText(SearchActivity.this, (isOrder?"新增":"取消")+"关注失败", Toast.LENGTH_SHORT).show();
+                        ToastUtils.Show(SearchActivity.this, (isOrder?"新增":"取消")+"关注失败");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

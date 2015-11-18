@@ -1,6 +1,5 @@
 package com.tongxin.info.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,12 +7,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
@@ -21,12 +17,11 @@ import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.domain.SqCatalogVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.sqListFragment;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.*;
 import org.kymjs.kjframe.http.*;
-import org.kymjs.kjframe.http.*;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -99,7 +94,7 @@ public class SqCatalogActivity extends BaseActivity {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                Toast.makeText(SqCatalogActivity.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(SqCatalogActivity.this, "获取数据失败" + strMsg);
             }
 
             @Override

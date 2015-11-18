@@ -13,12 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.tongxin.info.R;
 import com.tongxin.info.global.GlobalContants;
-import com.tongxin.info.utils.DensityUtils;
 import com.tongxin.info.utils.SharedPreUtils;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
@@ -28,8 +26,6 @@ import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
 import org.kymjs.kjframe.http.HttpParams;
-
-import java.awt.font.TextAttribute;
 
 /**
  * Created by Administrator on 2015/11/10.
@@ -97,7 +93,7 @@ public class userActivity extends BaseActivity {
         kjHttp.get(GlobalContants.UserInfo_URL + "?method=getUserInfo&mobile=" + mobile, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(userActivity.this, "获取用户信息失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(userActivity.this, "获取用户信息失败，请稍后重试");
                 finish();
             }
 
@@ -134,7 +130,7 @@ public class userActivity extends BaseActivity {
                             kjHttp.post(GlobalContants.UserInfo_URL, params, false, new HttpCallBack() {
                                 @Override
                                 public void onFailure(int errorNo, String strMsg) {
-                                    Toast.makeText(userActivity.this, "信息免打扰设置失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                                    ToastUtils.Show(userActivity.this, "信息免打扰设置失败，请稍后重试");
                                 }
 
                                 @Override
@@ -155,7 +151,7 @@ public class userActivity extends BaseActivity {
                                         if (result.equals("ok")) {
 
                                         } else {
-                                            Toast.makeText(userActivity.this, "信息免打扰设置失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                                            ToastUtils.Show(userActivity.this, "信息免打扰设置失败，请稍后重试");
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -225,7 +221,7 @@ public class userActivity extends BaseActivity {
         kjHttp.get(GlobalContants.CHECKVERSION_URL, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(userActivity.this, "获取更新版本失败！", Toast.LENGTH_SHORT);
+                ToastUtils.Show(userActivity.this, "获取更新版本失败！");
             }
 
             @Override

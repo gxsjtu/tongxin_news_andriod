@@ -1,18 +1,13 @@
 package com.tongxin.info.activity;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -21,11 +16,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.MyOrderVM;
-import com.tongxin.info.domain.ProductPrice;
-import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
-import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
@@ -114,7 +107,7 @@ public class MyOrderActivity extends BaseActivity {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                Toast.makeText(MyOrderActivity.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(MyOrderActivity.this, "获取数据失败" + strMsg);
             }
 
             @Override
@@ -204,7 +197,7 @@ public class MyOrderActivity extends BaseActivity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(MyOrderActivity.this, "访问网络失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(MyOrderActivity.this, "访问网络失败");
             }
 
             @Override
@@ -216,7 +209,7 @@ public class MyOrderActivity extends BaseActivity {
                         orderList.remove(position);
                         adapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(MyOrderActivity.this, "取消关注失败", Toast.LENGTH_SHORT).show();
+                        ToastUtils.Show(MyOrderActivity.this, "取消关注失败");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

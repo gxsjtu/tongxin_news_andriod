@@ -7,22 +7,18 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import com.tongxin.info.R;
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.global.GlobalContants;
@@ -39,12 +35,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import com.igexin.sdk.PushManager;
-import com.tongxin.info.utils.UserUtils;
+import com.tongxin.info.utils.ToastUtils;
 
 //闪屏页,可以用来检测app的合法性和新版本的验证，以及预加载一些数据
 public class SplashActivity extends Activity {
@@ -73,7 +65,7 @@ public class SplashActivity extends Activity {
                     showUpdateDailog();
                     break;
                 case UPDATE_ERROR:
-                    Toast.makeText(SplashActivity.this, "检查版本更新失败"+err, Toast.LENGTH_SHORT).show();
+                    ToastUtils.Show(SplashActivity.this, "检查版本更新失败" + err);
                     //nextPage();
                     break;
                 case UPDATE_GOHOME:
@@ -340,7 +332,7 @@ public class SplashActivity extends Activity {
             });
 
         } else {
-            Toast.makeText(SplashActivity.this, "没有找到sdcard!", Toast.LENGTH_SHORT).show();
+            ToastUtils.Show(SplashActivity.this, "没有找到sdcard!");
         }
     }
 

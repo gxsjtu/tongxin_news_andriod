@@ -1,6 +1,5 @@
 package com.tongxin.info.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -21,13 +18,13 @@ import com.tongxin.info.R;
 import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.sqDetailFragment;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -95,7 +92,7 @@ public class MySupplyActivity extends BaseActivity {
             public void onFailure(int errorNo, String strMsg) {
 
                 loadingUtils.close();
-                Toast.makeText(MySupplyActivity.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(MySupplyActivity.this, "获取数据失败" + strMsg);
             }
 
             @Override

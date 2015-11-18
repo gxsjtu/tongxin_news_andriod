@@ -1,9 +1,7 @@
 package com.tongxin.info.activity;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,19 +9,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
-import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.domain.ProductHistoryPrice;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
@@ -180,12 +176,12 @@ public class HqHistoryActivity extends BaseActivity {
 //            return now.getTime();
 
             if (d2.getTime() - d1.getTime() < 0) {
-                Toast.makeText(this, "截止日期不能小于开始日期", Toast.LENGTH_LONG).show();
+                ToastUtils.Show(this, "截止日期不能小于开始日期");
                 return;
             }
 
             if ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24.0) > 90) {
-                Toast.makeText(this, "查询日期不能超过90天", Toast.LENGTH_LONG).show();
+                ToastUtils.Show(this, "查询时间跨度不能超过90天！");
                 return;
             }
 
@@ -202,7 +198,7 @@ public class HqHistoryActivity extends BaseActivity {
         kjHttp.get(GlobalContants.GETHQHISTORYPRICES_URL + "&productId=" + mProductId + "&start=" + start + "&end=" + end, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(HqHistoryActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(HqHistoryActivity.this, "获取数据失败");
             }
 
             @Override
@@ -224,6 +220,10 @@ public class HqHistoryActivity extends BaseActivity {
 
                 if (mHistoryPrices.size() == 0) {
                     tv_headerChart.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    tv_headerChart.setVisibility(View.VISIBLE);
                 }
 
                 hq_history_lv.setAdapter(new BaseAdapter() {

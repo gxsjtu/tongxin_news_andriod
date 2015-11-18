@@ -1,22 +1,14 @@
 package com.tongxin.info.page;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
-import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -28,20 +20,13 @@ import com.tongxin.info.R;
 import com.tongxin.info.activity.DetailForShowImg;
 import com.tongxin.info.domain.SQDetailVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
-
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
-import android.os.Handler;
 
 /**
  * Created by cc on 2015/11/5.
@@ -131,7 +116,7 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                Toast.makeText(sqDetailFragment.this, "获取数据失败" + strMsg, Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(sqDetailFragment.this, "获取数据失败" + strMsg);
             }
 
             @Override
