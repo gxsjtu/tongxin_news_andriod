@@ -5,13 +5,16 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,20 +22,24 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.costum.android.widget.LoadMoreListView;
 import com.costum.android.widget.PullAndLoadListView;
-import com.costum.android.widget.PullToRefreshListView;
+//import com.costum.android.widget.PullToRefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.InboxDetailActivity;
@@ -57,7 +64,9 @@ import java.lang.reflect.Type;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +74,7 @@ import java.util.Map;
  * Created by Administrator on 2015/9/24.
  */
 public class boxFragment extends Fragment {
+    private LinkedList<String> mListItems;
     private Activity mActivity;
     private PullToRefreshListView lv_msg;
     private ListView lv_searchRes;
@@ -80,13 +90,15 @@ public class boxFragment extends Fragment {
     loadingUtils loadingUtils;
     private int hereIndex = 0;
     private String tel;
+   private  ListView actualListView;
 
     private TextView tv_headerTitle;
     private LinearLayout iv_ref;
     private Button btn_clear;
     private ArrayList<InboxMsgVM> resList = new ArrayList<InboxMsgVM>();//数据不够一页放入空白数据
     private LinearLayout ll_ForHeight;
-
+    private String[] mStrings = { "Abbaye de Belloc" };
+    private String pullMode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +107,8 @@ public class boxFragment extends Fragment {
         UserUtils userUtils = new UserUtils(mActivity);
         tel = userUtils.getTel();
         loadingUtils = new loadingUtils(mActivity);
-        initData();
+        //initData();
+       // new GetDataTask().execute();
     }
 
     @Nullable
@@ -130,14 +143,37 @@ public class boxFragment extends Fragment {
                 lv_msg.setAdapter(adapterForData);
             }
         });
+//        lv_msg.getRefreshableView().setOnItemLongClickListener();
         footerView = View.inflate(mActivity, R.layout.inboxmsgfooter, null);
         lv_msg = (PullToRefreshListView) view.findViewById(R.id.lvMsg);
-        lv_msg.addFooterView(footerView);
-        lv_msg.setMinimumHeight(ll_ForHeight.getHeight());
+        lv_msg.setMode(PullToRefreshBase.Mode.BOTH);
+//        lv_msg.seta
+//        lv_msg.setLayoutAnimation(PullToRefreshBase.AnimationStyle.FLIP);
+        actualListView = lv_msg.getRefreshableView();
+        registerForContextMenu(actualListView);
+
+
         lv_searchRes = (ListView)view.findViewById(R.id.lv_searchRes);
         lv_searchRes.setVisibility(View.GONE);
 
-        lv_msg.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lv_msg.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                String label = "最后更新：" + DateUtils.formatDateTime(mActivity, System.currentTimeMillis(),
+                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+
+                if (refreshView.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_START) {
+                    pullMode = "pullDown";
+                    new GetDataTask().execute();
+                } else if (refreshView.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_END) {
+                    pullMode = "pullUp";
+                    new GetDataTask().execute();
+                }
+            }
+
+        });
+
+        actualListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 InboxMsgVM msg = msgList.get(position - 1);
@@ -180,16 +216,17 @@ public class boxFragment extends Fragment {
             }
         });
 
-        lv_msg.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                pullRefresh();
-                Intent intentCount = new Intent("com.tongxin.badge");
-                intentCount.putExtra("count", 0);
-                mActivity.sendBroadcast(intentCount);
-            }
-        });
+//        lv_msg.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+//
+//            @Override
+//            public void onRefresh() {
+//                pullRefresh();
+//                Intent intentCount = new Intent("com.tongxin.badge");
+//                intentCount.putExtra("count", 0);
+//                mActivity.sendBroadcast(intentCount);
+//            }
+//        });
+        initData();
         return view;
     }
 
@@ -342,11 +379,11 @@ public class boxFragment extends Fragment {
                             maxDateForPullDown = formatForDataNull.format(new Date());
                             minDateForPullUp = formatForDataNull.format(new Date());
                         }
-//                        SetLVHeight();
                         adapterForData = new AppAdapter();
-                        lv_msg.setAdapter(adapterForData);
+
+                        actualListView.setAdapter(adapterForData);
                         loadingUtils.close();
-                        lv_msg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 InboxMsgVM item = msgList.get(position - 1);
@@ -402,7 +439,7 @@ public class boxFragment extends Fragment {
             msgList.get(hereIndex).isHereVisible = false;
             msgList.get(0).isHereVisible = true;
         }
-      final  SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+      final  SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         HttpParams params = new HttpParams();
         params.put("method","getMsgByAction");
         params.put("mobile",tel);
@@ -414,41 +451,28 @@ public class boxFragment extends Fragment {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        loadingUtils.show();
+
         kjHttp.post(GlobalContants.GETINBOXMSG_URL, params, false, new HttpCallBack() {
-            long dStart;
-            long dFinish;
 
             @Override
             public void onPreStart() {
                 super.onPreStart();
-                try {
-                    dStart = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
-                } catch (Exception ex) {
-                }
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                try {
-                    dFinish = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
-                    if ((dFinish - dStart) / 1000 < 1) {
-                        Thread.sleep(1000);
-                    }
-                } catch (Exception ex) {
-                }
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                loadingUtils.close();
                 lv_msg.onRefreshComplete();
                 Toast.makeText(mActivity, "下拉加载数据失败，请稍后再试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSuccess(String t) {
+//                Toast.makeText(mActivity, "下拉成功！", Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 Type type = new TypeToken<ArrayList<InboxMsgVM>>() {
                 }.getType();
@@ -468,8 +492,8 @@ public class boxFragment extends Fragment {
                     msgList.add(i, inbox);
                 }
                 adapterForData = new AppAdapter();
-                lv_msg.setAdapter(adapterForData);
-                loadingUtils.close();
+                actualListView.setAdapter(adapterForData);
+//                loadingUtils.close();
                 if (loadList != null && loadList.size() > 0) {
                     maxDateForPullDown = loadList.get(0).date;
                 }
@@ -478,11 +502,8 @@ public class boxFragment extends Fragment {
                     maxDateForPullDown = format.format(new Date());
                 }
 
-                adapterForData.notifyDataSetChanged();
-                lv_msg.setSelection(0);
-                lv_msg.onRefreshComplete();
 
-                lv_msg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         InboxMsgVM item = msgList.get(position - 1);
@@ -508,7 +529,7 @@ public class boxFragment extends Fragment {
 
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
-                        Toast.makeText(mActivity,"消息清零失败！",Toast.LENGTH_SHORT);
+                        Toast.makeText(mActivity, "消息清零失败！", Toast.LENGTH_SHORT);
                     }
 
                     @Override
@@ -532,8 +553,8 @@ public class boxFragment extends Fragment {
     }
 
     private void loadMore() {
-        final   SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
+        final   SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         HttpParams params = new HttpParams();
         params.put("method","getMsgByAction");
         params.put("mobile",tel);
@@ -543,40 +564,27 @@ public class boxFragment extends Fragment {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        loadingUtils.show();
         kjHttp.post(GlobalContants.GETINBOXMSG_URL, params, false, new HttpCallBack() {
-            long dStart;
-            long dFinish;
 
             @Override
             public void onPreStart() {
                 super.onPreStart();
-                try {
-                    dStart = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
-                } catch (Exception ex) {
-                }
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                try {
-                    dFinish = sdfFormat.parse(sdfFormat.format(new Date())).getTime();
-                    if ((dFinish - dStart) / 1000 < 1) {
-                        Thread.sleep(1000);
-                    }
-                } catch (Exception ex) {
-                }
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                loadingUtils.close();
+//                loadingUtils.close();
                 Toast.makeText(mActivity, "加载数据失败，请稍后再试！", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onSuccess(String t) {
+//                Toast.makeText(mActivity, "上拉成功！", Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 Type type = new TypeToken<ArrayList<InboxMsgVM>>() {
                 }.getType();
@@ -596,18 +604,13 @@ public class boxFragment extends Fragment {
                     msgList.add(msgList.size(), inbox);
                 }
                 adapterForData = new AppAdapter();
-                lv_msg.setAdapter(adapterForData);
-                loadingUtils.close();
+                actualListView.setAdapter(adapterForData);
                 if (loadList != null && loadList.size() > 0) {
                     minDateForPullUp = loadList.get(loadList.size() - 1).date;
                 }
-//                else {
-//                    minDateForPullUp = format.format(new Date());
-//                }
                 adapterForData.notifyDataSetChanged();
-                lv_msg.setSelection(msgList.size() - loadList.size());
 
-                lv_msg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         InboxMsgVM item = msgList.get(position - 1);
@@ -623,22 +626,6 @@ public class boxFragment extends Fragment {
         });
     }
 
-    public void SetLVHeight()
-    {
-//        if(msgList == null || msgList.size() < 20)
-//        {
-//            resList.clear();
-//            resList.addAll(msgList);
-//            for(int i =0; i <(20 - msgList.size()); i ++)
-//            {
-//                InboxMsgVM vm = new InboxMsgVM();
-//                vm.msg = "";
-//                vm.date = "";
-//                vm.url = "";
-//                resList.add(vm);
-//            }
-//        }
-    }
 
     public class AppAdapter extends BaseAdapter {
         @Override
@@ -708,5 +695,39 @@ public class boxFragment extends Fragment {
         cbm.setPrimaryClip(myClip);
     }
 
+    private class GetDataTask extends AsyncTask<Void, Void,String[]> {
+
+        @Override
+        protected String[] doInBackground(Void... params) {
+            // Simulates a background job.
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+            }
+            return new String[]{"aa","aa"};
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+//            mListItems.addFirst("Added after refresh...");
+            if("pullDown".equals(pullMode))
+            {
+                pullRefresh();
+                Intent intentCount = new Intent("com.tongxin.badge");
+                intentCount.putExtra("count", 0);
+                mActivity.sendBroadcast(intentCount);
+            }
+            else if("pullUp".equals(pullMode))
+            {
+                loadMore();
+            }
+//            adapterForData.notifyDataSetChanged();
+
+            // Call onRefreshComplete when the list has been refreshed.
+            lv_msg.onRefreshComplete();
+
+            super.onPostExecute(result);
+        }
+    }
 
 }
