@@ -300,7 +300,7 @@ public class boxFragment extends Fragment {
         actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    InboxMsgVM item = loadList.get(position);
+                    InboxMsgVM item = loadList.get(position - 1);
                     if (item.url != null && item.url != "") {
                         Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                         intent.putExtra("inboxDetailUrl", item.url);
