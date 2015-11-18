@@ -71,6 +71,7 @@
         android:layout_centerInParent="true"
         android:singleLine="true"
         android:text="标题"
+        android:layout_marginLeft="80dp"
         android:textColor="#fff"
         android:textSize="16sp" />
 
