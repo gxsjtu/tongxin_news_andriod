@@ -15,7 +15,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.tongxin.info.R;
+import com.tongxin.info.utils.loadingUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -28,15 +32,19 @@ import java.net.URL;
 public class DetailForShowImg extends Activity {
     private ImageView img_ForShow;
     private String url;
+    loadingUtils loadingUtils;
     private Bitmap bitmap = null;
+    private String isCanFinish;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
                     img_ForShow.setImageBitmap(bitmap);
+                    loadingUtils.close();
                     break;
                 case 1:
+                    loadingUtils.close();
                    finish();
                     break;
             }
@@ -46,19 +54,13 @@ public class DetailForShowImg extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_showimg);
-
+        isCanFinish = "";
         Intent intent = getIntent();
         url = intent.getStringExtra("IMGURLFORSHOW");
         img_ForShow = (ImageView)findViewById(R.id.img_ForShow);
+        loadingUtils = new loadingUtils(DetailForShowImg.this);
+        loadingUtils.show();
         returnBitMap();
-//        if(bitmap != null)
-//        {
-//            img_ForShow.setImageBitmap(bitmap);
-//        }
-//        else
-//        {
-//            finish();
-//        }
     }
 
     @Override
@@ -66,7 +68,13 @@ public class DetailForShowImg extends Activity {
         switch (ev.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
-                finish();
+                if("YES".equals(isCanFinish)) {
+                    if(bitmap != null) {
+                        bitmap.recycle();
+                    }
+                    System.gc();
+                    finish();
+                }
 //                System.out.println("aaaaaaaaaaaaaaa");
                 break;
         }
@@ -87,19 +95,84 @@ public class DetailForShowImg extends Activity {
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
                         }
-                    HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+//                        BitmapFactory.Options opt = new BitmapFactory.Options();
+                        HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
                     conn.setDoInput(true);
                     conn.connect();
+                        BitmapFactory.Options options = new  BitmapFactory.Options();
+
+                        options.inJustDecodeBounds =  false;
+                        options.inPreferredConfig =  Bitmap.Config.RGB_565;
+                        options.inPurgeable = true;
+                        options.inInputShareable = true;
+                        options.inSampleSize = 2;
                     InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
+//                        bmp = BitmapFactory.decodeFileDescriptor(is.getFD(), null, opts);
+//                    bitmap = comp(BitmapFactory.decodeStream(is,null,options));
+                        bitmap = BitmapFactory.decodeStream(is,null,options);
+                       // comp(bitmap);
                         msg.what = 0;
+
+                        isCanFinish = "YES";
                     is.close();
                     } catch (IOException e) {
                         msg.what = 1;
+                        isCanFinish = "YES";
                         e.printStackTrace();
                 }
+//                    loadingUtils.close();
                     mHandler.sendMessage(msg);
             }
         }.start();
     }
+
+//    private Bitmap comp(Bitmap image) {
+//
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        if( baos.toByteArray().length / 1024>1024) {//判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
+//            baos.reset();//重置baos即清空baos
+//            image.compress(Bitmap.CompressFormat.JPEG, 50, baos);//这里压缩50%，把压缩后的数据存放到baos中
+//        }
+//        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+//        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+//        //开始读入图片，此时把options.inJustDecodeBounds 设回true了
+//        newOpts.inJustDecodeBounds = true;
+//        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
+//        newOpts.inJustDecodeBounds = false;
+//        int w = newOpts.outWidth;
+//        int h = newOpts.outHeight;
+//        //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
+//        float hh = 800f;//这里设置高度为800f
+//        float ww = 480f;//这里设置宽度为480f
+//        //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
+//        int be = 1;//be=1表示不缩放
+//        if (w > h && w > ww) {//如果宽度大的话根据宽度固定大小缩放
+//            be = (int) (newOpts.outWidth / ww);
+//        } else if (w < h && h > hh) {//如果高度高的话根据宽度固定大小缩放
+//            be = (int) (newOpts.outHeight / hh);
+//        }
+//        if (be <= 0)
+//            be = 1;
+//        newOpts.inSampleSize = be;//设置缩放比例
+//        //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
+//        isBm = new ByteArrayInputStream(baos.toByteArray());
+//        bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
+//        return compressImage(bitmap);//压缩好比例大小后再进行质量压缩
+//    }
+//
+//    private Bitmap compressImage(Bitmap image) {
+//
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+//        int options = 100;
+//        while ( baos.toByteArray().length / 1024>100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+//            baos.reset();//重置baos即清空baos
+//            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+//            options -= 10;//每次都减少10
+//        }
+//        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+//        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+//        return bitmap;
+//    }
 }
