@@ -75,7 +75,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    ToastUtils.Show(SqCatalogItemAdd.this, "新增成功！");
+                    ToastUtils.Show(SqCatalogItemAdd.this, "添加成功，请等待系统审核！");
                     break;
                 case 1:
                     ToastUtils.Show(SqCatalogItemAdd.this, "新增失败！");
