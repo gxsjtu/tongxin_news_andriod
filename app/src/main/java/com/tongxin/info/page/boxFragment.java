@@ -127,6 +127,8 @@ public class boxFragment extends Fragment {
                     msgList.clear();
                 }
                 msg_searchTxt.setText("");
+                adapterForData = new AppAdapter();
+                lv_msg.setAdapter(adapterForData);
                 initData();
             }
         });
