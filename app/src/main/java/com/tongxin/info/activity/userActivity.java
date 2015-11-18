@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
@@ -186,13 +187,14 @@ public class userActivity extends BaseActivity {
         //版本更新
         if(isCanUpdate)//有可更新的版本
         {
-
+            Uri uri = Uri.parse("http://api.shtx.com.cn/index.html");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
         else//没有版本可更新 不做跳转更新操作
         {
 
         }
-
     }
 
     private int getVersionCode() {
