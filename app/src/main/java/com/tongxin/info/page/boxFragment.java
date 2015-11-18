@@ -126,6 +126,7 @@ public class boxFragment extends Fragment {
                     loadList.clear();
                     msgList.clear();
                 }
+                msg_searchTxt.setText("");
                 initData();
             }
         });
@@ -134,6 +135,7 @@ public class boxFragment extends Fragment {
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                msg_searchTxt.setText("");
                 msgList.clear();
                 loadList.clear();
                 adapterForData = new AppAdapter();
