@@ -569,7 +569,7 @@ public class boxFragment extends Fragment {
 
     private void loadMore() {
         final   SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         HttpParams params = new HttpParams();
         params.put("method","getMsgByAction");
         params.put("mobile",tel);
@@ -606,7 +606,12 @@ public class boxFragment extends Fragment {
 
                 loadList.clear();
                 loadList = gson.fromJson(t, type);
-
+                if(msgList == null || msgList.size() <= 0)//清空后下拉再上拉需要加载出原来清空的数据 所以记录一次maxDate
+                {
+                    if (loadList != null && loadList.size() > 0) {
+                        maxDateForPullDown = loadList.get(0).date;
+                    }
+                }
                 for (int i = 0; i < loadList.size(); i++) {
                     InboxMsgVM inbox = new InboxMsgVM();
                     inbox.msg = loadList.get(i).msg;
@@ -623,6 +628,15 @@ public class boxFragment extends Fragment {
                 if (loadList != null && loadList.size() > 0) {
                     minDateForPullUp = loadList.get(loadList.size() - 1).date;
                 }
+//                if(msgList != null && msgList.size() > 0)
+//                {
+//                    try {
+//                        maxDateForPullDown = format.format(format.parse(msgList.get(0).date));
+//                    }
+//                    catch (Exception ex) {
+//
+//                    }
+//                }
                 adapterForData.notifyDataSetChanged();
                 actualListView.setSelection(msgList.size() - loadList.size());
                 actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
