@@ -107,6 +107,9 @@ public class boxFragment extends Fragment {
                 adapterForData = new AppAdapter();
                 lv_msg.setAdapter(adapterForData);
                 initData();
+                Intent intentCount = new Intent("com.tongxin.badge");
+                intentCount.putExtra("count", 0);
+                mActivity.sendBroadcast(intentCount);
             }
         });
         btn_clear = (Button)view.findViewById(R.id.btn_clearMsg);

@@ -277,7 +277,6 @@ public class MainActivity extends BaseFragmentActivity {
         public void onReceive(Context context, Intent intent) {
             int count = intent.getIntExtra("count",0);
             setMessageBadge(count);
-            //abortBroadcast();
         }
     }
 
