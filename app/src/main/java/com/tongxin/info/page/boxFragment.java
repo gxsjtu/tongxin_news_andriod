@@ -152,6 +152,19 @@ public class boxFragment extends Fragment {
 
         });
 
+//        actualListView.setoni
+//        actualListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                view.setBackgroundColor(Color.parseColor("#B48AAB"));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                view.setBackgroundColor(Color.parseColor("#c9c9ce"));
+//            }
+//        });
+
         actualListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
