@@ -2,12 +2,16 @@ package com.tongxin.info.utils;
 
 import java.lang.reflect.Field;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.widget.Toast;
+
+import com.tongxin.info.activity.MainActivity;
 
 /**
  * 应用启动图标未读消息数显示 工具类  (效果如：QQ、微信、未读短信 等应用图标)<br/>
@@ -24,7 +28,7 @@ public class BadgeUtils {
      * @param context The context of the application package.
      * @param count Badge count to be set
      */
-    public static void setBadgeCount(Context context, int count) {
+    public static void setBadgeCount(Context context, int count,String msg,NotificationManager nm,Notification notify) {
         if (count <= 0) {
             count = 0;
         } else {
@@ -32,13 +36,16 @@ public class BadgeUtils {
         }
 
         if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
-            sendToXiaoMi(context, count);
+            sendToXiaoMi(context, count,nm,notify,msg);
         } else if (Build.MANUFACTURER.equalsIgnoreCase("sony")) {
             sendToSony(context, count);
+            nm.notify(909, notify);
         } else if (Build.MANUFACTURER.toLowerCase().contains("samsung")) {
             sendToSamsumg(context, count);
+            nm.notify(909, notify);
         } else {
-            Toast.makeText(context, "Not Support", Toast.LENGTH_LONG).show();
+            nm.notify(909, notify);
+            //Toast.makeText(context, "Not Support", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -47,24 +54,40 @@ public class BadgeUtils {
      * 向小米手机发送未读消息数广播
      * @param count
      */
-    private static void sendToXiaoMi(Context context, int count) {
+    private static void sendToXiaoMi(Context context, int count,NotificationManager nm,Notification notify,String msg) {
+        boolean isMiUIV6 = true;
         try {
+            if(count == 0)
+            {
+                nm.cancel(909);
+                return;
+            }
             Class miuiNotificationClass = Class.forName("android.app.MiuiNotification");
             Object miuiNotification = miuiNotificationClass.newInstance();
             Field field = miuiNotification.getClass().getDeclaredField("messageCount");
             field.setAccessible(true);
-            field.set(miuiNotification, String.valueOf(count == 0 ? "" : count));  // 设置信息数-->这种发送必须是miui 6才行
+            field.set(miuiNotification, count);// 设置信息数
+            field = notify.getClass().getField("extraNotification");
+            field.setAccessible(true);
+            field.set(notify, miuiNotification);
         } catch (Exception e) {
             e.printStackTrace();
-            // miui 6之前的版本
-            Intent localIntent = new Intent(
-                    "android.intent.action.APPLICATION_MESSAGE_UPDATE");
-            localIntent.putExtra(
-                    "android.intent.extra.update_application_component_name",
-                    context.getPackageName() + "/" + getLauncherClassName(context));
-            localIntent.putExtra(
-                    "android.intent.extra.update_application_message_text", String.valueOf(count == 0 ? "" : count));
+            //miui 6之前的版本
+            isMiUIV6 = false;
+            Intent localIntent = new Intent("android.intent.action.APPLICATION_MESSAGE_UPDATE");
+            localIntent.putExtra("android.intent.extra.update_application_component_name",context.getPackageName() + "/"+ MainActivity.class );
+            localIntent.putExtra("android.intent.extra.update_application_message_text",count);
             context.sendBroadcast(localIntent);
+
+
+        }
+        finally
+        {
+            if(notify!=null && isMiUIV6 )
+            {
+                //miui6以上版本需要使用通知发送
+                nm.notify(909, notify);
+            }
         }
     }
 
@@ -112,15 +135,6 @@ public class BadgeUtils {
 
 
     /**
-     * 重置、清除Badge未读显示数<br/>
-     * @param context
-     */
-    public static void resetBadgeCount(Context context) {
-        setBadgeCount(context, 0);
-    }
-
-
-    /**
      * Retrieve launcher activity name of the application from the context
      *
      * @param context The context of the application package.
@@ -148,6 +162,12 @@ public class BadgeUtils {
         }
 
         return info.activityInfo.name;
+    }
+
+    public static void resetBadgeCount(Context context)
+    {
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(909);
     }
 
 }
