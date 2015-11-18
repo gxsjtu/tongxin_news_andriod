@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
@@ -21,11 +20,9 @@ import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
-
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
-
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.text.ParseException;
