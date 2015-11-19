@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#c9c9ce">
+    android:background="#c9c9ce"
+    android:orientation="vertical">
+    <include layout="@layout/header"></include>
 <ScrollView
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -10,7 +12,6 @@
     <LinearLayout android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-    <include layout="@layout/header"></include>
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/sq_imgSlider"
@@ -235,4 +236,4 @@
         </LinearLayout>
 </ScrollView>
     <include layout="@layout/loading"></include>
-</RelativeLayout>
+</LinearLayout>

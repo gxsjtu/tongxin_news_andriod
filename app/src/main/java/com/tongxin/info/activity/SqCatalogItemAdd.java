@@ -299,21 +299,21 @@ public class SqCatalogItemAdd extends BaseActivity  {
         if (requestCode == RESULT && resultCode == RESULT_OK && data != null) {
                 Uri uri = data.getData();
                 strUriList.add(uri.toString());
-//            String[] proj = {MediaStore.Images.Media.DATA};
-//
-//            //好像是android多媒体数据库的封装接口，具体的看Android文档
-//            Cursor cursor = managedQuery(uri, proj, null, null, null);
-//            //按我个人理解 这个是获得用户选择的图片的索引值
-//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//            //将光标移至开头 ，这个很重要，不小心很容易引起越界
-//            cursor.moveToFirst();
-//            //最后根据索引值获取图片路径
-//            String path = cursor.getString(column_index);
+            String[] proj = {MediaStore.Images.Media.DATA};
+
+            //好像是android多媒体数据库的封装接口，具体的看Android文档
+            Cursor cursor = managedQuery(uri, proj, null, null, null);
+            //按我个人理解 这个是获得用户选择的图片的索引值
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            //将光标移至开头 ，这个很重要，不小心很容易引起越界
+            cursor.moveToFirst();
+            //最后根据索引值获取图片路径
+            String path = cursor.getString(column_index);
+            File file = new File(path);
+            files.add(file);
             ImageLoader.getInstance().displayImage(uri.toString(), iv_imgForSlider);
-//                File file = new File(path);
 //            Bitmap bmp = ImageLoader.getInstance().loadImageSync(path);
 //            iv_imgForSlider.setImageBitmap(bmp);
-//            files.add(file);
 //                ContentResolver cr = this.getContentResolver();
 //                try {
 //                    if (bmp != null)//如果不释放的话，不断取图片，将会内存不够
