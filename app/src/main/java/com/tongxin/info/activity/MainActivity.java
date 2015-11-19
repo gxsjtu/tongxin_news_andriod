@@ -97,11 +97,14 @@ public class MainActivity extends BaseFragmentActivity {
         IntentFilter filter = new IntentFilter("com.tongxin.badge");
         registerReceiver(badgeBroadcast, filter);
 
-        initViews();
-
         badge = new BadgeView(this, ll_inbox);
         badge.setTextSize(10);
         setMessageBadge(0);
+
+
+        initViews();
+
+
     }
 
     private void initViews() {
@@ -246,6 +249,7 @@ public class MainActivity extends BaseFragmentActivity {
 
 
         showPage(new boxFragment());
+        setMessageBadge(0);
 
     }
 
@@ -277,7 +281,6 @@ public class MainActivity extends BaseFragmentActivity {
         public void onReceive(Context context, Intent intent) {
             int count = intent.getIntExtra("count",0);
             setMessageBadge(count);
-            //abortBroadcast();
         }
     }
 
