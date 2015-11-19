@@ -30,7 +30,8 @@
                 android:id="@+id/tv_ChannelName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:singleLine="true"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
