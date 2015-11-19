@@ -14,6 +14,8 @@ import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.MainActivity;
+import com.tongxin.info.domain.MyLifecycleHandler;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.List;
@@ -99,10 +101,10 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         notify.flags = Notification.FLAG_AUTO_CANCEL;
                         //mNotificationManager.notify(909, notify);
 
-                        //if(isBackGroundRunning(context)!=1) {
+                        if(isBackGroundRunning()) {
                             //ShortcutBadger.with(context).count(badge);
                             BadgeUtils.setBadgeCount(context, badge,msg,mNotificationManager,notify);
-                        //}
+                        }
 
                         SharedPreUtils.setString(context, "badgecount", String.valueOf(badge));
                         Intent intentCount = new Intent("com.tongxin.badge");
@@ -145,30 +147,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
         return true;
     }
 
-    /*
-* -1后台运行
-* 1前台运行
-* 0没有运行
-* */
-    public int isBackGroundRunning(Context context) {
-        String packageName = context.getPackageName();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-            String processName = appProcess.processName;
-            if (processName.equals(packageName)) {
-                //100   200
-                int im = appProcess.importance;
-                boolean isBackground = appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
-                        && appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
-                boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
-                if (isBackground || isLockedState)
-                    return -1;
-                else
-                    return 1;
-            }
-        }
-        return 0;
+    public boolean isBackGroundRunning() {
+        return !MyLifecycleHandler.isApplicationInForeground();
     }
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+
 import com.igexin.sdk.PushManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -15,6 +16,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.tongxin.info.activity.LoginActivity;
 import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,6 +38,7 @@ public class MyApp extends Application {
     private PushManager pushManager;
     private boolean showLogin = false;
     private int badgeCount = 0;
+    MyLifecycleHandler myLifecycleHandler = new MyLifecycleHandler();
 
     public int getBadgeCount() {
         return badgeCount;
@@ -79,8 +82,8 @@ public class MyApp extends Application {
             public void run() {
                 boolean mustLogin = SharedPreUtils.getBoolean(context, "mustLogin", true);
                 if (mustLogin && !showLogin) {
-                    int isBack = isBackGroundRunning();
-                    if (isBack == 1) {
+                    boolean isBack = isBackGroundRunning();
+                    if (!isBack) {
                         final Message msg = Message.obtain();
                         msg.what = 999;
                         mHandler.sendMessage(msg);
@@ -122,6 +125,7 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        registerActivityLifecycleCallbacks(myLifecycleHandler);
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)  //1.8.6包使用时候，括号里面传入参数true
                 .cacheOnDisc(true)    //同上
@@ -154,29 +158,24 @@ public class MyApp extends Application {
 //        return false;
 //    }
 
-    /*
-    * -1后台运行
-    * 1前台运行
-    * 0没有运行
-    * */
-    public int isBackGroundRunning() {
-        String packageName = context.getPackageName();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-            String processName = appProcess.processName;
-            if (processName.equals(packageName)) {
-                //100   200
-                boolean isBackground = appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
-                        && appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
-                boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
-                if (isBackground || isLockedState)
-                    return -1;
-                else
-                    return 1;
-            }
-        }
-        return 0;
+    public boolean isBackGroundRunning() {
+        return !MyLifecycleHandler.isApplicationInForeground();
+//        String packageName = context.getPackageName();
+//        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+//        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+//        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+//        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+//            String processName = appProcess.processName;
+//            if (processName.equals(packageName)) {
+//                //100   200
+//                boolean isBackground = appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+//                        && appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
+//                boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
+//                if (isBackground || isLockedState)
+//                    return -1;
+//                else
+//                    return 1;
+//            }
+//        }
     }
 }
