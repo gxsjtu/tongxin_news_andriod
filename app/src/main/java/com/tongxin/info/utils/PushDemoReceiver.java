@@ -99,10 +99,10 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         notify.flags = Notification.FLAG_AUTO_CANCEL;
                         //mNotificationManager.notify(909, notify);
 
-                        if(isBackGroundRunning(context)!=1) {
+                        //if(isBackGroundRunning(context)!=1) {
                             //ShortcutBadger.with(context).count(badge);
                             BadgeUtils.setBadgeCount(context, badge,msg,mNotificationManager,notify);
-                        }
+                        //}
 
                         SharedPreUtils.setString(context, "badgecount", String.valueOf(badge));
                         Intent intentCount = new Intent("com.tongxin.badge");
@@ -159,6 +159,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
             String processName = appProcess.processName;
             if (processName.equals(packageName)) {
                 //100   200
+                int im = appProcess.importance;
                 boolean isBackground = appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
                         && appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
                 boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
