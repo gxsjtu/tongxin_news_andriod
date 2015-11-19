@@ -136,7 +136,9 @@ public class LoginActivity extends Activity {
         kjHttp.get(Url, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                btn_login.setProgress(-1);
+                if(mustLogin) {
+                    btn_login.setProgress(-1);
+                }
                 ToastUtils.Show(LoginActivity.this, "访问网络失败");
             }
 
