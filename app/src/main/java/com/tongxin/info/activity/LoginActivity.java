@@ -139,6 +139,13 @@ public class LoginActivity extends Activity {
                 if(mustLogin) {
                     btn_login.setProgress(-1);
                 }
+                else
+                {
+                    showLogin = true;
+                    //SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", true);
+                    setContentView(R.layout.activity_login);
+                    initViews();
+                }
                 ToastUtils.Show(LoginActivity.this, "访问网络失败");
             }
 
