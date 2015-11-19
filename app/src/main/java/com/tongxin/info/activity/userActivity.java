@@ -50,7 +50,7 @@ public class userActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         initViews();
-        checkVersion();
+        //checkVersion();
         initData();
     }
 
@@ -164,6 +164,8 @@ public class userActivity extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                checkVersion();
             }
         });
     }

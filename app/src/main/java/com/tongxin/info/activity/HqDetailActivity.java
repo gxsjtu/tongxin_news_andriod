@@ -10,11 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -118,7 +115,7 @@ public class HqDetailActivity extends BaseActivity {
         kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=" + tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                Toast.makeText(HqDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.Show(HqDetailActivity.this, "获取数据失败");
             }
 
             @Override

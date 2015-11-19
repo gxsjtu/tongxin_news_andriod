@@ -61,8 +61,6 @@ public class PushDemoReceiver extends BroadcastReceiver {
                     if (exit.equals("退出")) {
                         SharedPreUtils.setBoolean(context, "mustLogin", true);
                     } else {
-                        //recivebadge++;
-                        //Toast.makeText(context,"收到"+msg+"badge:"+badge,Toast.LENGTH_SHORT).show();
                         if(badge == 0)
                             badge++;
 
@@ -75,7 +73,6 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
 
                         Intent intent2 = new Intent(context, MainActivity.class);
-//                        intent2.putExtra("move",true);
                         PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent2, 0);
 
                         mBuilder.setContentTitle("同鑫资讯")//设置通知栏标题
@@ -92,17 +89,12 @@ public class PushDemoReceiver extends BroadcastReceiver {
                             {
                                 mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
                             }
-//                        if (badge > 1) {
-//                            mBuilder.setNumber(badge);
-//                        }
 
                         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                         Notification notify = mBuilder.build();
                         notify.flags = Notification.FLAG_AUTO_CANCEL;
-                        //mNotificationManager.notify(909, notify);
 
                         if(isBackGroundRunning()) {
-                            //ShortcutBadger.with(context).count(badge);
                             BadgeUtils.setBadgeCount(context, badge,msg,mNotificationManager,notify);
                         }
 

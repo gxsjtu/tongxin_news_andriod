@@ -136,7 +136,16 @@ public class LoginActivity extends Activity {
         kjHttp.get(Url, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                btn_login.setProgress(-1);
+                if(mustLogin) {
+                    btn_login.setProgress(-1);
+                }
+                else
+                {
+                    showLogin = true;
+                    //SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", true);
+                    setContentView(R.layout.activity_login);
+                    initViews();
+                }
                 ToastUtils.Show(LoginActivity.this, "访问网络失败");
             }
 
@@ -172,7 +181,7 @@ public class LoginActivity extends Activity {
                             initViews();
                         }
                         else {
-                            ToastUtils.Show(LoginActivity.this, "登陆失败");
+                            ToastUtils.Show(LoginActivity.this, "账号密码错误，请重新输入");
                         }
                     }
                 } catch (JSONException e) {

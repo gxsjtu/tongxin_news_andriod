@@ -126,7 +126,7 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                ToastUtils.Show(sqDetailFragment.this, "获取数据失败" + strMsg);
+                ToastUtils.Show(sqDetailFragment.this, "获取数据失败");
             }
 
             @Override
