@@ -70,6 +70,7 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
         iv_ref.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDemoSlider.removeAllSliders();
                 initData();
             }
         });
