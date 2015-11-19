@@ -101,6 +101,7 @@ public class MainActivity extends BaseFragmentActivity {
         badge.setTextSize(10);
         setMessageBadge(0);
 
+
         initViews();
 
 
