@@ -117,6 +117,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
         btn_Sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_Sure.setEnabled(false);
                 if (checkData()) {
                     new Thread() {
                         @Override
@@ -140,11 +141,16 @@ public class SqCatalogItemAdd extends BaseActivity  {
                             }
                             else
                             {
+                                btn_Sure.setEnabled(true);
                                 msg.what = 1;
                             }
                             mHandler.sendMessage(msg);
                         }
                     }.start();
+                }
+                else
+                {
+                    btn_Sure.setEnabled(true);
                 }
             }
         });
