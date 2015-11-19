@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
@@ -66,6 +68,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
     private Bitmap bmp;
     private ArrayList<Bitmap> bmps = new ArrayList<Bitmap>();
     private ArrayList<File> files = new ArrayList<File>();
+    private ArrayList<String> strUriList = new ArrayList<String>();
     CountDownTimer timer1;
     private String tel;
     private String location_Country;
@@ -175,12 +178,23 @@ public class SqCatalogItemAdd extends BaseActivity  {
             @Override
             public void onTick(long millisUntilFinished) {
                 // TODO Auto-generated method stub
-                if (bmps  != null && bmps.size() > 0) {
-                    if(j > bmps.size() - 1)
+//                if (bmps  != null && bmps.size() > 0) {
+//                    if(j > bmps.size() - 1)
+//                    {
+//                        j = 0;
+//                    }
+//                    iv_imgForSlider.setImageBitmap(bmps.get(j));
+//                    iv_imgForSlider.refreshDrawableState();
+//                    j++;
+//                }
+                if(strUriList != null && strUriList.size() > 0)
+                {
+                    if(j > strUriList.size() - 1)
                     {
                         j = 0;
                     }
-                    iv_imgForSlider.setImageBitmap(bmps.get(j));
+
+                    ImageLoader.getInstance().displayImage(strUriList.get(j),iv_imgForSlider);
                     iv_imgForSlider.refreshDrawableState();
                     j++;
                 }
@@ -189,15 +203,24 @@ public class SqCatalogItemAdd extends BaseActivity  {
             @Override
             public void onFinish() {
                 // TODO Auto-generated method stub
-                if (bmps  != null && bmps.size() > 0) {
-                    if(j > bmps.size() - 1)
+//                if (bmps  != null && bmps.size() > 0) {
+//                    if(j > bmps.size() - 1)
+//                    {
+//                        j = 0;
+//                    }
+//                    iv_imgForSlider.setImageBitmap(bmps.get(j));
+//                    iv_imgForSlider.refreshDrawableState();
+//                }
+                if(strUriList != null && strUriList.size() > 0)
+                {
+                    if(j > strUriList.size() - 1)
                     {
                         j = 0;
                     }
-                    iv_imgForSlider.setImageBitmap(bmps.get(j));
+                    ImageLoader.getInstance().displayImage(strUriList.get(j),iv_imgForSlider);
                     iv_imgForSlider.refreshDrawableState();
+                    j++;
                 }
-                // j++;
             }
         };
 
@@ -242,25 +265,27 @@ public class SqCatalogItemAdd extends BaseActivity  {
             @Override
             public void onClick(View v) {
                 timer1.cancel();
-                Dialog dialog;
-                dialog = new AlertDialog.Builder(SqCatalogItemAdd.this)
-                        .setTitle("从图库里选择照片").setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // TODO Auto-generated method stub
-                                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                        startActivityForResult(intent, RESULT);
-                                    }
-                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-                                dialog.cancel();
-                            }
-                        }).create();
-                dialog.show();
+//                Dialog dialog;
+//                dialog = new AlertDialog.Builder(SqCatalogItemAdd.this)
+//                        .setTitle("从图库里选择照片").setPositiveButton("确定",
+//                                new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        // TODO Auto-generated method stub
+//                                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                                        startActivityForResult(intent, RESULT);
+//                                    }
+//                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // TODO Auto-generated method stub
+//                                dialog.cancel();
+//                            }
+//                        }).create();
+//                dialog.show();
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, RESULT);
 
             }
         });
@@ -273,32 +298,37 @@ public class SqCatalogItemAdd extends BaseActivity  {
         // mDemoSlider.removeAllSliders();
         if (requestCode == RESULT && resultCode == RESULT_OK && data != null) {
                 Uri uri = data.getData();
-            String[] proj = {MediaStore.Images.Media.DATA};
-
-            //好像是android多媒体数据库的封装接口，具体的看Android文档
-            Cursor cursor = managedQuery(uri, proj, null, null, null);
-            //按我个人理解 这个是获得用户选择的图片的索引值
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            //将光标移至开头 ，这个很重要，不小心很容易引起越界
-            cursor.moveToFirst();
-            //最后根据索引值获取图片路径
-            String path = cursor.getString(column_index);
-
-                File file = new File(path);
-            files.add(file);
-                ContentResolver cr = this.getContentResolver();
-                try {
-                    if (bmp != null)//如果不释放的话，不断取图片，将会内存不够
-                        MyRecycle(bmp);
-                    bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    bmps.add(bmp);
-
-                    iv_imgForSlider.setImageBitmap(bmp);
+                strUriList.add(uri.toString());
+//            String[] proj = {MediaStore.Images.Media.DATA};
+//
+//            //好像是android多媒体数据库的封装接口，具体的看Android文档
+//            Cursor cursor = managedQuery(uri, proj, null, null, null);
+//            //按我个人理解 这个是获得用户选择的图片的索引值
+//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//            //将光标移至开头 ，这个很重要，不小心很容易引起越界
+//            cursor.moveToFirst();
+//            //最后根据索引值获取图片路径
+//            String path = cursor.getString(column_index);
+            ImageLoader.getInstance().displayImage(uri.toString(), iv_imgForSlider);
+//                File file = new File(path);
+//            Bitmap bmp = ImageLoader.getInstance().loadImageSync(path);
+//            iv_imgForSlider.setImageBitmap(bmp);
+//            files.add(file);
+//                ContentResolver cr = this.getContentResolver();
+//                try {
+//                    if (bmp != null)//如果不释放的话，不断取图片，将会内存不够
+//                        MyRecycle(bmp);
+//                    BitmapFactory.Options options = new  BitmapFactory.Options();
+//                    options.inSampleSize = 4;//calculateInSampleSize(options,200,200);
+//                    bmp = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
+//                    bmps.add(bmp);
+//
+//                    iv_imgForSlider.setImageBitmap(bmp);
                     timer1.start();
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+//                } catch (Exception e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
         }
         else if(resultCode == 0 && data != null)
         {
@@ -317,6 +347,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
     }
     public static void MyRecycle(Bitmap bmp){
         if(!bmp.isRecycled() && null!=bmp){
+//            bmp.recycle();
             bmp=null;
         }
     }
