@@ -31,12 +31,12 @@ public class BaseFragmentActivity extends FragmentActivity {
     @Override
     protected void onResume() {
             //app 从后台唤醒，进入前台
-            boolean mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
-            if(mustLogin) {
-                ToastUtils.Show(this, "您已被强制退出");
-                Intent intent = new Intent(this, LoginActivity.class);
-                this.startActivity(intent);
-            }
+//            boolean mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
+//            if(mustLogin) {
+//                ToastUtils.Show(this, "您已被强制退出");
+//                Intent intent = new Intent(this, LoginActivity.class);
+//                this.startActivity(intent);
+//            }
         super.onResume();
     }
 

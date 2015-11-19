@@ -172,7 +172,7 @@ public class LoginActivity extends Activity {
                             initViews();
                         }
                         else {
-                            ToastUtils.Show(LoginActivity.this, "登陆失败");
+                            ToastUtils.Show(LoginActivity.this, "账号密码错误，请重新输入");
                         }
                     }
                 } catch (JSONException e) {

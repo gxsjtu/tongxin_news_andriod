@@ -83,7 +83,7 @@ public class MyApp extends Application {
                 boolean mustLogin = SharedPreUtils.getBoolean(context, "mustLogin", true);
                 if (mustLogin && !showLogin) {
                     boolean isBack = isBackGroundRunning();
-                    if (!isBack) {
+                    if (!isBack && MyLifecycleHandler.startCount(context)) {
                         final Message msg = Message.obtain();
                         msg.what = 999;
                         mHandler.sendMessage(msg);
@@ -138,44 +138,7 @@ public class MyApp extends Application {
         ImageLoader.getInstance().init(config);
     }
 
-//    public boolean isAppOnForeground() {
-//        ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
-//        String packageName = getApplicationContext().getPackageName();
-//
-//        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
-//                .getRunningAppProcesses();
-//        if (appProcesses == null)
-//            return false;
-//
-//        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-//            // The name of the process that this object is associated with.
-//            if (appProcess.processName.equals(packageName)
-//                    && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
-
     public boolean isBackGroundRunning() {
         return !MyLifecycleHandler.isApplicationInForeground();
-//        String packageName = context.getPackageName();
-//        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-//        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-//        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-//        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-//            String processName = appProcess.processName;
-//            if (processName.equals(packageName)) {
-//                //100   200
-//                boolean isBackground = appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
-//                        && appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
-//                boolean isLockedState = keyguardManager.inKeyguardRestrictedInputMode();
-//                if (isBackground || isLockedState)
-//                    return -1;
-//                else
-//                    return 1;
-//            }
-//        }
     }
 }
