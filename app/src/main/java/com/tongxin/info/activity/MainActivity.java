@@ -133,7 +133,7 @@ public class MainActivity extends BaseFragmentActivity {
 
 
                 showPage(new boxFragment());
-
+                setMessageBadge(0);
             }
         });
 
