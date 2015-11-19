@@ -97,11 +97,13 @@ public class MainActivity extends BaseFragmentActivity {
         IntentFilter filter = new IntentFilter("com.tongxin.badge");
         registerReceiver(badgeBroadcast, filter);
 
-        initViews();
-
         badge = new BadgeView(this, ll_inbox);
         badge.setTextSize(10);
         setMessageBadge(0);
+
+        initViews();
+
+
     }
 
     private void initViews() {
