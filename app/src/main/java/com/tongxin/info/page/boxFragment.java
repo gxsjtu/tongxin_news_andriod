@@ -71,9 +71,6 @@ public class boxFragment extends Fragment {
     private TextView tv_headerTitle;
     private LinearLayout iv_ref;
     private Button btn_clear;
-    private ArrayList<InboxMsgVM> resList = new ArrayList<InboxMsgVM>();//数据不够一页放入空白数据
-    private LinearLayout ll_ForHeight;
-    private String[] mStrings = { "Abbaye de Belloc" };
     private String pullMode;
 
     @Override
@@ -91,7 +88,6 @@ public class boxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         container.removeAllViews();
       final  View view = View.inflate(mActivity, R.layout.inboxmsg, null);
-        ll_ForHeight = (LinearLayout)view.findViewById(R.id.ll_ForHeight);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("收件箱");
         iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
@@ -173,7 +169,7 @@ public class boxFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 InboxMsgVM msg = msgList.get(position - 1);
                 Copy(msg.msg.trim());
-                ToastUtils.Show(mActivity, "内容已复制");
+                ToastUtils.ShowForCopy(mActivity, "内容已复制");
                 return true;
             }
         });
@@ -183,7 +179,7 @@ public class boxFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 InboxMsgVM msg = msgList.get(position - 1);
                 Copy(msg.msg.trim());
-                ToastUtils.Show(mActivity, "内容已复制");
+                ToastUtils.ShowForCopy(mActivity, "内容已复制");
                 return true;
             }
         });
