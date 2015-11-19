@@ -12,7 +12,8 @@
     android:layout_weight="0.6"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:textSize="16dp"/>
+    android:textSize="16dp"
+    android:textColor="@color/black"/>
     <TextView
         android:id="@+id/tv_MyOrderMarket"
         android:layout_marginLeft="20dp"
