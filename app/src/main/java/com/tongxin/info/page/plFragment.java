@@ -66,7 +66,8 @@ public class plFragment extends baseFragment {
             @Override
             public void onClick(View v) {
                 initData();
-                adapter.notifyDataSetChanged();
+                if(adapter!=null)
+                    adapter.notifyDataSetChanged();
                 for (int i = 0; i < pl_frag.size(); i++) {
                     pl_frag.get(i).refLV();
                 }

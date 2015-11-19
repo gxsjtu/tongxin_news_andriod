@@ -289,7 +289,7 @@ public class sqListFragment extends FragmentActivity {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                ToastUtils.Show(sqListFragment.this, "获取数据失败" + strMsg);
+                ToastUtils.Show(sqListFragment.this, "获取数据失败");
             }
 
             @Override

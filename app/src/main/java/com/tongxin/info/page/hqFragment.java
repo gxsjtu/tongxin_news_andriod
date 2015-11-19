@@ -79,7 +79,9 @@ public class hqFragment extends baseFragment {
             @Override
             public void onClick(View v) {
                 initData();
-                adapter.notifyDataSetChanged();
+                if(adapter!=null) {
+                    adapter.notifyDataSetChanged();
+                }
                 for (int i = 0; i < hq_frag.size(); i++) {
                     hq_frag.get(i).refLV();
                 }
@@ -122,14 +124,6 @@ public class hqFragment extends baseFragment {
                 }
             }
         });
-
-//        iv_search = (ImageView) view.findViewById(R.id.iv_search);
-//        iv_search.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                search();
-//            }
-//        });
         initData();
 
         return view;

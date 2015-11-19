@@ -157,21 +157,6 @@ public class HqHistoryActivity extends BaseActivity {
             Date d1 = sdf.parse(start);
             Date d2 = sdf.parse(end);
 
-//            Calendar temp = Calendar.getInstance(Locale.CHINA);
-//            temp.setTime(d2);
-//            temp.add(Calendar.DAY_OF_YEAR,1);
-//            d2 = temp.getTime();
-//
-//
-//            int year = temp.get(Calendar.YEAR);
-//            int month = temp.get(Calendar.MONTH);
-//            int day = temp.get(Calendar.DAY_OF_MONTH);
-//            end = getDateStr(year, month, day);
-
-//            Calendar now = Calendar.getInstance();
-//            now.add(Calendar.DAY_OF_YEAR, value);
-//            return now.getTime();
-
             if (d2.getTime() - d1.getTime() < 0) {
                 ToastUtils.Show(this, "截止日期不能小于开始日期");
                 return;

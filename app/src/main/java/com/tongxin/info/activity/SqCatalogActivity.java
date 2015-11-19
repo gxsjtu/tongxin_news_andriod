@@ -94,7 +94,7 @@ public class SqCatalogActivity extends BaseActivity {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 loadingUtils.close();
-                ToastUtils.Show(SqCatalogActivity.this, "获取数据失败" + strMsg);
+                ToastUtils.Show(SqCatalogActivity.this, "获取数据失败");
             }
 
             @Override
