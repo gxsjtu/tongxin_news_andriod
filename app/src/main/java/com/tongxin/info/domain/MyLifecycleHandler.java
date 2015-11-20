@@ -97,7 +97,9 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
                             String result = jsonObject.getString("result");
                             if (result.equals("ok")) {
                                 //check成功
-
+                                Intent intentCount = new Intent("com.tongxin.badge");
+                                intentCount.putExtra("count", -1);
+                                activity.sendBroadcast(intentCount);
                                 boolean mustLogin = SharedPreUtils.getBoolean(activity, "mustLogin", true);
                                 if (mustLogin) {
                                     ToastUtils.Show(activity,"您已被强制退出");
@@ -108,6 +110,9 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
 
 
                             } else {
+                                Intent intentCount = new Intent("com.tongxin.badge");
+                                intentCount.putExtra("count", -1);
+                                activity.sendBroadcast(intentCount);
                                 ToastUtils.Show(activity, "账号密码错误，请重新输入！");
                                 Intent intent = new Intent(activity, LoginActivity.class);
                                 SharedPreUtils.setBoolean(activity,"mustLogin",true);

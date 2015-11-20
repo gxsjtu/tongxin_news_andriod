@@ -58,6 +58,9 @@ public class userActivity extends BaseActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         SharedPreUtils.setBoolean(this, "mustLogin", true);
         startActivity(intent);
+        Intent intentCount = new Intent("com.tongxin.badge");
+        intentCount.putExtra("count", -1);
+        this.sendBroadcast(intentCount);
         finish();
     }
 

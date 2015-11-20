@@ -87,6 +87,9 @@ public class MyApp extends Application {
                         final Message msg = Message.obtain();
                         msg.what = 999;
                         mHandler.sendMessage(msg);
+                        Intent intentCount = new Intent("com.tongxin.badge");
+                        intentCount.putExtra("count", -1);
+                        context.sendBroadcast(intentCount);
                         Intent intent = new Intent(context, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);

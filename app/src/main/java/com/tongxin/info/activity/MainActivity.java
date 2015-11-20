@@ -70,11 +70,11 @@ public class MainActivity extends BaseFragmentActivity {
     int select = Color.rgb(0x00,0x79,0xff);
     int unselect = Color.rgb(0x92,0x92,0x92);
     private ArrayList<Fragment> fragementList = new ArrayList<Fragment>();
-    private boxFragment boxF = new boxFragment();
-    private hqFragment hqF = new hqFragment();
-    private plFragment plF = new plFragment();
-    private sqFragment sqF = new sqFragment();
-    private meFragment meF = new meFragment();
+    private boxFragment boxF;
+    private hqFragment hqF ;
+    private plFragment plF ;
+    private sqFragment sqF ;
+    private meFragment meF ;
 
 
     @Override
@@ -120,6 +120,17 @@ public class MainActivity extends BaseFragmentActivity {
     private void initViews() {
 
         fragmentManager = getSupportFragmentManager();
+//        tran = fragmentManager.beginTransaction();
+//        if(boxF.isAdded())
+//        tran.remove(boxF);
+//        if(hqF.isAdded())
+//        tran.remove(hqF);
+//        if(sqF.isAdded())
+//            tran.remove(sqF);
+//        if(plF.isAdded())
+//            tran.remove(plF);
+//        if(meF.isAdded())
+//            tran.remove(meF);
 
         //收件箱
         ll_inbox.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +152,10 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
-
+                if(boxF == null)
+                {
+                    boxF = new boxFragment();
+                }
                 showPage(boxF);
                 setMessageBadge(0);
             }
@@ -167,6 +181,10 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
+                if(hqF == null)
+                {
+                    hqF = new hqFragment();
+                }
                 showPage(hqF);
             }
         });
@@ -191,6 +209,10 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
+                if(plF == null)
+                {
+                    plF = new plFragment();
+                }
                 showPage(plF);
             }
         });
@@ -215,6 +237,10 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
+                if(sqF == null)
+                {
+                    sqF = new sqFragment();
+                }
                 showPage(sqF);
             }
         });
@@ -238,6 +264,10 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user);
                 tv_qh.setTextColor(select);
 
+                if(meF == null)
+                {
+                    meF = new meFragment();
+                }
                 showPage(meF);
             }
         });
@@ -257,7 +287,10 @@ public class MainActivity extends BaseFragmentActivity {
         iv_qh.setImageResource(R.mipmap.user_gray);
         tv_qh.setTextColor(unselect);
 
-
+        if(boxF == null)
+        {
+            boxF = new boxFragment();
+        }
         showPage(boxF);
         setMessageBadge(0);
 
@@ -305,7 +338,12 @@ public class MainActivity extends BaseFragmentActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             int count = intent.getIntExtra("count",0);
-            setMessageBadge(count);
+            if(count == -1) {
+                finish();
+            }
+            else {
+                setMessageBadge(count);
+            }
         }
     }
 
