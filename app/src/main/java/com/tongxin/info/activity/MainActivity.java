@@ -120,17 +120,6 @@ public class MainActivity extends BaseFragmentActivity {
     private void initViews() {
 
         fragmentManager = getSupportFragmentManager();
-//        tran = fragmentManager.beginTransaction();
-//        if(boxF.isAdded())
-//        tran.remove(boxF);
-//        if(hqF.isAdded())
-//        tran.remove(hqF);
-//        if(sqF.isAdded())
-//            tran.remove(sqF);
-//        if(plF.isAdded())
-//            tran.remove(plF);
-//        if(meF.isAdded())
-//            tran.remove(meF);
 
         //收件箱
         ll_inbox.setOnClickListener(new View.OnClickListener() {
@@ -297,23 +286,44 @@ public class MainActivity extends BaseFragmentActivity {
 
     private void showPage(Fragment to) {
 
-        if(mContent != null) {
-            if (mContent != to){
-                tran = fragmentManager.beginTransaction();
-                if (!to.isAdded()) {    // 先判断是否被add过
-                    tran.hide(mContent).add(R.id.main_fl_content, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
-                } else {
-                    tran.hide(mContent).show(to).commit(); // 隐藏当前的fragment，显示下一个
-                }
-                mContent = to;
-            }
+        tran = fragmentManager.beginTransaction();
+        if(boxF != null && boxF.isAdded())
+        tran.hide(boxF);
+        if(hqF != null && hqF.isAdded())
+        tran.hide(hqF);
+        if(sqF != null && sqF.isAdded())
+            tran.hide(sqF);
+        if(plF != null && plF.isAdded())
+            tran.hide(plF);
+        if(meF != null && meF.isAdded())
+            tran.hide(meF);
+        if(to.isAdded())
+        {
+            tran.show(to);
         }
         else
         {
-            tran = fragmentManager.beginTransaction();
-            tran.add(R.id.main_fl_content,to).commit();
-            mContent = to;
+            tran.add(R.id.main_fl_content, to);
         }
+        tran.commit();
+
+//        if(mContent != null) {
+//            if (mContent != to){
+//                tran = fragmentManager.beginTransaction();
+//                if (!to.isAdded()) {    // 先判断是否被add过
+//                    tran.hide(mContent).add(R.id.main_fl_content, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+//                } else {
+//                    tran.hide(mContent).show(to).commit(); // 隐藏当前的fragment，显示下一个
+//                }
+//                mContent = to;
+//            }
+//        }
+//        else
+//        {
+//            tran = fragmentManager.beginTransaction();
+//            tran.add(R.id.main_fl_content,to).commit();
+//            mContent = to;
+//        }
     }
 
     public void setMessageBadge(int count) {
