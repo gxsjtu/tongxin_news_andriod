@@ -48,7 +48,7 @@ public class sqFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        container.removeAllViews();
+//        container.removeAllViews();
         View view = View.inflate(mActivity, R.layout.sqcontent, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("商圈频道");

@@ -86,7 +86,7 @@ public class boxFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container.removeAllViews();
+//        container.removeAllViews();
       final  View view = View.inflate(mActivity, R.layout.inboxmsg, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("收件箱");

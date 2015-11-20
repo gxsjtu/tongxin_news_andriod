@@ -53,7 +53,7 @@ public class plFragment extends baseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container.removeAllViews();
+//        container.removeAllViews();
         View view =View.inflate(mActivity, R.layout.plcontent,null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("同鑫评论");

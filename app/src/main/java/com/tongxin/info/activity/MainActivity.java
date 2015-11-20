@@ -35,6 +35,8 @@ import com.tongxin.info.utils.SharedPreUtils;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
@@ -61,11 +63,18 @@ public class MainActivity extends BaseFragmentActivity {
     private TextView tv_sq;
     private TextView tv_qh;
     private FragmentManager fragmentManager;
+    private Fragment mContent;
     FragmentTransaction tran;
     BadgeView badge;
     BadgeBroadcast badgeBroadcast = null;
     int select = Color.rgb(0x00,0x79,0xff);
     int unselect = Color.rgb(0x92,0x92,0x92);
+    private ArrayList<Fragment> fragementList = new ArrayList<Fragment>();
+    private boxFragment boxF = new boxFragment();
+    private hqFragment hqF = new hqFragment();
+    private plFragment plF = new plFragment();
+    private sqFragment sqF = new sqFragment();
+    private meFragment meF = new meFragment();
 
 
     @Override
@@ -74,6 +83,7 @@ public class MainActivity extends BaseFragmentActivity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+//        AddFragementList();
         main_fl_content = (FrameLayout) findViewById(R.id.main_fl_content);
         ll_inbox = (LinearLayout) findViewById(R.id.ll_inbox);
         ll_hq = (LinearLayout) findViewById(R.id.ll_hq);
@@ -132,7 +142,7 @@ public class MainActivity extends BaseFragmentActivity {
                 tv_qh.setTextColor(unselect);
 
 
-                showPage(new boxFragment());
+                showPage(boxF);
                 setMessageBadge(0);
             }
         });
@@ -157,7 +167,7 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
-                showPage(new hqFragment());
+                showPage(hqF);
             }
         });
 
@@ -181,7 +191,7 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
-                showPage(new plFragment());
+                showPage(plF);
             }
         });
 
@@ -205,7 +215,7 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
-                showPage(new sqFragment());
+                showPage(sqF);
             }
         });
 
@@ -228,7 +238,7 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user);
                 tv_qh.setTextColor(select);
 
-                showPage(new meFragment());
+                showPage(meF);
             }
         });
 
@@ -248,15 +258,30 @@ public class MainActivity extends BaseFragmentActivity {
         tv_qh.setTextColor(unselect);
 
 
-        showPage(new boxFragment());
+        showPage(boxF);
         setMessageBadge(0);
 
     }
 
-    private void showPage(Fragment fragment) {
-        tran = fragmentManager.beginTransaction();
-        tran.replace(R.id.main_fl_content, fragment);
-        tran.commit();
+    private void showPage(Fragment to) {
+
+        if(mContent != null) {
+            if (mContent != to){
+                tran = fragmentManager.beginTransaction();
+                if (!to.isAdded()) {    // 先判断是否被add过
+                    tran.hide(mContent).add(R.id.main_fl_content, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+                } else {
+                    tran.hide(mContent).show(to).commit(); // 隐藏当前的fragment，显示下一个
+                }
+                mContent = to;
+            }
+        }
+        else
+        {
+            tran = fragmentManager.beginTransaction();
+            tran.add(R.id.main_fl_content,to).commit();
+            mContent = to;
+        }
     }
 
     public void setMessageBadge(int count) {
@@ -328,4 +353,5 @@ public class MainActivity extends BaseFragmentActivity {
     public void onBackPressed() {
         moveTaskToBack(true);
     }
+
 }

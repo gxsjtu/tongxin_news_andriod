@@ -64,7 +64,7 @@ public class hqFragment extends baseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container.removeAllViews();
+//        container.removeAllViews();
         View view = View.inflate(mActivity, R.layout.hqcontent,null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("实时行情");

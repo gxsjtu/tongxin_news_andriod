@@ -32,7 +32,7 @@ public class meFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container.removeAllViews();
+//        container.removeAllViews();
         View view =View.inflate(mActivity, R.layout.mecontent,null);
         wv = (WebView) view.findViewById(R.id.wv);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
