@@ -60,6 +60,19 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
         boolean back = SharedPreUtils.getBoolean(activity, "back", false);
         if (back && startCount(activity)) {
             SharedPreUtils.setBoolean(activity, "back", false);
+
+            boolean mustLogin = SharedPreUtils.getBoolean(activity, "mustLogin", true);
+            if (mustLogin) {
+                Intent intentCount = new Intent("com.tongxin.badge");
+                intentCount.putExtra("count", -1);
+                activity.sendBroadcast(intentCount);
+                ToastUtils.Show(activity,"您已被强制退出");
+                Intent intent = new Intent(activity, LoginActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
+                return;
+            }
+
             //从后台到前台
             MyApp application = (MyApp) activity.getApplication();
             PushManager pushManager = application.getPushManager();
@@ -98,16 +111,16 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
                             if (result.equals("ok")) {
                                 //check成功
 
-                                boolean mustLogin = SharedPreUtils.getBoolean(activity, "mustLogin", true);
-                                if (mustLogin) {
-                                    Intent intentCount = new Intent("com.tongxin.badge");
-                                    intentCount.putExtra("count", -1);
-                                    activity.sendBroadcast(intentCount);
-                                    ToastUtils.Show(activity,"您已被强制退出");
-                                    Intent intent = new Intent(activity, LoginActivity.class);
-                                    activity.startActivity(intent);
-                                    activity.finish();
-                                }
+//                                boolean mustLogin = SharedPreUtils.getBoolean(activity, "mustLogin", true);
+//                                if (mustLogin) {
+//                                    Intent intentCount = new Intent("com.tongxin.badge");
+//                                    intentCount.putExtra("count", -1);
+//                                    activity.sendBroadcast(intentCount);
+//                                    ToastUtils.Show(activity,"您已被强制退出");
+//                                    Intent intent = new Intent(activity, LoginActivity.class);
+//                                    activity.startActivity(intent);
+//                                    activity.finish();
+//                                }
 
 
                             } else {

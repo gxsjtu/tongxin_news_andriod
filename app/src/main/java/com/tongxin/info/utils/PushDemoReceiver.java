@@ -73,8 +73,8 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
 
                         Intent intent2 = new Intent(context, MainActivity.class);
+                        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent2, 0);
-
                         mBuilder.setContentTitle("同鑫资讯")//设置通知栏标题
                                 .setContentText(msg) //设置通知栏显示内容
                                 .setContentIntent(pendingIntent) //设置通知栏点击意图
@@ -97,6 +97,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
                         if(isBackGroundRunning()) {
                             BadgeUtils.setBadgeCount(context, badge,msg,mNotificationManager,notify);
                         }
+
 
                         SharedPreUtils.setString(context, "badgecount", String.valueOf(badge));
                         Intent intentCount = new Intent("com.tongxin.badge");
