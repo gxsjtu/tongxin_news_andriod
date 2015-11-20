@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tongxin.info.R;
 import com.tongxin.info.utils.loadingUtils;
 
@@ -39,16 +40,17 @@ public class DetailForShowImg extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    img_ForShow.setImageBitmap(bitmap);
+//                    img_ForShow.setImageBitmap(bitmap);
                     loadingUtils.close();
                     break;
                 case 1:
                     loadingUtils.close();
-                   finish();
+                    finish();
                     break;
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +58,13 @@ public class DetailForShowImg extends Activity {
         isCanFinish = "";
         Intent intent = getIntent();
         url = intent.getStringExtra("IMGURLFORSHOW");
-        img_ForShow = (ImageView)findViewById(R.id.img_ForShow);
+        img_ForShow = (ImageView) findViewById(R.id.img_ForShow);
         loadingUtils = new loadingUtils(DetailForShowImg.this);
         loadingUtils.show();
-        returnBitMap();
+//        closeRef();
+        ImageLoader.getInstance().displayImage(url, img_ForShow);
+        loadingUtils.close();
+//        returnBitMap();
     }
 
     @Override
@@ -67,13 +72,8 @@ public class DetailForShowImg extends Activity {
         switch (ev.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
-                if("YES".equals(isCanFinish)) {
-                    if(bitmap != null) {
-                        bitmap.recycle();
-                    }
-                    System.gc();
-                    finish();
-                }
+//
+                finish();
 //                System.out.println("aaaaaaaaaaaaaaa");
                 break;
         }
@@ -81,6 +81,26 @@ public class DetailForShowImg extends Activity {
         return true;
     }
 
+    private void closeRef()
+    {
+        new Thread() {
+            @Override
+            public void run() {
+                final Message msg = Message.obtain();
+
+                try {
+                    ImageLoader.getInstance().displayImage(url, img_ForShow);
+                    msg.what = 0;
+//                    isCanFinish = "YES";
+                } catch (Exception e) {
+                    msg.what = 1;
+//                    isCanFinish = "YES";
+                    e.printStackTrace();
+                }
+                mHandler.sendMessage(msg);
+            }
+        }.start();
+    }
     private void returnBitMap() {
 
             new Thread() {
