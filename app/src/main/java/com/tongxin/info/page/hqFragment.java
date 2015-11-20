@@ -1,5 +1,6 @@
 package com.tongxin.info.page;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,7 +14,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,6 +56,7 @@ public class hqFragment extends baseFragment {
     private List<hq_contentFragment> hq_frag = new ArrayList<hq_contentFragment>();
     loadingUtils loadingUtils;
     private FragmentManager fm;
+    private Button hqbtn_CancelSearch;
 
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
     MyPagerAdapter adapter;
@@ -79,7 +84,7 @@ public class hqFragment extends baseFragment {
             @Override
             public void onClick(View v) {
                 initData();
-                if(adapter!=null) {
+                if (adapter != null) {
                     adapter.notifyDataSetChanged();
                 }
                 for (int i = 0; i < hq_frag.size(); i++) {
@@ -91,7 +96,7 @@ public class hqFragment extends baseFragment {
         iv_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,userActivity.class);
+                Intent intent = new Intent(mActivity, userActivity.class);
                 startActivity(intent);
             }
         });
@@ -113,15 +118,39 @@ public class hqFragment extends baseFragment {
         et_search = (EditText) view.findViewById(R.id.et_search);
 
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)  {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if ((actionId== EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) && event.getAction()==KeyEvent.ACTION_DOWN) {
+                if ((actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) && event.getAction() == KeyEvent.ACTION_DOWN) {
                     search();
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
+            }
+        });
+        et_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    hqbtn_CancelSearch.setTextColor(Color.parseColor("#23B1EF"));
+                    hqbtn_CancelSearch.setEnabled(true);
+                }
+                else {
+                    hqbtn_CancelSearch.setTextColor(Color.GRAY);
+                    hqbtn_CancelSearch.setEnabled(false);
+                }
+            }
+        });
+        hqbtn_CancelSearch = (Button)view.findViewById(R.id.hqbtn_CancelSearch);
+        hqbtn_CancelSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_search.setText("");
+                et_search.clearFocus();
+                hqbtn_CancelSearch.setTextColor(Color.GRAY);
+                hqbtn_CancelSearch.setEnabled(false);
+                InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(et_search.getWindowToken(), 0);
             }
         });
         initData();

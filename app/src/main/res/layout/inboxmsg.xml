@@ -36,14 +36,14 @@
                 android:textSize="14sp"
                 android:imeOptions="actionSearch"
                 android:inputType="text"/>
-
-            <!--<ImageView-->
-                <!--android:id="@+id/ivMsg_search"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:src="@drawable/searchpic" />-->
+            <Button
+                android:id="@+id/btn_CancelSearch"
+                android:textColor="#808080"
+                android:enabled="false"
+                android:text="取消"
+                android:background="@android:color/transparent"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 <LinearLayout
     android:id="@+id/ll_ForHeight"

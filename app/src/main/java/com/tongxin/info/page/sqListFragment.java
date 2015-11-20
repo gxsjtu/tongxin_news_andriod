@@ -59,6 +59,7 @@ public class sqListFragment extends FragmentActivity {
     private EditText name_searchTxt;
     private ImageView sq_searchImg;
     AppAdapter adapter;
+    private Button sqbtn_CancelSearch;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,25 +82,49 @@ public class sqListFragment extends FragmentActivity {
 //        sq_searchImg = (ImageView)findViewById(R.id.ivMsg_search);
         name_searchTxt = (EditText)findViewById(R.id.msg_search);
         name_searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)  {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if (((actionId== EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) && event.getAction()==KeyEvent.ACTION_DOWN) || actionId == EditorInfo.IME_ACTION_SEARCH){
+                if (((actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) && event.getAction() == KeyEvent.ACTION_DOWN) || actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search();
-                    InputMethodManager imm = (InputMethodManager)sqListFragment.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) sqListFragment.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(name_searchTxt.getWindowToken(), 0);
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
             }
         });
-//        sq_searchImg.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                search();
-//            }
-//        });
+        name_searchTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    sqbtn_CancelSearch.setTextColor(Color.parseColor("#23B1EF"));
+                    sqbtn_CancelSearch.setEnabled(true);
+                }
+                else {
+                    sqbtn_CancelSearch.setTextColor(Color.GRAY);
+                    sqbtn_CancelSearch.setEnabled(false);
+                }
+            }
+        });
+        sqbtn_CancelSearch = (Button)findViewById(R.id.sqbtn_CancelSearch);
+        sqbtn_CancelSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                name_searchTxt.setText("");
+                name_searchTxt.clearFocus();
+                sqbtn_CancelSearch.setTextColor(Color.GRAY);
+                sqbtn_CancelSearch.setEnabled(false);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(name_searchTxt.getWindowToken(), 0);
+                if(sqList != null && resList != null)
+                {
+                    sqList.clear();
+                    resList.clear();
+                }
+                initData(typeForRefresh);
+            }
+        });
         iv_sqReturn = (LinearLayout) findViewById(R.id.sq_ivReturn);
         iv_sqReturn.setOnClickListener(new View.OnClickListener() {
             @Override

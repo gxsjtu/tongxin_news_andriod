@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -72,6 +73,7 @@ public class boxFragment extends Fragment {
     private LinearLayout iv_ref;
     private Button btn_clear;
     private String pullMode;
+    private Button btn_CancelSearch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,6 +110,7 @@ public class boxFragment extends Fragment {
                 mActivity.sendBroadcast(intentCount);
             }
         });
+
         btn_clear = (Button)view.findViewById(R.id.btn_clearMsg);
         btn_clear.setVisibility(View.VISIBLE);
         btn_clear.setOnClickListener(new View.OnClickListener() {
@@ -151,19 +154,6 @@ public class boxFragment extends Fragment {
 
         });
 
-//        actualListView.setoni
-//        actualListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                view.setBackgroundColor(Color.parseColor("#B48AAB"));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                view.setBackgroundColor(Color.parseColor("#c9c9ce"));
-//            }
-//        });
-
         actualListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -186,17 +176,48 @@ public class boxFragment extends Fragment {
 
         msg_searchTxt = (EditText)view.findViewById(R.id.msg_search);
         msg_searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)  {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if (((actionId== EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) && event.getAction()==KeyEvent.ACTION_DOWN) || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (((actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) && event.getAction() == KeyEvent.ACTION_DOWN) || actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search();
-                    InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(msg_searchTxt.getWindowToken(),0);
+                    InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(msg_searchTxt.getWindowToken(), 0);
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
+            }
+        });
+        msg_searchTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    btn_CancelSearch.setTextColor(Color.parseColor("#23B1EF"));
+                    btn_CancelSearch.setEnabled(true);
+                }
+                else {
+                    btn_CancelSearch.setTextColor(Color.GRAY);
+                    btn_CancelSearch.setEnabled(false);
+                }
+            }
+        });
+        btn_CancelSearch = (Button)view.findViewById(R.id.btn_CancelSearch);
+        btn_CancelSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                msg_searchTxt.setText("");
+                msg_searchTxt.clearFocus();
+                btn_CancelSearch.setTextColor(Color.GRAY);
+                btn_CancelSearch.setEnabled(false);
+                InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(msg_searchTxt.getWindowToken(), 0);
+                if (loadList != null && msgList != null) {
+                    loadList.clear();
+                    msgList.clear();
+                }
+                adapterForData = new AppAdapter();
+                lv_msg.setAdapter(adapterForData);
+                initData();
             }
         });
         loadMoreBtn = (Button)footerView.findViewById(R.id.msg_loadMoreBtn);
