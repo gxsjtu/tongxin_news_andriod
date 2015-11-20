@@ -398,7 +398,9 @@ public class MainActivity extends BaseFragmentActivity {
             tran.hide(plF);
         if(meF != null && meF.isAdded())
             tran.hide(meF);
-        tran.remove(boxF);
+         if(boxF != null && boxF.isAdded()) {
+             tran.remove(boxF);
+         }
         boxF = new boxFragment();
         tran.add(R.id.main_fl_content,boxF);
 //        tran.replace(R.id.main_fl_content, new boxFragment());
