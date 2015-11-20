@@ -229,7 +229,8 @@ public class boxFragment extends Fragment {
         loadList.clear();
         String res = "";
         if(searchKey != null) {
-            res = searchKey.replace(" ", "");
+//            res = searchKey.replace(" ", "");
+            res = searchKey.trim();
         }
         if("".equals(res))
         {
@@ -239,7 +240,7 @@ public class boxFragment extends Fragment {
         {
 //            res.toLowerCase();
             for(int i = 0; i < msgList.size();i++) {
-                if (msgList.get(i).msg.toLowerCase().contains(searchKey.toLowerCase())) {
+                if (msgList.get(i).msg.toLowerCase().contains(res.toLowerCase())) {
                     loadList.add(msgList.get(i));
                 }
             }
