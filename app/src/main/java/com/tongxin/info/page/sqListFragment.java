@@ -117,12 +117,15 @@ public class sqListFragment extends FragmentActivity {
                 sqbtn_CancelSearch.setEnabled(false);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(name_searchTxt.getWindowToken(), 0);
-                if(sqList != null && resList != null)
-                {
-                    sqList.clear();
-                    resList.clear();
-                }
-                initData(typeForRefresh);
+                adapter = new AppAdapter();
+                lv_sqList.setAdapter(adapter);
+//                if(sqList != null && resList != null)
+//                {
+//                    sqList.clear();
+//                    resList.clear();
+//                }
+//                initData(typeForRefresh);
+
             }
         });
         iv_sqReturn = (LinearLayout) findViewById(R.id.sq_ivReturn);

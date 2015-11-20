@@ -211,13 +211,13 @@ public class boxFragment extends Fragment {
                 btn_CancelSearch.setEnabled(false);
                 InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(msg_searchTxt.getWindowToken(), 0);
-                if (loadList != null && msgList != null) {
-                    loadList.clear();
-                    msgList.clear();
-                }
+//                if (loadList != null && msgList != null) {
+//                    loadList.clear();
+//                    msgList.clear();
+//                }
                 adapterForData = new AppAdapter();
                 lv_msg.setAdapter(adapterForData);
-                initData();
+//                initData();
             }
         });
         loadMoreBtn = (Button)footerView.findViewById(R.id.msg_loadMoreBtn);
