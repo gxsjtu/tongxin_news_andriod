@@ -97,11 +97,12 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
                             String result = jsonObject.getString("result");
                             if (result.equals("ok")) {
                                 //check成功
-                                Intent intentCount = new Intent("com.tongxin.badge");
-                                intentCount.putExtra("count", -1);
-                                activity.sendBroadcast(intentCount);
+
                                 boolean mustLogin = SharedPreUtils.getBoolean(activity, "mustLogin", true);
                                 if (mustLogin) {
+                                    Intent intentCount = new Intent("com.tongxin.badge");
+                                    intentCount.putExtra("count", -1);
+                                    activity.sendBroadcast(intentCount);
                                     ToastUtils.Show(activity,"您已被强制退出");
                                     Intent intent = new Intent(activity, LoginActivity.class);
                                     activity.startActivity(intent);
