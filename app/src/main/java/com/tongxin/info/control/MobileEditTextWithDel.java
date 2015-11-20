@@ -40,7 +40,7 @@ public class MobileEditTextWithDel extends EditText {
     }
 
     private void init() {
-        imgInable = mContext.getResources().getDrawable(R.drawable.delete_gray);
+        imgInable = mContext.getResources().getDrawable(R.drawable.cross);
         imgAble = mContext.getResources().getDrawable(R.drawable.delete);
         imgMobile = mContext.getResources().getDrawable(R.drawable.mobile);
         addTextChangedListener(new TextWatcher() {

@@ -40,7 +40,8 @@ public class EditTextWithDel extends EditText {
     }
 
     private void init() {
-        imgInable = mContext.getResources().getDrawable(R.drawable.delete_gray);
+        //imgInable = mContext.getResources().getDrawable(R.drawable.delete_gray);
+        imgInable = mContext.getResources().getDrawable(R.drawable.cross);
         imgAble = mContext.getResources().getDrawable(R.drawable.delete);
         imgSearch = mContext.getResources().getDrawable(R.drawable.searchpic);
 

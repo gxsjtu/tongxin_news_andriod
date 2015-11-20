@@ -40,7 +40,7 @@ public class PwdEditTextWithDel extends EditText {
     }
 
     private void init() {
-        imgInable = mContext.getResources().getDrawable(R.drawable.delete_gray);
+        imgInable = mContext.getResources().getDrawable(R.drawable.cross);
         imgAble = mContext.getResources().getDrawable(R.drawable.delete);
         imgPwd = mContext.getResources().getDrawable(R.drawable.pwd);
         addTextChangedListener(new TextWatcher() {
