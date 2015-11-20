@@ -157,7 +157,6 @@ public class MainActivity extends BaseFragmentActivity {
                     boxF = new boxFragment();
                 }
                 showPage(boxF);
-                setMessageBadge(0);
             }
         });
 
