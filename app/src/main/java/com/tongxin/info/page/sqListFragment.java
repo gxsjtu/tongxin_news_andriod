@@ -221,7 +221,7 @@ public class sqListFragment extends FragmentActivity {
         {
             for(int i = 0; i< resList.size();i++)
             {
-                if(resList.get(i).name.toLowerCase().contains(searchKey.toLowerCase()))
+                if(resList.get(i).name.toLowerCase().contains(res.toLowerCase()))
                 {
                     searchList.add(resList.get(i));
                 }
