@@ -61,27 +61,33 @@ public class ChartActivity extends BaseActivity {
     float max = 0;
 
     private void getMaxAndMin() {
-        for (int i = 0; i < historyPrices.size(); i++) {
-            ProductHistoryPrice price = historyPrices.get(i);
-            float low = Float.parseFloat(price.LPrice);
-            float high = Float.parseFloat(price.HPrice);
-            if (i == 0) {
-                min = low;
-                max = high;
-            } else {
-                if (min > high) {
-                    min = high;
-                }
-                if (min > low) {
+        try {
+            for (int i = 0; i < historyPrices.size(); i++) {
+                ProductHistoryPrice price = historyPrices.get(i);
+                float low = Float.parseFloat(price.LPrice);
+                float high = Float.parseFloat(price.HPrice);
+                if (i == 0) {
                     min = low;
-                }
-                if (max < low) {
-                    max = low;
-                }
-                if (max < high) {
                     max = high;
+                } else {
+                    if (min > high) {
+                        min = high;
+                    }
+                    if (min > low) {
+                        min = low;
+                    }
+                    if (max < low) {
+                        max = low;
+                    }
+                    if (max < high) {
+                        max = high;
+                    }
                 }
             }
+        }
+        catch (NumberFormatException exception)
+        {
+            historyPrices.clear();
         }
     }
 
@@ -166,7 +172,8 @@ public class ChartActivity extends BaseActivity {
     private void initData() {
 
         chart.setDescription("");
-        chart.setNoDataTextDescription("没有查询到数据");
+        chart.setNoDataTextDescription("没有可显示的数据");
+        chart.setNoDataText("");
         chart.animateX(1000);
 
         if (historyPrices.size() > 0) {
@@ -185,6 +192,10 @@ public class ChartActivity extends BaseActivity {
             low.setColor(Color.GREEN);
             low.setLineWidth(5f);
             low.setValueTextColor(Color.TRANSPARENT);
+//            high.setHighLightColor(Color.BLACK);
+//            low.setHighLightColor(Color.BLACK);
+            high.setHighlightLineWidth(2);
+            low.setHighlightLineWidth(2);
             dataSets.add(high);
             dataSets.add(low);
             LineData data = new LineData(xVals, dataSets);
