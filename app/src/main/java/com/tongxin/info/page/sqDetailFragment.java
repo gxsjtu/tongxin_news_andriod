@@ -51,6 +51,7 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
     loadingUtils loadingUtils;
     private String url;
     HashMap<String, String> url_maps = new HashMap<String, String>();
+    private boolean isClickedComplete = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +193,7 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
             else {
                 mDemoSlider.startAutoCycle();
             }
+            isClickedComplete = true;
         }
     }
 
@@ -211,12 +213,14 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-//        img_ForShow.set
-        url = slider.getUrl();
-        Intent intent = new Intent(sqDetailFragment.this, DetailForShowImg.class);
-        intent.putExtra("IMGURLFORSHOW", url);
+        if(isClickedComplete) {
+            url = slider.getUrl();
+            Intent intent = new Intent(sqDetailFragment.this, DetailForShowImg.class);
+            intent.putExtra("IMGURLFORSHOW", url);
 //        startActivity(intent);
-        startActivityForResult(intent,20);
+            startActivityForResult(intent, 20);
+            isClickedComplete = false;
+        }
     }
 
 
