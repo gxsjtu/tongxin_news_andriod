@@ -207,7 +207,8 @@ public class sqListFragment extends FragmentActivity {
         String searchKey = name_searchTxt.getText().toString();
         String res = "";
         if(searchKey != null) {
-            res = searchKey.replace(" ", "");
+//            res = searchKey.replace(" ", "");
+            res = searchKey.trim();
         }
         if("".equals(res))
         {
