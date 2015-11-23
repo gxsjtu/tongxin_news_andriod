@@ -94,6 +94,9 @@ public class ChartActivity extends BaseActivity {
         historyPrices = (ArrayList<ProductHistoryPrice>) intent.getSerializableExtra("data");
         Collections.reverse(historyPrices);
         getMaxAndMin();
+
+        float range = min/10;
+
         initViews();
 
         initData();
@@ -104,14 +107,14 @@ public class ChartActivity extends BaseActivity {
         YAxis rightAxis = chart.getAxisRight();
 
         // Y坐标轴最大值
-        leftAxis.setAxisMaxValue(max);
-        rightAxis.setAxisMaxValue(max);
+        leftAxis.setAxisMaxValue(max+range);
+        rightAxis.setAxisMaxValue(max+range);
         leftAxis.setLabelCount(10, true);
         rightAxis.setLabelCount(10, true);
 
         // Y坐标轴最小值
-        leftAxis.setAxisMinValue(min);
-        rightAxis.setAxisMinValue(min);
+        leftAxis.setAxisMinValue(min-range);
+        rightAxis.setAxisMinValue(min-range);
 
         leftAxis.setStartAtZero(false);
         rightAxis.setStartAtZero(false);
