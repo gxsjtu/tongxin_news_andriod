@@ -61,27 +61,33 @@ public class ChartActivity extends BaseActivity {
     float max = 0;
 
     private void getMaxAndMin() {
-        for (int i = 0; i < historyPrices.size(); i++) {
-            ProductHistoryPrice price = historyPrices.get(i);
-            float low = Float.parseFloat(price.LPrice);
-            float high = Float.parseFloat(price.HPrice);
-            if (i == 0) {
-                min = low;
-                max = high;
-            } else {
-                if (min > high) {
-                    min = high;
-                }
-                if (min > low) {
+        try {
+            for (int i = 0; i < historyPrices.size(); i++) {
+                ProductHistoryPrice price = historyPrices.get(i);
+                float low = Float.parseFloat(price.LPrice);
+                float high = Float.parseFloat(price.HPrice);
+                if (i == 0) {
                     min = low;
-                }
-                if (max < low) {
-                    max = low;
-                }
-                if (max < high) {
                     max = high;
+                } else {
+                    if (min > high) {
+                        min = high;
+                    }
+                    if (min > low) {
+                        min = low;
+                    }
+                    if (max < low) {
+                        max = low;
+                    }
+                    if (max < high) {
+                        max = high;
+                    }
                 }
             }
+        }
+        catch (NumberFormatException exception)
+        {
+            historyPrices.clear();
         }
     }
 
@@ -94,6 +100,9 @@ public class ChartActivity extends BaseActivity {
         historyPrices = (ArrayList<ProductHistoryPrice>) intent.getSerializableExtra("data");
         Collections.reverse(historyPrices);
         getMaxAndMin();
+
+        float range = (max-min)/20;
+
         initViews();
 
         initData();
@@ -104,14 +113,14 @@ public class ChartActivity extends BaseActivity {
         YAxis rightAxis = chart.getAxisRight();
 
         // Y坐标轴最大值
-        leftAxis.setAxisMaxValue(max);
-        rightAxis.setAxisMaxValue(max);
+        leftAxis.setAxisMaxValue(max+range);
+        rightAxis.setAxisMaxValue(max+range);
         leftAxis.setLabelCount(10, true);
         rightAxis.setLabelCount(10, true);
 
         // Y坐标轴最小值
-        leftAxis.setAxisMinValue(min);
-        rightAxis.setAxisMinValue(min);
+        leftAxis.setAxisMinValue(min-range);
+        rightAxis.setAxisMinValue(min-range);
 
         leftAxis.setStartAtZero(false);
         rightAxis.setStartAtZero(false);
@@ -163,8 +172,9 @@ public class ChartActivity extends BaseActivity {
     private void initData() {
 
         chart.setDescription("");
-        chart.setNoDataTextDescription("没有查询到数据");
-        chart.animateX(3000);
+        chart.setNoDataTextDescription("没有可显示的数据");
+        chart.setNoDataText("");
+        chart.animateX(1000);
 
         if (historyPrices.size() > 0) {
 
@@ -177,9 +187,15 @@ public class ChartActivity extends BaseActivity {
             high.setAxisDependency(YAxis.AxisDependency.LEFT);
             low.setAxisDependency(YAxis.AxisDependency.LEFT);
             high.setColor(Color.RED);
-            high.setLineWidth(5f);
+            high.setLineWidth(3f);
+            high.setValueTextColor(Color.TRANSPARENT);
             low.setColor(Color.GREEN);
-            low.setLineWidth(5f);
+            low.setLineWidth(3f);
+            low.setValueTextColor(Color.TRANSPARENT);
+//            high.setHighLightColor(Color.BLACK);
+//            low.setHighLightColor(Color.BLACK);
+            high.setHighlightLineWidth(2);
+            low.setHighlightLineWidth(2);
             dataSets.add(high);
             dataSets.add(low);
             LineData data = new LineData(xVals, dataSets);
