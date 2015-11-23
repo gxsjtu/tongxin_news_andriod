@@ -12,8 +12,10 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.tongxin.info.R;
 import com.tongxin.info.utils.loadingUtils;
 
@@ -61,9 +63,22 @@ public class DetailForShowImg extends Activity {
         img_ForShow = (ImageView) findViewById(R.id.img_ForShow);
         loadingUtils = new loadingUtils(DetailForShowImg.this);
         loadingUtils.show();
+        ImageLoader.getInstance().loadImage(url,new SimpleImageLoadingListener()
+        {
+            public void onLoadingComplete(String imageUri, android.view.View view, android.graphics.Bitmap loadedImage)
+            {
+                img_ForShow.setImageBitmap(loadedImage);
+                loadingUtils.close();
+            }
+
+            public void onLoadingFailed(String imageUri, android.view.View view, com.nostra13.universalimageloader.core.assist.FailReason failReason) {
+                Toast.makeText(DetailForShowImg.this, "图片加载失败，请稍后重试！", Toast.LENGTH_SHORT).show();
+            };
+        });
+//        showImg();
 //        closeRef();
-        ImageLoader.getInstance().displayImage(url, img_ForShow);
-        loadingUtils.close();
+//        ImageLoader.getInstance().displayImage(url, img_ForShow);
+//        loadingUtils.close();
 //        returnBitMap();
     }
 
@@ -73,6 +88,8 @@ public class DetailForShowImg extends Activity {
 
             case MotionEvent.ACTION_DOWN:
 //
+//                finish();
+                setResult(20);
                 finish();
 //                System.out.println("aaaaaaaaaaaaaaa");
                 break;
@@ -101,6 +118,27 @@ public class DetailForShowImg extends Activity {
             }
         }.start();
     }
+
+    private void showImg()
+    {
+        new Thread() {
+            @Override
+            public void run() {
+                final Message msg = Message.obtain();
+                try {
+                    ImageLoader.getInstance().displayImage(url, img_ForShow);
+                    msg.what = 0;
+                }
+                catch (Exception ex)
+                {
+                    msg.what = 1;
+                    ex.printStackTrace();
+                }
+                mHandler.sendMessage(msg);
+            }
+        }.start();
+    }
+
     private void returnBitMap() {
 
             new Thread() {
@@ -194,4 +232,6 @@ public class DetailForShowImg extends Activity {
 //        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
 //        return bitmap;
 //    }
+
+
 }

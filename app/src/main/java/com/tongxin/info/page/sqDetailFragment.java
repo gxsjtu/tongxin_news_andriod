@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
+import com.tongxin.info.activity.BaseActivity;
 import com.tongxin.info.activity.DetailForShowImg;
 import com.tongxin.info.domain.SQDetailVM;
 import com.tongxin.info.global.GlobalContants;
@@ -31,7 +33,7 @@ import java.util.HashMap;
 /**
  * Created by cc on 2015/11/5.
  */
-public class sqDetailFragment extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     private SliderLayout mDemoSlider;
     private TextView tv_headerTitle;
     private int sq_channelID;
@@ -170,8 +172,8 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
 
                     mDemoSlider.addSlider(textSliderView);
                 }
-//                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-//                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
                 mDemoSlider.setCustomAnimation(new DescriptionAnimation());
                 mDemoSlider.setDuration(4000);
                 mDemoSlider.addOnPageChangeListener(sqDetailFragment.this);
@@ -182,6 +184,14 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
                 loadingUtils.close();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == 20)
+        {
+            mDemoSlider.startAutoCycle();
+        }
     }
 
     private void callMoile(String tel) {
@@ -203,8 +213,9 @@ public class sqDetailFragment extends Activity implements BaseSliderView.OnSlide
 //        img_ForShow.set
         url = slider.getUrl();
         Intent intent = new Intent(sqDetailFragment.this, DetailForShowImg.class);
-        intent.putExtra("IMGURLFORSHOW",url);
-        startActivity(intent);
+        intent.putExtra("IMGURLFORSHOW", url);
+//        startActivity(intent);
+        startActivityForResult(intent,20);
     }
 
 
