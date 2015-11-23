@@ -187,10 +187,10 @@ public class ChartActivity extends BaseActivity {
             high.setAxisDependency(YAxis.AxisDependency.LEFT);
             low.setAxisDependency(YAxis.AxisDependency.LEFT);
             high.setColor(Color.RED);
-            high.setLineWidth(5f);
+            high.setLineWidth(3f);
             high.setValueTextColor(Color.TRANSPARENT);
             low.setColor(Color.GREEN);
-            low.setLineWidth(5f);
+            low.setLineWidth(3f);
             low.setValueTextColor(Color.TRANSPARENT);
 //            high.setHighLightColor(Color.BLACK);
 //            low.setHighLightColor(Color.BLACK);
