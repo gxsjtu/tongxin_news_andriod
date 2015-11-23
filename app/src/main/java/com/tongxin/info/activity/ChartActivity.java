@@ -181,8 +181,10 @@ public class ChartActivity extends BaseActivity {
             low.setAxisDependency(YAxis.AxisDependency.LEFT);
             high.setColor(Color.RED);
             high.setLineWidth(5f);
+            high.setValueTextColor(Color.TRANSPARENT);
             low.setColor(Color.GREEN);
             low.setLineWidth(5f);
+            low.setValueTextColor(Color.TRANSPARENT);
             dataSets.add(high);
             dataSets.add(low);
             LineData data = new LineData(xVals, dataSets);
