@@ -95,7 +95,7 @@ public class ChartActivity extends BaseActivity {
         Collections.reverse(historyPrices);
         getMaxAndMin();
 
-        float range = min/10;
+        float range = (max-min)/20;
 
         initViews();
 
@@ -167,7 +167,7 @@ public class ChartActivity extends BaseActivity {
 
         chart.setDescription("");
         chart.setNoDataTextDescription("没有查询到数据");
-        chart.animateX(3000);
+        chart.animateX(1000);
 
         if (historyPrices.size() > 0) {
 
