@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.tongxin.info.R;
 import com.tongxin.info.utils.loadingUtils;
@@ -63,18 +65,49 @@ public class DetailForShowImg extends Activity {
         img_ForShow = (ImageView) findViewById(R.id.img_ForShow);
         loadingUtils = new loadingUtils(DetailForShowImg.this);
         loadingUtils.show();
-        ImageLoader.getInstance().loadImage(url,new SimpleImageLoadingListener()
-        {
-            public void onLoadingComplete(String imageUri, android.view.View view, android.graphics.Bitmap loadedImage)
-            {
-                img_ForShow.setImageBitmap(loadedImage);
+//        ImageLoader.getInstance().displayImage(url, img_ForShow);
+        ImageLoader.getInstance().displayImage(url, img_ForShow, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                Toast.makeText(DetailForShowImg.this, "图片加载失败，请稍后重试！", Toast.LENGTH_SHORT).show();
+                loadingUtils.close();
+                setResult(20);
+                finish();
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
                 loadingUtils.close();
             }
 
-            public void onLoadingFailed(String imageUri, android.view.View view, com.nostra13.universalimageloader.core.assist.FailReason failReason) {
-                Toast.makeText(DetailForShowImg.this, "图片加载失败，请稍后重试！", Toast.LENGTH_SHORT).show();
-            };
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+
+            }
         });
+//        loadingUtils.show();
+//        ImageLoader.getInstance().loadImage(url,new SimpleImageLoadingListener()
+//        {
+//            public void onLoadingComplete(String imageUri, android.view.View view, android.graphics.Bitmap loadedImage)
+//            {
+//                img_ForShow.setImageBitmap(loadedImage);
+//                loadingUtils.close();
+//            }
+//
+//            public void onLoadingFailed(String imageUri, android.view.View view, com.nostra13.universalimageloader.core.assist.FailReason failReason) {
+//                Toast.makeText(DetailForShowImg.this, "图片加载失败，请稍后重试！", Toast.LENGTH_SHORT).show();
+//                loadingUtils.close();
+//                setResult(20);
+//                finish();
+//            };
+//        });
+
+
 //        showImg();
 //        closeRef();
 //        ImageLoader.getInstance().displayImage(url, img_ForShow);

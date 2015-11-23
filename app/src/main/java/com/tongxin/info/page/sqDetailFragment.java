@@ -49,12 +49,8 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
     loadingUtils loadingUtils;
-    private ImageView img_ForShow;
     private String url;
-    private Button btn_CloseImg;
-//    private static final int COMPLETED = 0;
-//    private Handler handler;
-//    private int index = 0;
+    HashMap<String, String> url_maps = new HashMap<String, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +150,7 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
                     tv_sqDetailDeliver.setText("发货");
                 }
 
-                HashMap<String, String> url_maps = new HashMap<String, String>();
+//                HashMap<String, String> url_maps = new HashMap<String, String>();
                 for (int i = 0; i < detail.avatars.size(); i++) {
                     url_maps.put(String.valueOf(i + 1), detail.avatars.get(i).avatar);
                 }
@@ -190,7 +186,12 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == 20)
         {
-            mDemoSlider.startAutoCycle();
+            if (url_maps.size() == 1) {
+                mDemoSlider.stopAutoCycle();
+            }
+            else {
+                mDemoSlider.startAutoCycle();
+            }
         }
     }
 

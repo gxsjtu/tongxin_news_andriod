@@ -130,7 +130,7 @@ public class MyApp extends Application {
         context = getApplicationContext();
         registerActivityLifecycleCallbacks(myLifecycleHandler);
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)  //1.8.6包使用时候，括号里面传入参数true
+                .cacheInMemory(false)  //1.8.6包使用时候，括号里面传入参数true
                 .cacheOnDisc(true)    //同上
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getBaseContext()).defaultDisplayImageOptions(defaultOptions)
