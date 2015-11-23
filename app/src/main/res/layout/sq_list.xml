@@ -21,7 +21,7 @@
         <com.tongxin.info.control.EditTextWithDel
             android:id="@+id/msg_search"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="43dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
