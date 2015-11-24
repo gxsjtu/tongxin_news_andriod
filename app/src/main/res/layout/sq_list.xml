@@ -21,7 +21,7 @@
         <com.tongxin.info.control.EditTextWithDel
             android:id="@+id/msg_search"
             android:layout_width="0dp"
-            android:layout_height="43dp"
+            android:layout_height="38dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
@@ -40,7 +40,7 @@
             android:text="取消"
             android:background="@android:color/transparent"
             android:layout_width="50dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="43dp" />
     </LinearLayout>
     <ListView
         android:id="@+id/sq_lvData"
