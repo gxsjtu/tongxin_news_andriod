@@ -1,6 +1,7 @@
 package com.tongxin.info.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
@@ -40,6 +43,7 @@ public class MySupplyActivity extends BaseActivity {
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
     loadingUtils loadingUtils;
+    private ViewHolder viewHolder = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +125,7 @@ public class MySupplyActivity extends BaseActivity {
 
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
-                        ViewHolder viewHolder = null;
+                        viewHolder = null;
                         SqListVM item = getItem(position);
                         if(convertView == null)
                         {
@@ -141,7 +145,29 @@ public class MySupplyActivity extends BaseActivity {
                             viewHolder = (ViewHolder)convertView.getTag();
                         }
 
-                        ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
+//                        ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
+                        ImageLoader.getInstance().displayImage(item.avatar, viewHolder.imgSqList, new ImageLoadingListener() {
+                            @Override
+                            public void onLoadingStarted(String s, View view) {
+                                viewHolder.imgSqList.setImageResource(R.drawable.loading_img);
+                            }
+
+                            @Override
+                            public void onLoadingFailed(String s, View view, FailReason failReason) {
+//                                viewHolder.imgSqList.setImageResource(R.drawable.loading_img);
+                            }
+
+                            @Override
+                            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+
+                            }
+
+                            @Override
+                            public void onLoadingCancelled(String s, View view) {
+
+                            }
+                        });
+
                         viewHolder.sqName.setText(item.name);
                         viewHolder.txt_sqDate.setText(item.date);
                         viewHolder.txt_sqContact.setText(item.contact);

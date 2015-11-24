@@ -2,6 +2,7 @@ package com.tongxin.info.page;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -23,6 +24,8 @@ import com.baoyz.actionsheet.ActionSheet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.SqCatalogActivity;
 import com.tongxin.info.control.SegmentedGroup;
@@ -60,6 +63,7 @@ public class sqListFragment extends FragmentActivity {
     private ImageView sq_searchImg;
     AppAdapter adapter;
     private Button sqbtn_CancelSearch;
+    public ViewHolder viewHolder = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,7 +251,8 @@ public class sqListFragment extends FragmentActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                ViewHolder viewHolder = null;
+//                ViewHolder viewHolder = null;
+                viewHolder = null;
                 SqListVM item = getItem(position);
 
                 if (convertView == null) {
@@ -264,7 +269,28 @@ public class sqListFragment extends FragmentActivity {
                     viewHolder = (ViewHolder) convertView.getTag();
                 }
 
-                ImageLoader.getInstance().displayImage(item.avatar, viewHolder.imgSqList);
+//                ImageLoader.getInstance().displayImage(item.avatar, viewHolder.imgSqList);
+                ImageLoader.getInstance().displayImage(item.avatar, viewHolder.imgSqList, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+                        viewHolder.imgSqList.setImageResource(R.drawable.loading_img);
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+
+                    }
+                });
                 viewHolder.sqName.setText(item.name);
                 viewHolder.txt_sqDate.setText(item.date);
                 viewHolder.txt_sqContact.setText(item.contact);
@@ -371,7 +397,7 @@ public class sqListFragment extends FragmentActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                ViewHolder viewHolder = null;
+                viewHolder = null;
                 SqListVM item = getItem(position);
 
                 if(convertView == null)
@@ -391,7 +417,29 @@ public class sqListFragment extends FragmentActivity {
                     viewHolder = (ViewHolder) convertView.getTag();
                 }
 
-                ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
+//                ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
+
+                ImageLoader.getInstance().displayImage(item.avatar, viewHolder.imgSqList, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+                        viewHolder.imgSqList.setImageResource(R.drawable.loading_img);
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+
+                    }
+                });
                 viewHolder.sqName.setText(item.name);
                 viewHolder.txt_sqDate.setText(item.date);
                 viewHolder.txt_sqContact.setText(item.contact);
