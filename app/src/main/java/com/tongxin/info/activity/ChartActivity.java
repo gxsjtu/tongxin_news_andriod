@@ -30,15 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import lecho.lib.hellocharts.gesture.ContainerScrollType;
-import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.view.LineChartView;
-
 /**
  * Created by Administrator on 2015/10/23.
  */
