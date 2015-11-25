@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
@@ -23,6 +26,7 @@ import com.tongxin.info.domain.ProductPrice;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -37,6 +41,8 @@ import org.kymjs.kjframe.http.HttpParams;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class HqDetailActivity extends BaseActivity {
 
     private TextView tv_headerTitle;
@@ -49,6 +55,8 @@ public class HqDetailActivity extends BaseActivity {
     loadingUtils loadingUtils;
     AppAdapter adapter;
     private String tel;
+    LinearLayout guide_listview;
+    boolean showlistGuide = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +69,13 @@ public class HqDetailActivity extends BaseActivity {
         mGroupName = intent.getStringExtra("groupName");
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         hq_detail_lv = (SwipeMenuListView) findViewById(R.id.hq_detail_lv);
+        showlistGuide = SharedPreUtils.getBoolean(this, "listGuide", false);
 
         tv_headerTitle.setText(mGroupName + "-" + mMarketName);
 
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
+        guide_listview = (LinearLayout) findViewById(R.id.guide_listview);
 
         loadingUtils = new loadingUtils(this);
         iv_return.setVisibility(View.VISIBLE);
@@ -165,8 +175,29 @@ public class HqDetailActivity extends BaseActivity {
                         return false;
                     }
                 });
+
+
+                if (!showlistGuide) {
+                    ShowcaseView showcaseView = new ShowcaseView.Builder(HqDetailActivity.this)
+                            .setStyle(R.style.Custom_semi_transparent_demo)
+                            .setContentText("左滑关注产品")
+                            .build();
+                    showcaseView.hideButton();
+                    showcaseView.setHideOnTouchOutside(true);
+                    //showcaseView.setBackground(getResources().getDrawable(R.drawable.swipe_back_en));//minAPI=16
+                    showcaseView.setBackgroundDrawable(getResources().getDrawable(R.drawable.guideback));//deprecated.
+//                    SharedPreUtils.setBoolean(HqDetailActivity.this, "listGuide", true);
+                }
+
+                //guide_listview.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    public void hideGuide(View view) {
+        guide_listview.setVisibility(View.GONE);
+        guide_listview.removeAllViews();
+        guide_listview = null;
     }
 
     public class AppAdapter extends BaseAdapter {

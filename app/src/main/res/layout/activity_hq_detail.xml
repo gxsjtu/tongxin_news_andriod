@@ -20,5 +20,48 @@
 
     <include layout="@layout/loading"></include>
 
+    <LinearLayout
+        android:id="@+id/guide_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#bb000000"
+        android:orientation="vertical"
+        android:onClick="hideGuide">
+
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#bb000000"></View>-->
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/guideGif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_gravity="right"
+            android:src="@drawable/guidelistviewback">
+
+        </pl.droidsonroids.gif.GifImageView>
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#bb000000">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="向左滑动，显示关注菜单"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:textColor="#ffffff"/>-->
+
+        <!--</RelativeLayout>-->
+
+    </LinearLayout>
+
 </RelativeLayout>
 

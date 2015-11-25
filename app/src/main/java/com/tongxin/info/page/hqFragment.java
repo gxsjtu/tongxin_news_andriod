@@ -2,7 +2,14 @@ package com.tongxin.info.page;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +29,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.github.amlcurran.showcaseview.ShowcaseDrawer;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
@@ -30,12 +41,14 @@ import com.tongxin.info.activity.userActivity;
 import com.tongxin.info.control.PagerSlidingTabStrip;
 import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,20 +70,23 @@ public class hqFragment extends baseFragment {
     loadingUtils loadingUtils;
     private FragmentManager fm;
     private Button hqbtn_CancelSearch;
+    boolean showUserGuide = false;
 
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
     MyPagerAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = (FragmentActivity)getActivity();
+        mActivity = (FragmentActivity) getActivity();
         fm = mActivity.getSupportFragmentManager();
+        showUserGuide = SharedPreUtils.getBoolean(mActivity, "userGuide", false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        container.removeAllViews();
-        View view = View.inflate(mActivity, R.layout.hqcontent,null);
+        View view = View.inflate(mActivity, R.layout.hqcontent, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("实时行情");
         loadingUtils = new loadingUtils(mActivity);
@@ -100,6 +116,20 @@ public class hqFragment extends baseFragment {
                 startActivity(intent);
             }
         });
+
+        if (!showUserGuide) {
+            ShowcaseView showcaseView = new ShowcaseView.Builder(mActivity)
+                    .setTarget(new ViewTarget(R.id.iv_user, mActivity))
+                    .setContentTitle("用户设置")
+                    .setContentText("点击此处可以进入用户设置页面")
+                    .hideOnTouchOutside()
+                    .setShowcaseDrawer(new CustomShowcaseView(getResources()))
+                    .build();
+            showcaseView.setStyle(R.style.CustomShowcaseTheme);
+            showcaseView.hideButton();
+
+            SharedPreUtils.setBoolean(mActivity, "userGuide", true);
+        }
 
         hq_vp = (ViewPager) view.findViewById(R.id.hq_vp);
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
@@ -131,17 +161,16 @@ public class hqFragment extends baseFragment {
         et_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
+                if (hasFocus) {
                     hqbtn_CancelSearch.setTextColor(Color.parseColor("#23B1EF"));
                     hqbtn_CancelSearch.setEnabled(true);
-                }
-                else {
+                } else {
                     hqbtn_CancelSearch.setTextColor(Color.GRAY);
                     hqbtn_CancelSearch.setEnabled(false);
                 }
             }
         });
-        hqbtn_CancelSearch = (Button)view.findViewById(R.id.hqbtn_CancelSearch);
+        hqbtn_CancelSearch = (Button) view.findViewById(R.id.hqbtn_CancelSearch);
         hqbtn_CancelSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,25 +187,20 @@ public class hqFragment extends baseFragment {
         return view;
     }
 
-    private void search()
-    {
+    private void search() {
         String key = et_search.getText().toString().trim();
-        if(TextUtils.isEmpty(key))
+        if (TextUtils.isEmpty(key))
             return;
         Intent intent = new Intent(mActivity, SearchActivity.class);
-        intent.putExtra("key",key);
+        intent.putExtra("key", key);
         startActivity(intent);
     }
 
     @Override
-    public void setBtn(Boolean flag)
-    {
-        if(flag)
-        {
+    public void setBtn(Boolean flag) {
+        if (flag) {
             hq_tab_btn.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             hq_tab_btn.setVisibility(View.INVISIBLE);
         }
     }
@@ -187,8 +211,7 @@ public class hqFragment extends baseFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void initData()
-    {
+    private void initData() {
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -226,11 +249,9 @@ public class hqFragment extends baseFragment {
         });
     }
 
-    private void initFragment()
-    {
+    private void initFragment() {
         hq_frag.clear();
-        for (int i = 0; i<marketGroups.size();i++)
-        {
+        for (int i = 0; i < marketGroups.size(); i++) {
             hq_contentFragment hq_fragment = hq_contentFragment.newInstance(i);
             hq_frag.add(hq_fragment);
         }
@@ -258,4 +279,76 @@ public class hqFragment extends baseFragment {
         }
     }
 
+    private class CustomShowcaseView implements ShowcaseDrawer {
+
+        private final float width;
+        private final float height;
+        private final Paint eraserPaint;
+        private final Paint basicPaint;
+        private final int eraseColour;
+        private final RectF renderRect;
+
+        public CustomShowcaseView(Resources resources) {
+            width = 70;
+            height = 55;
+            PorterDuffXfermode xfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
+            eraserPaint = new Paint();
+            eraserPaint.setColor(0xFFFFFF);
+            eraserPaint.setAlpha(0);
+            eraserPaint.setXfermode(xfermode);
+            eraserPaint.setAntiAlias(true);
+            eraseColour = Color.argb(0xbb, 0, 0, 0);
+            basicPaint = new Paint();
+            renderRect = new RectF();
+        }
+
+        @Override
+        public void setShowcaseColour(int color) {
+            eraserPaint.setColor(color);
+        }
+
+        @Override
+        public void drawShowcase(Bitmap buffer, float x, float y, float scaleMultiplier) {
+            Canvas bufferCanvas = new Canvas(buffer);
+//            renderRect.left = 0;
+//            renderRect.right = width;
+//            renderRect.top = 0;
+//            renderRect.bottom = height;
+            eraserPaint.setColor(Color.TRANSPARENT);
+//            bufferCanvas.drawRect(renderRect, eraserPaint);
+            bufferCanvas.drawCircle(33, 29, 40, eraserPaint);
+        }
+
+        @Override
+        public int getShowcaseWidth() {
+            return (int) width;
+        }
+
+        @Override
+        public int getShowcaseHeight() {
+            return (int) height;
+        }
+
+        @Override
+        public float getBlockedRadius() {
+            return width;
+        }
+
+        @Override
+        public void setBackgroundColour(int backgroundColor) {
+            // No-op, remove this from the API?
+        }
+
+        @Override
+        public void erase(Bitmap bitmapBuffer) {
+            bitmapBuffer.eraseColor(eraseColour);
+        }
+
+        @Override
+        public void drawToCanvas(Canvas canvas, Bitmap bitmapBuffer) {
+            canvas.drawBitmap(bitmapBuffer, 0, 0, basicPaint);
+        }
+
+
+    }
 }

@@ -2,10 +2,18 @@ package com.tongxin.info.page;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Layout;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +29,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import com.baoyz.actionsheet.ActionSheet;
+import com.github.amlcurran.showcaseview.ShowcaseDrawer;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,6 +42,7 @@ import com.tongxin.info.activity.SqCatalogActivity;
 import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -64,11 +76,12 @@ public class sqListFragment extends FragmentActivity {
     AppAdapter adapter;
     private Button sqbtn_CancelSearch;
     public ViewHolder viewHolder = null;
+    boolean showOptionGuide = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_list);
-
+        showOptionGuide = SharedPreUtils.getBoolean(this, "optionGuide", false);
         loadingUtils = new loadingUtils(this);
         typeForRefresh = "false";
         Intent intent = getIntent();
@@ -140,6 +153,23 @@ public class sqListFragment extends FragmentActivity {
             }
         });
         iv_sqMenu = (LinearLayout) findViewById(R.id.iv_sqMenu);
+
+        if (!showOptionGuide) {
+            ShowcaseView showcaseView = new ShowcaseView.Builder(this)
+                    .setTarget(new ViewTarget(R.id.iv_sqMenu, this))
+                    .setContentTitle("新增供求")
+                    .setContentText("点击此处可以添加供求")
+                    .hideOnTouchOutside()
+                    .setShowcaseDrawer(new CustomShowcaseView(getResources()))
+                    .build();
+            showcaseView.setStyle(R.style.CustomShowcaseTheme4);
+            showcaseView.hideButton();
+            showcaseView.setTitleTextAlignment(Layout.Alignment.ALIGN_CENTER);
+            showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
+
+            SharedPreUtils.setBoolean(this, "optionGuide", true);
+        }
+
         iv_sqMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -484,5 +514,76 @@ public class sqListFragment extends FragmentActivity {
         public TextView txt_sqContact;
         public TextView txt_sqDate;
         public TextView txt_sqIsChecked;
+    }
+
+    private class CustomShowcaseView implements ShowcaseDrawer {
+
+        private final float width;
+        private final float height;
+        private final Paint eraserPaint;
+        private final Paint basicPaint;
+        private final int eraseColour;
+        private final RectF renderRect;
+
+        public CustomShowcaseView(Resources resources) {
+            width = 70;
+            height = 55;
+            PorterDuffXfermode xfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
+            eraserPaint = new Paint();
+            eraserPaint.setColor(0xFFFFFF);
+            eraserPaint.setAlpha(0);
+            eraserPaint.setXfermode(xfermode);
+            eraserPaint.setAntiAlias(true);
+            eraseColour = Color.argb(0xbb, 0, 0, 0);
+            basicPaint = new Paint();
+            renderRect = new RectF();
+        }
+
+        @Override
+        public void setShowcaseColour(int color) {
+            eraserPaint.setColor(color);
+        }
+
+        @Override
+        public void drawShowcase(Bitmap buffer, float x, float y, float scaleMultiplier) {
+            Canvas bufferCanvas = new Canvas(buffer);
+            eraserPaint.setColor(Color.TRANSPARENT);
+            Point point = new Point();
+            getWindowManager().getDefaultDisplay().getSize(point);
+            bufferCanvas.drawCircle(point.x-33,29,40,eraserPaint);
+        }
+
+        @Override
+        public int getShowcaseWidth() {
+            return (int) width;
+        }
+
+        @Override
+        public int getShowcaseHeight() {
+            return (int) height;
+        }
+
+        @Override
+        public float getBlockedRadius() {
+            return width;
+        }
+
+        @Override
+        public void setBackgroundColour(int backgroundColor) {
+            // No-op, remove this from the API?
+        }
+
+        @Override
+        public void erase(Bitmap bitmapBuffer) {
+            bitmapBuffer.eraseColor(eraseColour);
+        }
+
+        @Override
+        public void drawToCanvas(Canvas canvas, Bitmap bitmapBuffer) {
+            canvas.drawBitmap(bitmapBuffer, 0, 0, basicPaint);
+        }
+
+
+
     }
 }
