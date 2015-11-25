@@ -186,7 +186,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
         rb_ItemZT.setChecked(true);
         btn_ItemLocation = (Button) findViewById(R.id.btn_addChannelLocation);
 
-        timer1 = new CountDownTimer(600000, 2000) {
+        timer1 = new CountDownTimer(6000000, 2000) {
             int j = 0;
 
             @Override
