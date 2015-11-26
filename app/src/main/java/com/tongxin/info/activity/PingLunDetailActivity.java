@@ -21,6 +21,7 @@ import com.tongxin.info.R;
 import com.tongxin.info.domain.PlProductVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -46,7 +47,6 @@ public class PingLunDetailActivity extends BaseActivity {
     private String mGroupName;
     private KJBitmap kjb = new KJBitmap();
     private com.tongxin.info.utils.loadingUtils loadingUtils;
-    private String tel;
     AppAdapter adapter;
     private int imgWeight;
     private int imgHeight;
@@ -62,7 +62,6 @@ public class PingLunDetailActivity extends BaseActivity {
         mMarketName = intent.getStringExtra("marketName");
         mGroupName = intent.getStringExtra("groupName");
         UserUtils userUtils = new UserUtils(this);
-        tel = userUtils.getTel();
         loadingUtils = new loadingUtils(this);
         imgWeight = DensityUtils.dp2px(this, 80);
         imgHeight = DensityUtils.dp2px(this, 80);
@@ -115,8 +114,11 @@ public class PingLunDetailActivity extends BaseActivity {
     }
 
     private void initData() {
+        if(UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+        }
         KJHttp kjHttp = new KJHttp();
-        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 ToastUtils.Show(PingLunDetailActivity.this, "获取数据失败");
@@ -238,6 +240,9 @@ public class PingLunDetailActivity extends BaseActivity {
     }
 
     private void order(int id, final boolean isOrder, final int position) {
+        if(UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+        }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -245,7 +250,7 @@ public class PingLunDetailActivity extends BaseActivity {
         HttpParams params = new HttpParams();
         params.put("method", "order");
         params.put("productId", id);
-        params.put("mobile", tel);
+        params.put("mobile", UserUtils.Tel);
         params.put("isOrder", isOrder ? "YES" : "NO");
         kjHttp.post(GlobalContants.ORDER_URL, params, false, new HttpCallBack() {
             @Override

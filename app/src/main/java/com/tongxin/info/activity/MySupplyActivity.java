@@ -21,6 +21,7 @@ import com.tongxin.info.R;
 import com.tongxin.info.domain.SqListVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.sqDetailFragment;
+import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -36,7 +37,6 @@ import java.util.ArrayList;
  * Created by cc on 2015/11/11.
  */
 public class MySupplyActivity extends BaseActivity {
-    private String tel;
     private ListView lv_mySupply;
     private ArrayList<SqListVM> mySupplyList = new ArrayList<SqListVM>();
     private TextView tv_headerTitle;
@@ -44,6 +44,7 @@ public class MySupplyActivity extends BaseActivity {
     private LinearLayout iv_ref;
     loadingUtils loadingUtils;
     private ViewHolder viewHolder = null;
+    private ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,6 @@ public class MySupplyActivity extends BaseActivity {
         loadingUtils = new loadingUtils(this);
         lv_mySupply = (ListView)findViewById(R.id.lv_mySupply);
         UserUtils userUtils = new UserUtils(this);
-        tel = userUtils.getTel();
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("我的发布");
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
@@ -76,12 +76,25 @@ public class MySupplyActivity extends BaseActivity {
 
     private void initData()
     {
+        mySupplyList.clear();
+        if(bitmaps.size()>0)
+        {
+            for (int i = 0; i<bitmaps.size();i++)
+            {
+                bitmaps.get(i).recycle();
+            }
+            bitmaps.clear();
+        }
+        if(UserUtils.Tel == null)
+        {
+            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+        }
         loadingUtils.show();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETSPLIST_URL + "?method=mysupply&mobile=" + tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETSPLIST_URL + "?method=mysupply&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
                 super.onPreStart();
@@ -145,6 +158,8 @@ public class MySupplyActivity extends BaseActivity {
                             viewHolder = (ViewHolder)convertView.getTag();
                         }
 
+
+
 //                        ImageLoader.getInstance().displayImage(item.avatar,viewHolder.imgSqList);
                         ImageLoader.getInstance().displayImage(item.avatar, viewHolder.imgSqList, new ImageLoadingListener() {
                             @Override
@@ -159,7 +174,7 @@ public class MySupplyActivity extends BaseActivity {
 
                             @Override
                             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-
+                                bitmaps.add(bitmap);
                             }
 
                             @Override
@@ -233,7 +248,14 @@ public class MySupplyActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         mySupplyList.clear();
-
+        if(bitmaps.size()>0)
+        {
+            for (int i = 0; i<bitmaps.size();i++)
+            {
+                bitmaps.get(i).recycle();
+            }
+            bitmaps.clear();
+        }
         super.onDestroy();
     }
 }

@@ -8,6 +8,7 @@ import com.tongxin.info.domain.MyApp;
  * Created by Administrator on 2015/10/30.
  */
 public class UserUtils {
+    public static String Tel;
     private Activity mActivity;
     public UserUtils(Activity mActivity) {
         this.mActivity = mActivity;

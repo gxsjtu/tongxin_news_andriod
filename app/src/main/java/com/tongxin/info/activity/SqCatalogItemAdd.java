@@ -33,6 +33,7 @@ import com.squareup.okhttp.RequestBody;
 import com.tongxin.info.R;
 import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -72,7 +73,6 @@ public class SqCatalogItemAdd extends BaseActivity  {
     private ArrayList<File> files = new ArrayList<File>();
     private ArrayList<String> strUriList = new ArrayList<String>();
     CountDownTimer timer1;
-    private String tel;
     private String location_Country;
     private String location_City;
     loadingUtils loadingUtils;
@@ -99,7 +99,6 @@ public class SqCatalogItemAdd extends BaseActivity  {
 
         loadingUtils = new loadingUtils(SqCatalogItemAdd.this);
         UserUtils userUtils = new UserUtils(SqCatalogItemAdd.this);
-        tel = userUtils.getTel();
         Intent intent = getIntent();
         channelID = intent.getIntExtra("CATALOGCHANNEL_ID", 0);
         channelName = intent.getStringExtra("CATALOGCHANNEL_NAME");
@@ -389,7 +388,9 @@ public class SqCatalogItemAdd extends BaseActivity  {
         {
             sOro = "1";
         }
-
+        if(UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this, "name", "");
+        }
         //创建okHttpClient对象
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MultipartBuilder multipart = new MultipartBuilder();
@@ -420,7 +421,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
                 .addPart(Headers.of(
                                 "Content-Disposition",
                                 "form-data; name=\"createdBy\""),
-                        RequestBody.create(null, tel))
+                        RequestBody.create(null, UserUtils.Tel))
                 .addPart(Headers.of(
                                 "Content-Disposition",
                                 "form-data; name=\"contact\""),

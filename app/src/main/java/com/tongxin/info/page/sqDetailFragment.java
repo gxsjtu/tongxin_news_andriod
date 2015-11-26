@@ -78,6 +78,7 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDemoSlider.removeAllSliders();
                 finish();
             }
         });
@@ -161,7 +162,6 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
 
                     textSliderView.image(url_maps.get(name)).setOnSliderClickListener(sqDetailFragment.this);
 
-
                     //add your extra information
                     textSliderView.bundle(new Bundle());
                     textSliderView.getBundle()
@@ -174,8 +174,11 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
                 mDemoSlider.setCustomAnimation(new DescriptionAnimation());
                 mDemoSlider.setDuration(4000);
                 mDemoSlider.addOnPageChangeListener(sqDetailFragment.this);
+
+
                 if (url_maps.size() == 1) {
                     mDemoSlider.stopAutoCycle();
+
                 }
 
                 loadingUtils.close();

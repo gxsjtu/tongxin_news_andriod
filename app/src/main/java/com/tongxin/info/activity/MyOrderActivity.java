@@ -18,6 +18,7 @@ import com.tongxin.info.R;
 import com.tongxin.info.domain.MyOrderVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.DensityUtils;
+import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -38,7 +39,6 @@ import java.util.ArrayList;
 public class MyOrderActivity extends BaseActivity {
     private ArrayList<MyOrderVM> orderList = new ArrayList<MyOrderVM>();
     private SwipeMenuListView lv_MyOrder;
-    private String tel;
     private TextView tv_headerTitle;
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
@@ -51,7 +51,6 @@ public class MyOrderActivity extends BaseActivity {
         loadingUtils = new loadingUtils(this);
         lv_MyOrder = (SwipeMenuListView)findViewById(R.id.lv_MyOrder);
         UserUtils userUtils = new UserUtils(this);
-        tel = userUtils.getTel();
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("我的关注");
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
@@ -88,12 +87,16 @@ public class MyOrderActivity extends BaseActivity {
 
     private void initData()
     {
+        if(UserUtils.Tel == null)
+        {
+            UserUtils.Tel = SharedPreUtils.getString(this, "name","");
+        }
         loadingUtils.show();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.ORDER_URL + "?method=myorder&mobile=" + tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.ORDER_URL + "?method=myorder&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
                 super.onPreStart();
@@ -126,8 +129,8 @@ public class MyOrderActivity extends BaseActivity {
                         if (index == 0) {
                             //关注
                             MyOrderVM item = orderList.get(position);
-                                //取消关注
-                                order(Integer.valueOf(item.productid), position);
+                            //取消关注
+                            order(Integer.valueOf(item.productid), position);
                         }
                         return false;
                     }
@@ -175,6 +178,10 @@ public class MyOrderActivity extends BaseActivity {
     }
     private void order(int id,final int position)
     {
+        if(UserUtils.Tel == null)
+        {
+            UserUtils.Tel = SharedPreUtils.getString(this, "name","");
+        }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -182,7 +189,7 @@ public class MyOrderActivity extends BaseActivity {
         HttpParams params = new HttpParams();
         params.put("method", "order");
         params.put("productId", id);
-        params.put("mobile", tel);
+        params.put("mobile", UserUtils.Tel);
         params.put("isOrder", "NO");
         kjHttp.post(GlobalContants.ORDER_URL, params, false, new HttpCallBack() {
             @Override

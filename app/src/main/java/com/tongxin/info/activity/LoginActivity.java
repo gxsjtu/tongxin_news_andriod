@@ -43,7 +43,6 @@ public class LoginActivity extends Activity {
     private EditText et_pwd;
     private ActionProcessButton btn_login;
     private String clientId;
-    UserUtils userUtils;
     boolean mustLogin = false;
     MyApp application;
     boolean showLogin = true;
@@ -60,7 +59,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         application = (MyApp) getApplication();
         pushManager = application.getPushManager();
-        userUtils = new UserUtils(this);
 
         String name = SharedPreUtils.getString(this, "name", "");
         String pwd = SharedPreUtils.getString(this, "pwd", "");
@@ -72,8 +70,7 @@ public class LoginActivity extends Activity {
                 showLogin = false;
                 login(name, pwd, token, 1);
             }
-        }
-        else {
+        } else {
             application.setShowLogin(true);
             setContentView(R.layout.activity_login);
             initViews();
@@ -91,15 +88,12 @@ public class LoginActivity extends Activity {
     public void login(View view) {
         showLogin = true;
         clientId = pushManager.getClientid(this);
-        if(TextUtils.isEmpty(clientId))
-        {
+        if (TextUtils.isEmpty(clientId)) {
             ToastUtils.Show(this, "获取设备号失败，请稍后重新登录");
             return;
         }
 
-        userUtils = new UserUtils(this);
-        userUtils.setClientId(clientId);
-        SharedPreUtils.setString(this,"token",clientId);
+        SharedPreUtils.setString(this, "token", clientId);
         boolean hasName = true;
         boolean hasPwd = true;
         final String name = et_name.getText().toString();
@@ -139,11 +133,9 @@ public class LoginActivity extends Activity {
         kjHttp.get(Url, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                if(mustLogin) {
+                if (mustLogin) {
                     btn_login.setProgress(-1);
-                }
-                else
-                {
+                } else {
                     showLogin = true;
                     //SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", true);
                     setContentView(R.layout.activity_login);
@@ -159,8 +151,7 @@ public class LoginActivity extends Activity {
                     String result = jsonObject.getString("result");
                     if (result.equals("ok")) {
                         //登陆成功
-                        userUtils.setTel(name);
-                        userUtils.setPwd(pwd);
+                        UserUtils.Tel = name;
                         SharedPreUtils.setString(LoginActivity.this, "name", name);
                         SharedPreUtils.setString(LoginActivity.this, "pwd", pwd);
                         SharedPreUtils.setBoolean(LoginActivity.this, "mustLogin", false);
@@ -177,13 +168,11 @@ public class LoginActivity extends Activity {
                             setContentView(R.layout.activity_login);
                             initViews();
                         }
-                        if(!mustLogin)
-                        {
+                        if (!mustLogin) {
                             application.setShowLogin(true);
                             setContentView(R.layout.activity_login);
                             initViews();
-                        }
-                        else {
+                        } else {
                             ToastUtils.Show(LoginActivity.this, "账号密码错误，请重新输入");
                         }
                     }
@@ -215,7 +204,7 @@ public class LoginActivity extends Activity {
 
     /*忘记密码*/
     public void forgetPwd(View view) {
-        Intent intent = new Intent(this,TrialActivity.class);
+        Intent intent = new Intent(this, TrialActivity.class);
         intent.putExtra("Type", "forgetPwd");
         startActivity(intent);
     }
@@ -229,8 +218,8 @@ public class LoginActivity extends Activity {
 
     /*申请试用*/
     public void Require(View view) {
-        Intent intent = new Intent(this,TrialActivity.class);
-        intent.putExtra("Type","trial");
+        Intent intent = new Intent(this, TrialActivity.class);
+        intent.putExtra("Type", "trial");
         startActivity(intent);
     }
 
@@ -238,18 +227,18 @@ public class LoginActivity extends Activity {
         //判断是否进入过新手指引页面
         //boolean userGuide = SharedPreUtils.getBoolean(this, "is_user_guide_showed", false);
         //if (!userGuide) {
-            //跳的新手指引页
-            //startActivity(new Intent(LoginActivity.this, GuideActivity.class));
+        //跳的新手指引页
+        //startActivity(new Intent(LoginActivity.this, GuideActivity.class));
         //} else {
-            //跳到主页
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        //跳到主页
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
         //}
         finish();
     }
 
     @Override
     protected void onDestroy() {
-        if(showLogin) {
+        if (showLogin) {
             loginback.setBackgroundResource(0);
         }
         super.onDestroy();

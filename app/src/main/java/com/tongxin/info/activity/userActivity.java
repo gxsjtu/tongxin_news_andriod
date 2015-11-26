@@ -82,18 +82,22 @@ public class userActivity extends BaseActivity {
                 finish();
             }
         });
-        UserUtils userUtils = new UserUtils(this);
-        mobile = userUtils.getTel();
-        tv_userMobile.setText(mobile);
+        if(UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+        }
+        tv_userMobile.setText(UserUtils.Tel);
 
     }
 
     private void initData() {
+        if(UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+        }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.UserInfo_URL + "?method=getUserInfo&mobile=" + mobile, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.UserInfo_URL + "?method=getUserInfo&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 ToastUtils.Show(userActivity.this, "获取用户信息失败，请稍后重试");

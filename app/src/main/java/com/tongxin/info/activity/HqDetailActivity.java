@@ -58,14 +58,12 @@ public class HqDetailActivity extends BaseActivity {
     private String mGroupName;
     loadingUtils loadingUtils;
     AppAdapter adapter;
-    private String tel;
     //boolean showlistGuide = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hq_detail);
-        tel = new UserUtils(this).getTel();
         Intent intent = getIntent();
         final int id = intent.getIntExtra("marketId", 0);
         mMarketName = intent.getStringExtra("marketName");
@@ -120,11 +118,14 @@ public class HqDetailActivity extends BaseActivity {
     }
 
     private void initData(int id) {
+        if(UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+        }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=" + tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 ToastUtils.Show(HqDetailActivity.this, "获取数据失败");
@@ -311,6 +312,9 @@ public class HqDetailActivity extends BaseActivity {
     }
 
     private void order(int id, final boolean isOrder, final int position) {
+        if(UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+        }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -318,7 +322,7 @@ public class HqDetailActivity extends BaseActivity {
         HttpParams params = new HttpParams();
         params.put("method", "order");
         params.put("productId", id);
-        params.put("mobile", tel);
+        params.put("mobile", UserUtils.Tel);
         params.put("isOrder", isOrder ? "YES" : "NO");
         kjHttp.post(GlobalContants.ORDER_URL, params, false, new HttpCallBack() {
             @Override
