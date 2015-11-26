@@ -40,7 +40,6 @@ public class userActivity extends BaseActivity {
     private int mVersionCode;
     private TextView tv_CheckVersion;
     private ImageView img_CheckVersion;
-    loadingUtils loadingUtils;
     private int currentVersion;
     private boolean isCanUpdate;
     private String versionName;
@@ -73,7 +72,6 @@ public class userActivity extends BaseActivity {
         img_CheckVersion = (ImageView)findViewById(R.id.img_CheckVersion);
         img_ForNewVersion = (ImageView)findViewById(R.id.img_ForNewVersion);
         sw = (Switch) findViewById(R.id.sw);
-        loadingUtils = new loadingUtils(this);
         tv_headerTitle.setText("用户设置");
         iv_return.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
@@ -106,12 +104,12 @@ public class userActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
@@ -142,12 +140,12 @@ public class userActivity extends BaseActivity {
 
                                 @Override
                                 public void onFinish() {
-                                    loadingUtils.close();
+                                    hideLoading();
                                 }
 
                                 @Override
                                 public void onPreStart() {
-                                    loadingUtils.show();
+                                    showLoading();
                                 }
 
                                 @Override

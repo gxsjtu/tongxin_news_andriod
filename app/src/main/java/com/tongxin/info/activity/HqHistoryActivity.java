@@ -41,7 +41,6 @@ public class HqHistoryActivity extends BaseActivity {
     private TextView tv_headerTitle;
     private LinearLayout iv_return;
     private LinearLayout tv_headerChart;
-    loadingUtils loadingUtils;
 
     private String mProductName;
     private int mProductId;
@@ -77,8 +76,6 @@ public class HqHistoryActivity extends BaseActivity {
         startDate = (EditText) findViewById(R.id.startDate);
         endDate = (EditText) findViewById(R.id.endDate);
         hq_history_lv = (ListView) findViewById(R.id.hq_history_lv);
-
-        loadingUtils = new loadingUtils(this);
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,12 +182,12 @@ public class HqHistoryActivity extends BaseActivity {
 
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override

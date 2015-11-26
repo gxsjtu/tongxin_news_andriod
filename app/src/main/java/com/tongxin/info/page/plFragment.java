@@ -1,5 +1,6 @@
 package com.tongxin.info.page;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,10 +40,10 @@ public class plFragment extends baseFragment {
     private TextView tv_headerTitle;
     private LinearLayout iv_ref;
     private List<pl_contentFragment> pl_frag = new ArrayList<pl_contentFragment>();
-    com.tongxin.info.utils.loadingUtils loadingUtils;
     private FragmentManager fm;
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
     MyPagerAdapter adapter;
+    ProgressDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,13 +52,29 @@ public class plFragment extends baseFragment {
         fm = mActivity.getSupportFragmentManager();
     }
 
+    private void showLoading()
+    {
+        if(!dialog.isShowing()) {
+            dialog.setCancelable(false);
+            dialog.show();
+            dialog.setContentView(R.layout.loading_layout);
+        }
+    }
+
+    private void hideLoading()
+    {
+        if(dialog!=null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        container.removeAllViews();
         View view =View.inflate(mActivity, R.layout.plcontent,null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("同鑫评论");
-        loadingUtils = new loadingUtils(mActivity);
+        dialog = new ProgressDialog(mActivity);
         iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
 
         iv_ref.setVisibility(View.VISIBLE);
@@ -161,12 +178,12 @@ public class plFragment extends baseFragment {
 
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
         });
     }

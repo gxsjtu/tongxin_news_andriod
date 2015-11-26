@@ -193,6 +193,4 @@
 
     </LinearLayout>
 
-    <include layout="@layout/loading"></include>
-
 </RelativeLayout>

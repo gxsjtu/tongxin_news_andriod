@@ -1,25 +1,16 @@
 package com.tongxin.info.activity;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import com.dd.processbutton.iml.ActionProcessButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.igexin.sdk.PushManager;
 import com.tongxin.info.R;
-import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.SharedPreUtils;
@@ -31,9 +22,6 @@ import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2015/11/5.

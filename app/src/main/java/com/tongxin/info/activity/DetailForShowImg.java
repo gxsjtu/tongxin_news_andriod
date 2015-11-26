@@ -34,10 +34,9 @@ import java.net.URL;
 /**
  * Created by cc on 2015/11/13.
  */
-public class DetailForShowImg extends Activity {
+public class DetailForShowImg extends BaseActivity {
     private ImageView img_ForShow;
     private String url;
-    loadingUtils loadingUtils;
     private Bitmap bitmap = null;
     private String isCanFinish;
     private Handler mHandler = new Handler() {
@@ -46,10 +45,10 @@ public class DetailForShowImg extends Activity {
             switch (msg.what) {
                 case 0:
 //                    img_ForShow.setImageBitmap(bitmap);
-                    loadingUtils.close();
+                    hideLoading();
                     break;
                 case 1:
-                    loadingUtils.close();
+                    hideLoading();
                     finish();
                     break;
             }
@@ -64,8 +63,8 @@ public class DetailForShowImg extends Activity {
         Intent intent = getIntent();
         url = intent.getStringExtra("IMGURLFORSHOW");
         img_ForShow = (ImageView) findViewById(R.id.img_ForShow);
-        loadingUtils = new loadingUtils(DetailForShowImg.this);
-        loadingUtils.show();
+
+        showLoading();
 //        ImageLoader.getInstance().displayImage(url, img_ForShow);
         ImageLoader.getInstance().displayImage(url, img_ForShow, new ImageLoadingListener() {
             @Override
@@ -76,14 +75,14 @@ public class DetailForShowImg extends Activity {
             @Override
             public void onLoadingFailed(String s, View view, FailReason failReason) {
                 Toast.makeText(DetailForShowImg.this, "图片加载失败，请稍后重试！", Toast.LENGTH_SHORT).show();
-                loadingUtils.close();
+                hideLoading();
                 setResult(20);
                 finish();
             }
 
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override
@@ -119,7 +118,7 @@ public class DetailForShowImg extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            loadingUtils.close();
+            hideLoading();
             setResult(20);
             finish();
             return true;

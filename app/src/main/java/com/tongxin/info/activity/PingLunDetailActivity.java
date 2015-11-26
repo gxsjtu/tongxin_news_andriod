@@ -46,7 +46,6 @@ public class PingLunDetailActivity extends BaseActivity {
     private String mMarketName;
     private String mGroupName;
     private KJBitmap kjb = new KJBitmap();
-    private com.tongxin.info.utils.loadingUtils loadingUtils;
     AppAdapter adapter;
     private int imgWeight;
     private int imgHeight;
@@ -62,7 +61,6 @@ public class PingLunDetailActivity extends BaseActivity {
         mMarketName = intent.getStringExtra("marketName");
         mGroupName = intent.getStringExtra("groupName");
         UserUtils userUtils = new UserUtils(this);
-        loadingUtils = new loadingUtils(this);
         imgWeight = DensityUtils.dp2px(this, 80);
         imgHeight = DensityUtils.dp2px(this, 80);
         initViews();
@@ -166,12 +164,12 @@ public class PingLunDetailActivity extends BaseActivity {
 
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
         });
     }
@@ -244,7 +242,7 @@ public class PingLunDetailActivity extends BaseActivity {
             UserUtils.Tel = SharedPreUtils.getString(this,"name","");
         }
         KJHttp kjHttp = new KJHttp();
-        HttpConfig httpConfig = new HttpConfig();
+        final HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
         HttpParams params = new HttpParams();
@@ -255,12 +253,12 @@ public class PingLunDetailActivity extends BaseActivity {
         kjHttp.post(GlobalContants.ORDER_URL, params, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override

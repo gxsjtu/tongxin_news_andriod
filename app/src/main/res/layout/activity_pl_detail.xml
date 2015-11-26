@@ -18,6 +18,4 @@
         </com.baoyz.swipemenulistview.SwipeMenuListView>
 
     </LinearLayout>
-
-    <include layout="@layout/loading"></include>
 </RelativeLayout>

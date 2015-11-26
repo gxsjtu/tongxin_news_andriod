@@ -1,5 +1,6 @@
 package com.tongxin.info.page;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -74,11 +75,10 @@ public class hqFragment extends baseFragment {
     private EditText et_search;
     private ImageView iv_search;
     private List<hq_contentFragment> hq_frag = new ArrayList<hq_contentFragment>();
-    loadingUtils loadingUtils;
     private FragmentManager fm;
     private Button hqbtn_CancelSearch;
     //boolean showUserGuide = false;
-
+    ProgressDialog dialog;
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
     MyPagerAdapter adapter;
 
@@ -90,13 +90,29 @@ public class hqFragment extends baseFragment {
         //showUserGuide = SharedPreUtils.getBoolean(mActivity, "userGuide", false);
     }
 
+    private void showLoading()
+    {
+        if(!dialog.isShowing()) {
+            dialog.setCancelable(false);
+            dialog.show();
+            dialog.setContentView(R.layout.loading_layout);
+        }
+    }
+
+    private void hideLoading()
+    {
+        if(dialog!=null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        container.removeAllViews();
         View view = View.inflate(mActivity, R.layout.hqcontent, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("实时行情");
-        loadingUtils = new loadingUtils(mActivity);
+        dialog = new ProgressDialog(mActivity);
         iv_user = (LinearLayout) view.findViewById(R.id.iv_user);
         iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
 
@@ -260,12 +276,12 @@ public class hqFragment extends baseFragment {
 
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
         });
     }

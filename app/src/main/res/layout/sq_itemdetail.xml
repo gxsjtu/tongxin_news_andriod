@@ -235,5 +235,4 @@
         </LinearLayout>
         </LinearLayout>
 </ScrollView>
-    <include layout="@layout/loading"></include>
 </LinearLayout>

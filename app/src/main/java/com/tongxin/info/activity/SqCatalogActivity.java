@@ -37,13 +37,11 @@ public class SqCatalogActivity extends BaseActivity {
     private LinearLayout iv_sqMenu;
     private Button btn_headerSure;
     private TextView tv_headerText;
-    loadingUtils loadingUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_cataloglist);
 
-        loadingUtils = new loadingUtils(this);
         Intent intent = getIntent();
         channelID = intent.getIntExtra("CATALOGCHANNEL_ID",0);
         channelName = intent.getStringExtra("CATALOGCAHNNEL_NAME");
@@ -75,7 +73,7 @@ public class SqCatalogActivity extends BaseActivity {
     }
 
     private void initData() {
-        loadingUtils.show();
+        showLoading();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -93,7 +91,7 @@ public class SqCatalogActivity extends BaseActivity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                loadingUtils.close();
+                hideLoading();
                 ToastUtils.Show(SqCatalogActivity.this, "获取数据失败");
             }
 
@@ -141,7 +139,7 @@ public class SqCatalogActivity extends BaseActivity {
                         return convertView;
                     }
                 });
-                loadingUtils.close();
+                hideLoading();
                 lv_catalog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

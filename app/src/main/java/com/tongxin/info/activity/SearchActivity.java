@@ -53,7 +53,6 @@ public class SearchActivity extends BaseActivity {
     private SwipeMenuListView lv_search;
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
-    loadingUtils loadingUtils;
     AppAdapter adapter;
 
     @Override
@@ -69,7 +68,6 @@ public class SearchActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        loadingUtils = new loadingUtils(this);
         initViews();
         initData();
     }
@@ -132,12 +130,12 @@ public class SearchActivity extends BaseActivity {
         kjHttp.get(GlobalContants.SEARCH_URL + "&searchKey=" + str + "&mobile="+UserUtils.Tel, null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override
@@ -206,12 +204,12 @@ public class SearchActivity extends BaseActivity {
         kjHttp.post(GlobalContants.ORDER_URL,params,false,new HttpCallBack(){
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override

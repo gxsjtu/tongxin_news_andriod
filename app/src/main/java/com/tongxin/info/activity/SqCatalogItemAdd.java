@@ -75,17 +75,16 @@ public class SqCatalogItemAdd extends BaseActivity  {
     CountDownTimer timer1;
     private String location_Country;
     private String location_City;
-    loadingUtils loadingUtils;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    loadingUtils.close();
+                    hideLoading();
                     ToastUtils.Show(SqCatalogItemAdd.this, "添加成功，请等待系统审核！");
                     break;
                 case 1:
-                    loadingUtils.close();
+                    hideLoading();
                     ToastUtils.Show(SqCatalogItemAdd.this, "新增失败！");
                     break;
             }
@@ -97,8 +96,6 @@ public class SqCatalogItemAdd extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_channelitemadd);
 
-        loadingUtils = new loadingUtils(SqCatalogItemAdd.this);
-        UserUtils userUtils = new UserUtils(SqCatalogItemAdd.this);
         Intent intent = getIntent();
         channelID = intent.getIntExtra("CATALOGCHANNEL_ID", 0);
         channelName = intent.getStringExtra("CATALOGCHANNEL_NAME");
@@ -123,7 +120,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
             @Override
             public void onClick(View v) {
                 btn_Sure.setEnabled(false);
-                loadingUtils.show();
+                showLoading();
                 if (checkData()) {
                     new Thread() {
                         @Override
@@ -157,7 +154,7 @@ public class SqCatalogItemAdd extends BaseActivity  {
                 else
                 {
                     btn_Sure.setEnabled(true);
-                    loadingUtils.close();
+                    hideLoading();
                 }
             }
         });

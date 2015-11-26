@@ -1,6 +1,7 @@
 package com.tongxin.info.activity;
 
 import android.app.ActivityManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.tongxin.info.R;
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
@@ -21,16 +23,18 @@ import java.util.List;
  */
 public class BaseFragmentActivity extends FragmentActivity {
     protected MyApp myApp;
+    protected ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myApp = (MyApp)getApplication();
+        myApp = (MyApp) getApplication();
+        dialog = new ProgressDialog(this);
     }
 
     @Override
     protected void onResume() {
-            //app 从后台唤醒，进入前台
+        //app 从后台唤醒，进入前台
 //            boolean mustLogin = SharedPreUtils.getBoolean(this, "mustLogin", true);
 //            if(mustLogin) {
 //                ToastUtils.Show(this, "您已被强制退出");
@@ -43,5 +47,19 @@ public class BaseFragmentActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    protected void showLoading() {
+        if (!dialog.isShowing()) {
+            dialog.setCancelable(false);
+            dialog.show();
+            dialog.setContentView(R.layout.loading_layout);
+        }
+
+    }
+
+    protected void hideLoading() {
+        if (dialog != null && dialog.isShowing())
+            dialog.dismiss();
     }
 }

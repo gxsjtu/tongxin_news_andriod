@@ -56,7 +56,6 @@ public class HqDetailActivity extends BaseActivity {
     private ArrayList<ProductPrice> mProductPrices = new ArrayList<ProductPrice>();
     private String mMarketName;
     private String mGroupName;
-    loadingUtils loadingUtils;
     AppAdapter adapter;
     //boolean showlistGuide = false;
 
@@ -77,7 +76,6 @@ public class HqDetailActivity extends BaseActivity {
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
 
-        loadingUtils = new loadingUtils(this);
         iv_return.setVisibility(View.VISIBLE);
         iv_ref.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {
@@ -133,12 +131,12 @@ public class HqDetailActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
@@ -327,12 +325,12 @@ public class HqDetailActivity extends BaseActivity {
         kjHttp.post(GlobalContants.ORDER_URL, params, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override

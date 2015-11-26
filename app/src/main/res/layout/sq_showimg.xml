@@ -24,5 +24,4 @@
     android:layout_margin="10dp"
    />
 </LinearLayout>
-    <include layout="@layout/loading"></include>
 </RelativeLayout>

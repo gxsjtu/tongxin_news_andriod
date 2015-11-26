@@ -48,7 +48,6 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
     private String mobile;
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
-    loadingUtils loadingUtils;
     private String url;
     HashMap<String, String> url_maps = new HashMap<String, String>();
     private boolean isClickedComplete = true;
@@ -58,7 +57,6 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_itemdetail);
 
-        loadingUtils = new loadingUtils(this);
         tv_sqDetailName = (TextView) findViewById(R.id.sq_detailName);
         tv_sqDetailQty = (TextView) findViewById(R.id.sq_detailQty);
         tv_sqDetailPrice = (TextView) findViewById(R.id.sq_detailPrice);
@@ -107,7 +105,7 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
     }
 
     private void initData() {
-        loadingUtils.show();
+        showLoading();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -125,7 +123,7 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                loadingUtils.close();
+                hideLoading();
                 ToastUtils.Show(sqDetailFragment.this, "获取数据失败");
             }
 
@@ -181,7 +179,7 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
 
                 }
 
-                loadingUtils.close();
+                hideLoading();
             }
         });
     }

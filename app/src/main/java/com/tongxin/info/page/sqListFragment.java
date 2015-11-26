@@ -1,5 +1,6 @@
 package com.tongxin.info.page;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -38,6 +39,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.tongxin.info.R;
+import com.tongxin.info.activity.BaseFragmentActivity;
 import com.tongxin.info.activity.SqCatalogActivity;
 import com.tongxin.info.control.SegmentedGroup;
 import com.tongxin.info.domain.SqListVM;
@@ -60,11 +62,9 @@ import tourguide.tourguide.TourGuide;
 /**
  * Created by cc on 2015/11/3.
  */
-public class sqListFragment extends FragmentActivity {
+public class sqListFragment extends BaseFragmentActivity {
     private String tv_Name;
     private int tv_ID;
-    loadingUtils loadingUtils;
-    private String tel;
     private ArrayList<SqListVM> sqList = new ArrayList<SqListVM>();
     private ArrayList<SqListVM> resList = new ArrayList<SqListVM>();
     private ArrayList<SqListVM> searchList = new ArrayList<SqListVM>();
@@ -81,19 +81,17 @@ public class sqListFragment extends FragmentActivity {
     AppAdapter adapter;
     private Button sqbtn_CancelSearch;
     public ViewHolder viewHolder = null;
+    ProgressDialog dialog;
     //boolean showOptionGuide = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_list);
         //showOptionGuide = SharedPreUtils.getBoolean(this, "optionGuide", false);
-        loadingUtils = new loadingUtils(this);
         typeForRefresh = "false";
         Intent intent = getIntent();
         tv_Name = intent.getStringExtra("CHANNEL_NAME");
         tv_ID = intent.getIntExtra("CHANNEL_ID", 0);
-        UserUtils userUtils = new UserUtils(this);
-        tel = userUtils.getTel();
         lv_sqList = (ListView) findViewById(R.id.sq_lvData);
 
 
@@ -251,7 +249,7 @@ public class sqListFragment extends FragmentActivity {
 
     private void search()
     {
-        loadingUtils.show();
+        showLoading();
         searchList.clear();
 
         String searchKey = name_searchTxt.getText().toString();
@@ -357,7 +355,7 @@ public class sqListFragment extends FragmentActivity {
             }
 
         });
-        loadingUtils.close();
+        hideLoading();
         lv_sqList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -371,12 +369,16 @@ public class sqListFragment extends FragmentActivity {
     }
 
     private void initData(final String dataType) {
-        loadingUtils.show();
+        if(UserUtils.Tel == null)
+        {
+            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+        }
+        showLoading();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETSPLIST_URL + "?method=getsupply&createBy=" + tel + "&channel=" + tv_ID, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETSPLIST_URL + "?method=getsupply&createBy=" + UserUtils.Tel + "&channel=" + tv_ID, null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
                 super.onPreStart();
@@ -389,7 +391,7 @@ public class sqListFragment extends FragmentActivity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                loadingUtils.close();
+                hideLoading();
                 ToastUtils.Show(sqListFragment.this, "获取数据失败");
             }
 
@@ -410,7 +412,7 @@ public class sqListFragment extends FragmentActivity {
                 }
                 adapter = new AppAdapter();
                 lv_sqList.setAdapter(adapter);
-                loadingUtils.close();
+                hideLoading();
                 lv_sqList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

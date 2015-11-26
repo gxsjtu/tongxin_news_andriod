@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -42,14 +43,13 @@ public class MyOrderActivity extends BaseActivity {
     private TextView tv_headerTitle;
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
-    loadingUtils loadingUtils;
     AppAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.myorder);
-        loadingUtils = new loadingUtils(this);
-        lv_MyOrder = (SwipeMenuListView)findViewById(R.id.lv_MyOrder);
+        lv_MyOrder = (SwipeMenuListView) findViewById(R.id.lv_MyOrder);
         UserUtils userUtils = new UserUtils(this);
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("我的关注");
@@ -61,7 +61,7 @@ public class MyOrderActivity extends BaseActivity {
                 finish();
             }
         });
-        iv_ref =(LinearLayout)findViewById(R.id.iv_ref);
+        iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
         iv_ref.setVisibility(View.VISIBLE);
         iv_ref.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,13 +85,11 @@ public class MyOrderActivity extends BaseActivity {
         initData();
     }
 
-    private void initData()
-    {
-        if(UserUtils.Tel == null)
-        {
-            UserUtils.Tel = SharedPreUtils.getString(this, "name","");
+    private void initData() {
+        if (UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this, "name", "");
         }
-        loadingUtils.show();
+        showLoading();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -109,7 +107,7 @@ public class MyOrderActivity extends BaseActivity {
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                loadingUtils.close();
+                hideLoading();
                 ToastUtils.Show(MyOrderActivity.this, "获取数据失败" + strMsg);
             }
 
@@ -122,7 +120,7 @@ public class MyOrderActivity extends BaseActivity {
                 orderList = gson.fromJson(t, type);
                 adapter = new AppAdapter();
                 lv_MyOrder.setAdapter(adapter);
-                loadingUtils.close();
+                hideLoading();
                 lv_MyOrder.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
@@ -176,11 +174,10 @@ public class MyOrderActivity extends BaseActivity {
         }
 
     }
-    private void order(int id,final int position)
-    {
-        if(UserUtils.Tel == null)
-        {
-            UserUtils.Tel = SharedPreUtils.getString(this, "name","");
+
+    private void order(int id, final int position) {
+        if (UserUtils.Tel == null) {
+            UserUtils.Tel = SharedPreUtils.getString(this, "name", "");
         }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
@@ -194,12 +191,12 @@ public class MyOrderActivity extends BaseActivity {
         kjHttp.post(GlobalContants.ORDER_URL, params, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
-                loadingUtils.show();
+                showLoading();
             }
 
             @Override
             public void onFinish() {
-                loadingUtils.close();
+                hideLoading();
             }
 
             @Override

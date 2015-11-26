@@ -1,6 +1,7 @@
 package com.tongxin.info.page;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -35,12 +37,14 @@ import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
 import org.kymjs.kjframe.http.HttpParams;
+
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,19 +65,19 @@ public class boxFragment extends Fragment {
     private String maxDateForPullDown;
     private BaseAdapter adapterForData;
     private EditText msg_searchTxt;
-//    private ImageView msg_searchImg;
+    //    private ImageView msg_searchImg;
     private Button loadMoreBtn;
     private View footerView;
-    loadingUtils loadingUtils;
     private int hereIndex = 0;
     private String tel;
-   private  ListView actualListView;
+    private ListView actualListView;
 
     private TextView tv_headerTitle;
     private LinearLayout iv_ref;
     private Button btn_clear;
     private String pullMode;
     private Button btn_CancelSearch;
+    ProgressDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,15 +85,15 @@ public class boxFragment extends Fragment {
         mActivity = getActivity();
         UserUtils userUtils = new UserUtils(mActivity);
         tel = userUtils.getTel();
-        loadingUtils = new loadingUtils(mActivity);
+        dialog = new ProgressDialog(mActivity);
         //initData();
-       // new GetDataTask().execute();
+        // new GetDataTask().execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        container.removeAllViews();
-      final  View view = View.inflate(mActivity, R.layout.inboxmsg, null);
+        final View view = View.inflate(mActivity, R.layout.inboxmsg, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("收件箱");
         iv_ref = (LinearLayout) view.findViewById(R.id.iv_ref);
@@ -111,7 +115,7 @@ public class boxFragment extends Fragment {
             }
         });
 
-        btn_clear = (Button)view.findViewById(R.id.btn_clearMsg);
+        btn_clear = (Button) view.findViewById(R.id.btn_clearMsg);
         btn_clear.setVisibility(View.VISIBLE);
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +138,7 @@ public class boxFragment extends Fragment {
         registerForContextMenu(actualListView);
 
 
-        lv_searchRes = (ListView)view.findViewById(R.id.lv_searchRes);
+        lv_searchRes = (ListView) view.findViewById(R.id.lv_searchRes);
         lv_searchRes.setVisibility(View.GONE);
 
         lv_msg.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -174,7 +178,7 @@ public class boxFragment extends Fragment {
             }
         });
 
-        msg_searchTxt = (EditText)view.findViewById(R.id.msg_search);
+        msg_searchTxt = (EditText) view.findViewById(R.id.msg_search);
         msg_searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
@@ -191,17 +195,16 @@ public class boxFragment extends Fragment {
         msg_searchTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
+                if (hasFocus) {
                     btn_CancelSearch.setTextColor(Color.parseColor("#23B1EF"));
                     btn_CancelSearch.setEnabled(true);
-                }
-                else {
+                } else {
                     btn_CancelSearch.setTextColor(Color.GRAY);
                     btn_CancelSearch.setEnabled(false);
                 }
             }
         });
-        btn_CancelSearch = (Button)view.findViewById(R.id.btn_CancelSearch);
+        btn_CancelSearch = (Button) view.findViewById(R.id.btn_CancelSearch);
         btn_CancelSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,7 +223,7 @@ public class boxFragment extends Fragment {
 //                initData();
             }
         });
-        loadMoreBtn = (Button)footerView.findViewById(R.id.msg_loadMoreBtn);
+        loadMoreBtn = (Button) footerView.findViewById(R.id.msg_loadMoreBtn);
         loadMoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,25 +245,37 @@ public class boxFragment extends Fragment {
         return view;
     }
 
-    private void search()
+    private void showLoading()
     {
-        loadingUtils.show();
+        if(!dialog.isShowing()) {
+            dialog.setCancelable(false);
+            dialog.show();
+            dialog.setContentView(R.layout.loading_layout);
+        }
+    }
+
+    private void hideLoading()
+    {
+        if(dialog!=null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+    private void search() {
+        showLoading();
 //        lv_msg.setVisibility(View.GONE);
         String searchKey = msg_searchTxt.getText().toString();
         loadList.clear();
         String res = "";
-        if(searchKey != null) {
+        if (searchKey != null) {
 //            res = searchKey.replace(" ", "");
             res = searchKey.trim();
         }
-        if("".equals(res))
-        {
+        if ("".equals(res)) {
             loadList.addAll(msgList);
-        }
-        else
-        {
+        } else {
 //            res.toLowerCase();
-            for(int i = 0; i < msgList.size();i++) {
+            for (int i = 0; i < msgList.size(); i++) {
                 if (msgList.get(i).msg.toLowerCase().contains(res.toLowerCase())) {
                     loadList.add(msgList.get(i));
                 }
@@ -313,17 +328,17 @@ public class boxFragment extends Fragment {
         };
         actualListView.setAdapter(adapterForData);
         actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    InboxMsgVM item = loadList.get(position - 1);
-                    if (item.url != null && item.url != "") {
-                        Intent intent = new Intent(mActivity, InboxDetailActivity.class);
-                        intent.putExtra("inboxDetailUrl", item.url);
-                        intent.putExtra("title", "同鑫评论");
-                        startActivity(intent);
-                    }
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InboxMsgVM item = loadList.get(position - 1);
+                if (item.url != null && item.url != "") {
+                    Intent intent = new Intent(mActivity, InboxDetailActivity.class);
+                    intent.putExtra("inboxDetailUrl", item.url);
+                    intent.putExtra("title", "同鑫评论");
+                    startActivity(intent);
                 }
-            });
+            }
+        });
 //        if("".equals(res)) {
 //            lv_searchRes.setVisibility(View.GONE);
 //            lv_msg.setVisibility(View.VISIBLE);
@@ -346,15 +361,15 @@ public class boxFragment extends Fragment {
 //                }
 //            });
 //        }
-        loadingUtils.close();
+        hideLoading();
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void initData()
-    {
+    private void initData() {
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final SimpleDateFormat formatForDataNull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
 
@@ -362,7 +377,7 @@ public class boxFragment extends Fragment {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        loadingUtils.show();
+        showLoading();
         kjHttp.get(GlobalContants.GETINBOXMSG_URL + "?method=getInboxMsg&mobile=" + tel, null, false, new HttpCallBack() {
                     @Override
                     public void onPreStart() {
@@ -376,7 +391,7 @@ public class boxFragment extends Fragment {
 
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
-                        loadingUtils.close();
+                        hideLoading();
                         ToastUtils.Show(mActivity, "获取数据失败，请稍后再试！");
                     }
 
@@ -408,7 +423,7 @@ public class boxFragment extends Fragment {
                         adapterForData = new AppAdapter();
 
                         actualListView.setAdapter(adapterForData);
-                        loadingUtils.close();
+                        hideLoading();
                         actualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -458,19 +473,17 @@ public class boxFragment extends Fragment {
         );
     }
 
-    private void pullRefresh()
-    {
-        if (msgList != null && msgList.size() > 0)
-        {
+    private void pullRefresh() {
+        if (msgList != null && msgList.size() > 0) {
             msgList.get(hereIndex).isHereVisible = false;
             msgList.get(0).isHereVisible = true;
         }
-      final  SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         HttpParams params = new HttpParams();
-        params.put("method","getMsgByAction");
-        params.put("mobile",tel);
-        params.put("actionStr","pullDown");
-        params.put("dateStr",maxDateForPullDown);
+        params.put("method", "getMsgByAction");
+        params.put("mobile", tel);
+        params.put("actionStr", "pullDown");
+        params.put("dateStr", maxDateForPullDown);
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         //format.parse()
         final KJHttp kjHttp = new KJHttp();
@@ -579,13 +592,13 @@ public class boxFragment extends Fragment {
     }
 
     private void loadMore() {
-        final   SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         HttpParams params = new HttpParams();
-        params.put("method","getMsgByAction");
-        params.put("mobile",tel);
-        params.put("actionStr","pullUp");
-        params.put("dateStr",minDateForPullUp);
+        params.put("method", "getMsgByAction");
+        params.put("mobile", tel);
+        params.put("actionStr", "pullUp");
+        params.put("dateStr", minDateForPullUp);
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -617,7 +630,7 @@ public class boxFragment extends Fragment {
 
                 loadList.clear();
                 loadList = gson.fromJson(t, type);
-                if(msgList == null || msgList.size() <= 0)//清空后下拉再上拉需要加载出原来清空的数据 所以记录一次maxDate
+                if (msgList == null || msgList.size() <= 0)//清空后下拉再上拉需要加载出原来清空的数据 所以记录一次maxDate
                 {
                     if (loadList != null && loadList.size() > 0) {
                         maxDateForPullDown = loadList.get(0).date;
@@ -657,7 +670,7 @@ public class boxFragment extends Fragment {
                         if (item.url != null && item.url != "") {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                             intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
-                            intent.putExtra("title","同鑫评论");
+                            intent.putExtra("title", "同鑫评论");
                             startActivity(intent);
                         }
                     }
@@ -720,22 +733,20 @@ public class boxFragment extends Fragment {
         }
     }
 
-    public class ViewHolder
-    {
+    public class ViewHolder {
         public TextView txt_msg;
         public TextView txt_date;
         public ImageView img_Msg;
         public ImageView img_Here;
     }
 
-    private void Copy(String text)
-    {
-        ClipboardManager cbm = (ClipboardManager)mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+    private void Copy(String text) {
+        ClipboardManager cbm = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData myClip = ClipData.newPlainText("text", text);
         cbm.setPrimaryClip(myClip);
     }
 
-    private class GetDataTask extends AsyncTask<Void, Void,String[]> {
+    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
         @Override
         protected String[] doInBackground(Void... params) {
@@ -744,21 +755,18 @@ public class boxFragment extends Fragment {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
             }
-            return new String[]{"aa","aa"};
+            return new String[]{"aa", "aa"};
         }
 
         @Override
         protected void onPostExecute(String[] result) {
 //            mListItems.addFirst("Added after refresh...");
-            if("pullDown".equals(pullMode))
-            {
+            if ("pullDown".equals(pullMode)) {
                 pullRefresh();
                 Intent intentCount = new Intent("com.tongxin.badge");
                 intentCount.putExtra("count", 0);
                 mActivity.sendBroadcast(intentCount);
-            }
-            else if("pullUp".equals(pullMode))
-            {
+            } else if ("pullUp".equals(pullMode)) {
                 loadMore();
             }
 //            adapterForData.notifyDataSetChanged();

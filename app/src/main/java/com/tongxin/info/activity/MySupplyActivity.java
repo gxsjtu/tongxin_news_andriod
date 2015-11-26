@@ -42,7 +42,6 @@ public class MySupplyActivity extends BaseActivity {
     private TextView tv_headerTitle;
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
-    loadingUtils loadingUtils;
     private ViewHolder viewHolder = null;
     private ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
     @Override
@@ -50,9 +49,7 @@ public class MySupplyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mysupply);
 
-        loadingUtils = new loadingUtils(this);
         lv_mySupply = (ListView)findViewById(R.id.lv_mySupply);
-        UserUtils userUtils = new UserUtils(this);
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("我的发布");
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
@@ -89,7 +86,7 @@ public class MySupplyActivity extends BaseActivity {
         {
             UserUtils.Tel = SharedPreUtils.getString(this,"name","");
         }
-        loadingUtils.show();
+        showLoading();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -108,7 +105,7 @@ public class MySupplyActivity extends BaseActivity {
             @Override
             public void onFailure(int errorNo, String strMsg) {
 
-                loadingUtils.close();
+                hideLoading();
                 ToastUtils.Show(MySupplyActivity.this, "获取数据失败" + strMsg);
             }
 
@@ -219,7 +216,7 @@ public class MySupplyActivity extends BaseActivity {
                         return convertView;
                     }
                 });
-                loadingUtils.close();
+                hideLoading();
                 lv_mySupply.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
