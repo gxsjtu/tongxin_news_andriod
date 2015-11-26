@@ -52,6 +52,11 @@ import org.kymjs.kjframe.http.HttpConfig;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 /**
  * Created by cc on 2015/11/3.
  */
@@ -76,12 +81,12 @@ public class sqListFragment extends FragmentActivity {
     AppAdapter adapter;
     private Button sqbtn_CancelSearch;
     public ViewHolder viewHolder = null;
-    boolean showOptionGuide = false;
+    //boolean showOptionGuide = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_list);
-        showOptionGuide = SharedPreUtils.getBoolean(this, "optionGuide", false);
+        //showOptionGuide = SharedPreUtils.getBoolean(this, "optionGuide", false);
         loadingUtils = new loadingUtils(this);
         typeForRefresh = "false";
         Intent intent = getIntent();
@@ -154,21 +159,32 @@ public class sqListFragment extends FragmentActivity {
         });
         iv_sqMenu = (LinearLayout) findViewById(R.id.iv_sqMenu);
 
-        if (!showOptionGuide) {
-            ShowcaseView showcaseView = new ShowcaseView.Builder(this)
-                    .setTarget(new ViewTarget(R.id.iv_sqMenu, this))
-                    .setContentTitle("新增供求")
-                    .setContentText("点击此处可以添加供求")
-                    .hideOnTouchOutside()
-                    .setShowcaseDrawer(new CustomShowcaseView(getResources()))
-                    .build();
-            showcaseView.setStyle(R.style.CustomShowcaseTheme4);
-            showcaseView.hideButton();
-            showcaseView.setTitleTextAlignment(Layout.Alignment.ALIGN_CENTER);
-            showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
-
-            SharedPreUtils.setBoolean(this, "optionGuide", true);
-        }
+//        if (!showOptionGuide) {
+//            final ToolTip toolTip = new ToolTip().
+//                    setTitle("新增供求").
+//                    setDescription("点击此处可以添加供求");
+//
+//            Pointer pointer = new Pointer();
+//
+//            pointer.setColor(Color.RED);
+//
+//            Overlay overlay = new Overlay();
+//            overlay.setBackgroundColor(Color.parseColor("#66000000"));
+//            final TourGuide mTutorialHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
+//                    .setPointer(pointer)
+//                    .setToolTip(toolTip)
+//                    .setOverlay(overlay)
+//                    .playOn(iv_sqMenu);
+//
+//            overlay.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mTutorialHandler.cleanUp();
+//                }
+//            });
+//
+//            SharedPreUtils.setBoolean(this, "optionGuide", true);
+//        }
 
         iv_sqMenu.setOnClickListener(new View.OnClickListener() {
             @Override

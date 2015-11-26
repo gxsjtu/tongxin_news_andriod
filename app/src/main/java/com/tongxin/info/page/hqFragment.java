@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ import com.tongxin.info.activity.userActivity;
 import com.tongxin.info.control.PagerSlidingTabStrip;
 import com.tongxin.info.domain.MarketGroup;
 import com.tongxin.info.global.GlobalContants;
+import com.tongxin.info.utils.DensityUtils;
 import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
@@ -52,6 +54,11 @@ import org.kymjs.kjframe.http.HttpConfig;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
 
 /**
  * Created by Administrator on 2015/9/24.
@@ -70,7 +77,7 @@ public class hqFragment extends baseFragment {
     loadingUtils loadingUtils;
     private FragmentManager fm;
     private Button hqbtn_CancelSearch;
-    boolean showUserGuide = false;
+    //boolean showUserGuide = false;
 
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
     MyPagerAdapter adapter;
@@ -80,7 +87,7 @@ public class hqFragment extends baseFragment {
         super.onCreate(savedInstanceState);
         mActivity = (FragmentActivity) getActivity();
         fm = mActivity.getSupportFragmentManager();
-        showUserGuide = SharedPreUtils.getBoolean(mActivity, "userGuide", false);
+        //showUserGuide = SharedPreUtils.getBoolean(mActivity, "userGuide", false);
     }
 
     @Override
@@ -117,19 +124,33 @@ public class hqFragment extends baseFragment {
             }
         });
 
-        if (!showUserGuide) {
-            ShowcaseView showcaseView = new ShowcaseView.Builder(mActivity)
-                    .setTarget(new ViewTarget(R.id.iv_user, mActivity))
-                    .setContentTitle("用户设置")
-                    .setContentText("点击此处可以进入用户设置页面")
-                    .hideOnTouchOutside()
-                    .setShowcaseDrawer(new CustomShowcaseView(getResources()))
-                    .build();
-            showcaseView.setStyle(R.style.CustomShowcaseTheme);
-            showcaseView.hideButton();
+//        if (!showUserGuide) {
+//            ToolTip toolTip = new ToolTip().
+//                    setTitle("用户设置").
+//                    setDescription("点击此处可以进入用户设置页面");
+//
+//            Pointer pointer = new Pointer();
+//
+//            pointer.setColor(Color.RED);
+//
+//            Overlay overlay = new Overlay();
+//            overlay.setBackgroundColor(Color.parseColor("#66000000"));
+//            final TourGuide mTutorialHandler = TourGuide.init(mActivity).with(TourGuide.Technique.Click)
+//                    .setPointer(pointer)
+//                    .setToolTip(toolTip)
+//                    .setOverlay(overlay)
+//                    .playOn(iv_user);
+//
+//            overlay.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mTutorialHandler.cleanUp();
+//                }
+//            });
+//
+//            SharedPreUtils.setBoolean(mActivity, "userGuide", true);
+//        }
 
-            SharedPreUtils.setBoolean(mActivity, "userGuide", true);
-        }
 
         hq_vp = (ViewPager) view.findViewById(R.id.hq_vp);
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
@@ -315,8 +336,11 @@ public class hqFragment extends baseFragment {
 //            renderRect.top = 0;
 //            renderRect.bottom = height;
             eraserPaint.setColor(Color.TRANSPARENT);
+            float circleX = DensityUtils.dp2px(mActivity, 25);
+            float circleY = DensityUtils.dp2px(mActivity, 22);
+            float circleRid = DensityUtils.dp2px(mActivity, 18);
 //            bufferCanvas.drawRect(renderRect, eraserPaint);
-            bufferCanvas.drawCircle(33, 29, 40, eraserPaint);
+            bufferCanvas.drawCircle(circleX, circleY, circleRid, eraserPaint);
         }
 
         @Override

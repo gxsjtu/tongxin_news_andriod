@@ -42,6 +42,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import pl.droidsonroids.gif.GifImageView;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
 
 public class HqDetailActivity extends BaseActivity {
 
@@ -55,8 +59,7 @@ public class HqDetailActivity extends BaseActivity {
     loadingUtils loadingUtils;
     AppAdapter adapter;
     private String tel;
-    LinearLayout guide_listview;
-    boolean showlistGuide = false;
+    //boolean showlistGuide = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +72,12 @@ public class HqDetailActivity extends BaseActivity {
         mGroupName = intent.getStringExtra("groupName");
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         hq_detail_lv = (SwipeMenuListView) findViewById(R.id.hq_detail_lv);
-        showlistGuide = SharedPreUtils.getBoolean(this, "listGuide", false);
+        //showlistGuide = SharedPreUtils.getBoolean(this, "listGuide", false);
 
         tv_headerTitle.setText(mGroupName + "-" + mMarketName);
 
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
-        guide_listview = (LinearLayout) findViewById(R.id.guide_listview);
 
         loadingUtils = new loadingUtils(this);
         iv_return.setVisibility(View.VISIBLE);
@@ -177,27 +179,45 @@ public class HqDetailActivity extends BaseActivity {
                 });
 
 
-                if (!showlistGuide) {
-                    ShowcaseView showcaseView = new ShowcaseView.Builder(HqDetailActivity.this)
-                            .setStyle(R.style.Custom_semi_transparent_demo)
-                            .setContentText("左滑关注产品")
-                            .build();
-                    showcaseView.hideButton();
-                    showcaseView.setHideOnTouchOutside(true);
-                    //showcaseView.setBackground(getResources().getDrawable(R.drawable.swipe_back_en));//minAPI=16
-                    showcaseView.setBackgroundDrawable(getResources().getDrawable(R.drawable.guideback));//deprecated.
-//                    SharedPreUtils.setBoolean(HqDetailActivity.this, "listGuide", true);
-                }
-
-                //guide_listview.setVisibility(View.VISIBLE);
+                //if (!showlistGuide && mProductPrices.size()>0) {
+//                    ShowcaseView showcaseView = new ShowcaseView.Builder(HqDetailActivity.this)
+//                            .setStyle(R.style.Custom_semi_transparent_demo)
+//                            .setContentText("左滑关注产品")
+//                            .build();
+//                    showcaseView.hideButton();
+//                    showcaseView.setHideOnTouchOutside(true);
+//                    //showcaseView.setBackground(getResources().getDrawable(R.drawable.swipe_back_en));//minAPI=16
+//                    showcaseView.setBackgroundDrawable(getResources().getDrawable(R.drawable.guideback));//deprecated.
+////                    SharedPreUtils.setBoolean(HqDetailActivity.this, "listGuide", true);
+//                    View view = adapter.getView(0, null, hq_detail_lv);
+//                    TextView show = (TextView) view.findViewById(R.id.hq_detail_item_Max);
+//                    ToolTip toolTip = new ToolTip().
+//                            setTitle("用户设置").
+//                            setDescription("点击此处可以进入用户设置页面");
+//
+//                    Pointer pointer = new Pointer();
+//
+//                    pointer.setColor(Color.RED);
+//
+//                    Overlay overlay = new Overlay();
+//                    overlay.setBackgroundColor(Color.parseColor("#66000000"));
+//                    final TourGuide mTutorialHandler = TourGuide.init(HqDetailActivity.this).with(TourGuide.Technique.Click)
+//                            .setPointer(pointer)
+//                            .setToolTip(toolTip)
+//                            .setOverlay(overlay)
+//                            .playOn(hq_detail_lv);
+//
+//                    overlay.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            mTutorialHandler.cleanUp();
+//                        }
+//                    });
+//                }
+//
+//                //guide_listview.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    public void hideGuide(View view) {
-        guide_listview.setVisibility(View.GONE);
-        guide_listview.removeAllViews();
-        guide_listview = null;
     }
 
     public class AppAdapter extends BaseAdapter {
