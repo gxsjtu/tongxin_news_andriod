@@ -79,9 +79,9 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
 
             String name = SharedPreUtils.getString(activity, "name", "");
             String pwd = SharedPreUtils.getString(activity, "pwd", "");
-
+            String clientId = SharedPreUtils.getString(activity, "token", "");
             if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
-                String clientId = pushManager.getClientid(activity);
+                //String clientId = pushManager.getClientid(activity);
                 if(clientId == null)
                 {
                     clientId = SharedPreUtils.getString(activity, "token", "");

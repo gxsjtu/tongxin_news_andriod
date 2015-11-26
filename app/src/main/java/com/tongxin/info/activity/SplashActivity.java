@@ -54,7 +54,7 @@ public class SplashActivity extends Activity {
     private String mDesc;
     private String mDownloadUrl;
     private String err;
-    private PushManager pushManager;
+    private static PushManager pushManager;
     MyApp myApp;
     private String token="";
 
@@ -102,7 +102,7 @@ public class SplashActivity extends Activity {
 
         setContentView(R.layout.activity_splash);
         myApp = ((MyApp)getApplication());
-        pushManager = myApp.getPushManager();
+//        pushManager = myApp.getPushManager();
         pushManager = PushManager.getInstance();
         pushManager.initialize(this.getApplicationContext());
         myApp.setPushManager(pushManager);

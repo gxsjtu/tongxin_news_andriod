@@ -31,8 +31,6 @@ public class MyApp extends Application {
     private String tel;
     private String clientId;
     private String pwd;
-    private int startActivityCount = 0;
-    private boolean isActive = false;
 
     private Timer checkUserTimer;
     private TimerTask checkUserTimerTask;
