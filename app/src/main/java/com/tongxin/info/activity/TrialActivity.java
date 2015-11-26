@@ -46,12 +46,7 @@ public class TrialActivity extends Activity {
     protected void onDestroy() {
         time.cancel();
         time = null;
-        iv_return = null;
-        tv_headerTitle = null;
-        et_mobile = null;
-        btn_submit = null;
         trialBack.setBackgroundResource(0);
-        trialBack = null;
 
         super.onDestroy();
     }

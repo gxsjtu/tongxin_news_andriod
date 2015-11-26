@@ -294,16 +294,6 @@ public class HqHistoryActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         mHistoryPrices.clear();
-        mHistoryPrices = null;
-        calendar = null;
-        startDate = null;
-        endDate = null;
-        hq_history_lv = null;
-        tv_headerTitle = null;
-        iv_return = null;
-        tv_headerChart = null;
-        loadingUtils = null;
-
 
         super.onDestroy();
     }

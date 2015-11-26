@@ -291,15 +291,6 @@ public class PingLunDetailActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         products.clear();
-        products = null;
-
-        tv_headerTitle = null;
-        iv_return = null;
-        iv_ref = null;
-        pl_detail_lv = null;
-        kjb = null;
-        loadingUtils = null;
-        adapter = null;
 
         super.onDestroy();
     }

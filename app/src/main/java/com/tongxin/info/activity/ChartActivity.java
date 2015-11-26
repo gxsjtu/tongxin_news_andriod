@@ -197,29 +197,12 @@ public class ChartActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         historyPrices.clear();
-        historyPrices = null;
         high.clear();
-        high = null;
         low.clear();
-        low = null;
         xVals.clear();;
-        xVals = null;
         yHigh.clear();
-        yHigh = null;
         yLow.clear();
-        yLow = null;
         dataSets.clear();
-        dataSets = null;
-
-        mTitle = null;
-
-        chart = null;
-        tv_headerTitle = null;
-        iv_return = null;
-        tv_priceMin = null;
-        tv_priceMax = null;
-        tv_priceDate = null;
-
         super.onDestroy();
     }
 }

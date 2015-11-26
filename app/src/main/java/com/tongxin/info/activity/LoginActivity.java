@@ -251,11 +251,6 @@ public class LoginActivity extends Activity {
     protected void onDestroy() {
         if(showLogin) {
             loginback.setBackgroundResource(0);
-            loginback = null;
-            et_name = null;
-            et_pwd = null;
-            btn_login = null;
-            userUtils = null;
         }
         super.onDestroy();
     }

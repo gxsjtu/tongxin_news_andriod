@@ -226,13 +226,6 @@ public class MyOrderActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         orderList.clear();
-        orderList = null;
-        tv_headerTitle = null;
-        iv_return = null;
-        iv_ref = null;
-        loadingUtils = null;
-        adapter = null;
-        lv_MyOrder = null;
 
         super.onDestroy();
     }

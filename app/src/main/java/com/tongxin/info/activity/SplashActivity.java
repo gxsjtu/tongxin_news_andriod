@@ -171,7 +171,6 @@ public class SplashActivity extends Activity {
     @Override
     protected void onDestroy() {
         splash_rl.setBackgroundResource(0);
-        splash_rl = null;
 
         super.onDestroy();
     }
