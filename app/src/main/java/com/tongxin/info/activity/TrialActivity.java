@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,11 +39,20 @@ public class TrialActivity extends Activity {
     private MobileEditTextWithDel et_mobile;
     private Button btn_submit;
     private String view_type;
+    RelativeLayout trialBack;
     String title;
 
     @Override
     protected void onDestroy() {
         time.cancel();
+        time = null;
+        iv_return = null;
+        tv_headerTitle = null;
+        et_mobile = null;
+        btn_submit = null;
+        trialBack.setBackgroundResource(0);
+        trialBack = null;
+
         super.onDestroy();
     }
 
@@ -73,6 +83,7 @@ public class TrialActivity extends Activity {
         btn_submit = (Button) findViewById(R.id.btn_submit);
         et_mobile.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         tv_headerTitle.setText(title);
+        trialBack = (RelativeLayout) findViewById(R.id.trialBack);
         iv_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,4 +204,5 @@ public class TrialActivity extends Activity {
             setBtnStatus(btn_submit, true);
         }
     }
+
 }

@@ -212,6 +212,8 @@ public class PingLunDetailActivity extends BaseActivity {
                 viewHolder.tv_pl_detail_item_header.setText(pl.title);
                 viewHolder.tv_pl_detail_item_name.setText(pl.productname);
                 viewHolder.tv_pl_detail_item_date.setText(pl.date);
+                viewHolder.iv_pl_detail_item.setImageBitmap(null);
+                viewHolder.iv_pl_detail_item.setImageDrawable(null);
                 kjb.display(viewHolder.iv_pl_detail_item, pl.avatar, imgWeight, imgHeight);
             }
 
@@ -284,5 +286,21 @@ public class PingLunDetailActivity extends BaseActivity {
         TextView tv_pl_detail_item_header;
         TextView tv_pl_detail_item_name;
         TextView tv_pl_detail_item_date;
+    }
+
+    @Override
+    protected void onDestroy() {
+        products.clear();
+        products = null;
+
+        tv_headerTitle = null;
+        iv_return = null;
+        iv_ref = null;
+        pl_detail_lv = null;
+        kjb = null;
+        loadingUtils = null;
+        adapter = null;
+
+        super.onDestroy();
     }
 }

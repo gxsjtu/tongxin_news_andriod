@@ -359,6 +359,39 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(badgeBroadcast);
+
+        fragementList.clear();
+        fragementList = null;
+        boxF = null;
+        hqF = null;
+        plF = null;
+        sqF = null;
+        meF = null;
+
+        main_fl_content = null;
+        ll_inbox = null;
+        ll_hq = null;
+        ll_pl = null;
+        ll_sq = null;
+        ll_qh = null;
+        iv_inbox = null;
+        iv_hq = null;
+        iv_pl = null;
+        iv_sq = null;
+        iv_qh = null;
+        tv_inbox = null;
+        tv_hq = null;
+        tv_pl = null;
+
+        tv_sq = null;
+        tv_qh = null;
+        fragmentManager = null;
+        mContent = null;
+        tran = null;
+        badge = null;
+        badgeBroadcast = null;
+
+
         super.onDestroy();
     }
 
@@ -415,5 +448,7 @@ public class MainActivity extends BaseFragmentActivity {
     public void onBackPressed() {
         moveTaskToBack(true);
     }
+
+
 
 }

@@ -391,4 +391,21 @@ public class SearchActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        searchVMs.clear();
+        searchVMs = null;
+        searchItems.clear();
+        searchItems = null;
+
+        tv_headerTitle = null;
+        lv_search = null;
+        iv_return = null;
+        iv_ref = null;
+        loadingUtils = null;
+        adapter = null;
+
+        super.onDestroy();
+    }
 }

@@ -279,4 +279,16 @@ public class DetailForShowImg extends Activity {
 //    }
 
 
+    @Override
+    protected void onDestroy() {
+        img_ForShow = null;
+        loadingUtils = null;
+
+        if(bitmap!=null && !bitmap.isRecycled()) {
+            bitmap.recycle();
+            bitmap = null;
+        }
+
+        super.onDestroy();
+    }
 }

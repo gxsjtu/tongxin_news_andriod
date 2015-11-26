@@ -255,4 +255,22 @@ public class userActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        img_CheckVersion.setBackgroundResource(0);
+        img_CheckVersion = null;
+        img_ForNewVersion.setBackgroundResource(0);
+        img_ForNewVersion = null;
+
+        iv_return = null;
+        tv_userMobile = null;
+        tv_userEndDate = null;
+        tv_headerTitle = null;
+        sw = null;
+        tv_CheckVersion = null;
+        loadingUtils = null;
+
+        super.onDestroy();
+    }
 }

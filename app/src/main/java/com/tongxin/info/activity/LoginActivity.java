@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
@@ -47,6 +48,7 @@ public class LoginActivity extends Activity {
     MyApp application;
     boolean showLogin = true;
     PushManager pushManager;
+    RelativeLayout loginback;
 
     @Override
     public void onBackPressed() {
@@ -83,6 +85,7 @@ public class LoginActivity extends Activity {
         et_pwd = (EditText) findViewById(R.id.et_pwd);
         btn_login = (ActionProcessButton) findViewById(R.id.btn_login);
         btn_login.setMode(ActionProcessButton.Mode.ENDLESS);
+        loginback = (RelativeLayout) findViewById(R.id.loginback);
     }
 
     public void login(View view) {
@@ -242,5 +245,18 @@ public class LoginActivity extends Activity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         //}
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(showLogin) {
+            loginback.setBackgroundResource(0);
+            loginback = null;
+            et_name = null;
+            et_pwd = null;
+            btn_login = null;
+            userUtils = null;
+        }
+        super.onDestroy();
     }
 }

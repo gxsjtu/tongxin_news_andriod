@@ -363,4 +363,16 @@ public class HqDetailActivity extends BaseActivity {
         TextView hq_detail_item_ChangeText;
     }
 
+    @Override
+    protected void onDestroy() {
+        mProductPrices.clear();
+        mProductPrices = null;
+        adapter = null;
+        tv_headerTitle = null;
+        hq_detail_lv = null;
+        iv_return = null;
+        iv_ref = null;
+        loadingUtils = null;
+        super.onDestroy();
+    }
 }

@@ -229,4 +229,17 @@ public class MySupplyActivity extends BaseActivity {
         public TextView txt_sqIsChecked;
         public TextView tv_Type;
     }
+
+    @Override
+    protected void onDestroy() {
+        mySupplyList.clear();
+        mySupplyList = null;
+        lv_mySupply = null;
+        tv_headerTitle = null;
+        iv_return = null;
+        iv_ref = null;
+        loadingUtils = null;
+
+        super.onDestroy();
+    }
 }
