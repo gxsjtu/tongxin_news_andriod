@@ -93,6 +93,10 @@ public class ChartActivity extends BaseActivity {
         getMaxAndMin();
 
         float range = (max-min)/20;
+        if(max == min)
+        {
+            range = max/20;
+        }
 
         initViews();
 
@@ -106,9 +110,15 @@ public class ChartActivity extends BaseActivity {
         // Y坐标轴最大值
         leftAxis.setAxisMaxValue(max+range);
         rightAxis.setAxisMaxValue(max+range);
-        leftAxis.setLabelCount(10, true);
-        rightAxis.setLabelCount(10, true);
-
+        if(max == min)
+        {
+            leftAxis.setLabelCount(3, true);
+            rightAxis.setLabelCount(3, true);
+        }
+        else {
+            leftAxis.setLabelCount(10, true);
+            rightAxis.setLabelCount(10, true);
+        }
         // Y坐标轴最小值
         leftAxis.setAxisMinValue(min-range);
         rightAxis.setAxisMinValue(min-range);
