@@ -392,6 +392,13 @@ public class boxFragment extends Fragment {
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
                         hideLoading();
+                        if(maxDateForPullDown == null) {
+                            maxDateForPullDown = formatForDataNull.format(new Date());
+                        }
+
+                        if(minDateForPullUp == null) {
+                            minDateForPullUp = formatForDataNull.format(new Date());
+                        }
                         ToastUtils.Show(mActivity, "获取数据失败，请稍后再试！");
                     }
 
@@ -479,6 +486,7 @@ public class boxFragment extends Fragment {
             msgList.get(0).isHereVisible = true;
         }
         final SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final SimpleDateFormat formatForDataNull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         HttpParams params = new HttpParams();
         params.put("method", "getMsgByAction");
         params.put("mobile", UserUtils.Tel);
@@ -506,6 +514,13 @@ public class boxFragment extends Fragment {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 lv_msg.onRefreshComplete();
+                if(maxDateForPullDown == null) {
+                    maxDateForPullDown = formatForDataNull.format(new Date());
+                }
+
+                if(minDateForPullUp == null) {
+                    minDateForPullUp = formatForDataNull.format(new Date());
+                }
                 ToastUtils.Show(mActivity, "下拉加载数据失败，请稍后再试！");
             }
 
@@ -593,7 +608,7 @@ public class boxFragment extends Fragment {
 
     private void loadMore() {
         final SimpleDateFormat sdfFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
+        final SimpleDateFormat formatForDataNull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         HttpParams params = new HttpParams();
         params.put("method", "getMsgByAction");
         params.put("mobile", UserUtils.Tel);
@@ -618,6 +633,13 @@ public class boxFragment extends Fragment {
             @Override
             public void onFailure(int errorNo, String strMsg) {
 //                loadingUtils.close();
+                if(maxDateForPullDown == null) {
+                    maxDateForPullDown = formatForDataNull.format(new Date());
+                }
+
+                if(minDateForPullUp == null) {
+                    minDateForPullUp = formatForDataNull.format(new Date());
+                }
                 ToastUtils.Show(mActivity, "加载数据失败，请稍后再试！");
             }
 
