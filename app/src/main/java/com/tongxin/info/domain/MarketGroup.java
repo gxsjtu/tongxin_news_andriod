@@ -11,7 +11,7 @@ public class MarketGroup implements Serializable {
     public String name;
     public ArrayList<Market> markets;
 
-    public class Market
+    public class Market implements Serializable
     {
         public int id;
         public String name;
