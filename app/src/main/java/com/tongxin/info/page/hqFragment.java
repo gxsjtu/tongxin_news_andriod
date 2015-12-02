@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.amlcurran.showcaseview.ShowcaseDrawer;
 import com.github.amlcurran.showcaseview.ShowcaseView;
@@ -52,6 +53,7 @@ import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +66,7 @@ import tourguide.tourguide.TourGuide;
 /**
  * Created by Administrator on 2015/9/24.
  */
-public class hqFragment extends baseFragment {
+public class hqFragment extends baseFragment implements Serializable {
     private FragmentActivity mActivity;
     private ViewPager hq_vp;
     private PagerSlidingTabStrip tabs;
@@ -87,7 +89,6 @@ public class hqFragment extends baseFragment {
         super.onCreate(savedInstanceState);
         mActivity = (FragmentActivity) getActivity();
         fm = mActivity.getSupportFragmentManager();
-        //showUserGuide = SharedPreUtils.getBoolean(mActivity, "userGuide", false);
     }
 
     private void showLoading()

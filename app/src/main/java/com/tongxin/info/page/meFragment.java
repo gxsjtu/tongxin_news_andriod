@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.tongxin.info.R;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2015/9/24.
  */
-public class meFragment extends Fragment {
+public class meFragment extends Fragment implements Serializable {
     private Activity mActivity;
     private WebView wv;
     private TextView tv_headerTitle;

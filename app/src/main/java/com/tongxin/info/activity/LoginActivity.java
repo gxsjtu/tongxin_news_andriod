@@ -212,15 +212,7 @@ public class LoginActivity extends Activity {
     }
 
     private void nextPage() {
-        //判断是否进入过新手指引页面
-        //boolean userGuide = SharedPreUtils.getBoolean(this, "is_user_guide_showed", false);
-        //if (!userGuide) {
-        //跳的新手指引页
-        //startActivity(new Intent(LoginActivity.this, GuideActivity.class));
-        //} else {
-        //跳到主页
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        //}
         finish();
     }
 

@@ -23,9 +23,11 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.handmark.pulltorefresh.library.internal.Utils;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.ProductHistoryPrice;
 import com.tongxin.info.utils.ColorsUtils;
+import com.tongxin.info.utils.UserUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,7 +90,8 @@ public class ChartActivity extends BaseActivity {
         outState.putString("title",mTitle);
         outState.putFloat("min", min);
         outState.putFloat("max",max);
-        outState.putSerializable("historyPrices",historyPrices);
+        outState.putSerializable("historyPrices", historyPrices);
+        outState.putString("tel", UserUtils.Tel);
         super.onSaveInstanceState(outState);
     }
 
@@ -103,6 +106,7 @@ public class ChartActivity extends BaseActivity {
             historyPrices = (ArrayList<ProductHistoryPrice>) savedInstanceState.getSerializable("historyPrices");
             min = savedInstanceState.getFloat("min");
             max = savedInstanceState.getFloat("max");
+            UserUtils.Tel = savedInstanceState.getString("tel");
         }
         else {
             mTitle = intent.getStringExtra("title");

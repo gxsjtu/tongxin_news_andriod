@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.readystatesoftware.viewbadger.BadgeView;
 import com.tongxin.info.R;
@@ -32,10 +33,12 @@ import com.tongxin.info.page.sqFragment;
 import com.tongxin.info.utils.BadgeUtils;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.SharedPreUtils;
+import com.tongxin.info.utils.UserUtils;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
@@ -67,23 +70,28 @@ public class MainActivity extends BaseFragmentActivity {
     FragmentTransaction tran;
     BadgeView badge;
     BadgeBroadcast badgeBroadcast = null;
-    int select = Color.rgb(0x00,0x79,0xff);
-    int unselect = Color.rgb(0x92,0x92,0x92);
-    private ArrayList<Fragment> fragementList = new ArrayList<Fragment>();
+    int select = Color.rgb(0x00, 0x79, 0xff);
+    int unselect = Color.rgb(0x92, 0x92, 0x92);
     private boxFragment boxF;
-    private hqFragment hqF ;
-    private plFragment plF ;
-    private sqFragment sqF ;
-    private meFragment meF ;
+    private hqFragment hqF;
+    private plFragment plF;
+    private sqFragment sqF;
+    private meFragment meF;
+    private String currPage = "";
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("currPage", currPage);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-//        AddFragementList();
         main_fl_content = (FrameLayout) findViewById(R.id.main_fl_content);
         ll_inbox = (LinearLayout) findViewById(R.id.ll_inbox);
         ll_hq = (LinearLayout) findViewById(R.id.ll_hq);
@@ -102,7 +110,6 @@ public class MainActivity extends BaseFragmentActivity {
         tv_pl = (TextView) findViewById(R.id.tv_pl);
         tv_sq = (TextView) findViewById(R.id.tv_sq);
         tv_qh = (TextView) findViewById(R.id.tv_qh);
-
         badgeBroadcast = new BadgeBroadcast();
         IntentFilter filter = new IntentFilter("com.tongxin.badge");
         registerReceiver(badgeBroadcast, filter);
@@ -111,16 +118,12 @@ public class MainActivity extends BaseFragmentActivity {
         badge.setTextSize(10);
         setMessageBadge(0);
 
-
-        initViews();
+        initViews(savedInstanceState);
 
 
     }
 
-    private void initViews() {
-
-        fragmentManager = getSupportFragmentManager();
-
+    private void initListener() {
         //收件箱
         ll_inbox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,11 +144,12 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
-                if(boxF == null)
-                {
+                if (boxF == null) {
                     boxF = new boxFragment();
                 }
+                currPage = "boxF";
                 showPage(boxF);
+
             }
         });
 
@@ -169,10 +173,10 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
-                if(hqF == null)
-                {
+                if (hqF == null) {
                     hqF = new hqFragment();
                 }
+                currPage = "hqF";
                 showPage(hqF);
             }
         });
@@ -197,10 +201,10 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
-                if(plF == null)
-                {
+                if (plF == null) {
                     plF = new plFragment();
                 }
+                currPage = "plF";
                 showPage(plF);
             }
         });
@@ -225,10 +229,10 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user_gray);
                 tv_qh.setTextColor(unselect);
 
-                if(sqF == null)
-                {
+                if (sqF == null) {
                     sqF = new sqFragment();
                 }
+                currPage = "sqF";
                 showPage(sqF);
             }
         });
@@ -252,13 +256,18 @@ public class MainActivity extends BaseFragmentActivity {
                 iv_qh.setImageResource(R.mipmap.user);
                 tv_qh.setTextColor(select);
 
-                if(meF == null)
-                {
+                if (meF == null) {
                     meF = new meFragment();
                 }
+                currPage = "meF";
                 showPage(meF);
             }
         });
+    }
+
+    private void initViews(Bundle savedInstanceState) {
+        initListener();
+        fragmentManager = getSupportFragmentManager();
 
         iv_inbox.setImageResource(R.mipmap.box);
         tv_inbox.setTextColor(select);
@@ -275,10 +284,27 @@ public class MainActivity extends BaseFragmentActivity {
         iv_qh.setImageResource(R.mipmap.user_gray);
         tv_qh.setTextColor(unselect);
 
-        if(boxF == null)
+        if(savedInstanceState!=null)
         {
+            List<Fragment> list = fragmentManager.getFragments();
+            tran = fragmentManager.beginTransaction();
+            for (int i = 0; i<list.size();i++)
+            {
+                Fragment fragment = list.get(i);
+                String name = fragment.toString();
+                if(name.startsWith("boxFragment") || name.startsWith("hqFragment") ||
+                        name.startsWith("plFragment")||name.startsWith("sqFragment")||name.startsWith("meFragment"))
+                tran.remove(list.get(i));
+            }
+
+            tran.commit();
+        }
+
+        if (boxF == null) {
             boxF = new boxFragment();
         }
+
+        currPage = "boxF";
         showPage(boxF);
         setMessageBadge(0);
 
@@ -287,22 +313,19 @@ public class MainActivity extends BaseFragmentActivity {
     private void showPage(Fragment to) {
 
         tran = fragmentManager.beginTransaction();
-        if(boxF != null && boxF.isAdded())
-        tran.hide(boxF);
-        if(hqF != null && hqF.isAdded())
-        tran.hide(hqF);
-        if(sqF != null && sqF.isAdded())
+        if (boxF != null && boxF.isAdded())
+            tran.hide(boxF);
+        if (hqF != null && hqF.isAdded())
+            tran.hide(hqF);
+        if (sqF != null && sqF.isAdded())
             tran.hide(sqF);
-        if(plF != null && plF.isAdded())
+        if (plF != null && plF.isAdded())
             tran.hide(plF);
-        if(meF != null && meF.isAdded())
+        if (meF != null && meF.isAdded())
             tran.hide(meF);
-        if(to.isAdded())
-        {
+        if (to.isAdded()) {
             tran.show(to);
-        }
-        else
-        {
+        } else {
             tran.add(R.id.main_fl_content, to);
         }
         tran.commit();
@@ -346,11 +369,10 @@ public class MainActivity extends BaseFragmentActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            int count = intent.getIntExtra("count",0);
-            if(count == -1) {
+            int count = intent.getIntExtra("count", 0);
+            if (count == -1) {
                 finish();
-            }
-            else {
+            } else {
                 setMessageBadge(count);
             }
         }
@@ -360,12 +382,25 @@ public class MainActivity extends BaseFragmentActivity {
     protected void onDestroy() {
         unregisterReceiver(badgeBroadcast);
 
-        fragementList.clear();
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
+//        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+//        tran = fragmentManager.beginTransaction();
+//        if (hqF != null) {
+//            Toast.makeText(this, "hqF !=null", Toast.LENGTH_SHORT).show();
+//
+//            if (hqF.isAdded()) {
+//                Toast.makeText(this, "hqF.isAdded()", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//        if (hqF != null) {
+//            tran.show(hqF);
+//            tran.commit();
+//        }
         String count = SharedPreUtils.getString(this, "badgecount", "0");
         int badgeCount = Integer.parseInt(count);
         setMessageBadge(badgeCount);
@@ -374,6 +409,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        Toast.makeText(this, "onNewIntent", Toast.LENGTH_SHORT).show();
         iv_inbox.setImageResource(R.mipmap.box);
         tv_inbox.setTextColor(select);
 
@@ -392,19 +428,20 @@ public class MainActivity extends BaseFragmentActivity {
         tran = fragmentManager.beginTransaction();
 //        if(boxF != null && boxF.isAdded())
 //            tran.hide(boxF);
-        if(hqF != null && hqF.isAdded())
+        if (hqF != null && hqF.isAdded())
             tran.hide(hqF);
-        if(sqF != null && sqF.isAdded())
+        if (sqF != null && sqF.isAdded())
             tran.hide(sqF);
-        if(plF != null && plF.isAdded())
+        if (plF != null && plF.isAdded())
             tran.hide(plF);
-        if(meF != null && meF.isAdded())
+        if (meF != null && meF.isAdded())
             tran.hide(meF);
-         if(boxF != null && boxF.isAdded()) {
-             tran.remove(boxF);
-         }
+        if (boxF != null && boxF.isAdded()) {
+            tran.remove(boxF);
+        }
         boxF = new boxFragment();
-        tran.add(R.id.main_fl_content,boxF);
+        tran.add(R.id.main_fl_content, boxF);
+
 //        tran.replace(R.id.main_fl_content, new boxFragment());
         tran.commitAllowingStateLoss();
 
@@ -417,7 +454,6 @@ public class MainActivity extends BaseFragmentActivity {
     public void onBackPressed() {
         moveTaskToBack(true);
     }
-
 
 
 }

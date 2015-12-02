@@ -15,6 +15,7 @@ import com.tongxin.info.R;
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
+import com.tongxin.info.utils.UserUtils;
 
 import java.util.List;
 
@@ -27,6 +28,10 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null)
+        {
+            UserUtils.Tel = savedInstanceState.getString("userTel");
+        }
         myApp = (MyApp) getApplication();
         dialog = new ProgressDialog(this);
     }
@@ -71,4 +76,9 @@ public class BaseActivity extends Activity {
             dialog.dismiss();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("userTel", UserUtils.Tel);
+        super.onSaveInstanceState(outState);
+    }
 }

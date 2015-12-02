@@ -25,6 +25,8 @@ import com.tongxin.info.utils.loadingUtils;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
+
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/9/24.
  */
-public class plFragment extends baseFragment {
+public class plFragment extends baseFragment implements Serializable {
     private FragmentActivity mActivity;
     private ViewPager pl_vp;
     private PagerSlidingTabStrip pl_tabs;

@@ -14,10 +14,12 @@ import android.widget.TextView;
 
 import com.tongxin.info.R;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2015/9/24.
  */
-public class sqFragment extends Fragment {
+public class sqFragment extends Fragment implements Serializable {
     private Activity mActivity;
     private TextView tv_headerTitle;
     private ImageView iv_return;

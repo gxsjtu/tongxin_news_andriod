@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -45,6 +46,7 @@ import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
 import org.kymjs.kjframe.http.HttpParams;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ import java.util.LinkedList;
 /**
  * Created by Administrator on 2015/9/24.
  */
-public class boxFragment extends Fragment {
+public class boxFragment extends Fragment implements Serializable {
     private LinkedList<String> mListItems;
     private Activity mActivity;
     private PullToRefreshListView lv_msg;
@@ -80,11 +82,27 @@ public class boxFragment extends Fragment {
     ProgressDialog dialog;
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("tel",tel);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        UserUtils userUtils = new UserUtils(mActivity);
-        tel = UserUtils.Tel;
+        if(savedInstanceState!=null)
+        {
+            UserUtils userUtils = new UserUtils(mActivity);
+            tel = savedInstanceState.getString("tel");
+            UserUtils.Tel = tel;
+
+        }
+        else {
+            UserUtils userUtils = new UserUtils(mActivity);
+            tel = UserUtils.Tel;
+        }
+
         dialog = new ProgressDialog(mActivity);
         //initData();
         // new GetDataTask().execute();
@@ -93,6 +111,7 @@ public class boxFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        container.removeAllViews();
+
         final View view = View.inflate(mActivity, R.layout.inboxmsg, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("收件箱");
@@ -378,7 +397,7 @@ public class boxFragment extends Fragment {
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
         showLoading();
-        kjHttp.get(GlobalContants.GETINBOXMSG_URL + "?method=getInboxMsg&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETINBOXMSG_URL + "?method=getInboxMsg&mobile=" + tel, null, false, new HttpCallBack() {
                     @Override
                     public void onPreStart() {
                         super.onPreStart();
@@ -437,13 +456,13 @@ public class boxFragment extends Fragment {
                                 InboxMsgVM item = msgList.get(position - 1);
                                 if (item.url != null && item.url != "") {
                                     Intent intent = new Intent(mActivity, InboxDetailActivity.class);
-                                    intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + UserUtils.Tel);
+                                    intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
                                     intent.putExtra("title", "同鑫评论");
                                     startActivity(intent);
                                 }
                             }
                         });
-                        kjHttp.get(GlobalContants.MessageInfo_URL + "?method=clearMessage&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
+                        kjHttp.get(GlobalContants.MessageInfo_URL + "?method=clearMessage&mobile=" + tel, null, false, new HttpCallBack() {
                             @Override
                             public void onPreStart() {
                                 super.onPreStart();
@@ -489,7 +508,7 @@ public class boxFragment extends Fragment {
         final SimpleDateFormat formatForDataNull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         HttpParams params = new HttpParams();
         params.put("method", "getMsgByAction");
-        params.put("mobile", UserUtils.Tel);
+        params.put("mobile", tel);
         params.put("actionStr", "pullDown");
         params.put("dateStr", maxDateForPullDown);
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
@@ -563,14 +582,14 @@ public class boxFragment extends Fragment {
                         InboxMsgVM item = msgList.get(position - 1);
                         if (item.url != null && item.url != "") {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
-                            intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + UserUtils.Tel);
+                            intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
                             intent.putExtra("title", "同鑫评论");
                             startActivity(intent);
                         }
                     }
                 });
 
-                kjHttp.get(GlobalContants.MessageInfo_URL + "?method=clearMessage&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
+                kjHttp.get(GlobalContants.MessageInfo_URL + "?method=clearMessage&mobile=" + tel, null, false, new HttpCallBack() {
                     @Override
                     public void onPreStart() {
                         super.onPreStart();
@@ -611,7 +630,7 @@ public class boxFragment extends Fragment {
         final SimpleDateFormat formatForDataNull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
         HttpParams params = new HttpParams();
         params.put("method", "getMsgByAction");
-        params.put("mobile", UserUtils.Tel);
+        params.put("mobile", tel);
         params.put("actionStr", "pullUp");
         params.put("dateStr", minDateForPullUp);
         KJHttp kjHttp = new KJHttp();

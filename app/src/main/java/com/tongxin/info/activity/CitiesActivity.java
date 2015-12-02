@@ -29,7 +29,7 @@ public class CitiesActivity extends BaseActivity {
     private LinearLayout img_Options;
     private TextView tv_HeaderText;
 
-	@Override
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
