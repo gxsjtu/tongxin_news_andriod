@@ -44,11 +44,24 @@ public class userActivity extends BaseActivity {
     private boolean isCanUpdate;
     private String versionName;
     private ImageView img_ForNewVersion;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("mobile", mobile);
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        mobile = UserUtils.Tel;
+        if(savedInstanceState!=null)
+        {
+            mobile = savedInstanceState.getString("mobile");
+        }
+        else {
+            mobile = UserUtils.Tel;
+        }
         initViews();
         //checkVersion();
         initData();

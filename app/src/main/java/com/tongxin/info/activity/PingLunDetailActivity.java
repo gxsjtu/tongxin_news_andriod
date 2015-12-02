@@ -49,17 +49,40 @@ public class PingLunDetailActivity extends BaseActivity {
     AppAdapter adapter;
     private int imgWeight;
     private int imgHeight;
+    String tel;
 
     private ArrayList<PlProductVM> products = new ArrayList<PlProductVM>();
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("marketId",mMarketId);
+        outState.putString("marketName", mMarketName);
+        outState.putString("groupName", mGroupName);
+        outState.putString("tel", tel);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pl_detail);
-        Intent intent = getIntent();
-        mMarketId = intent.getIntExtra("marketId", 0);
-        mMarketName = intent.getStringExtra("marketName");
-        mGroupName = intent.getStringExtra("groupName");
+        if(savedInstanceState!=null)
+        {
+            mMarketId = savedInstanceState.getInt("marketId");
+            mMarketName = savedInstanceState.getString("marketName");
+            mGroupName = savedInstanceState.getString("groupName");
+            tel = savedInstanceState.getString("tel");
+        }
+        else {
+            Intent intent = getIntent();
+            mMarketId = intent.getIntExtra("marketId", 0);
+            mMarketName = intent.getStringExtra("marketName");
+            mGroupName = intent.getStringExtra("groupName");
+            if(UserUtils.Tel == null) {
+                UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+            }
+            tel = UserUtils.Tel;
+        }
         UserUtils userUtils = new UserUtils(this);
         imgWeight = DensityUtils.dp2px(this, 80);
         imgHeight = DensityUtils.dp2px(this, 80);
@@ -112,9 +135,7 @@ public class PingLunDetailActivity extends BaseActivity {
     }
 
     private void initData() {
-        if(UserUtils.Tel == null) {
-            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
-        }
+
         KJHttp kjHttp = new KJHttp();
         kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
             @Override

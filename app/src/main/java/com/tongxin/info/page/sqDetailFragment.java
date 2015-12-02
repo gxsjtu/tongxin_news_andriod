@@ -49,6 +49,7 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
     private String url;
+    String title;
     HashMap<String, String> url_maps = new HashMap<String, String>();
     private boolean isClickedComplete = true;
 
@@ -93,15 +94,28 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
         tv_sqDetailDesc = (TextView) findViewById(R.id.sq_detailDesc);
         mDemoSlider = (SliderLayout) findViewById(R.id.sq_imgSlider);
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
-        Intent intent = getIntent();
-        sq_channelID = intent.getIntExtra("SQDETAIL_CHANNELID", 0);
-        String title = intent.getStringExtra("SQDETAIL_CHANNELNAME");
+        if(savedInstanceState!=null) {
+            sq_channelID = savedInstanceState.getInt("sq_channelID");
+            title = savedInstanceState.getString("title");
+        }
+        else {
+            Intent intent = getIntent();
+            sq_channelID = intent.getIntExtra("SQDETAIL_CHANNELID", 0);
+            title = intent.getStringExtra("SQDETAIL_CHANNELNAME");
+        }
         if (!"".equals(title) && title != null) {
             tv_headerTitle.setText(title);
         } else {
             tv_headerTitle.setText("我的发布");
         }
         initData();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("sq_channelID",sq_channelID);
+        outState.putString("title",title);
+        super.onSaveInstanceState(outState);
     }
 
     private void initData() {

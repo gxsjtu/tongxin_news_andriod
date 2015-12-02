@@ -56,16 +56,28 @@ public class SearchActivity extends BaseActivity {
     AppAdapter adapter;
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("str", str);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Intent intent = getIntent();
-        String key = intent.getStringExtra("key");
+        if(savedInstanceState!=null)
+        {
+            str = savedInstanceState.getString("str");
+        }
+        else {
+            Intent intent = getIntent();
+            String key = intent.getStringExtra("key");
 
-        try {
-            str = URLEncoder.encode(key, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            try {
+                str = URLEncoder.encode(key, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         initViews();

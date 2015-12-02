@@ -44,6 +44,13 @@ public class MyOrderActivity extends BaseActivity {
     private LinearLayout iv_return;
     private LinearLayout iv_ref;
     AppAdapter adapter;
+    String tel;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("tel",tel);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,16 @@ public class MyOrderActivity extends BaseActivity {
                 initData();
             }
         });
+        if(savedInstanceState!=null) {
+            tel = savedInstanceState.getString("tel");
+        }
+        else
+        {
+            if (UserUtils.Tel == null) {
+                UserUtils.Tel = SharedPreUtils.getString(this, "name", "");
+            }
+            tel = UserUtils.Tel;
+        }
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
@@ -86,15 +103,12 @@ public class MyOrderActivity extends BaseActivity {
     }
 
     private void initData() {
-        if (UserUtils.Tel == null) {
-            UserUtils.Tel = SharedPreUtils.getString(this, "name", "");
-        }
         showLoading();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.ORDER_URL + "?method=myorder&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.ORDER_URL + "?method=myorder&mobile=" + tel, null, false, new HttpCallBack() {
             @Override
             public void onPreStart() {
                 super.onPreStart();

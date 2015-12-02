@@ -83,15 +83,31 @@ public class sqListFragment extends BaseFragmentActivity {
     public ViewHolder viewHolder = null;
     ProgressDialog dialog;
     //boolean showOptionGuide = false;
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("tv_ID",tv_ID);
+        outState.putString("tv_Name",tv_Name);
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_list);
         //showOptionGuide = SharedPreUtils.getBoolean(this, "optionGuide", false);
         typeForRefresh = "false";
-        Intent intent = getIntent();
-        tv_Name = intent.getStringExtra("CHANNEL_NAME");
-        tv_ID = intent.getIntExtra("CHANNEL_ID", 0);
+        if(savedInstanceState!=null)
+        {
+            tv_Name = savedInstanceState.getString("tv_Name");
+            tv_ID = savedInstanceState.getInt("tv_ID");
+        }
+        else {
+            Intent intent = getIntent();
+            tv_Name = intent.getStringExtra("CHANNEL_NAME");
+            tv_ID = intent.getIntExtra("CHANNEL_ID", 0);
+        }
         lv_sqList = (ListView) findViewById(R.id.sq_lvData);
 
 
@@ -157,32 +173,6 @@ public class sqListFragment extends BaseFragmentActivity {
         });
         iv_sqMenu = (LinearLayout) findViewById(R.id.iv_sqMenu);
 
-//        if (!showOptionGuide) {
-//            final ToolTip toolTip = new ToolTip().
-//                    setTitle("新增供求").
-//                    setDescription("点击此处可以添加供求");
-//
-//            Pointer pointer = new Pointer();
-//
-//            pointer.setColor(Color.RED);
-//
-//            Overlay overlay = new Overlay();
-//            overlay.setBackgroundColor(Color.parseColor("#66000000"));
-//            final TourGuide mTutorialHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
-//                    .setPointer(pointer)
-//                    .setToolTip(toolTip)
-//                    .setOverlay(overlay)
-//                    .playOn(iv_sqMenu);
-//
-//            overlay.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mTutorialHandler.cleanUp();
-//                }
-//            });
-//
-//            SharedPreUtils.setBoolean(this, "optionGuide", true);
-//        }
 
         iv_sqMenu.setOnClickListener(new View.OnClickListener() {
             @Override

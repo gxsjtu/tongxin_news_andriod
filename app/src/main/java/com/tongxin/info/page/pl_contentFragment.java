@@ -37,11 +37,25 @@ public class pl_contentFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("position", position);
+        outState.putSerializable("marketGroup",marketGroup);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        position = getArguments().getInt("position");
-        marketGroup = plFragment.marketGroups.get(position);
+        if(savedInstanceState!=null)
+        {
+            position = savedInstanceState.getInt("position");
+            marketGroup = (MarketGroup) savedInstanceState.getSerializable("marketGroup");
+        }
+        else {
+            position = getArguments().getInt("position");
+            marketGroup = plFragment.marketGroups.get(position);
+        }
     }
 
     public void refLV()

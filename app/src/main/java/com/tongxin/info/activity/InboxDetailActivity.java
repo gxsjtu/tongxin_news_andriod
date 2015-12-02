@@ -20,6 +20,16 @@ public class InboxDetailActivity extends BaseActivity {
     private WebView webView;
     private LinearLayout iv_return;
     private TextView tv_headerTitle;
+    String url;
+    String title;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("inboxDetailUrl",url);
+        outState.putString("title",title);
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +43,16 @@ public class InboxDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        Intent intent = getIntent();
-        String url = intent.getStringExtra("inboxDetailUrl");
-        String title = intent.getStringExtra("title");
+        if(savedInstanceState!=null)
+        {
+            url = savedInstanceState.getString("inboxDetailUrl");
+            title = savedInstanceState.getString("title");
+        }
+        else {
+            Intent intent = getIntent();
+            url = intent.getStringExtra("inboxDetailUrl");
+            title = intent.getStringExtra("title");
+        }
         if(TextUtils.isEmpty(title))
         {
             tv_headerTitle.setText("");

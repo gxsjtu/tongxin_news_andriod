@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
@@ -22,6 +23,7 @@ import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.*;
 import org.kymjs.kjframe.http.*;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -37,26 +39,38 @@ public class SqCatalogActivity extends BaseActivity {
     private LinearLayout iv_sqMenu;
     private Button btn_headerSure;
     private TextView tv_headerText;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("channelID", channelID);
+        outState.putString("channelName", channelName);
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_cataloglist);
-
-        Intent intent = getIntent();
-        channelID = intent.getIntExtra("CATALOGCHANNEL_ID",0);
-        channelName = intent.getStringExtra("CATALOGCAHNNEL_NAME");
-        tv_headerText = (TextView)findViewById(R.id.sq_HeaderText);
-        btn_headerSure = (Button)findViewById(R.id.btn_spHeaderSure);
+        if (savedInstanceState != null) {
+            channelID = savedInstanceState.getInt("channelID");
+            channelName = savedInstanceState.getString("channelName");
+        } else {
+            Intent intent = getIntent();
+            channelID = intent.getIntExtra("CATALOGCHANNEL_ID", 0);
+            channelName = intent.getStringExtra("CATALOGCAHNNEL_NAME");
+        }
+        tv_headerText = (TextView) findViewById(R.id.sq_HeaderText);
+        btn_headerSure = (Button) findViewById(R.id.btn_spHeaderSure);
         btn_headerSure.setVisibility(View.GONE);
         iv_sqReturn = (LinearLayout) findViewById(R.id.sq_ivReturn);
         iv_sqReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SqCatalogActivity.this, sqListFragment.class);
-                intent.putExtra("CHANNEL_ID",channelID);
+                intent.putExtra("CHANNEL_ID", channelID);
                 intent.putExtra("CHANNEL_NAME", channelName);
 //                startActivity(intent);
-                setResult(3,intent);
+                setResult(3, intent);
                 finish();
 
             }
@@ -66,7 +80,7 @@ public class SqCatalogActivity extends BaseActivity {
         SegmentedGroup segmented2 = (SegmentedGroup) findViewById(R.id.sq_segmented1);
         segmented2.setVisibility(View.GONE);
 
-        lv_catalog = (ListView)findViewById(R.id.sq_lvCatalog);
+        lv_catalog = (ListView) findViewById(R.id.sq_lvCatalog);
         tv_headerText.setText("商圈 - " + channelName);
 
         initData();
@@ -151,7 +165,7 @@ public class SqCatalogActivity extends BaseActivity {
                             intent.putExtra("PRODUCT_NAME", item.Name);
 //                            startActivity(intent);
 //                            setResult(10,intent);
-                            startActivityForResult(intent,10);
+                            startActivityForResult(intent, 10);
                             finish();
                         }
                     }
@@ -167,16 +181,14 @@ public class SqCatalogActivity extends BaseActivity {
 //            channelID = data.getIntExtra("CATALOGCHANNEL_ID",0);
 //            channelName = data.getStringExtra("CATALOGCAHNNEL_NAME");
 //            initData();
-       // }
-        if(resultCode == 10)
-        {
+        // }
+        if (resultCode == 10) {
             finish();
         }
     }
 
-    public class ViewHolder
-    {
+    public class ViewHolder {
         public TextView tv_catalogName;
         public TextView tv_catalogDesc;
     }
-    }
+}

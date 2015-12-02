@@ -57,16 +57,40 @@ public class HqDetailActivity extends BaseActivity {
     private String mMarketName;
     private String mGroupName;
     AppAdapter adapter;
+    int id = 0;
+    String tel;
     //boolean showlistGuide = false;
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("id",id);
+        outState.putString("marketName", mMarketName);
+        outState.putString("groupName",mGroupName);
+        outState.putString("tel",tel);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hq_detail);
-        Intent intent = getIntent();
-        final int id = intent.getIntExtra("marketId", 0);
-        mMarketName = intent.getStringExtra("marketName");
-        mGroupName = intent.getStringExtra("groupName");
+        if(savedInstanceState!=null) {
+            id = savedInstanceState.getInt("id");
+            mMarketName = savedInstanceState.getString("marketName");
+            mGroupName = savedInstanceState.getString("groupName");
+            tel = savedInstanceState.getString("tel");
+        }
+        else {
+            Intent intent = getIntent();
+            id = intent.getIntExtra("marketId", 0);
+            mMarketName = intent.getStringExtra("marketName");
+            mGroupName = intent.getStringExtra("groupName");
+            if(UserUtils.Tel == null) {
+                UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+            }
+            tel = UserUtils.Tel;
+        }
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         hq_detail_lv = (SwipeMenuListView) findViewById(R.id.hq_detail_lv);
         //showlistGuide = SharedPreUtils.getBoolean(this, "listGuide", false);
@@ -116,14 +140,11 @@ public class HqDetailActivity extends BaseActivity {
     }
 
     private void initData(int id) {
-        if(UserUtils.Tel == null) {
-            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
-        }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=" + tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 ToastUtils.Show(HqDetailActivity.this, "获取数据失败");
@@ -176,45 +197,6 @@ public class HqDetailActivity extends BaseActivity {
                         return false;
                     }
                 });
-
-
-                //if (!showlistGuide && mProductPrices.size()>0) {
-//                    ShowcaseView showcaseView = new ShowcaseView.Builder(HqDetailActivity.this)
-//                            .setStyle(R.style.Custom_semi_transparent_demo)
-//                            .setContentText("左滑关注产品")
-//                            .build();
-//                    showcaseView.hideButton();
-//                    showcaseView.setHideOnTouchOutside(true);
-//                    //showcaseView.setBackground(getResources().getDrawable(R.drawable.swipe_back_en));//minAPI=16
-//                    showcaseView.setBackgroundDrawable(getResources().getDrawable(R.drawable.guideback));//deprecated.
-////                    SharedPreUtils.setBoolean(HqDetailActivity.this, "listGuide", true);
-//                    View view = adapter.getView(0, null, hq_detail_lv);
-//                    TextView show = (TextView) view.findViewById(R.id.hq_detail_item_Max);
-//                    ToolTip toolTip = new ToolTip().
-//                            setTitle("用户设置").
-//                            setDescription("点击此处可以进入用户设置页面");
-//
-//                    Pointer pointer = new Pointer();
-//
-//                    pointer.setColor(Color.RED);
-//
-//                    Overlay overlay = new Overlay();
-//                    overlay.setBackgroundColor(Color.parseColor("#66000000"));
-//                    final TourGuide mTutorialHandler = TourGuide.init(HqDetailActivity.this).with(TourGuide.Technique.Click)
-//                            .setPointer(pointer)
-//                            .setToolTip(toolTip)
-//                            .setOverlay(overlay)
-//                            .playOn(hq_detail_lv);
-//
-//                    overlay.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mTutorialHandler.cleanUp();
-//                        }
-//                    });
-//                }
-//
-//                //guide_listview.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -310,9 +292,6 @@ public class HqDetailActivity extends BaseActivity {
     }
 
     private void order(int id, final boolean isOrder, final int position) {
-        if(UserUtils.Tel == null) {
-            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
-        }
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
@@ -320,7 +299,7 @@ public class HqDetailActivity extends BaseActivity {
         HttpParams params = new HttpParams();
         params.put("method", "order");
         params.put("productId", id);
-        params.put("mobile", UserUtils.Tel);
+        params.put("mobile", tel);
         params.put("isOrder", isOrder ? "YES" : "NO");
         kjHttp.post(GlobalContants.ORDER_URL, params, false, new HttpCallBack() {
             @Override

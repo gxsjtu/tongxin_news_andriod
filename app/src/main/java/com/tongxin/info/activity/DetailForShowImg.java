@@ -56,12 +56,20 @@ public class DetailForShowImg extends BaseActivity {
     };
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("url",url);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_showimg);
         isCanFinish = "";
-        Intent intent = getIntent();
-        url = intent.getStringExtra("IMGURLFORSHOW");
+        if(savedInstanceState!=null) {
+            Intent intent = getIntent();
+            url = intent.getStringExtra("IMGURLFORSHOW");
+        }
         img_ForShow = (ImageView) findViewById(R.id.img_ForShow);
 
         showLoading();

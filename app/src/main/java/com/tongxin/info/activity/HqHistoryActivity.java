@@ -62,13 +62,26 @@ public class HqHistoryActivity extends BaseActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("productId",mProductId);
+        outState.putString("productName", mProductName);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hq_history);
 
-        Intent intent = getIntent();
-        mProductId = intent.getIntExtra("productId", 0);
-        mProductName = intent.getStringExtra("productName");
+        if(savedInstanceState!=null) {
+            mProductId = savedInstanceState.getInt("productId");
+            mProductName = savedInstanceState.getString("productName");
+        }
+        else {
+            Intent intent = getIntent();
+            mProductId = intent.getIntExtra("productId", 0);
+            mProductName = intent.getStringExtra("productName");
+        }
 
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText(mProductName);

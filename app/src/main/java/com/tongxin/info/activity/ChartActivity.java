@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -83,14 +84,32 @@ public class ChartActivity extends BaseActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("title",mTitle);
+        outState.putFloat("min", min);
+        outState.putFloat("max",max);
+        outState.putSerializable("historyPrices",historyPrices);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
         Intent intent = getIntent();
-        mTitle = intent.getStringExtra("title");
-        historyPrices = (ArrayList<ProductHistoryPrice>) intent.getSerializableExtra("data");
-        Collections.reverse(historyPrices);
-        getMaxAndMin();
+        if(savedInstanceState!=null)
+        {
+            mTitle = savedInstanceState.getString("title");
+            historyPrices = (ArrayList<ProductHistoryPrice>) savedInstanceState.getSerializable("historyPrices");
+            min = savedInstanceState.getFloat("min");
+            max = savedInstanceState.getFloat("max");
+        }
+        else {
+            mTitle = intent.getStringExtra("title");
+            historyPrices = (ArrayList<ProductHistoryPrice>) intent.getSerializableExtra("data");
+            Collections.reverse(historyPrices);
+            getMaxAndMin();
+        }
 
         float range = (max-min)/20;
         if(max == min)
@@ -125,12 +144,7 @@ public class ChartActivity extends BaseActivity {
 
         leftAxis.setStartAtZero(false);
         rightAxis.setStartAtZero(false);
-//        Paint paint = new Paint();
-//        paint.setColor(Color.BLACK);
-//        paint.setStrokeWidth(3);
-//        chart.setPaint(paint,2);
-//        chart.setBorderColor(Color.BLACK);
-//        chart.setBorderWidth(3);
+
         chart.setBorderColor(Color.rgb(213, 216, 214));
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override

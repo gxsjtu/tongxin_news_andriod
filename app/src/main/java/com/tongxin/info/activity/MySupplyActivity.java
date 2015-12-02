@@ -44,11 +44,28 @@ public class MySupplyActivity extends BaseActivity {
     private LinearLayout iv_ref;
     private ViewHolder viewHolder = null;
     private ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+    String tel;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("tel",tel);
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mysupply);
-
+        if(savedInstanceState!=null)
+        {
+            tel = savedInstanceState.getString("key");
+        }
+        else {
+            if (UserUtils.Tel == null) {
+                UserUtils.Tel = SharedPreUtils.getString(this, "name", "");
+            }
+            tel = UserUtils.Tel;
+        }
         lv_mySupply = (ListView)findViewById(R.id.lv_mySupply);
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         tv_headerTitle.setText("我的发布");
@@ -82,10 +99,7 @@ public class MySupplyActivity extends BaseActivity {
             }
             bitmaps.clear();
         }
-        if(UserUtils.Tel == null)
-        {
-            UserUtils.Tel = SharedPreUtils.getString(this,"name","");
-        }
+
         showLoading();
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();

@@ -39,6 +39,7 @@ import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ import java.util.ArrayList;
 /**
  * Created by cc on 2015/11/9.
  */
-public class SqCatalogItemAdd extends BaseActivity  {
+public class SqCatalogItemAdd extends BaseActivity {
     private EditText tv_ChannelName;
     private EditText tv_ChannelQty;
     private EditText tv_ChannelPrice;
@@ -92,23 +93,35 @@ public class SqCatalogItemAdd extends BaseActivity  {
     };
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("channelID", channelID);
+        outState.putString("channelName", channelName);
+        outState.putString("productName", productName);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_channelitemadd);
+        if (savedInstanceState != null) {
+            channelID = savedInstanceState.getInt("channelID");
+            channelName = savedInstanceState.getString("channelName");
+            productName = savedInstanceState.getString("productName");
+        } else {
+            Intent intent = getIntent();
+            channelID = intent.getIntExtra("CATALOGCHANNEL_ID", 0);
+            channelName = intent.getStringExtra("CATALOGCHANNEL_NAME");
+            productName = intent.getStringExtra("PRODUCT_NAME");
+        }
 
-        Intent intent = getIntent();
-        channelID = intent.getIntExtra("CATALOGCHANNEL_ID", 0);
-        channelName = intent.getStringExtra("CATALOGCHANNEL_NAME");
-        productName = intent.getStringExtra("PRODUCT_NAME");
-
-
-        tv_ChannelName = (EditText)findViewById(R.id.tv_addChannelName);
-        tv_ChannelQty = (EditText)findViewById(R.id.tv_addChannelQty);
-        tv_ChannelPrice = (EditText)findViewById(R.id.tv_addChannelPrice);
-        tv_ChannelMobile = (EditText)findViewById(R.id.tv_addChannelMobile);
-        tv_ChannelContact = (EditText)findViewById(R.id.tv_addChannelContact);
-        tv_ChannelDesc = (EditText)findViewById(R.id.tv_addChannelDesc);
-        iv_imgForSlider = (ImageView)findViewById(R.id.sq_itemAddImgView);
+        tv_ChannelName = (EditText) findViewById(R.id.tv_addChannelName);
+        tv_ChannelQty = (EditText) findViewById(R.id.tv_addChannelQty);
+        tv_ChannelPrice = (EditText) findViewById(R.id.tv_addChannelPrice);
+        tv_ChannelMobile = (EditText) findViewById(R.id.tv_addChannelMobile);
+        tv_ChannelContact = (EditText) findViewById(R.id.tv_addChannelContact);
+        tv_ChannelDesc = (EditText) findViewById(R.id.tv_addChannelDesc);
+        iv_imgForSlider = (ImageView) findViewById(R.id.sq_itemAddImgView);
         btn_GetImgs = (Button) findViewById(R.id.btn_sqGetImgs);
         SegmentedGroup segmented2 = (SegmentedGroup) findViewById(R.id.sq_segmented1);
         segmented2.setVisibility(View.GONE);
@@ -126,33 +139,28 @@ public class SqCatalogItemAdd extends BaseActivity  {
                         @Override
                         public void run() {
                             final Message msg = Message.obtain();
-                          String result =  AddItemData();
-                            if("ok".equals(result))
-                            {
+                            String result = AddItemData();
+                            if ("ok".equals(result)) {
                                 msg.what = 0;
 //                                Intent intent = new Intent(SqCatalogItemAdd.this, sqListFragment.class);
 //                                intent.putExtra("CHANNEL_ID",channelID);
 //                                intent.putExtra("CHANNEL_NAME",channelName);
 //                                startActivity(intent);
 
-                               // Intent intent = new Intent();
+                                // Intent intent = new Intent();
 //                                intent.putExtra("CHANNEL_ID", channelID);
 //                                intent.putExtra("CHANNEL_NAME", channelName);
-                               // setResult(6, intent);
+                                // setResult(6, intent);
                                 setResult(10);
                                 finish();
-                            }
-                            else
-                            {
+                            } else {
                                 btn_Sure.setEnabled(true);
                                 msg.what = 1;
                             }
                             mHandler.sendMessage(msg);
                         }
                     }.start();
-                }
-                else
-                {
+                } else {
                     btn_Sure.setEnabled(true);
                     hideLoading();
                 }
@@ -164,10 +172,10 @@ public class SqCatalogItemAdd extends BaseActivity  {
         img_Return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SqCatalogItemAdd.this,SqCatalogActivity.class);
+                Intent intent = new Intent(SqCatalogItemAdd.this, SqCatalogActivity.class);
                 intent.putExtra("CATALOGCHANNEL_ID", channelID);
                 intent.putExtra("CATALOGCAHNNEL_NAME", channelName);
-                startActivityForResult(intent,4);
+                startActivityForResult(intent, 4);
 //                setResult(4, intent);
                 finish();
 //                startActivity(intent);
@@ -197,14 +205,12 @@ public class SqCatalogItemAdd extends BaseActivity  {
 //                    iv_imgForSlider.refreshDrawableState();
 //                    j++;
 //                }
-                if(strUriList != null && strUriList.size() > 0)
-                {
-                    if(j > strUriList.size() - 1)
-                    {
+                if (strUriList != null && strUriList.size() > 0) {
+                    if (j > strUriList.size() - 1) {
                         j = 0;
                     }
 
-                    ImageLoader.getInstance().displayImage(strUriList.get(j),iv_imgForSlider);
+                    ImageLoader.getInstance().displayImage(strUriList.get(j), iv_imgForSlider);
                     iv_imgForSlider.refreshDrawableState();
                     j++;
                 }
@@ -221,24 +227,22 @@ public class SqCatalogItemAdd extends BaseActivity  {
 //                    iv_imgForSlider.setImageBitmap(bmps.get(j));
 //                    iv_imgForSlider.refreshDrawableState();
 //                }
-                if(strUriList != null && strUriList.size() > 0)
-                {
-                    if(j > strUriList.size() - 1)
-                    {
+                if (strUriList != null && strUriList.size() > 0) {
+                    if (j > strUriList.size() - 1) {
                         j = 0;
                     }
-                    ImageLoader.getInstance().displayImage(strUriList.get(j),iv_imgForSlider);
+                    ImageLoader.getInstance().displayImage(strUriList.get(j), iv_imgForSlider);
                     iv_imgForSlider.refreshDrawableState();
                     j++;
                 }
             }
         };
 
-    btn_ItemLocation.setOnClickListener(new View.OnClickListener() {
+        btn_ItemLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SqCatalogItemAdd.this, CitiesActivity.class);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
             }
         });
         btn_ItemLocation.setText("选择交货地");
@@ -307,8 +311,8 @@ public class SqCatalogItemAdd extends BaseActivity  {
         super.onActivityResult(requestCode, resultCode, data);
         // mDemoSlider.removeAllSliders();
         if (requestCode == RESULT && resultCode == RESULT_OK && data != null) {
-                Uri uri = data.getData();
-                strUriList.add(uri.toString());
+            Uri uri = data.getData();
+            strUriList.add(uri.toString());
             String[] proj = {MediaStore.Images.Media.DATA};
 
             //好像是android多媒体数据库的封装接口，具体的看Android文档
@@ -334,65 +338,55 @@ public class SqCatalogItemAdd extends BaseActivity  {
 //                    bmps.add(bmp);
 //
 //                    iv_imgForSlider.setImageBitmap(bmp);
-                    timer1.start();
+            timer1.start();
 //                } catch (Exception e) {
 //                    // TODO Auto-generated catch block
 //                    e.printStackTrace();
 //                }
-        }
-        else if(resultCode == 0 && data != null)
-        {
+        } else if (resultCode == 0 && data != null) {
             location_Country = data.getStringExtra("SQ_ITEMCOUNTRY");
             location_City = data.getStringExtra("SQ_ITEMCITY");
             if (!"".equals(location_Country) && location_Country != null) {
                 btn_ItemLocation.setText(location_Country + " " + location_City);
             }
-        }else if(resultCode == 10 && data != null)
-        {
+        } else if (resultCode == 10 && data != null) {
             channelID = data.getIntExtra("CATALOGCHANNEL_ID", 0);
             channelName = data.getStringExtra("CATALOGCHANNEL_NAME");
             productName = data.getStringExtra("PRODUCT_NAME");
         }
 
     }
-    public static void MyRecycle(Bitmap bmp){
-        if(!bmp.isRecycled() && null!=bmp){
+
+    public static void MyRecycle(Bitmap bmp) {
+        if (!bmp.isRecycled() && null != bmp) {
 //            bmp.recycle();
-            bmp=null;
+            bmp = null;
         }
     }
 
-    private String AddItemData()
-    {
+    private String AddItemData() {
         String res = "error";
         String sOrP = "1";
         String sOro = "1";
 
-        if(rb_ItemGY.isChecked())
-        {
+        if (rb_ItemGY.isChecked()) {
             sOrP = "0";
-        }
-        else if(rb_ItemCG.isChecked())
-        {
+        } else if (rb_ItemCG.isChecked()) {
             sOrP = "1";
         }
 
-        if(rb_ItemFH.isChecked())
-        {
+        if (rb_ItemFH.isChecked()) {
             sOro = "0";
-        }
-        else if(rb_ItemZT.isChecked())
-        {
+        } else if (rb_ItemZT.isChecked()) {
             sOro = "1";
         }
-        if(UserUtils.Tel == null) {
+        if (UserUtils.Tel == null) {
             UserUtils.Tel = SharedPreUtils.getString(this, "name", "");
         }
         //创建okHttpClient对象
         OkHttpClient mOkHttpClient = new OkHttpClient();
         MultipartBuilder multipart = new MultipartBuilder();
-        for (int i =0;i<files.size();i++)
-        {
+        for (int i = 0; i < files.size(); i++) {
             RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), files.get(i));
             multipart.addPart(Headers.of(
                     "Content-Disposition",
@@ -403,10 +397,10 @@ public class SqCatalogItemAdd extends BaseActivity  {
                                 "Content-Disposition",
                                 "form-data; name=\"method\""),
                         RequestBody.create(null, "create"))
-            .addPart(Headers.of(
-                            "Content-Disposition",
-                            "form-data; name=\"product\""),
-                    RequestBody.create(null, tv_ChannelName.getText().toString()))
+                .addPart(Headers.of(
+                                "Content-Disposition",
+                                "form-data; name=\"product\""),
+                        RequestBody.create(null, tv_ChannelName.getText().toString()))
                 .addPart(Headers.of(
                                 "Content-Disposition",
                                 "form-data; name=\"quantity\""),
@@ -461,43 +455,33 @@ public class SqCatalogItemAdd extends BaseActivity  {
         Call call = mOkHttpClient.newCall(request);
 
         try {
-           JSONObject json = new JSONObject(call.execute().body().string());
+            JSONObject json = new JSONObject(call.execute().body().string());
             res = json.getString("result");
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
         return res;
     }
 
-    private boolean checkData()
-    {
+    private boolean checkData() {
         boolean result = true;
-        if("".equals(tv_ChannelName.getText().toString()) || "".equals(tv_ChannelName.getText().toString().replace(" ", "")))
-        {
+        if ("".equals(tv_ChannelName.getText().toString()) || "".equals(tv_ChannelName.getText().toString().replace(" ", ""))) {
             result = false;
             ToastUtils.Show(SqCatalogItemAdd.this, "货物内容不能为空！");
             return result;
-        }
-        else if("".equals(tv_ChannelQty.getText().toString()) || "".equals(tv_ChannelQty.getText().toString().replace(" ","")))
-        {
+        } else if ("".equals(tv_ChannelQty.getText().toString()) || "".equals(tv_ChannelQty.getText().toString().replace(" ", ""))) {
             result = false;
             ToastUtils.Show(SqCatalogItemAdd.this, "供需数量不能为空！");
             return result;
-        }
-        else if("".equals(tv_ChannelMobile.getText().toString()) || "".equals(tv_ChannelMobile.getText().toString().replace(" ","")))
-        {
+        } else if ("".equals(tv_ChannelMobile.getText().toString()) || "".equals(tv_ChannelMobile.getText().toString().replace(" ", ""))) {
             result = false;
             ToastUtils.Show(SqCatalogItemAdd.this, "联系方式不能为空！");
             return result;
-        }else  if("".equals(btn_ItemLocation.getText().toString()) || "选择交货地".equals(btn_ItemLocation.getText().toString()))
-        {
+        } else if ("".equals(btn_ItemLocation.getText().toString()) || "选择交货地".equals(btn_ItemLocation.getText().toString())) {
             result = false;
             ToastUtils.Show(SqCatalogItemAdd.this, "交货地不能为空！");
             return result;
-        }
-        else
-        {
+        } else {
             return result;
         }
 //        return result;
