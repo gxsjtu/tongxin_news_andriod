@@ -87,7 +87,6 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
