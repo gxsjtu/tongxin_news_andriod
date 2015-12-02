@@ -286,10 +286,18 @@ public class MainActivity extends BaseFragmentActivity {
         if(savedInstanceState!=null)
         {
             List<Fragment> list = fragmentManager.getFragments();
+
+            int count = fragmentManager.getBackStackEntryCount();
+
             tran = fragmentManager.beginTransaction();
             for (int i = 0; i<list.size();i++)
             {
                 Fragment fragment = list.get(i);
+                if(fragment==null)
+                //if(fragment!=null && fragment.isRemoving())
+                {
+                    continue;
+                }
                 String name = fragment.toString();
                 if(name.startsWith("boxFragment") || name.startsWith("hqFragment") ||
                         name.startsWith("plFragment")||name.startsWith("sqFragment")||name.startsWith("meFragment"))
