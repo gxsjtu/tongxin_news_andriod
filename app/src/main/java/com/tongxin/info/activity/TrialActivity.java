@@ -18,8 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.igexin.sdk.PushManager;
 import com.tongxin.info.R;
 import com.tongxin.info.control.MobileEditTextWithDel;
+import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
@@ -54,10 +56,25 @@ public class TrialActivity extends Activity {
     TimeCount time = new TimeCount(60000, 1000);
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("type", view_type);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        view_type = intent.getStringExtra("Type");
+        if (savedInstanceState != null) {
+            PushManager pushManager = PushManager.getInstance();
+            pushManager.initialize(this.getApplicationContext());
+            ((MyApp) getApplication()).setPushManager(pushManager);
+            view_type = savedInstanceState.getString("type");
+
+        } else {
+            Intent intent = getIntent();
+            view_type = intent.getStringExtra("Type");
+        }
+
         if (view_type.equals("trial")) {
             //申请试用
             setContentView(R.layout.activity_trial);

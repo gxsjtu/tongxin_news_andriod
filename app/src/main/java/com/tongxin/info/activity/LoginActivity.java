@@ -46,7 +46,16 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         application = (MyApp) getApplication();
-        pushManager = application.getPushManager();
+
+        if(savedInstanceState!=null)
+        {
+            pushManager = PushManager.getInstance();
+            pushManager.initialize(this.getApplicationContext());
+            application.setPushManager(pushManager);
+        }
+        else {
+            pushManager = application.getPushManager();
+        }
 
         String name = SharedPreUtils.getString(this, "name", "");
         String pwd = SharedPreUtils.getString(this, "pwd", "");
@@ -75,6 +84,7 @@ public class LoginActivity extends Activity {
 
     public void login(View view) {
         showLogin = true;
+
         clientId = pushManager.getClientid(this);
         if (TextUtils.isEmpty(clientId)) {
             ToastUtils.Show(this, "获取设备号失败，请稍后重新登录");
@@ -223,4 +233,6 @@ public class LoginActivity extends Activity {
         }
         super.onDestroy();
     }
+
+
 }

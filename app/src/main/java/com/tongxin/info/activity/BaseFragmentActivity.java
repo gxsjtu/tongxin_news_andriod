@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.igexin.sdk.PushManager;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.utils.SharedPreUtils;
@@ -29,12 +30,17 @@ public class BaseFragmentActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState!=null)
-        {
-            UserUtils.Tel = savedInstanceState.getString("userTel");
-        }
+
         myApp = (MyApp) getApplication();
         dialog = new ProgressDialog(this);
+        if (savedInstanceState != null) {
+            UserUtils.Tel = savedInstanceState.getString("userTel");
+
+            PushManager pushManager = PushManager.getInstance();
+            pushManager.initialize(this.getApplicationContext());
+            myApp.setPushManager(pushManager);
+
+        }
     }
 
     @Override

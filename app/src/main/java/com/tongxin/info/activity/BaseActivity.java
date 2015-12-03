@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.igexin.sdk.PushManager;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.utils.SharedPreUtils;
@@ -28,12 +29,16 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        myApp = (MyApp) getApplication();
+        dialog = new ProgressDialog(this);
         if(savedInstanceState!=null)
         {
             UserUtils.Tel = savedInstanceState.getString("userTel");
+            PushManager pushManager = PushManager.getInstance();
+            pushManager.initialize(this.getApplicationContext());
+            myApp.setPushManager(pushManager);
         }
-        myApp = (MyApp) getApplication();
-        dialog = new ProgressDialog(this);
     }
 
     @Override
