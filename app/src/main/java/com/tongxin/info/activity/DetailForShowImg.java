@@ -66,9 +66,13 @@ public class DetailForShowImg extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sq_showimg);
         isCanFinish = "";
-        if(savedInstanceState!=null) {
+        if(savedInstanceState==null) {
             Intent intent = getIntent();
             url = intent.getStringExtra("IMGURLFORSHOW");
+        }
+        else
+        {
+            url = savedInstanceState.getString("url");
         }
         img_ForShow = (ImageView) findViewById(R.id.img_ForShow);
 
