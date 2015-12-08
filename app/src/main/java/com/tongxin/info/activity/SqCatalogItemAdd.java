@@ -440,7 +440,7 @@ public class SqCatalogItemAdd extends BaseActivity {
                 .addPart(Headers.of(
                                 "Content-Disposition",
                                 "form-data; name=\"catalogID\""),
-                        RequestBody.create(null, String.valueOf(channelID)))
+                        RequestBody.create(null, String.valueOf(catalogID)))
                 .addPart(Headers.of(
                                 "Content-Disposition",
                                 "form-data; name=\"province\""),
