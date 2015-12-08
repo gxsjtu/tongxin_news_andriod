@@ -163,6 +163,7 @@ public class SqCatalogActivity extends BaseActivity {
                             intent.putExtra("CATALOGCHANNEL_ID", channelID);
                             intent.putExtra("CATALOGCHANNEL_NAME", channelName);
                             intent.putExtra("PRODUCT_NAME", item.Name);
+                            intent.putExtra("CATALOG_ID",item.id);
 //                            startActivity(intent);
 //                            setResult(10,intent);
                             startActivityForResult(intent, 10);

@@ -64,6 +64,7 @@ public class SqCatalogItemAdd extends BaseActivity {
     private LinearLayout img_Options;
     private TextView tv_HeaderText;
     private int channelID;
+    private int catalogID;
     private String channelName;
     private String productName;
     private Button btn_GetImgs;
@@ -97,6 +98,7 @@ public class SqCatalogItemAdd extends BaseActivity {
         outState.putInt("channelID", channelID);
         outState.putString("channelName", channelName);
         outState.putString("productName", productName);
+        outState.putInt("catalogID",catalogID);
         super.onSaveInstanceState(outState);
     }
 
@@ -108,11 +110,13 @@ public class SqCatalogItemAdd extends BaseActivity {
             channelID = savedInstanceState.getInt("channelID");
             channelName = savedInstanceState.getString("channelName");
             productName = savedInstanceState.getString("productName");
+            catalogID = savedInstanceState.getInt("catalogID");
         } else {
             Intent intent = getIntent();
             channelID = intent.getIntExtra("CATALOGCHANNEL_ID", 0);
             channelName = intent.getStringExtra("CATALOGCHANNEL_NAME");
             productName = intent.getStringExtra("PRODUCT_NAME");
+            catalogID = intent.getIntExtra("CATALOG_ID",0);
         }
 
         tv_ChannelName = (EditText) findViewById(R.id.tv_addChannelName);
