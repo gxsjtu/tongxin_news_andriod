@@ -82,6 +82,7 @@ public class sqListFragment extends BaseFragmentActivity {
     private Button sqbtn_CancelSearch;
     public ViewHolder viewHolder = null;
     ProgressDialog dialog;
+    String mSupplyType = "供    应：";
     //boolean showOptionGuide = false;
 
 
@@ -221,6 +222,7 @@ public class sqListFragment extends BaseFragmentActivity {
                 sqList.clear();
                 resList.clear();
                 typeForRefresh ="false";
+                mSupplyType="供    应：";
                 initData(typeForRefresh);
             }
         });
@@ -230,6 +232,7 @@ public class sqListFragment extends BaseFragmentActivity {
                 sqList.clear();
                 resList.clear();
                 typeForRefresh = "true";
+                mSupplyType="采    购：";
                 initData(typeForRefresh);
             }
         });
@@ -448,6 +451,7 @@ public class sqListFragment extends BaseFragmentActivity {
                     viewHolder.txt_sqLocation = (TextView)convertView.findViewById(R.id.tv_sqLocation);
                     viewHolder.txt_sqDate = (TextView) convertView.findViewById(R.id.tv_sqDate);
                     viewHolder.txt_sqIsChecked = (TextView) convertView.findViewById(R.id.tv_sqIsChecked);
+                    viewHolder.tv_sqGQ = (TextView) convertView.findViewById(R.id.tv_sqGQ);
                     convertView.setTag(viewHolder);
                 }
                 else
@@ -483,6 +487,7 @@ public class sqListFragment extends BaseFragmentActivity {
                 viewHolder.txt_sqContact.setText(item.contact);
                 viewHolder.txt_sqIsChecked.setText(item.ischecked);
                 viewHolder.txt_sqLocation.setText(item.location);
+                viewHolder.tv_sqGQ.setText(mSupplyType);
 
                 if("".equals(item.ischecked))
                 {
@@ -522,6 +527,7 @@ public class sqListFragment extends BaseFragmentActivity {
         public TextView txt_sqContact;
         public TextView txt_sqDate;
         public TextView txt_sqIsChecked;
+        public TextView tv_sqGQ;
     }
 
     private class CustomShowcaseView implements ShowcaseDrawer {
