@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
 import com.tongxin.info.activity.BaseActivity;
 import com.tongxin.info.activity.DetailForShowImg;
+import com.tongxin.info.activity.NotFoundActivity;
 import com.tongxin.info.domain.SQDetailVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ToastUtils;
@@ -156,7 +157,10 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
                 detail = gson.fromJson(t, type);
 
                 if (detail.errorcode.equals("error")) {
-                    ToastUtils.ShowLong(getApplicationContext(), "该供需已被删除，请点击右上角按钮刷新供需列表页面");
+//                    ToastUtils.ShowLong(getApplicationContext(), "该供需已被删除，请点击右上角按钮刷新供需列表页面");
+                    Intent intent = new Intent(sqDetailFragment.this, NotFoundActivity.class);
+                    intent.putExtra(NotFoundActivity.CHANNEL_NAME,title);
+                    startActivity(intent);
                     finish();
                     return;
                 }

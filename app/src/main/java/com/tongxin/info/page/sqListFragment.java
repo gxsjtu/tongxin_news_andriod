@@ -29,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.baoyz.actionsheet.ActionSheet;
 import com.github.amlcurran.showcaseview.ShowcaseDrawer;
 import com.github.amlcurran.showcaseview.ShowcaseView;
@@ -530,74 +532,9 @@ public class sqListFragment extends BaseFragmentActivity {
         public TextView tv_sqGQ;
     }
 
-    private class CustomShowcaseView implements ShowcaseDrawer {
-
-        private final float width;
-        private final float height;
-        private final Paint eraserPaint;
-        private final Paint basicPaint;
-        private final int eraseColour;
-        private final RectF renderRect;
-
-        public CustomShowcaseView(Resources resources) {
-            width = 70;
-            height = 55;
-            PorterDuffXfermode xfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
-            eraserPaint = new Paint();
-            eraserPaint.setColor(0xFFFFFF);
-            eraserPaint.setAlpha(0);
-            eraserPaint.setXfermode(xfermode);
-            eraserPaint.setAntiAlias(true);
-            eraseColour = Color.argb(0xbb, 0, 0, 0);
-            basicPaint = new Paint();
-            renderRect = new RectF();
-        }
-
-        @Override
-        public void setShowcaseColour(int color) {
-            eraserPaint.setColor(color);
-        }
-
-        @Override
-        public void drawShowcase(Bitmap buffer, float x, float y, float scaleMultiplier) {
-            Canvas bufferCanvas = new Canvas(buffer);
-            eraserPaint.setColor(Color.TRANSPARENT);
-            Point point = new Point();
-            getWindowManager().getDefaultDisplay().getSize(point);
-            bufferCanvas.drawCircle(point.x-33,29,40,eraserPaint);
-        }
-
-        @Override
-        public int getShowcaseWidth() {
-            return (int) width;
-        }
-
-        @Override
-        public int getShowcaseHeight() {
-            return (int) height;
-        }
-
-        @Override
-        public float getBlockedRadius() {
-            return width;
-        }
-
-        @Override
-        public void setBackgroundColour(int backgroundColor) {
-            // No-op, remove this from the API?
-        }
-
-        @Override
-        public void erase(Bitmap bitmapBuffer) {
-            bitmapBuffer.eraseColor(eraseColour);
-        }
-
-        @Override
-        public void drawToCanvas(Canvas canvas, Bitmap bitmapBuffer) {
-            canvas.drawBitmap(bitmapBuffer, 0, 0, basicPaint);
-        }
-
-
-
-    }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        Toast.makeText(this,"onNewIntent",Toast.LENGTH_SHORT).show();
+//        super.onNewIntent(intent);
+//    }
 }

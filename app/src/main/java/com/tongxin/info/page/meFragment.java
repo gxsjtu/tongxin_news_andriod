@@ -49,7 +49,8 @@ public class meFragment extends Fragment implements Serializable {
         });
         WebSettings settings = wv.getSettings();
         settings.setJavaScriptEnabled(true);
-        wv.loadUrl("http://dzwx.cfkd.net/shtxh5/");
+        //wv.loadUrl("http://dzwx.cfkd.net/shtxh5/");
+        wv.loadUrl("http://futures.shtx.com.cn");
         wv.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

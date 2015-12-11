@@ -129,6 +129,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
 
+        <activity android:name=".activity.NotFoundActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
+
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
         <meta-data
