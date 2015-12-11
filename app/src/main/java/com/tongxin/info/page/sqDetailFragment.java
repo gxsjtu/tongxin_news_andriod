@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -24,6 +26,8 @@ import com.tongxin.info.domain.SQDetailVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
+
+import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
@@ -138,11 +142,18 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 hideLoading();
-                ToastUtils.Show(sqDetailFragment.this, "获取数据失败");
+                ToastUtils.Show(getApplicationContext(), "获取数据失败");
             }
 
             @Override
             public void onSuccess(String t) {
+
+                if (t.equals("{\"result\":\"error\"}")) {
+                    ToastUtils.Show(getApplicationContext(), "该供需已被删除，请点击右上角按钮刷新供需列表页面");
+                    finish();
+                    return;
+                }
+
                 Gson gson = new Gson();
                 Type type = new TypeToken<SQDetailVM>() {
                 }.getType();
