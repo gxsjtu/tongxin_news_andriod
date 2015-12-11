@@ -148,18 +148,18 @@ public class sqDetailFragment extends BaseActivity implements BaseSliderView.OnS
             @Override
             public void onSuccess(String t) {
 
-                if (t.equals("{\"result\":\"error\"}")) {
-                    ToastUtils.Show(getApplicationContext(), "该供需已被删除，请点击右上角按钮刷新供需列表页面");
-                    finish();
-                    return;
-                }
-
                 Gson gson = new Gson();
                 Type type = new TypeToken<SQDetailVM>() {
                 }.getType();
 
                 SQDetailVM detail = new SQDetailVM();
                 detail = gson.fromJson(t, type);
+
+                if (detail.errorcode.equals("error")) {
+                    ToastUtils.ShowLong(getApplicationContext(), "该供需已被删除，请点击右上角按钮刷新供需列表页面");
+                    finish();
+                    return;
+                }
 
                 tv_sqDetailName.setText(detail.name);
                 tv_sqDetailQty.setText(detail.quantity);

@@ -15,6 +15,7 @@ public class SQDetailVM {
     public String mobile;
     public ArrayList<SQDetailUrl> avatars;
     public String deliver;
+    public String errorcode;
 
     public class SQDetailUrl
     {
