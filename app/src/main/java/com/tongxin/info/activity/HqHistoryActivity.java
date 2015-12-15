@@ -285,10 +285,10 @@ public class HqHistoryActivity extends BaseActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         endDate.setText(getDateStr(year, month, day));
 
-        calendar.add(Calendar.DAY_OF_MONTH, -15);
+        calendar.add(Calendar.DAY_OF_MONTH, -14);
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         startDate.setText(getDateStr(year, month, day));
 
         search();
