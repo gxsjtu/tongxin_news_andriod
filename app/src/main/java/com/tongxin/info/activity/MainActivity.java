@@ -90,7 +90,12 @@ public class MainActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
+        if(((MyApp)getApplication()).getPushManager() == null)
+        {
+            startActivity(new Intent(this,SplashActivity.class));
+            finish();
+            return;
+        }
         main_fl_content = (FrameLayout) findViewById(R.id.main_fl_content);
         ll_inbox = (LinearLayout) findViewById(R.id.ll_inbox);
         ll_hq = (LinearLayout) findViewById(R.id.ll_hq);
@@ -118,8 +123,6 @@ public class MainActivity extends BaseFragmentActivity {
         setMessageBadge(0);
 
         initViews(savedInstanceState);
-
-
     }
 
     private void initListener() {
@@ -306,11 +309,9 @@ public class MainActivity extends BaseFragmentActivity {
 
             tran.commit();
         }
-
         if (boxF == null) {
             boxF = new boxFragment();
         }
-
         currPage = "boxF";
         showPage(boxF);
         setMessageBadge(0);
@@ -387,7 +388,8 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(badgeBroadcast);
+        if(badgeBroadcast!=null)
+            unregisterReceiver(badgeBroadcast);
 
         super.onDestroy();
     }
@@ -416,6 +418,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        Toast.makeText(this,"onNewIntent",Toast.LENGTH_SHORT).show();
         iv_inbox.setImageResource(R.mipmap.box);
         tv_inbox.setTextColor(select);
 
