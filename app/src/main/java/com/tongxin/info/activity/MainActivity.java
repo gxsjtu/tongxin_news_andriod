@@ -418,7 +418,6 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Toast.makeText(this,"onNewIntent",Toast.LENGTH_SHORT).show();
         iv_inbox.setImageResource(R.mipmap.box);
         tv_inbox.setTextColor(select);
 
