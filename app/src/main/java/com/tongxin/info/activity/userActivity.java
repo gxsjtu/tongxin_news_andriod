@@ -206,7 +206,8 @@ public class userActivity extends BaseActivity {
         //版本更新
         if(isCanUpdate)//有可更新的版本
         {
-            Uri uri = Uri.parse("http://api.shtx.com.cn/index.html");
+//            Uri uri = Uri.parse("http://api.shtx.com.cn/index.html");
+            Uri uri = Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.tongxin.info");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }
