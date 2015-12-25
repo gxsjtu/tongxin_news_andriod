@@ -56,7 +56,7 @@ public class PingLunDetailActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("marketId",mMarketId);
+        outState.putInt("marketId", mMarketId);
         outState.putString("marketName", mMarketName);
         outState.putString("groupName", mGroupName);
         outState.putString("tel", tel);
@@ -99,8 +99,13 @@ public class PingLunDetailActivity extends BaseActivity {
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
         pl_detail_lv = (SwipeMenuListView) findViewById(R.id.pl_detail_lv);
-
-        tv_headerTitle.setText(mGroupName + "-" + mMarketName);
+        if(mGroupName.equals("我的关注"))
+        {
+            tv_headerTitle.setText(mMarketName);
+        }
+        else {
+            tv_headerTitle.setText(mGroupName + "-" + mMarketName);
+        }
         iv_return.setVisibility(View.VISIBLE);
         iv_ref.setVisibility(View.VISIBLE);
         iv_return.setOnClickListener(new View.OnClickListener() {

@@ -153,14 +153,7 @@ public class plFragment extends baseFragment implements Serializable {
     @Override
     public void setBtn(Boolean flag)
     {
-//        if(flag)
-//        {
-//            pl_tab_btn.setVisibility(View.VISIBLE);
-//        }
-//        else
-//        {
-//            pl_tab_btn.setVisibility(View.INVISIBLE);
-//        }
+
     }
 
     private void initData()

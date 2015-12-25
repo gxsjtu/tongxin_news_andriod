@@ -97,8 +97,14 @@ public class HqDetailActivity extends BaseActivity {
         tv_headerTitle = (TextView) findViewById(R.id.tv_headerTitle);
         hq_detail_lv = (SwipeMenuListView) findViewById(R.id.hq_detail_lv);
         //showlistGuide = SharedPreUtils.getBoolean(this, "listGuide", false);
-
-        tv_headerTitle.setText(mGroupName + "-" + mMarketName);
+        if(mGroupName.equals("我的关注"))
+        {
+            tv_headerTitle.setText(mMarketName);
+        }
+        else {
+            tv_headerTitle.setText(mGroupName + "-" + mMarketName);
+        }
+        //tv_headerTitle.setText(mGroupName + "-" + mMarketName);
 
         iv_return = (LinearLayout) findViewById(R.id.iv_return);
         iv_ref = (LinearLayout) findViewById(R.id.iv_ref);
