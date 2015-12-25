@@ -13,7 +13,7 @@
         android:layout_centerInParent="true"
         android:background="@drawable/subscribe_item_bg"
         android:gravity="center"
-        android:singleLine="true"
+        android:lines="2"
         android:ellipsize="end"
         android:textColor="@color/subscribe_item_text_color"
         android:textSize="14.0sp" />

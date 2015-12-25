@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -94,7 +95,7 @@ public class plFragment extends baseFragment implements Serializable {
             @Override
             public void onClick(View v) {
                 initData();
-                if(adapter!=null)
+                if (adapter != null)
                     adapter.notifyDataSetChanged();
                 for (int i = 0; i < pl_frag.size(); i++) {
                     pl_frag.get(i).refLV();
@@ -108,16 +109,28 @@ public class plFragment extends baseFragment implements Serializable {
         pl_tabs.setIndicatorColor(Color.rgb(255, 0, 0));
 
         pl_tab_btn = (LinearLayout) view.findViewById(R.id.pl_tab_btn);
-        pl_tab_btn.setOnClickListener(new View.OnClickListener() {
+        pl_tab_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-//                int position = pl_vp.getCurrentItem();
-//                pl_vp.setCurrentItem(++position);
-                Intent intent = new Intent(mActivity,ChannelActivity.class);
-                intent.putExtra(ChannelActivity.TYPETAG,"plFragment");
-                mActivity.startActivity(intent);
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    Intent intent = new Intent(mActivity,ChannelActivity.class);
+                    intent.putExtra(ChannelActivity.TYPETAG,"plFragment");
+                    mActivity.startActivity(intent);
+                }
+                return true;
             }
         });
+//        pl_tab_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                int position = pl_vp.getCurrentItem();
+////                pl_vp.setCurrentItem(++position);
+//                Intent intent = new Intent(mActivity,ChannelActivity.class);
+//                intent.putExtra(ChannelActivity.TYPETAG,"plFragment");
+//                mActivity.startActivity(intent);
+//            }
+//        });
         initData();
 
         return view;

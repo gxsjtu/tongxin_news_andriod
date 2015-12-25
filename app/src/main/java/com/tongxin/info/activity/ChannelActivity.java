@@ -246,7 +246,16 @@ public class ChannelActivity extends BaseActivity implements OnItemClickListener
             @Override
             public void onAnimationStart(Animation animation) {
                 isMove = true;
-
+                if (clickGridView instanceof DragGrid) {
+                    //otherAdapter.setVisible(true);
+                    //otherAdapter.notifyDataSetChanged();
+                    userAdapter.remove();
+                }
+                else {
+                    //userAdapter.setVisible(true);
+                    //userAdapter.notifyDataSetChanged();
+                    otherAdapter.remove();
+                }
             }
 
             @Override
@@ -260,11 +269,11 @@ public class ChannelActivity extends BaseActivity implements OnItemClickListener
                 if (clickGridView instanceof DragGrid) {
                     otherAdapter.setVisible(true);
                     otherAdapter.notifyDataSetChanged();
-                    userAdapter.remove();
+                    //userAdapter.remove();
                 } else {
                     userAdapter.setVisible(true);
                     userAdapter.notifyDataSetChanged();
-                    otherAdapter.remove();
+                    //otherAdapter.remove();
                 }
                 isMove = false;
             }

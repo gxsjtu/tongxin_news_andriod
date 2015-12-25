@@ -1,6 +1,7 @@
 package com.tongxin.info.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +68,7 @@ public class DragAdapter extends BaseAdapter {
 		if (position == 0){
 //			item_text.setTextColor(context.getResources().getColor(R.color.black));
 			item_text.setEnabled(false);
+			item_text.setTextColor(Color.BLACK);
 		}
 		if (isChanged && (position == holdPosition) && !isItemShow) {
 			item_text.setText("");

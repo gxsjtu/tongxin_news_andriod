@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -154,16 +155,28 @@ public class hqFragment extends baseFragment implements Serializable {
         tabs.setIndicatorColor(Color.rgb(255, 0, 0));
 
         hq_tab_btn = (LinearLayout) view.findViewById(R.id.hq_tab_btn);
-        hq_tab_btn.setOnClickListener(new View.OnClickListener() {
+        hq_tab_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-//                int position = hq_vp.getCurrentItem();
-//                hq_vp.setCurrentItem(++position);
-                Intent intent = new Intent(mActivity,ChannelActivity.class);
-                intent.putExtra(ChannelActivity.TYPETAG,"hqFragment");
-                mActivity.startActivity(intent);
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    Intent intent = new Intent(mActivity,ChannelActivity.class);
+                    intent.putExtra(ChannelActivity.TYPETAG,"hqFragment");
+                    mActivity.startActivity(intent);
+                }
+                return true;
             }
         });
+//        hq_tab_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                int position = hq_vp.getCurrentItem();
+////                hq_vp.setCurrentItem(++position);
+//                Intent intent = new Intent(mActivity,ChannelActivity.class);
+//                intent.putExtra(ChannelActivity.TYPETAG,"hqFragment");
+//                mActivity.startActivity(intent);
+//            }
+//        });
 
         et_search = (EditText) view.findViewById(R.id.et_search);
 
