@@ -12,6 +12,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -39,14 +41,18 @@ import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
+import com.tongxin.info.activity.ChannelActivity;
 import com.tongxin.info.activity.SearchActivity;
 import com.tongxin.info.activity.userActivity;
 import com.tongxin.info.control.PagerSlidingTabStrip;
+import com.tongxin.info.domain.ChannelItem;
 import com.tongxin.info.domain.MarketGroup;
+import com.tongxin.info.domain.ReOrderVM;
 import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.DensityUtils;
 import com.tongxin.info.utils.SharedPreUtils;
 import com.tongxin.info.utils.ToastUtils;
+import com.tongxin.info.utils.UserUtils;
 import com.tongxin.info.utils.loadingUtils;
 
 import org.kymjs.kjframe.KJHttp;
@@ -58,6 +64,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import tourguide.tourguide.Overlay;
 import tourguide.tourguide.Pointer;
 import tourguide.tourguide.ToolTip;
@@ -70,7 +77,7 @@ public class hqFragment extends baseFragment implements Serializable {
     private FragmentActivity mActivity;
     private ViewPager hq_vp;
     private PagerSlidingTabStrip tabs;
-    private ImageView hq_tab_btn;
+    private LinearLayout hq_tab_btn;
     private TextView tv_headerTitle;
     private LinearLayout iv_user;
     private LinearLayout iv_ref;
@@ -82,6 +89,7 @@ public class hqFragment extends baseFragment implements Serializable {
     //boolean showUserGuide = false;
     ProgressDialog dialog;
     public static ArrayList<MarketGroup> marketGroups = new ArrayList<MarketGroup>();
+    public static ArrayList<MarketGroup> allMarketGroups = new ArrayList<MarketGroup>();
     MyPagerAdapter adapter;
 
     @Override
@@ -91,24 +99,23 @@ public class hqFragment extends baseFragment implements Serializable {
         fm = mActivity.getSupportFragmentManager();
     }
 
-    private void showLoading()
-    {
-        if(!dialog.isShowing()) {
+    private void showLoading() {
+        if (!dialog.isShowing()) {
             dialog.setCancelable(false);
             dialog.show();
             dialog.setContentView(R.layout.loading_layout);
         }
     }
 
-    private void hideLoading()
-    {
-        if(dialog!=null && dialog.isShowing()) {
+    private void hideLoading() {
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
 //        container.removeAllViews();
         View view = View.inflate(mActivity, R.layout.hqcontent, null);
         tv_headerTitle = (TextView) view.findViewById(R.id.tv_headerTitle);
@@ -141,45 +148,20 @@ public class hqFragment extends baseFragment implements Serializable {
             }
         });
 
-//        if (!showUserGuide) {
-//            ToolTip toolTip = new ToolTip().
-//                    setTitle("用户设置").
-//                    setDescription("点击此处可以进入用户设置页面");
-//
-//            Pointer pointer = new Pointer();
-//
-//            pointer.setColor(Color.RED);
-//
-//            Overlay overlay = new Overlay();
-//            overlay.setBackgroundColor(Color.parseColor("#66000000"));
-//            final TourGuide mTutorialHandler = TourGuide.init(mActivity).with(TourGuide.Technique.Click)
-//                    .setPointer(pointer)
-//                    .setToolTip(toolTip)
-//                    .setOverlay(overlay)
-//                    .playOn(iv_user);
-//
-//            overlay.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mTutorialHandler.cleanUp();
-//                }
-//            });
-//
-//            SharedPreUtils.setBoolean(mActivity, "userGuide", true);
-//        }
-
-
         hq_vp = (ViewPager) view.findViewById(R.id.hq_vp);
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         tabs.setHqFragment(this);
         tabs.setIndicatorColor(Color.rgb(255, 0, 0));
 
-        hq_tab_btn = (ImageView) view.findViewById(R.id.hq_tab_btn);
+        hq_tab_btn = (LinearLayout) view.findViewById(R.id.hq_tab_btn);
         hq_tab_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = hq_vp.getCurrentItem();
-                hq_vp.setCurrentItem(++position);
+//                int position = hq_vp.getCurrentItem();
+//                hq_vp.setCurrentItem(++position);
+                Intent intent = new Intent(mActivity,ChannelActivity.class);
+                intent.putExtra(ChannelActivity.TYPETAG,"hqFragment");
+                mActivity.startActivity(intent);
             }
         });
 
@@ -236,13 +218,12 @@ public class hqFragment extends baseFragment implements Serializable {
 
     @Override
     public void setBtn(Boolean flag) {
-        if (flag) {
-            hq_tab_btn.setVisibility(View.VISIBLE);
-        } else {
-            hq_tab_btn.setVisibility(View.INVISIBLE);
-        }
+//        if (flag) {
+//            hq_tab_btn.setVisibility(View.VISIBLE);
+//        } else {
+//            hq_tab_btn.setVisibility(View.INVISIBLE);
+//        }
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -250,11 +231,12 @@ public class hqFragment extends baseFragment implements Serializable {
     }
 
     private void initData() {
+        String tel = UserUtils.Tel;
         KJHttp kjHttp = new KJHttp();
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETMARKETS_URL, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETMARKETS_URL + "&mobile=" + tel, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 ToastUtils.Show(mActivity, "获取数据失败");
@@ -265,13 +247,15 @@ public class hqFragment extends baseFragment implements Serializable {
                 Gson gson = new Gson();
                 Type type = new TypeToken<ArrayList<MarketGroup>>() {
                 }.getType();
-                marketGroups = gson.fromJson(t, type);
-                adapter = new MyPagerAdapter(fm);
+                allMarketGroups = gson.fromJson(t, type);
+                marketGroups.clear();
+                for (MarketGroup group : allMarketGroups) {
+                    if (group.inBucket.equals("true")) {
+                        marketGroups.add(group);
+                    }
+                }
 
-                initFragment();
-
-                hq_vp.setAdapter(adapter);
-                tabs.setViewPager(hq_vp);
+                resetPage();
 
             }
 
@@ -285,6 +269,22 @@ public class hqFragment extends baseFragment implements Serializable {
                 hideLoading();
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
+
+    public void resetPage()
+    {
+        adapter = new MyPagerAdapter(fm);
+
+        initFragment();
+
+        hq_vp.setAdapter(adapter);
+        tabs.setViewPager(hq_vp);
     }
 
     private void initFragment() {
@@ -317,79 +317,41 @@ public class hqFragment extends baseFragment implements Serializable {
         }
     }
 
-    private class CustomShowcaseView implements ShowcaseDrawer {
+    public void onEventMainThread(ReOrderVM vm) {
+        String tag = vm.Tag;
+        if(!tag.equals("hqFragment"))
+            return;
+        List<ChannelItem> list = vm.list;
+        for (MarketGroup group : allMarketGroups)
+        {
+            group.inBucket  = "false";
+        }
+        marketGroups.clear();
 
-        private final float width;
-        private final float height;
-        private final Paint eraserPaint;
-        private final Paint basicPaint;
-        private final int eraseColour;
-        private final RectF renderRect;
+        ArrayList<Integer> groupIds = new ArrayList<Integer>();
 
-        public CustomShowcaseView(Resources resources) {
-            width = 70;
-            height = 55;
-            PorterDuffXfermode xfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
-            eraserPaint = new Paint();
-            eraserPaint.setColor(0xFFFFFF);
-            eraserPaint.setAlpha(0);
-            eraserPaint.setXfermode(xfermode);
-            eraserPaint.setAntiAlias(true);
-            eraseColour = Color.argb(0xbb, 0, 0, 0);
-            basicPaint = new Paint();
-            renderRect = new RectF();
+        for (ChannelItem item : list) {
+            MarketGroup selectGroup = allMarketGroups.get(item.index);
+            selectGroup.inBucket = "true";
+            marketGroups.add(selectGroup);
+            groupIds.add(selectGroup.id);
+        }
+        resetPage();
+        for (Integer id : groupIds)
+        {
+            for (MarketGroup group : allMarketGroups)
+            {
+                if(group.id == id)
+                {
+                    allMarketGroups.remove(group);
+                    break;
+                }
+            }
         }
 
-        @Override
-        public void setShowcaseColour(int color) {
-            eraserPaint.setColor(color);
+        for (int i = 0;i<marketGroups.size();i++)
+        {
+            allMarketGroups.add(i,marketGroups.get(i));
         }
-
-        @Override
-        public void drawShowcase(Bitmap buffer, float x, float y, float scaleMultiplier) {
-            Canvas bufferCanvas = new Canvas(buffer);
-//            renderRect.left = 0;
-//            renderRect.right = width;
-//            renderRect.top = 0;
-//            renderRect.bottom = height;
-            eraserPaint.setColor(Color.TRANSPARENT);
-            float circleX = DensityUtils.dp2px(mActivity, 25);
-            float circleY = DensityUtils.dp2px(mActivity, 22);
-            float circleRid = DensityUtils.dp2px(mActivity, 18);
-//            bufferCanvas.drawRect(renderRect, eraserPaint);
-            bufferCanvas.drawCircle(circleX, circleY, circleRid, eraserPaint);
-        }
-
-        @Override
-        public int getShowcaseWidth() {
-            return (int) width;
-        }
-
-        @Override
-        public int getShowcaseHeight() {
-            return (int) height;
-        }
-
-        @Override
-        public float getBlockedRadius() {
-            return width;
-        }
-
-        @Override
-        public void setBackgroundColour(int backgroundColor) {
-            // No-op, remove this from the API?
-        }
-
-        @Override
-        public void erase(Bitmap bitmapBuffer) {
-            bitmapBuffer.eraseColor(eraseColour);
-        }
-
-        @Override
-        public void drawToCanvas(Canvas canvas, Bitmap bitmapBuffer) {
-            canvas.drawBitmap(bitmapBuffer, 0, 0, basicPaint);
-        }
-
-
     }
 }

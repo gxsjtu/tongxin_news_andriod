@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class MarketGroup implements Serializable {
     public int id;
     public String name;
+    public String inBucket;
     public ArrayList<Market> markets;
 
     public class Market implements Serializable

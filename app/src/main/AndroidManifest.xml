@@ -68,9 +68,6 @@
              <!--</intent-filter>-->
         </activity>
         <activity
-            android:configChanges="orientation|screenSize"
-            android:name=".me.nereo.multi_image_selector.MultiImageSelectorActivity" />
-        <activity
             android:name=".activity.HqDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
@@ -130,6 +127,10 @@
             android:screenOrientation="portrait"></activity>
 
         <activity android:name=".activity.NotFoundActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".activity.ChannelActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
 

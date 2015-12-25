@@ -138,6 +138,7 @@ public class hq_contentFragment extends Fragment {
                 intent.putExtra("marketId", market.id);
                 intent.putExtra("groupName", marketGroup.name);
                 intent.putExtra("marketName", market.name);
+                intent.putExtra("groupId", marketGroup.id);
                 startActivity(intent);
             }
         });

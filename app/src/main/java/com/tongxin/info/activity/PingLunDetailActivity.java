@@ -50,6 +50,7 @@ public class PingLunDetailActivity extends BaseActivity {
     private int imgWeight;
     private int imgHeight;
     String tel;
+    private Integer groupId;
 
     private ArrayList<PlProductVM> products = new ArrayList<PlProductVM>();
 
@@ -59,6 +60,7 @@ public class PingLunDetailActivity extends BaseActivity {
         outState.putString("marketName", mMarketName);
         outState.putString("groupName", mGroupName);
         outState.putString("tel", tel);
+        outState.putInt("groupId", groupId);
         super.onSaveInstanceState(outState);
     }
 
@@ -72,10 +74,12 @@ public class PingLunDetailActivity extends BaseActivity {
             mMarketName = savedInstanceState.getString("marketName");
             mGroupName = savedInstanceState.getString("groupName");
             tel = savedInstanceState.getString("tel");
+            groupId = savedInstanceState.getInt("groupId");
         }
         else {
             Intent intent = getIntent();
             mMarketId = intent.getIntExtra("marketId", 0);
+            groupId = intent.getIntExtra("groupId", 0);
             mMarketName = intent.getStringExtra("marketName");
             mGroupName = intent.getStringExtra("groupName");
             if(UserUtils.Tel == null) {
@@ -137,7 +141,7 @@ public class PingLunDetailActivity extends BaseActivity {
     private void initData() {
 
         KJHttp kjHttp = new KJHttp();
-        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + UserUtils.Tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETPLPRODUCTS_URL + "&marketId=" + mMarketId + "&mobile=" + UserUtils.Tel + "&groupId=" + groupId, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 ToastUtils.Show(PingLunDetailActivity.this, "获取数据失败");

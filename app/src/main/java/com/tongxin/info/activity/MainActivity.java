@@ -396,20 +396,6 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void onResume() {
-//        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
-//        tran = fragmentManager.beginTransaction();
-//        if (hqF != null) {
-//            Toast.makeText(this, "hqF !=null", Toast.LENGTH_SHORT).show();
-//
-//            if (hqF.isAdded()) {
-//                Toast.makeText(this, "hqF.isAdded()", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//
-//        if (hqF != null) {
-//            tran.show(hqF);
-//            tran.commit();
-//        }
         String count = SharedPreUtils.getString(this, "badgecount", "0");
         int badgeCount = Integer.parseInt(count);
         setMessageBadge(badgeCount);

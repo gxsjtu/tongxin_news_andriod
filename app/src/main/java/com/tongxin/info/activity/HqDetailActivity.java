@@ -59,15 +59,17 @@ public class HqDetailActivity extends BaseActivity {
     AppAdapter adapter;
     int id = 0;
     String tel;
+    private Integer groupId;
     //boolean showlistGuide = false;
 
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("id",id);
+        outState.putInt("id", id);
+        outState.putInt("groupId", groupId);
         outState.putString("marketName", mMarketName);
-        outState.putString("groupName",mGroupName);
-        outState.putString("tel",tel);
+        outState.putString("groupName", mGroupName);
+        outState.putString("tel", tel);
         super.onSaveInstanceState(outState);
     }
 
@@ -75,19 +77,20 @@ public class HqDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hq_detail);
-        if(savedInstanceState!=null) {
+        if (savedInstanceState != null) {
             id = savedInstanceState.getInt("id");
+            groupId = savedInstanceState.getInt("groupId");
             mMarketName = savedInstanceState.getString("marketName");
             mGroupName = savedInstanceState.getString("groupName");
             tel = savedInstanceState.getString("tel");
-        }
-        else {
+        } else {
             Intent intent = getIntent();
             id = intent.getIntExtra("marketId", 0);
+            groupId = intent.getIntExtra("groupId", 0);
             mMarketName = intent.getStringExtra("marketName");
             mGroupName = intent.getStringExtra("groupName");
-            if(UserUtils.Tel == null) {
-                UserUtils.Tel = SharedPreUtils.getString(this,"name","");
+            if (UserUtils.Tel == null) {
+                UserUtils.Tel = SharedPreUtils.getString(this, "name", "");
             }
             tel = UserUtils.Tel;
         }
@@ -144,7 +147,7 @@ public class HqDetailActivity extends BaseActivity {
         HttpConfig httpConfig = new HttpConfig();
         httpConfig.TIMEOUT = 3 * 60 * 1000;
         kjHttp.setConfig(httpConfig);
-        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=" + tel, null, false, new HttpCallBack() {
+        kjHttp.get(GlobalContants.GETHQPRICES_URL + "&marketId=" + id + "&mobile=" + tel + "&groupId=" + groupId, null, false, new HttpCallBack() {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 ToastUtils.Show(HqDetailActivity.this, "获取数据失败");

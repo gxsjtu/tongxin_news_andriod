@@ -47,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#efeff4"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <com.tongxin.info.control.PagerSlidingTabStrip
@@ -56,12 +57,20 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"></com.tongxin.info.control.PagerSlidingTabStrip>
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/hq_tab_btn"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/more" />
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:gravity="center_horizontal|bottom">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_add_black_18dp" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
