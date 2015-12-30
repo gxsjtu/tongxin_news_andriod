@@ -172,9 +172,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:textColor="#ff0000"
-                android:textSize="16sp"
-
-                android:text="平均价"/>
+                android:textSize="16sp"/>
 
         </LinearLayout>
 

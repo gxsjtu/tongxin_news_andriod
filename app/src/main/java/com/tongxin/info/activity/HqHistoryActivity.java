@@ -293,7 +293,7 @@ public class HqHistoryActivity extends BaseActivity {
                     totalAvg += aPrice;
                 }
                 if(mHistoryPrices.size()>0) {
-                    tv_totalAvg.setText("平均价 : " + format(totalAvg/mHistoryPrices.size()));
+                    tv_totalAvg.setText("均价 : " + format(totalAvg/mHistoryPrices.size()));
                 }
                 hq_history_lv.setAdapter(new BaseAdapter() {
                     @Override
