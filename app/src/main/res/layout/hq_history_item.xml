@@ -35,17 +35,40 @@
         android:textColor="@color/high"/>
 
     <TextView
-        android:id="@+id/tv_priceChange"
-        android:layout_width="90dp"
-        android:textSize="14sp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        />
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:text="均价"/>
+
+    <TextView
+        android:id="@+id/tv_priceAvg"
+        android:layout_width="70dp"
+        android:gravity="right"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/black"/>
+
+
 </TableRow>
 
 <TableRow>
+
     <TextView
-        android:layout_span="5"
+        android:layout_span="4"
+        android:id="@+id/tv_priceChange"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="14sp"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_span="2"
         android:id="@+id/tv_priceDate"
+        android:gravity="right"
+        android:layout_marginRight="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"

@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class ProductHistoryPrice implements Serializable {
     public String LPrice;
     public String HPrice;
+    public float APrice;
     public String Date;
     public String Change;
 }

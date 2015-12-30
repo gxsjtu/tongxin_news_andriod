@@ -10,8 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tongxin.info.R;
@@ -20,11 +24,15 @@ import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.utils.ColorsUtils;
 import com.tongxin.info.utils.ToastUtils;
 import com.tongxin.info.utils.loadingUtils;
+
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
+
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,9 +46,13 @@ public class HqHistoryActivity extends BaseActivity {
     EditText startDate;
     EditText endDate;
     ListView hq_history_lv;
+    TextView tv_totalAvg;
+    RelativeLayout content;
+    LinearLayout avgContent;
     private TextView tv_headerTitle;
     private LinearLayout iv_return;
     private LinearLayout tv_headerChart;
+    private float totalAvg = 0;
 
     private String mProductName;
     private int mProductId;
@@ -63,21 +75,39 @@ public class HqHistoryActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("productId",mProductId);
+        outState.putInt("productId", mProductId);
         outState.putString("productName", mProductName);
         super.onSaveInstanceState(outState);
     }
+
+//    private int getListViewHeight()
+//    {
+//        ListAdapter listAdapter = hq_history_lv.getAdapter();
+//        if (listAdapter == null) {
+//            return 0;
+//        }
+//
+//        int totalHeight = 0;
+//        for (int i = 0; i < listAdapter.getCount(); i++) {
+//            View listItem = listAdapter.getView(i, null, hq_history_lv);
+//            listItem.measure(0, 0);
+//            totalHeight += listItem.getMeasuredHeight();
+//        }
+//
+//        int height = totalHeight + (hq_history_lv.getDividerHeight() * (listAdapter.getCount() - 1));
+//
+//        return height;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hq_history);
 
-        if(savedInstanceState!=null) {
+        if (savedInstanceState != null) {
             mProductId = savedInstanceState.getInt("productId");
             mProductName = savedInstanceState.getString("productName");
-        }
-        else {
+        } else {
             Intent intent = getIntent();
             mProductId = intent.getIntExtra("productId", 0);
             mProductName = intent.getStringExtra("productName");
@@ -89,6 +119,9 @@ public class HqHistoryActivity extends BaseActivity {
         startDate = (EditText) findViewById(R.id.startDate);
         endDate = (EditText) findViewById(R.id.endDate);
         hq_history_lv = (ListView) findViewById(R.id.hq_history_lv);
+        avgContent = (LinearLayout) findViewById(R.id.avgContent);
+
+        tv_totalAvg = (TextView) findViewById(R.id.tv_totalAvg);
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,10 +185,21 @@ public class HqHistoryActivity extends BaseActivity {
         });
 
         initData();
+
+
     }
 
     public void searchClick(View view) {
         search();
+    }
+
+    private String format(double value)
+    {
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        nf.setMaximumFractionDigits(2);
+        nf.setRoundingMode(RoundingMode.HALF_UP);
+        nf.setGroupingUsed(false);
+        return nf.format(value);
     }
 
     private void search() {
@@ -212,12 +256,45 @@ public class HqHistoryActivity extends BaseActivity {
 
                 if (mHistoryPrices.size() == 0) {
                     tv_headerChart.setVisibility(View.INVISIBLE);
-                }
-                else
-                {
+                    avgContent.setVisibility(View.INVISIBLE);
+                } else {
                     tv_headerChart.setVisibility(View.VISIBLE);
+                    avgContent.setVisibility(View.VISIBLE);
                 }
 
+                totalAvg = 0;
+
+                for (ProductHistoryPrice price : mHistoryPrices) {
+                    float lPrice = 0;
+                    float hPrice = 0;
+                    float aPrice = 0;
+                    boolean hasL = false;
+                    boolean hasH = false;
+                    if (!TextUtils.isEmpty(price.LPrice)) {
+                        lPrice = Float.valueOf(price.LPrice);
+                        hasL = true;
+                    }
+
+                    if (!TextUtils.isEmpty(price.HPrice)) {
+                        hPrice = Float.valueOf(price.HPrice);
+                        hasH = true;
+                    }
+
+                    if (hasL && hasH) {
+                        aPrice = (lPrice + hPrice) / 2;
+                    } else {
+                        if (hasL) {
+                            aPrice = lPrice;
+                        } else if (hasH) {
+                            aPrice = hPrice;
+                        }
+                    }
+                    price.APrice = aPrice;
+                    totalAvg += aPrice;
+                }
+                if(mHistoryPrices.size()>0) {
+                    tv_totalAvg.setText("平均价 : " + format(totalAvg/mHistoryPrices.size()));
+                }
                 hq_history_lv.setAdapter(new BaseAdapter() {
                     @Override
                     public int getCount() {
@@ -244,6 +321,7 @@ public class HqHistoryActivity extends BaseActivity {
                             viewHolder.tv_priceMax = (TextView) convertView.findViewById(R.id.tv_priceMax);
                             viewHolder.tv_priceDate = (TextView) convertView.findViewById(R.id.tv_priceDate);
                             viewHolder.tv_priceChange = (TextView) convertView.findViewById(R.id.tv_priceChange);
+                            viewHolder.tv_priceAvg = (TextView) convertView.findViewById(R.id.tv_priceAvg);
                             convertView.setTag(viewHolder);
                         } else {
                             viewHolder = (ViewHolder) convertView.getTag();
@@ -254,13 +332,14 @@ public class HqHistoryActivity extends BaseActivity {
                         viewHolder.tv_priceDate.setText(price.Date);
                         viewHolder.tv_priceMin.setText(price.LPrice);
                         viewHolder.tv_priceMax.setText(price.HPrice);
+                        viewHolder.tv_priceAvg.setText(format(price.APrice));
                         if (!TextUtils.isEmpty(price.Change)) {
                             Double change = Double.parseDouble(price.Change);
                             if (change > 0) {
-                                viewHolder.tv_priceChange.setText("涨 " + String.format("%.2f", change) + "▲");
+                                viewHolder.tv_priceChange.setText("涨 " + format(change) + "▲");
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.HIGH);
                             } else if (change < 0) {
-                                viewHolder.tv_priceChange.setText("跌 " + String.format("%.2f", Math.abs(change)) + "▼");
+                                viewHolder.tv_priceChange.setText("跌 " + format(Math.abs(change))+ "▼");
                                 viewHolder.tv_priceChange.setTextColor(ColorsUtils.LOW);
 
                             } else {
@@ -299,6 +378,7 @@ public class HqHistoryActivity extends BaseActivity {
         TextView tv_priceMax;
         TextView tv_priceChange;
         TextView tv_priceDate;
+        TextView tv_priceAvg;
     }
 
     @Override
