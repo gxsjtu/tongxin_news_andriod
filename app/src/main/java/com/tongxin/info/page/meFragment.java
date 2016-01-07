@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tongxin.info.R;
+import com.tongxin.info.utils.ToastUtils;
 
 import java.io.Serializable;
 
@@ -57,6 +60,13 @@ public class meFragment extends Fragment implements Serializable {
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+//                super.onReceivedError(view, request, error);
+                //view.loadUrl("http://api.shtx.com.cn/upload/404.html");
+                ToastUtils.Show(mActivity,"期货行情页面出错，请稍后再试");
             }
         });
         return view;
