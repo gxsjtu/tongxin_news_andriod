@@ -65,7 +65,7 @@ public class meFragment extends Fragment implements Serializable {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
 //                super.onReceivedError(view, request, error);
-                //view.loadUrl("http://api.shtx.com.cn/upload/404.html");
+                view.loadUrl("http://api.shtx.com.cn/upload/404.html");
                 ToastUtils.Show(mActivity,"期货行情页面出错，请稍后再试");
             }
         });
