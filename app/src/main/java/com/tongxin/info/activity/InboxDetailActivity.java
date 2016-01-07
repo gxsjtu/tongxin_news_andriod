@@ -18,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -142,33 +144,13 @@ public class InboxDetailActivity extends BaseActivity {
                 view.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+//                super.onReceivedError(view, request, error);
+                view.loadUrl("http://api.shtx.com.cn/upload/404.html");
+            }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_pl, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.sharedWx:
-//                Toast.makeText(this,"分享到微信",Toast.LENGTH_SHORT).show();
-                shared2Wx(SendMessageToWX.Req.WXSceneSession);
-                break;
-            case R.id.sharedFriend:
-//                Toast.makeText(this,"分享到朋友圈",Toast.LENGTH_SHORT).show();
-                shared2Wx(SendMessageToWX.Req.WXSceneTimeline);
-                break;
-        }
-        return true;
-        //return super.onOptionsItemSelected(item);
     }
 
     private void shared2Wx(final int scene) {
