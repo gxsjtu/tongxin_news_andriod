@@ -352,8 +352,10 @@ public class boxFragment extends Fragment implements Serializable {
                 InboxMsgVM item = loadList.get(position - 1);
                 if (item.url != null && item.url != "") {
                     Intent intent = new Intent(mActivity, InboxDetailActivity.class);
-                    intent.putExtra("inboxDetailUrl", item.url);
+                    intent.putExtra("inboxDetailUrl", item.url+ "&mobile=" + UserUtils.Tel);
                     intent.putExtra("title", "同鑫评论");
+                    intent.putExtra("descript", item.msg);
+                    intent.putExtra("sharedicon", "");
                     startActivity(intent);
                 }
             }
@@ -458,6 +460,8 @@ public class boxFragment extends Fragment implements Serializable {
                                     Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                                     intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
                                     intent.putExtra("title", "同鑫评论");
+                                    intent.putExtra("descript", item.msg);
+                                    intent.putExtra("sharedicon", "");
                                     startActivity(intent);
                                 }
                             }
@@ -584,6 +588,8 @@ public class boxFragment extends Fragment implements Serializable {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                             intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + tel);
                             intent.putExtra("title", "同鑫评论");
+                            intent.putExtra("descript", item.msg);
+                            intent.putExtra("sharedicon", "");
                             startActivity(intent);
                         }
                     }
@@ -712,6 +718,8 @@ public class boxFragment extends Fragment implements Serializable {
                             Intent intent = new Intent(mActivity, InboxDetailActivity.class);
                             intent.putExtra("inboxDetailUrl", item.url + "&mobile=" + UserUtils.Tel);
                             intent.putExtra("title", "同鑫评论");
+                            intent.putExtra("descript", item.msg);
+                            intent.putExtra("sharedicon", "");
                             startActivity(intent);
                         }
                     }

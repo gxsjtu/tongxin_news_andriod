@@ -23,8 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.readystatesoftware.viewbadger.BadgeView;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.MyApp;
+import com.tongxin.info.global.GlobalContants;
 import com.tongxin.info.page.boxFragment;
 import com.tongxin.info.page.hqFragment;
 import com.tongxin.info.page.meFragment;
@@ -96,6 +99,11 @@ public class MainActivity extends BaseFragmentActivity {
             finish();
             return;
         }
+
+        //注册微信
+        final IWXAPI api = WXAPIFactory.createWXAPI(this, GlobalContants.APP_ID, true);
+        api.registerApp(GlobalContants.APP_ID);
+
         main_fl_content = (FrameLayout) findViewById(R.id.main_fl_content);
         ll_inbox = (LinearLayout) findViewById(R.id.ll_inbox);
         ll_hq = (LinearLayout) findViewById(R.id.ll_hq);

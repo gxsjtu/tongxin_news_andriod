@@ -21,6 +21,9 @@ import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tongxin.info.R;
 import com.tongxin.info.domain.MyApp;
 import com.tongxin.info.global.GlobalContants;
@@ -126,6 +129,9 @@ public class SplashActivity extends Activity {
         splash_rl = (RelativeLayout) findViewById(R.id.splash_rl);
 
         startAnim();//开始动画
+
+
+
         //checkVersion();
     }
 

@@ -168,6 +168,8 @@ public class PingLunDetailActivity extends BaseActivity {
                         Intent intent = new Intent(PingLunDetailActivity.this, InboxDetailActivity.class);
                         intent.putExtra("inboxDetailUrl", clickItem.url);
                         intent.putExtra("title", mMarketName + "-" + clickItem.productname);
+                        intent.putExtra("descript", clickItem.title);
+                        intent.putExtra("sharedicon", clickItem.avatar);
                         startActivity(intent);
                     }
                 });

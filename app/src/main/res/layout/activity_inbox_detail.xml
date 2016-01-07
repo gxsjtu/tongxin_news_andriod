@@ -13,6 +13,26 @@
 
         <include layout="@layout/header"></include>
 
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="#23B1EF"-->
+            <!--android:titleTextColor="@android:color/white">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/toolbar_header"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:text=""-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textStyle="bold" />-->
+
+        <!--</android.support.v7.widget.Toolbar>-->
+
         <WebView
             android:id="@+id/inboxDetailView"
             android:layout_width="match_parent"
