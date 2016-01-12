@@ -6,13 +6,13 @@
 
     <LinearLayout
         android:id="@+id/sq_ivReturn"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
@@ -70,14 +70,14 @@
 
     <LinearLayout
         android:id="@+id/iv_sqMenu"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical|right">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:backgroundTint="@color/white"
