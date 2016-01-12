@@ -6,7 +6,26 @@
 
     <LinearLayout
         android:id="@+id/iv_return"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/retwhite" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/iv_user"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_alignParentLeft="true"
@@ -18,26 +37,7 @@
 
         <ImageView
             android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/retwhite" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/iv_user"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="20dp"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:src="@drawable/userwhite" />
     </LinearLayout>
     <LinearLayout
@@ -71,13 +71,14 @@
         android:layout_centerInParent="true"
         android:singleLine="true"
         android:text="标题"
+        android:typeface="serif"
         android:layout_marginLeft="80dp"
         android:textColor="#fff"
         android:textSize="16sp" />
 
     <LinearLayout
         android:id="@+id/iv_ref"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
@@ -87,14 +88,14 @@
         android:paddingRight="10dp"
         android:visibility="gone">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ref" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/iv_more"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
@@ -104,8 +105,8 @@
         android:paddingRight="10dp"
         android:visibility="gone">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_more" />
     </LinearLayout>
 
